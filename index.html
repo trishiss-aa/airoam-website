@@ -889,20 +889,80 @@
 
         }
 
+        /* ============================================
+           VOICE WIDGET
+           ============================================ */
+        .voice-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9998;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0;
+            opacity: 0;
+        }
+
+        .voice-widget:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .voice-widget:active {
+            transform: scale(0.95);
+        }
+
+        .voice-widget-icon {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+
+        .voice-widget.active {
+            background-color: var(--color-white);
+            color: var(--color-black);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile: slightly smaller */
+        @media (max-width: 768px) {
+            .voice-widget {
+                width: 56px;
+                height: 56px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .voice-widget-icon {
+                width: 24px;
+                height: 24px;
+            }
+        }
+
     </style>
 </head>
 <body>
     <!-- Splash Screen -->
     <div id="splash-screen">
         <div class="splash-content">
-            <img src="Images/airoam-arrow.png" alt="Airoam" class="splash-arrow">
+            <img src="Images/airoam-arrow-black.svg" alt="Airoam" class="splash-arrow">
         </div>
     </div>
 
     <!-- Navigation -->
     <nav id="main-nav">
         <a href="#" class="nav-logo" id="nav-logo">
-            <img src="images/airoam-logo.png" alt="Airoam" class="logo">
+            <img src="images/airoam-logo-black.svg" alt="Airoam" class="logo">
         </a>
         <div class="nav-center">
             <a href="#intro">Index</a>
@@ -1078,7 +1138,7 @@
         <div class="footer-grid">
             <div>
                 <div class="footer-logo">
-                    <img src="images/airoam-logo.png" alt="Airoam" class="logo logo-white">
+                    <img src="images/airoam-logo-black.svg" alt="Airoam" class="logo logo-white">
                 </div>
                 <p class="footer-tagline">Airbnb management. Reinvented.</p>
             </div>
@@ -1427,5 +1487,45 @@
         });
     </script>
     </div><!-- End main-content -->
+
+    <!-- Voice Widget -->
+    <button class="voice-widget" id="voice-widget" aria-label="Voice Assistant">
+        <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1C10.34 1 9 2.34 9 4V12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12V4C15 2.34 13.66 1 12 1Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M19 10V12C19 15.87 15.87 19 12 19C8.13 19 5 15.87 5 12V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 19V23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 23H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script>
+        // ============================================
+        // VOICE WIDGET
+        // ============================================
+        (function() {
+            const voiceWidget = document.getElementById('voice-widget');
+            
+            // Hide widget during splash screen
+            document.body.classList.add('loading');
+            const splash = document.getElementById('splash-screen');
+            
+            // Show widget after splash completes
+            setTimeout(function() {
+                voiceWidget.style.opacity = '0';
+                voiceWidget.style.display = 'flex';
+                voiceWidget.style.transition = 'opacity 600ms ease-out';
+                setTimeout(function() {
+                    voiceWidget.style.opacity = '1';
+                }, 100);
+            }, 3000);
+            
+            // Toggle active state on click (placeholder functionality)
+            voiceWidget.addEventListener('click', function() {
+                this.classList.toggle('active');
+                // Placeholder: Add your voice widget functionality here
+                console.log('Voice widget clicked');
+            });
+        })();
+    </script>
 </body>
 </html>
