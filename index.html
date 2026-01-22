@@ -7,921 +7,1416 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Reset and Base Styles */
+        /* ============================================
+           CSS VARIABLES
+           ============================================ */
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-accent: rgba(0, 102, 255, 0.08);
+            --color-border: rgba(0, 0, 0, 0.06);
+            --color-text-grey: rgba(0, 0, 0, 0.6);
+            --spacing-section: 60px;
+        }
+
+        /* ============================================
+           RESET & BASE STYLES
+           ============================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Fade-in animation for page load */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+        html {
+            overflow-x: hidden;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #FFFFFF;
-            color: #2A2A2A;
-            line-height: 1.9;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--color-white);
+            color: var(--color-black);
             overflow-x: hidden;
-            font-size: 18px;
             font-weight: 400;
-            animation: fadeIn 500ms ease-in;
+            padding-top: 80px; /* Compensate for fixed navigation */
         }
 
-        /* Navigation */
-        nav {
-            position: sticky;
+        /* ============================================
+           SPLASH SCREEN
+           ============================================ */
+        #splash-screen {
+            position: fixed;
             top: 0;
-            background-color: #FFFFFF;
-            padding: 24px 40px;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 600ms ease-out;
+        }
+
+        /* Transition to white background */
+        #splash-screen.white-bg {
+            background: #FFFFFF;
+        }
+
+        .splash-content {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .splash-arrow {
+            width: 180px;
+            height: auto;
+            opacity: 0;
+            transform: scale(0.8);
+            /* Start as white on black background */
+            filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(255, 255, 255, 0.3));
+            animation: arrowFadeIn 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Arrow inverts to black when background turns white */
+        #splash-screen.white-bg .splash-arrow {
+            filter: brightness(0) invert(0) drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
+            transition: filter 300ms ease-out;
+        }
+
+        /* Arrow floats upward and fades out */
+        #splash-screen.arrow-exit .splash-arrow {
+            animation: arrowFloatOut 1200ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        /* Phase 1: Arrow fades in and scales up (white on black) */
+        @keyframes arrowFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Phase 2: Arrow pulses/fades upward (black on white) */
+        @keyframes arrowFloatOut {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            /* Pulse larger briefly */
+            30% {
+                opacity: 1;
+                transform: translateY(-20px) scale(1.15);
+            }
+            /* Continue upward and fade */
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(1.3);
+            }
+        }
+
+        /* Splash screen fades out */
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 500ms ease-out;
+        }
+
+        /* Main content initially hidden */
+        body.loading .main-content {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+
+        /* Main content fades in */
+        .main-content {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 600ms ease-out, transform 600ms ease-out;
+        }
+
+        /* Prevent scrolling during splash */
+        body.loading {
+            overflow: hidden;
+        }
+
+        /* Mobile: smaller arrow */
+        @media (max-width: 768px) {
+            .splash-arrow {
+                width: 120px;
+            }
+        }
+
+        /* Accessibility: reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .splash-arrow {
+                animation: arrowFadeOnly 600ms ease-out forwards !important;
+            }
+            
+            #splash-screen.arrow-exit .splash-arrow {
+                animation: arrowFadeOnly 400ms ease-out forwards !important;
+            }
+            
+            @keyframes arrowFadeOnly {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
+        }
+
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        nav {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 80px;
+            padding: 0 60px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(42, 42, 42, 0.1);
-            transition: box-shadow 300ms ease;
+            z-index: 10000 !important;
+            background-color: var(--color-white);
+            transition: all 300ms ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Show nav after splash screen completes */
+        body:not(.loading) nav {
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity 600ms ease-out 300ms;
         }
 
         nav.scrolled {
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
         }
 
         .nav-logo {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: #2A2A2A;
+            display: flex;
+            align-items: center;
             text-decoration: none;
+            cursor: pointer;
         }
 
-        .nav-links {
+        .nav-logo .logo {
+            width: 120px;
+            height: auto;
+            display: block;
+        }
+
+        .nav-center {
             display: flex;
             gap: 40px;
-            list-style: none;
         }
 
-        .nav-links a {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #2A2A2A;
+        .nav-center a {
+            font-size: 14px;
+            letter-spacing: 0.05em;
+            color: var(--color-black);
             text-decoration: none;
-            font-size: 15px;
-            font-weight: 400;
-            transition: all 200ms ease;
+            transition: opacity 0.3s ease;
         }
 
-        .nav-links a:hover {
-            text-decoration: underline;
+        .nav-center a:hover {
+            opacity: 0.6;
         }
 
-        .nav-login {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #2A2A2A;
+        .nav-button {
+            padding: 10px 24px;
+            border: 1px solid var(--color-black);
+            background-color: transparent;
+            color: var(--color-black);
             text-decoration: none;
-            font-size: 15px;
-            font-weight: 400;
-            transition: all 200ms ease;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
         }
 
-        .nav-login:hover {
-            text-decoration: underline;
-        }
-
-        /* Container */
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Section Divider */
-        .section-divider {
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
-            max-width: 100px;
-            height: 1px;
-            background-color: #F0F0F0;
-            margin: 0 auto 160px;
+            height: 100%;
+            background-color: var(--color-black);
+            transition: left 0.4s ease;
+            z-index: -1;
         }
 
-        /* Hero Section */
+        .nav-button:hover {
+            color: var(--color-white);
+        }
+
+        .nav-button:hover::before {
+            left: 0;
+        }
+
+        /* Mobile Hamburger */
+        .nav-hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .nav-hamburger span {
+            width: 100%;
+            height: 2px;
+            background-color: var(--color-black);
+            transition: all 0.3s ease;
+        }
+
+        /* ============================================
+           SECTION BASE STYLES
+           ============================================ */
+        section {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px;
+            width: 100%;
+        }
+
+        /* ============================================
+           SECTION 1: HERO
+           ============================================ */
         .hero {
-            padding: 240px 0 200px 0;
+            background-color: var(--color-white);
+            flex-direction: column;
+        }
+
+        .hero-content {
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-text {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 18px;
-            line-height: 1.9;
-            margin-bottom: 40px;
+            font-size: 36px;
             font-weight: 300;
+            margin-top: 80px;
             letter-spacing: 0.01em;
         }
 
         .hero-large {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 180px;
             font-weight: 200;
             line-height: 1;
-            margin: 40px 0;
-            padding: 100px;
+            margin-top: 20px;
             letter-spacing: 0.01em;
         }
 
-        .btn-primary {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        .hero-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            margin-top: 20px;
+            opacity: 0.5;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scroll-text {
+            font-size: 12px;
+            font-weight: 300;
+            color: var(--color-text-grey);
+            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        .scroll-arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 1px solid var(--color-text-grey);
+            border-bottom: 1px solid var(--color-text-grey);
+            transform: rotate(45deg);
+            margin: 0 auto;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        /* ============================================
+           SECTION 2: INTRODUCTION
+           ============================================ */
+        .intro {
+            background-color: var(--color-white);
+        }
+
+        .intro-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .intro-block {
+            font-size: 48px;
+            font-weight: 300;
+            line-height: 1.3;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .intro-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           SECTION 3: HORIZONTAL SCROLLING FEATURES
+           ============================================ */
+        .features-section {
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background-color: #F8F8F8;
+        }
+
+        .features-container {
+            position: absolute;
+            display: flex;
+            gap: 80px;
+            height: 100%;
+            align-items: center;
+            will-change: transform;
+            padding: 0 60px;
+        }
+
+        .feature-card {
+            min-width: 70vw;
+            height: 70vh;
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            cursor: pointer;
+            will-change: transform;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-card.hero-card {
+            background: linear-gradient(135deg, var(--color-white) 0%, var(--color-accent) 100%);
+        }
+
+        .feature-icon {
+            font-size: 80px;
+            margin-bottom: 40px;
+            font-weight: 200;
+        }
+
+        .feature-number {
+            font-size: 200px;
+            font-weight: 200;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .feature-description {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--color-text-grey);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           SECTION 4: PARALLAX SHOWCASE
+           ============================================ */
+        .showcase {
+            background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+            color: var(--color-white);
+            overflow: hidden;
+        }
+
+        .showcase-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        .showcase-watermark {
+            position: absolute;
+            font-size: 1200px;
+            font-weight: 200;
+            color: rgba(255, 255, 255, 0.03);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .showcase-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .showcase-card {
+            background-color: var(--color-white);
+            color: var(--color-black);
+            padding: 60px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            will-change: transform;
+        }
+
+        .showcase-title {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .showcase-button {
             display: inline-block;
             padding: 16px 32px;
-            border: 1px solid #2A2A2A;
-            background-color: transparent;
-            color: #2A2A2A;
+            background-color: var(--color-black);
+            color: var(--color-white);
             text-decoration: none;
             font-size: 16px;
             font-weight: 500;
-            margin-top: 40px;
-            transition: all 300ms ease;
-            cursor: pointer;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
         }
 
-        .btn-primary:hover {
-            background-color: rgba(42, 42, 42, 0.05);
+        .showcase-button:hover {
+            transform: scale(1.05);
         }
 
-        /* Section Spacing */
-        section {
-            margin-bottom: 160px;
+        .showcase-arrows {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-arrow {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0.1;
+            will-change: transform;
+        }
+
+        .floating-arrow svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ============================================
+           SECTION 5: TESTIMONIALS
+           ============================================ */
+        .testimonials {
+            background-color: var(--color-white);
+        }
+
+        .testimonial {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            gap: 80px;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .testimonial-quote {
+            font-size: 64px;
+            font-weight: 300;
+            line-height: 1.2;
+            position: relative;
+            padding: 80px;
+            opacity: 0;
+            transform: translateX(-100px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .testimonial-quote.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .testimonial-quote-mark {
+            font-size: 120px;
+            font-weight: 200;
+            line-height: 0;
+            opacity: 0.1;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .testimonial-image {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: opacity 0.8s ease-out 0.1s, transform 0.8s ease-out 0.1s;
+            will-change: opacity, transform;
+        }
+
+        .testimonial-image.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .testimonial-image-placeholder {
+            width: 100%;
+            height: 400px;
+            background-color: #F5F5F5;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .testimonial-info {
+            margin-top: 20px;
+        }
+
+        .testimonial-name {
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .testimonial-location {
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--color-text-grey);
+        }
+
+        /* ============================================
+           SECTION 6: FINAL CTA
+           ============================================ */
+        .cta {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-arrow {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            will-change: transform, opacity;
+            transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+            opacity: 0.3;
+        }
+
+        .cta-arrow svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
             text-align: center;
         }
 
-        /* Three Column Section */
-        .three-column {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 80px;
-            margin-bottom: 160px;
-        }
-
-        .column-item h3 {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 18px;
-            font-weight: 400;
-            margin-bottom: 20px;
-            line-height: 1.9;
-            letter-spacing: 0.01em;
-        }
-
-        .column-item p {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 36px;
-            font-weight: 300;
-            line-height: 1.4;
-            letter-spacing: 0.01em;
-        }
-
-        /* Services List */
-        .services-list {
-            list-style: none;
-            font-size: 18px;
-            line-height: 1.9;
-            font-weight: 400;
-        }
-
-        .services-list li {
-            margin-bottom: 16px;
-        }
-
-        /* Image Section */
-        .image-placeholder {
-            width: 100%;
-            max-width: 800px;
-            height: 500px;
-            background-color: #F5F5F5;
-            margin: 40px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 16px;
-        }
-
-        /* Mission Section */
-        .mission-header {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 36px;
-            font-weight: 300;
+        .cta-title {
+            font-size: 56px;
+            font-weight: 200;
             margin-bottom: 40px;
-            line-height: 1.4;
-            letter-spacing: 0.01em;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
-        .mission-body {
+        .cta-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .btn-cta {
+            display: inline-block;
+            padding: 20px 48px;
+            border: 1px solid var(--color-white);
+            background-color: transparent;
+            color: var(--color-white);
+            text-decoration: none;
             font-size: 18px;
-            line-height: 1.9;
-            margin-bottom: 40px;
-            font-weight: 400;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
         }
 
-        /* Final CTA */
-        .final-cta {
-            padding: 120px 0;
+        .btn-cta.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Footer */
+        .btn-cta:hover {
+            background-color: var(--color-white);
+            color: var(--color-black);
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
         footer {
-            padding: 80px 40px 40px;
-            border-top: 1px solid rgba(42, 42, 42, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 40px;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 80px 60px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
         }
 
         .footer-logo {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo .logo {
+            width: 100px;
+            height: auto;
+            display: block;
+        }
+
+        .logo-white {
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-tagline {
+            font-size: 14px;
+            font-weight: 300;
+            opacity: 0.6;
+            margin-top: 10px;
         }
 
         .footer-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         .footer-links a {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #2A2A2A;
+            color: var(--color-white);
             text-decoration: none;
-            font-size: 16px;
-            transition: all 200ms ease;
+            font-size: 14px;
+            font-weight: 400;
+            transition: opacity 0.3s ease;
         }
 
         .footer-links a:hover {
-            text-decoration: underline;
+            opacity: 0.6;
         }
 
         .footer-contact {
             text-align: right;
-            font-size: 16px;
-            line-height: 1.8;
+        }
+
+        .footer-contact div {
+            font-size: 14px;
+            font-weight: 300;
+            margin-bottom: 8px;
         }
 
         .footer-contact a {
-            color: #2A2A2A;
+            color: var(--color-white);
             text-decoration: none;
         }
 
-        .footer-contact a:hover {
-            text-decoration: underline;
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+            font-weight: 300;
+            opacity: 0.5;
         }
 
-        /* Floating Voice Chat Widget */
-        .voice-chat-widget {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background-color: #FFFFFF;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            z-index: 1000;
-            transition: transform 200ms ease;
-            font-size: 24px;
+        .footer-bottom a {
+            color: var(--color-white);
+            text-decoration: none;
         }
 
-        .voice-chat-widget:hover {
-            transform: scale(1.05);
-        }
-
-        /* Responsive Design */
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
         @media (max-width: 768px) {
             nav {
-                flex-direction: column;
-                gap: 20px;
-                padding: 20px;
+                padding: 0 24px;
             }
 
-            .nav-links {
-                gap: 20px;
-                flex-wrap: wrap;
-                justify-content: center;
+            .nav-center,
+            .nav-button {
+                display: none;
             }
 
-            .hero {
-                padding: 120px 0 120px 0;
+            .nav-hamburger {
+                display: flex;
+            }
+
+            .container {
+                padding: 0 24px;
+            }
+
+            .hero-text {
+                font-size: 24px;
             }
 
             .hero-large {
                 font-size: 100px;
-                padding: 60px;
             }
 
-            .three-column {
-                grid-template-columns: 1fr;
-                gap: 60px;
+            .intro-block {
+                font-size: 32px;
             }
 
-            section {
-                margin-bottom: 80px;
-            }
-
-            .section-divider {
-                margin-bottom: 80px;
-            }
-
-            footer {
+            .features-container {
                 flex-direction: column;
-                text-align: center;
+                gap: 40px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                padding: 40px 24px;
             }
 
-            .footer-contact {
-                text-align: center;
-            }
-
-            .voice-chat-widget {
-                bottom: 20px;
-                right: 20px;
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-large {
-                font-size: 70px;
+            .feature-card {
+                min-width: 90vw;
+                height: auto;
                 padding: 40px;
             }
 
-            .mission-header {
-                font-size: 28px;
+            .feature-number {
+                font-size: 120px;
             }
 
-            .column-item p {
-                font-size: 28px;
-            }
-        }
-
-        /* ============================================
-           VOICE AI WIDGET STYLES
-           ============================================ */
-        
-        /* Widget wrapper - centered with spacing */
-        .voice-widget-wrapper {
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            padding: 80px 20px !important;
-            min-height: 220px !important;
-            margin: 0 auto !important;
-            max-width: 700px !important;
-        }
-
-        /* Main widget container */
-        .voice-widget {
-            position: relative !important;
-            cursor: pointer !important;
-            user-select: none !important;
-        }
-
-        /* Active state - slight scale down on click */
-        .voice-widget:active:not(.disabled):not(.loading) {
-            transform: scale(0.95) !important;
-        }
-
-        /* Disabled/loading states */
-        .voice-widget.loading,
-        .voice-widget.disabled {
-            pointer-events: none !important;
-            opacity: 0.6 !important;
-            cursor: not-allowed !important;
-        }
-
-        /* Glow rings - animated background effects */
-        .glow-ring {
-            position: absolute !important;
-            border-radius: 50% !important;
-            pointer-events: none !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-        }
-
-        /* IDLE STATE - position glow offset (subtle top-left positioning) */
-        .voice-widget:not(.listening):not(.talking):not(.connecting):not(.loading) .glow-ring-1 {
-            top: 40% !important;
-            left: 40% !important;
-        }
-
-        .voice-widget:not(.listening):not(.talking):not(.connecting):not(.loading) .glow-ring-2 {
-            top: 30% !important;
-            left: 30% !important;
-        }
-
-        /* LOADING/CONNECTING STATE - position glow offset */
-        .voice-widget.loading .glow-ring-1,
-        .voice-widget.connecting .glow-ring-1 {
-            top: 40% !important;
-            left: 40% !important;
-        }
-
-        .voice-widget.loading .glow-ring-2,
-        .voice-widget.connecting .glow-ring-2 {
-            top: 30% !important;
-            left: 30% !important;
-        }
-
-        /* TALKING STATE - center the glow */
-        .voice-widget.talking .glow-ring-1,
-        .voice-widget.talking .glow-ring-2 {
-            top: 50% !important;
-            left: 50% !important;
-        }
-
-        /* Glow ring styles */
-        .glow-ring-1 {
-            width: 270px !important;
-            height: 270px !important;
-            background: radial-gradient(circle, rgba(35, 49, 29, 0.2) 0%, transparent 70%) !important;
-            animation: pulse 2s ease-in-out infinite !important;
-        }
-
-        .glow-ring-2 {
-            width: 315px !important;
-            height: 315px !important;
-            background: radial-gradient(circle, rgba(35, 49, 29, 0.1) 0%, transparent 70%) !important;
-            animation: pulse 2s ease-in-out infinite 0.5s !important;
-        }
-
-        /* Main voice button */
-        .voice-button {
-            width: 180px !important;
-            height: 180px !important;
-            border-radius: 50% !important;
-            background: linear-gradient(135deg, #23311D 0%, #3a4a2f 100%) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            box-shadow: 0 4px 16px rgba(35, 49, 29, 0.3), 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-            position: relative !important;
-            z-index: 2 !important;
-        }
-
-        /* Voice icon SVG */
-        .voice-icon {
-            width: 72px !important;
-            height: 72px !important;
-            fill: white !important;
-        }
-
-        /* Status text - matches site font */
-        .status-text {
-            position: absolute !important;
-            bottom: -40px !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-            font-size: 14px !important;
-            font-weight: 500 !important;
-            color: #2A2A2A !important;
-            white-space: nowrap !important;
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        }
-
-        /* CONNECTING STATE - grey button with pulse */
-        .voice-widget.connecting .voice-button {
-            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%) !important;
-            animation: connecting-pulse 1s ease-in-out infinite !important;
-        }
-
-        /* LISTENING STATE - yellow button with subtle ripples */
-        .voice-widget.listening .voice-button {
-            background: linear-gradient(135deg, #F4D03F 0%, #e8c42d 100%) !important;
-            animation: listening-pulse 1.5s ease-in-out infinite !important;
-        }
-
-        /* Hide glow rings during listening */
-        .voice-widget.listening .glow-ring-1,
-        .voice-widget.listening .glow-ring-2 {
-            opacity: 0 !important;
-            visibility: hidden !important;
-        }
-
-        /* Ripple rings - subtle expanding circles during listening */
-        .ripple-ring {
-            position: absolute !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            border-radius: 50% !important;
-            pointer-events: none !important;
-            border: 1px solid rgba(244, 208, 63, 0.25) !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-        }
-
-        .voice-widget.listening .ripple-ring {
-            opacity: 1 !important;
-            visibility: visible !important;
-            animation: ripple-expand 3s ease-out infinite !important;
-        }
-
-        /* Ripple timing - only 2 rings visible */
-        .voice-widget.listening .ripple-ring-1 {
-            animation-delay: 0s !important;
-        }
-
-        .voice-widget.listening .ripple-ring-2 {
-            animation-delay: 1.5s !important;
-        }
-
-        .voice-widget.listening .ripple-ring-3 {
-            display: none !important;
-        }
-
-        /* TALKING STATE - green button with soundwave */
-        .voice-widget.talking .voice-button {
-            background: linear-gradient(135deg, #BAD64F 0%, #a8c43d 100%) !important;
-        }
-
-        .voice-widget.talking .voice-icon {
-            opacity: 0 !important;
-            visibility: hidden !important;
-        }
-
-        .voice-widget.talking .glow-ring-1,
-        .voice-widget.talking .glow-ring-2 {
-            opacity: 1 !important;
-            visibility: visible !important;
-            background: radial-gradient(circle, rgba(186, 214, 79, 0.3) 0%, transparent 70%) !important;
-            animation: soundwave-pulse 0.8s ease-out infinite !important;
-        }
-
-        /* Soundwave bars - animated bars during talking */
-        .soundwave {
-            position: absolute !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            display: none !important;
-            gap: 9px !important;
-            height: 72px !important;
-            align-items: center !important;
-        }
-
-        .voice-widget.talking .soundwave {
-            display: flex !important;
-        }
-
-        .soundwave-bar {
-            width: 7px !important;
-            background: white !important;
-            border-radius: 4px !important;
-            animation: soundwave-bounce 0.6s ease-in-out infinite !important;
-        }
-
-        .soundwave-bar:nth-child(1) {
-            height: 18px !important;
-            animation-delay: 0s !important;
-        }
-
-        .soundwave-bar:nth-child(2) {
-            height: 36px !important;
-            animation-delay: 0.1s !important;
-        }
-
-        .soundwave-bar:nth-child(3) {
-            height: 54px !important;
-            animation-delay: 0.2s !important;
-        }
-
-        .soundwave-bar:nth-child(4) {
-            height: 36px !important;
-            animation-delay: 0.3s !important;
-        }
-
-        .soundwave-bar:nth-child(5) {
-            height: 18px !important;
-            animation-delay: 0.4s !important;
-        }
-
-        /* Animations */
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 0.5;
-                transform: translate(-50%, -50%) scale(1);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.05);
-            }
-        }
-
-        @keyframes connecting-pulse {
-            0%, 100% {
-                box-shadow: 0 8px 24px rgba(108, 117, 125, 0.4);
-            }
-            50% {
-                box-shadow: 0 12px 40px rgba(108, 117, 125, 0.8);
-            }
-        }
-
-        @keyframes listening-pulse {
-            0%, 100% {
-                box-shadow: 0 8px 24px rgba(244, 208, 63, 0.4);
-            }
-            50% {
-                box-shadow: 0 12px 40px rgba(244, 208, 63, 0.8);
-            }
-        }
-
-        @keyframes ripple-expand {
-            0% {
-                width: 180px;
-                height: 180px;
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.4;
-            }
-            80% {
-                opacity: 0.15;
-            }
-            100% {
-                width: 320px;
-                height: 320px;
-                opacity: 0;
-            }
-        }
-
-        @keyframes soundwave-bounce {
-            0%, 100% {
-                transform: scaleY(1);
-            }
-            50% {
-                transform: scaleY(1.8);
-            }
-        }
-
-        @keyframes soundwave-pulse {
-            0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.15);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translate(-50%, -50%) scale(1.3);
-                opacity: 0;
-            }
-        }
-
-        /* Mobile responsive adjustments */
-        @media (max-width: 768px) {
-            .voice-widget-wrapper {
-                padding: 60px 20px !important;
-                min-height: 200px !important;
+            .testimonial {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 40px 24px;
             }
 
-            .voice-button {
-                width: 150px !important;
-                height: 150px !important;
+            .testimonial-quote {
+                font-size: 36px;
+                padding: 0;
             }
 
-            .voice-icon {
-                width: 60px !important;
-                height: 60px !important;
+            .cta-title {
+                font-size: 36px;
             }
 
-            .glow-ring-1 {
-                width: 220px !important;
-                height: 220px !important;
+            .showcase-watermark {
+                font-size: 600px;
             }
 
-            .glow-ring-2 {
-                width: 260px !important;
-                height: 260px !important;
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
             }
 
-            .status-text {
-                font-size: 13px !important;
-                bottom: -35px !important;
+            .footer-contact {
+                text-align: left;
             }
+
         }
 
-        @media (max-width: 480px) {
-            .voice-widget-wrapper {
-                padding: 40px 20px !important;
-            }
-
-            .voice-button {
-                width: 130px !important;
-                height: 130px !important;
-            }
-
-            .voice-icon {
-                width: 50px !important;
-                height: 50px !important;
-            }
-
-            .soundwave {
-                height: 60px !important;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav id="main-nav">
-        <a href="#" class="nav-logo">AIROAM</a>
-        <ul class="nav-links">
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#about">About</a></li>
-        </ul>
-        <a href="#login" class="nav-login">Login</a>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <p class="hero-text">Airbnb management.</p>
-            <div class="hero-large">9%</div>
-            <a href="#get-started" class="btn-primary">Get Started →</a>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- Voice AI Widget Section -->
-    <div class="voice-widget-wrapper">
-        <!-- Hidden button for Key Ninja to bind to -->
-        <button id="start-call-btn" style="display: none;">Start Call</button>
-        
-        <!-- Visual voice widget -->
-        <div class="voice-widget" id="heroWidget">
-            <!-- Glow rings for idle/talking states -->
-            <div class="glow-ring glow-ring-2"></div>
-            <div class="glow-ring glow-ring-1"></div>
-            
-            <!-- Ripple rings for listening state -->
-            <div class="ripple-ring ripple-ring-1"></div>
-            <div class="ripple-ring ripple-ring-2"></div>
-            <div class="ripple-ring ripple-ring-3"></div>
-            
-            <!-- Main button -->
-            <div class="voice-button">
-                <!-- Microphone icon (shown in idle/listening states) -->
-                <svg class="voice-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-                </svg>
-                
-                <!-- Soundwave bars (shown in talking state) -->
-                <div class="soundwave">
-                    <div class="soundwave-bar"></div>
-                    <div class="soundwave-bar"></div>
-                    <div class="soundwave-bar"></div>
-                    <div class="soundwave-bar"></div>
-                    <div class="soundwave-bar"></div>
-                </div>
-            </div>
-            
-            <!-- Status text below button -->
-            <div class="status-text">Click to talk</div>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <img src="Images/airoam-arrow.png" alt="Airoam" class="splash-arrow">
         </div>
     </div>
 
-    <div class="section-divider"></div>
+    <!-- Navigation -->
+    <nav id="main-nav">
+        <a href="#" class="nav-logo" id="nav-logo">
+            <img src="images/airoam-logo.png" alt="Airoam" class="logo">
+        </a>
+        <div class="nav-center">
+            <a href="#intro">Index</a>
+            <a href="#features">How It Works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#about">About</a>
+        </div>
+        <a href="#cta" class="nav-button">Get Started</a>
+        <div class="nav-hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
 
-    <!-- Three Column Section -->
-    <section class="three-column-section">
+    <!-- Main Content -->
+    <div class="main-content">
+    <!-- Section 1: Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <p class="hero-text">Airbnb management.</p>
+            <div class="hero-large">9%</div>
+            <p class="hero-subtitle">Light. Simple. Honest.</p>
+        </div>
+        <div class="scroll-indicator" id="scroll-indicator">
+            <div class="scroll-text">Scroll to explore</div>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Section 2: Introduction -->
+    <section class="intro" id="intro">
         <div class="container">
-            <div class="three-column">
-                <div class="column-item">
-                    <h3>What you pay</h3>
-                    <p>9%</p>
+            <div class="intro-content">
+                <div class="intro-block" data-delay="0">For 10 years, we've been mastering<br>short-term rental management.</div>
+                <div class="intro-block" data-delay="200">Now we're using that expertise<br>to build something better.</div>
+                <div class="intro-block" data-delay="400">Technology that works.<br>Pricing that's honest.<br>Service that scales.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Horizontal Scrolling Features -->
+    <section class="features-section" id="features">
+        <div class="features-container" id="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <div>
+                    <h3 class="feature-title">24/7 guest communication</h3>
+                    <p class="feature-description">Instant responses, any time of day</p>
                 </div>
-                <div class="column-item">
-                    <h3>What's included</h3>
-                    <p>Everything</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <div>
+                    <h3 class="feature-title">Cleaning & maintenance coordination</h3>
+                    <p class="feature-description">Seamlessly through KeyNinja</p>
                 </div>
-                <div class="column-item">
-                    <h3>What you keep</h3>
-                    <p>91%</p>
+            </div>
+            <div class="feature-card hero-card">
+                <div class="feature-number">9%</div>
+                <div>
+                    <p class="feature-description">of rental income</p>
+                    <p class="feature-description" style="margin-top: 10px;">Keep 91% of your earnings</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-number">1M+</div>
+                <div>
+                    <h3 class="feature-title">nights managed</h3>
+                    <p class="feature-description">A decade of expertise</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <div>
+                    <h3 class="feature-title">Continuously learning</h3>
+                    <p class="feature-description">Gets smarter with every booking</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- Services List -->
-    <section class="services-section">
-        <div class="container">
-            <ul class="services-list">
-                <li>24/7 guest communication</li>
-                <li>Cleaning & maintenance coordination</li>
-                <li>Multi-platform listing management</li>
-                <li>Dynamic pricing optimization</li>
-                <li>Weekly performance reports</li>
-                <li>Direct deposits</li>
-            </ul>
+    <!-- Section 4: Parallax Showcase -->
+    <section class="showcase" id="pricing">
+        <div class="showcase-background">
+            <div class="showcase-watermark" id="showcase-watermark">9%</div>
+            <div class="showcase-arrows" id="showcase-arrows"></div>
         </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <!-- Image Section -->
-    <section class="image-section">
         <div class="container">
-            <h2 class="mission-header">Manage from anywhere</h2>
-            <div class="image-placeholder">
-                Image: Property owner traveling
+            <div class="showcase-content">
+                <div class="showcase-card" id="showcase-card">
+                    <h2 class="showcase-title">Simple pricing.<br>Just 9% of rental income.<br>Everything included.</h2>
+                    <a href="#cta" class="showcase-button">Compare pricing →</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- Mission Section -->
-    <section class="mission-section">
+    <!-- Section 5: Testimonials -->
+    <section class="testimonials" id="about">
         <div class="container">
-            <h2 class="mission-header">10 years. 1M+ nights.</h2>
-            <p class="mission-body">
-                We've spent a decade mastering short-term rental management. Now we're using that expertise to build something better—technology that works, pricing that's honest, service that scales.
-            </p>
-            <a href="#learn-more" class="btn-primary">Learn More →</a>
+            <div class="testimonial">
+                <div class="testimonial-quote" id="testimonial-1">
+                    <span class="testimonial-quote-mark">"</span>
+                    Airoam's AI saved me 15 hours a week. And it costs just 9%. This is the future.
+                </div>
+                <div class="testimonial-image" id="testimonial-image-1">
+                    <div class="testimonial-image-placeholder"></div>
+                    <div class="testimonial-info">
+                        <div class="testimonial-name">Michael T.</div>
+                        <div class="testimonial-location">Gold Coast, 22 properties</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- Final CTA -->
-    <section class="final-cta">
+    <section class="testimonials">
         <div class="container">
-            <a href="#get-started" class="btn-primary">Get Started →</a>
+            <div class="testimonial">
+                <div class="testimonial-quote" id="testimonial-2">
+                    <span class="testimonial-quote-mark">"</span>
+                    I travel 6 months a year now. My properties run themselves. That's freedom.
+                </div>
+                <div class="testimonial-image" id="testimonial-image-2">
+                    <div class="testimonial-image-placeholder"></div>
+                    <div class="testimonial-info">
+                        <div class="testimonial-name">Emma S.</div>
+                        <div class="testimonial-location">Byron Bay, 7 properties</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <div class="testimonial">
+                <div class="testimonial-quote" id="testimonial-3">
+                    <span class="testimonial-quote-mark">"</span>
+                    The transparency is refreshing. 9% covers everything. No surprises, no stress.
+                </div>
+                <div class="testimonial-image" id="testimonial-image-3">
+                    <div class="testimonial-image-placeholder"></div>
+                    <div class="testimonial-info">
+                        <div class="testimonial-name">Priya K.</div>
+                        <div class="testimonial-location">Sydney, 3 properties</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Final CTA -->
+    <section class="cta" id="cta">
+        <div class="cta-arrow" id="cta-arrow">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 40 160 L 100 40 L 160 40" stroke="rgba(255,255,255,0.3)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M 50 160 L 100 40 L 150 40" stroke="rgba(255,255,255,0.3)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M 55 145 L 100 55 L 145 145 Z" fill="rgba(255,255,255,0.3)"/>
+            </svg>
+        </div>
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title" id="cta-title">Ready to elevate your<br>property management?</h2>
+                <a href="#get-started" class="btn-cta" id="cta-button">Get Started →</a>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-logo">AIROAM</div>
-        <ul class="footer-links">
-            <li><a href="#how-it-works">How It Works</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="footer-contact">
-            <div><a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a></div>
-            <div>1300 XXX XXX</div>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">
+                    <img src="images/airoam-logo.png" alt="Airoam" class="logo logo-white">
+                </div>
+                <p class="footer-tagline">Airbnb management. Reinvented.</p>
+            </div>
+            <div>
+                <div class="footer-links">
+                    <a href="#features">How It Works</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <div><a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a></div>
+                <div>1300 XXX XXX</div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Airoam. All rights reserved. <a href="#terms">Terms</a> · <a href="#privacy">Privacy</a>
         </div>
     </footer>
 
-    <!-- Floating Voice Chat Widget -->
-    <div class="voice-chat-widget" title="Voice Chat (Visual placeholder - will connect to API later)">
-        💬
-    </div>
-
     <script>
-        // Navigation shadow on scroll
-        const nav = document.getElementById('main-nav');
-        let lastScroll = 0;
-        
-        window.addEventListener('scroll', function() {
-            const currentScroll = window.pageYOffset;
-            if (currentScroll > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-            lastScroll = currentScroll;
-        });
+        // ============================================
+        // DETECT MOBILE
+        // ============================================
+        const isMobile = window.innerWidth <= 768;
 
-        // Smooth scroll behavior for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // ============================================
+        // SPLASH SCREEN ANIMATION
+        // ============================================
+        (function() {
+            // Add loading class to body
+            document.body.classList.add('loading');
+            
+            // Always show splash on every page load/refresh
+            const splash = document.getElementById('splash-screen');
+            
+            // ANIMATION SEQUENCE
+            
+            // PHASE 1: Arrow fades in (white on black) - 0 to 1000ms
+            // (handled by CSS animation automatically)
+            
+            // PHASE 2: Background transitions black → white - at 1000ms
+            setTimeout(function() {
+                splash.classList.add('white-bg');
+            }, 1000);
+            
+            // PHASE 3: Arrow inverts to black - at 1000ms (CSS handles transition)
+            // PHASE 4: Arrow pulses/floats upward - at 1300ms
+            setTimeout(function() {
+                splash.classList.add('arrow-exit');
+            }, 1300);
+            
+            // PHASE 5: Fade out splash screen - at 2500ms
+            setTimeout(function() {
+                splash.classList.add('hidden');
+                document.body.classList.remove('loading');
+                
+                // Remove splash from DOM after fade completes
+                setTimeout(function() {
+                    splash.style.display = 'none';
+                }, 500);
+                
+            }, 2500);
+        })();
+
+        // ============================================
+        // CUSTOM SMOOTH SCROLL ENGINE
+        // ============================================
+        (function() {
+            if (isMobile) return; // Use native scroll on mobile
+
+            let currentScroll = 0;
+            let targetScroll = 0;
+            let ease = 0.1;
+            let isScrolling = false;
+
+            function smoothScroll() {
+                currentScroll += (targetScroll - currentScroll) * ease;
+                
+                if (Math.abs(targetScroll - currentScroll) > 0.5) {
+                    window.scrollTo(0, currentScroll);
+                    requestAnimationFrame(smoothScroll);
+                } else {
+                    window.scrollTo(0, targetScroll);
+                    isScrolling = false;
+                }
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!isScrolling) {
+                    targetScroll = window.pageYOffset;
+                    currentScroll = targetScroll;
+                }
+            }, { passive: true });
+
+            // Override anchor link scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        targetScroll = target.offsetTop;
+                        isScrolling = true;
+                        smoothScroll();
+                    }
+                });
+            });
+        })();
+
+
+        // ============================================
+        // NAVIGATION SCROLL BEHAVIOR
+        // ============================================
+        (function() {
+            const nav = document.getElementById('main-nav');
+
+            // Add shadow to nav on scroll
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            }, { passive: true });
+
+            // Logo click scroll to top
+            document.getElementById('nav-logo').addEventListener('click', (e) => {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+
+        // ============================================
+        // HERO SCROLL INDICATOR
+        // ============================================
+        (function() {
+            const hero = document.querySelector('.hero');
+            const scrollIndicator = document.getElementById('scroll-indicator');
+
+            // Hide scroll indicator on scroll
+            window.addEventListener('scroll', () => {
+                const scrollY = window.pageYOffset;
+
+                // Hide scroll indicator
+                if (scrollY > 200) {
+                    scrollIndicator.classList.add('hidden');
+                } else {
+                    scrollIndicator.classList.remove('hidden');
+                }
+            }, { passive: true });
+        })();
+
+        // ============================================
+        // INTRODUCTION STAGGERED ANIMATION
+        // ============================================
+        (function() {
+            const blocks = document.querySelectorAll('.intro-block');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        blocks.forEach((block, index) => {
+                            const delay = parseInt(block.dataset.delay) || 0;
+                            setTimeout(() => {
+                                block.classList.add('visible');
+                            }, delay);
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            const introSection = document.querySelector('.intro');
+            if (introSection) {
+                observer.observe(introSection);
+            }
+        })();
+
+        // ============================================
+        // HORIZONTAL SCROLLING FEATURES
+        // ============================================
+        (function() {
+            const container = document.getElementById('features-container');
+            const section = document.querySelector('.features-section');
+            
+            if (isMobile) return; // Stack vertically on mobile
+
+            window.addEventListener('scroll', () => {
+                const rect = section.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    const sectionTop = rect.top + window.pageYOffset;
+                    const scrollY = window.pageYOffset;
+                    const sectionStart = sectionTop - windowHeight;
+                    const sectionEnd = sectionTop + rect.height;
+                    
+                    if (scrollY >= sectionStart && scrollY <= sectionEnd) {
+                        const progress = (scrollY - sectionStart) / (sectionEnd - sectionStart);
+                        const maxTranslate = container.scrollWidth - window.innerWidth;
+                        const translateX = -progress * maxTranslate * 0.8;
+                        container.style.transform = `translate3d(${translateX}px, 0, 0)`;
+                    }
+                }
+            }, { passive: true });
+        })();
+
+        // ============================================
+        // PARALLAX SHOWCASE
+        // ============================================
+        (function() {
+            const watermark = document.getElementById('showcase-watermark');
+            const card = document.getElementById('showcase-card');
+            const arrowsContainer = document.getElementById('showcase-arrows');
+            const section = document.querySelector('.showcase');
+
+            // Create floating arrows
+            for (let i = 0; i < 6; i++) {
+                const arrow = document.createElement('div');
+                arrow.className = 'floating-arrow';
+                arrow.innerHTML = '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 40 160 L 100 40 L 160 40" stroke="rgba(255,255,255,0.1)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M 50 160 L 100 40 L 150 40" stroke="rgba(255,255,255,0.1)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M 55 145 L 100 55 L 145 145 Z" fill="rgba(255,255,255,0.1)"/></svg>';
+                arrow.style.left = Math.random() * 100 + '%';
+                arrow.style.top = Math.random() * 100 + '%';
+                arrowsContainer.appendChild(arrow);
+            }
+
+            window.addEventListener('scroll', () => {
+                const rect = section.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    const scrollOffset = window.pageYOffset - (rect.top + window.pageYOffset - windowHeight);
+                    
+                    // Layer 1: Watermark (0.3x speed)
+                    watermark.style.transform = `translate3d(-50%, ${-50 + scrollOffset * 0.3}%, 0)`;
+                    
+                    // Layer 2: Card (0.7x speed)
+                    card.style.transform = `translate3d(0, ${scrollOffset * 0.7}px, 0)`;
+                    
+                    // Layer 3: Arrows (1.2x speed)
+                    const arrows = arrowsContainer.querySelectorAll('.floating-arrow');
+                    arrows.forEach((arrow, index) => {
+                        arrow.style.transform = `translate3d(0, ${scrollOffset * 1.2}px, 0) rotate(${index * 60}deg)`;
+                    });
+                }
+            }, { passive: true });
+        })();
+
+        // ============================================
+        // TESTIMONIALS REVEAL
+        // ============================================
+        (function() {
+            const testimonials = [
+                { quote: document.getElementById('testimonial-1'), image: document.getElementById('testimonial-image-1') },
+                { quote: document.getElementById('testimonial-2'), image: document.getElementById('testimonial-image-2') },
+                { quote: document.getElementById('testimonial-3'), image: document.getElementById('testimonial-image-3') }
+            ];
+
+            testimonials.forEach(({ quote, image }) => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            quote.classList.add('visible');
+                            image.classList.add('visible');
+                        }
+                    });
+                }, { threshold: 0.3 });
+
+                if (quote) observer.observe(quote);
+            });
+        })();
+
+        // ============================================
+        // CTA ASCENDING ARROW & MAGNETIC BUTTON
+        // ============================================
+        (function() {
+            const arrow = document.getElementById('cta-arrow');
+            const button = document.getElementById('cta-button');
+            const title = document.getElementById('cta-title');
+            const section = document.querySelector('.cta');
+
+            // Magnetic button
+            if (!isMobile) {
+                button.addEventListener('mousemove', (e) => {
+                    const rect = button.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    const distance = Math.sqrt(x * x + y * y);
+                    
+                    if (distance < 40) {
+                        button.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+                    }
+                }, { passive: true });
+
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translate(0, 0)';
+                });
+            }
+
+            // Ascending arrow
+            window.addEventListener('scroll', () => {
+                const rect = section.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    const scrollProgress = 1 - (rect.bottom / windowHeight);
+                    const arrowSize = 100 + (scrollProgress * 100);
+                    const arrowY = windowHeight - rect.top - (scrollProgress * windowHeight * 0.7);
+                    
+                    arrow.style.width = arrowSize + 'px';
+                    arrow.style.height = arrowSize + 'px';
+                    arrow.style.top = arrowY + 'px';
+                    arrow.style.left = '50%';
+                    arrow.style.transform = 'translateX(-50%)';
+                    arrow.style.opacity = Math.min(0.3 + scrollProgress * 0.7, 1);
+                }
+
+                // Reveal title and button
+                if (rect.top < windowHeight * 0.8) {
+                    title.classList.add('visible');
+                    button.classList.add('visible');
+                }
+            }, { passive: true });
+        })();
+
+        // ============================================
+        // SMOOTH ANCHOR LINKS
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                
+                e.preventDefault();
+                const target = document.querySelector(href);
                 if (target) {
                     target.scrollIntoView({
                         behavior: 'smooth',
@@ -930,367 +1425,7 @@
                 }
             });
         });
-
-        // Voice chat widget click handler (placeholder)
-        document.querySelector('.voice-chat-widget').addEventListener('click', function() {
-            alert('Voice chat widget - This is a visual placeholder. Will connect to API later.');
-        });
     </script>
-
-    <!-- ============================================
-         VOICE AI WIDGET JAVASCRIPT
-         Handles widget states, Key Ninja integration, and call management
-         ============================================ -->
-    <script>
-        // Voice AI Widget - Fixed Call End + Updated Text
-        (function() {
-            // Widget element references
-            let widget, button, statusText, voiceButton;
-            
-            // State management
-            let currentState = 'loading';
-            let scriptsLoaded = false;
-            let isInCall = false;
-            let clickInProgress = false;
-            let annaComingTimeout = null;
-            let micPermissionGranted = false;
-            let stateCheckInterval = null;
-            let lastLoggedObject = null;
-            
-            // Store original console.log to intercept Key Ninja messages
-            const originalConsoleLog = console.log;
-            
-            // Override console.log to detect call state changes from Key Ninja
-            console.log = function() {
-                originalConsoleLog.apply(console, arguments);
-                
-                // Check all arguments for state change messages
-                for (let i = 0; i < arguments.length; i++) {
-                    const arg = arguments[i];
-                    
-                    // Detect call ended messages
-                    if (typeof arg === 'string') {
-                        if (arg.includes('Call status changed: Inactive') || 
-                            arg.includes('Call ended') || 
-                            arg.includes('Call stopped successfully')) {
-                            originalConsoleLog('📞 Call ended detected');
-                            isInCall = false;
-                            stopStateMonitoring();
-                            clearAnnaComingTimeout();
-                            setIdle();
-                        }
-                        // Detect assistant speaking
-                        else if (arg.includes('Assistant started speaking')) {
-                            if (isInCall || currentState === 'anna-coming') {
-                                originalConsoleLog('🎤 Assistant speaking → TALKING');
-                                setTalking();
-                            }
-                        }
-                        // Detect call started
-                        else if (arg.includes('Call started successfully')) {
-                            originalConsoleLog('✅ Call started');
-                            isInCall = true;
-                        }
-                    }
-                    
-                    // Store objects for state checking
-                    if (typeof arg === 'object' && arg !== null) {
-                        lastLoggedObject = arg;
-                    }
-                }
-            };
-            
-            // Check Key Ninja turn-taking state
-            function checkKeyNinjaState() {
-                if (!isInCall || !lastLoggedObject) return;
-                
-                if (lastLoggedObject.turntaking) {
-                    const turn = lastLoggedObject.turntaking;
-                    
-                    // Switch to listening when it's user's turn
-                    if (turn === 'user_turn' && currentState === 'talking') {
-                        originalConsoleLog('🎯 user_turn → LISTENING');
-                        setListening();
-                    }
-                }
-            }
-            
-            // Start monitoring Key Ninja state
-            function startStateMonitoring() {
-                if (stateCheckInterval) return;
-                originalConsoleLog('👀 Monitoring started');
-                stateCheckInterval = setInterval(checkKeyNinjaState, 200);
-            }
-            
-            // Stop monitoring
-            function stopStateMonitoring() {
-                if (stateCheckInterval) {
-                    clearInterval(stateCheckInterval);
-                    stateCheckInterval = null;
-                    originalConsoleLog('⏹️ Monitoring stopped');
-                }
-            }
-            
-            // Clear ANNA coming timeout
-            function clearAnnaComingTimeout() {
-                if (annaComingTimeout) {
-                    clearTimeout(annaComingTimeout);
-                    annaComingTimeout = null;
-                }
-            }
-            
-            // Initialize widget - find elements and start loading scripts
-            function init() {
-                widget = document.getElementById('heroWidget');
-                button = document.getElementById('start-call-btn');
-                
-                // Retry if elements not found yet
-                if (!widget || !button) {
-                    setTimeout(init, 500);
-                    return;
-                }
-                
-                statusText = widget.querySelector('.status-text');
-                voiceButton = widget.querySelector('.voice-button');
-                
-                // Set initial loading state
-                widget.classList.add('loading', 'disabled');
-                statusText.textContent = 'Loading...';
-                
-                // Load external scripts (HeyGen, RequireJS, Key Ninja)
-                loadAllScripts();
-            }
-            
-            // Request microphone permission
-            function requestMicrophonePermission() {
-                return new Promise(function(resolve, reject) {
-                    if (micPermissionGranted) {
-                        resolve();
-                        return;
-                    }
-                    
-                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                        navigator.mediaDevices.getUserMedia({ audio: true })
-                            .then(function(stream) {
-                                micPermissionGranted = true;
-                                // Stop tracks to release mic
-                                stream.getTracks().forEach(track => track.stop());
-                                resolve();
-                            })
-                            .catch(function(err) {
-                                alert('Microphone access required for voice calls.');
-                                reject(err);
-                            });
-                    } else {
-                        resolve();
-                    }
-                });
-            }
-            
-            // Load HeyGen Streaming Avatar script
-            function loadAllScripts() {
-                const heygenScript = document.createElement('script');
-                heygenScript.src = 'https://unpkg.com/@heygen/streaming-avatar@1.0.3/dist/StreamingAvatar.umd.js';
-                heygenScript.crossOrigin = 'anonymous';
-                heygenScript.onload = loadRequireJS;
-                heygenScript.onerror = loadRequireJS; // Continue even if fails
-                document.head.appendChild(heygenScript);
-            }
-            
-            // Load RequireJS
-            function loadRequireJS() {
-                const requireScript = document.createElement('script');
-                requireScript.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/require.js';
-                requireScript.onload = function() {
-                    setTimeout(loadKeyNinjaMain, 200);
-                };
-                document.head.appendChild(requireScript);
-            }
-            
-            // Load Key Ninja main script
-            function loadKeyNinjaMain() {
-                const mainScript = document.createElement('script');
-                mainScript.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/main.min.js';
-                mainScript.onload = function() {
-                    scriptsLoaded = true;
-                    waitForKeyNinjaInit();
-                };
-                document.head.appendChild(mainScript);
-            }
-            
-            // Wait for Key Ninja to initialize and bind to button
-            function waitForKeyNinjaInit() {
-                let attempts = 0;
-                const checkInterval = setInterval(function() {
-                    attempts++;
-                    // Check if Key Ninja has bound to the button
-                    if (button.onclick !== null || attempts >= 50) {
-                        clearInterval(checkInterval);
-                        setupWidget();
-                    }
-                }, 100);
-            }
-            
-            // Setup widget event listeners and interactions
-            function setupWidget() {
-                setIdle();
-                
-                // Hover effects - show "Click to end call" when in call
-                widget.addEventListener('mouseenter', function() {
-                    if (isInCall && (currentState === 'talking' || currentState === 'listening')) {
-                        statusText.textContent = 'Click to end call';
-                        statusText.style.fontWeight = '600';
-                    }
-                });
-                
-                widget.addEventListener('mouseleave', function() {
-                    if (isInCall) {
-                        statusText.style.fontWeight = '500';
-                        updateStatusText();
-                    }
-                });
-                
-                // Main click handler
-                widget.addEventListener('click', async function(e) {
-                    if (clickInProgress) {
-                        originalConsoleLog('⏸️ Click already in progress');
-                        return;
-                    }
-                    
-                    clickInProgress = true;
-                    originalConsoleLog('👆 Widget clicked - isInCall:', isInCall, 'currentState:', currentState);
-                    
-                    if (!isInCall) {
-                        // Starting a call
-                        try {
-                            await requestMicrophonePermission();
-                        } catch (err) {
-                            clickInProgress = false;
-                            return;
-                        }
-                        
-                        setConnecting();
-                        button.click(); // Trigger Key Ninja
-                        
-                        // Set "ANNA coming on" state after short delay
-                        setTimeout(function() {
-                            if (currentState === 'connecting') {
-                                setAnnaComingOn();
-                            }
-                        }, 300);
-                        
-                        // Start monitoring after call should be established
-                        setTimeout(function() {
-                            startStateMonitoring();
-                            clickInProgress = false;
-                        }, 2000);
-                    } else {
-                        // Ending a call
-                        originalConsoleLog('📞 Ending call');
-                        button.click();
-                        
-                        // Force end after 500ms if still in call
-                        setTimeout(function() {
-                            originalConsoleLog('🔚 Forcing call end');
-                            isInCall = false;
-                            stopStateMonitoring();
-                            clearAnnaComingTimeout();
-                            setIdle();
-                            clickInProgress = false;
-                        }, 500);
-                    }
-                });
-                
-                originalConsoleLog('✅ Widget ready');
-            }
-            
-            // Update status text based on current state
-            function updateStatusText() {
-                if (currentState === 'talking') {
-                    statusText.textContent = 'ANNA is responding...';
-                } else if (currentState === 'listening') {
-                    statusText.textContent = 'ANNA is listening...';
-                } else if (currentState === 'idle') {
-                    const isMobile = window.innerWidth <= 768;
-                    const click = isMobile ? 'Tap' : 'Click';
-                    statusText.textContent = click + ' to talk';
-                }
-            }
-            
-            // Set connecting state
-            function setConnecting() {
-                originalConsoleLog('🔄 Connecting');
-                currentState = 'connecting';
-                widget.classList.remove('connecting', 'listening', 'talking', 'disabled', 'loading');
-                widget.classList.add('connecting', 'disabled');
-                statusText.textContent = 'Connecting...';
-                voiceButton.style.cssText = '';
-            }
-            
-            // Set "ANNA coming on" state
-            function setAnnaComingOn() {
-                originalConsoleLog('⏳ ANNA coming on');
-                currentState = 'anna-coming';
-                widget.classList.remove('connecting', 'listening', 'talking', 'disabled', 'loading');
-                widget.classList.add('connecting', 'disabled');
-                statusText.textContent = 'ANNA is coming on...';
-                clearAnnaComingTimeout();
-                
-                // Fallback: if ANNA doesn't speak within 10 seconds, switch to listening
-                annaComingTimeout = setTimeout(function() {
-                    if (currentState === 'anna-coming') {
-                        originalConsoleLog('⚠️ ANNA timeout - switching to listening');
-                        setListening();
-                    }
-                }, 10000);
-            }
-            
-            // Set talking state (ANNA is speaking)
-            function setTalking() {
-                originalConsoleLog('🗣️ TALKING');
-                clearAnnaComingTimeout();
-                currentState = 'talking';
-                
-                widget.classList.remove('connecting', 'listening', 'talking', 'disabled', 'loading');
-                widget.classList.add('talking');
-                
-                voiceButton.style.cssText = 'background: linear-gradient(135deg, #BAD64F 0%, #a8c43d 100%) !important;';
-                statusText.textContent = 'ANNA is responding...';
-            }
-            
-            // Set listening state (waiting for user input)
-            function setListening() {
-                originalConsoleLog('👂 LISTENING');
-                clearAnnaComingTimeout();
-                currentState = 'listening';
-                
-                widget.classList.remove('connecting', 'listening', 'talking', 'disabled', 'loading');
-                widget.classList.add('listening');
-                
-                voiceButton.style.cssText = 'background: linear-gradient(135deg, #F4D03F 0%, #e8c42d 100%) !important; animation: listening-pulse 1.5s ease-in-out infinite !important;';
-                statusText.textContent = 'ANNA is listening...';
-            }
-            
-            // Set idle state (ready to start)
-            function setIdle() {
-                originalConsoleLog('⭕ Idle');
-                clearAnnaComingTimeout();
-                currentState = 'idle';
-                widget.classList.remove('connecting', 'listening', 'talking', 'disabled', 'loading');
-                voiceButton.style.cssText = '';
-                
-                const isMobile = window.innerWidth <= 768;
-                const click = isMobile ? 'Tap' : 'Click';
-                statusText.textContent = click + ' to talk';
-            }
-            
-            // Initialize when DOM is ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', init);
-            } else {
-                init();
-            }
-        })();
-    </script>
+    </div><!-- End main-content -->
 </body>
 </html>
