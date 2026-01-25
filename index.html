@@ -13,7 +13,7 @@
            CSS VARIABLES
            ============================================ */
         :root {
-            --color-black: #000000;
+            --color-black: #202020;
             --color-white: #FFFFFF;
             --color-accent: rgba(0, 102, 255, 0.08);
             --color-border: rgba(0, 0, 0, 0.06);
@@ -32,15 +32,23 @@
 
         html {
             overflow-x: hidden;
+            background-color: #202020;  /* Dark gray background initially */
+            transition: background-color 400ms ease-out;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--color-white);
+            background-color: #202020;  /* Start dark gray */
             color: var(--color-black);
             overflow-x: hidden;
             font-weight: 400;
             padding-top: 80px; /* Compensate for fixed navigation */
+            transition: background-color 400ms ease-out;
+        }
+
+        /* Change to white after splash */
+        body:not(.loading) {
+            background-color: #FFFFFF;
         }
 
         /* ============================================
@@ -52,12 +60,12 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #000000;
+            background: #202020;
             z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 600ms ease-out;
+            transition: background-color 800ms ease-out;
         }
 
         /* Transition to white background */
@@ -67,107 +75,150 @@
 
         .splash-content {
             position: relative;
+            width: 290px;  /* Reduced by 30px from 320px */
+            height: 267px;  /* Maintains aspect ratio: 290 × (173.09/187.82) */
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .splash-arrow {
-            width: 180px;
-            height: auto;
+        /* BOTTOM ARROW - Small inner triangle */
+        .arrow-bottom {
+            position: absolute;
+            width: 58px;           /* Proportional to 290px container (~20%) */
+            height: auto;          /* Maintains SVG aspect ratio */
+            bottom: 0;             /* Aligned to bottom of container */
+            left: 50%;
+            transform: translateX(-50%);
             opacity: 0;
-            transform: scale(0.8);
-            /* Start as white on black background */
-            filter: brightness(0) invert(1) drop-shadow(0 0 40px rgba(255, 255, 255, 0.3));
-            animation: arrowFadeIn 800ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            z-index: 2;            /* Appears on top of outer arrow */
+            animation: arrowBottomFadeIn 900ms ease-out forwards;
+            animation-delay: 400ms;
         }
 
-        /* Arrow inverts to black when background turns white */
-        #splash-screen.white-bg .splash-arrow {
-            filter: brightness(0) invert(0) drop-shadow(0 10px 30px rgba(0, 0, 0, 0.15));
-            transition: filter 300ms ease-out;
+        /* TOP ARROW - Large outer frame */
+        .arrow-top {
+            position: absolute;
+            width: 100%;           /* Full container width */
+            height: 100%;          /* Full container height */
+            top: 0;
+            left: 0;
+            opacity: 0;
+            z-index: 1;            /* Behind inner arrow */
+            animation: arrowPartFadeIn 900ms ease-out forwards;
+            animation-delay: 1500ms;
         }
 
-        /* Arrow floats upward and fades out */
-        #splash-screen.arrow-exit .splash-arrow {
-            animation: arrowFloatOut 1200ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        /* Phase 1: Arrow fades in and scales up (white on black) */
-        @keyframes arrowFadeIn {
+        /* Bottom arrow fade-in animation (maintains horizontal centering) */
+        @keyframes arrowBottomFadeIn {
             0% {
                 opacity: 0;
-                transform: scale(0.8);
+                transform: translateX(-50%) translateY(15px) scale(0.95);
             }
             100% {
                 opacity: 1;
-                transform: scale(1);
+                transform: translateX(-50%) translateY(0) scale(1);
             }
         }
 
-        /* Phase 2: Arrow pulses/fades upward (black on white) */
-        @keyframes arrowFloatOut {
+        /* Top arrow fade-in animation */
+        @keyframes arrowPartFadeIn {
             0% {
+                opacity: 0;
+                transform: translateY(15px) scale(0.95);
+            }
+            100% {
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
-            /* Pulse larger briefly */
-            30% {
+        }
+
+        /* Ensure SVGs maintain their aspect ratio */
+        .arrow-bottom,
+        .arrow-top {
+            object-fit: contain;
+        }
+
+        /* Arrow moves to logo position - smooth animation */
+        #splash-screen.move-to-hero .splash-content {
+            animation: moveToHero 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes moveToHero {
+            0% {
+                transform: translate(0, 0) scale(1);
                 opacity: 1;
-                transform: translateY(-20px) scale(1.15);
             }
-            /* Continue upward and fade */
             100% {
-                opacity: 0;
-                transform: translateY(-200px) scale(1.3);
+                /* Arrow morphs into logo "A" position - calculated dynamically */
+                transform: translate(var(--hero-9-x, 0px), var(--hero-9-y, -40vh)) scale(var(--hero-9-scale, 0.155));
+                opacity: 1;  /* Keep visible during morph */
             }
         }
 
-        /* Splash screen fades out */
+        /* Splash background fades but arrow visible during transition */
+        #splash-screen.fade-bg {
+            background: transparent;
+            pointer-events: none;
+            transition: background 600ms ease-out;
+        }
+
+        /* Final hide */
         #splash-screen.hidden {
             opacity: 0;
-            pointer-events: none;
-            transition: opacity 500ms ease-out;
+            transition: opacity 400ms ease-out;
         }
 
-        /* Main content initially hidden */
+        /* Main content starts hidden */
         body.loading .main-content {
             opacity: 0;
             transform: scale(0.98);
         }
 
-        /* Main content fades in */
+        /* Main content fades in smoothly - STARTS WHILE SPLASH STILL VISIBLE */
         .main-content {
+            opacity: 0;  /* Start at 0 */
+            transform: scale(0.98);
+            transition: opacity 1200ms ease-out, transform 1200ms ease-out;
+        }
+
+        /* Content visible when loading class removed */
+        body:not(.loading) .main-content {
             opacity: 1;
             transform: scale(1);
-            transition: opacity 600ms ease-out, transform 600ms ease-out;
         }
 
-        /* Prevent scrolling during splash */
+        /* Prevent scrolling during splash - ENFORCED */
         body.loading {
-            overflow: hidden;
+            overflow: hidden !important;
+            position: fixed !important;
+            width: 100% !important;
+            height: 100% !important;
+            top: 0 !important;
+            left: 0 !important;
         }
 
-        /* Mobile: smaller arrow */
+        /* Mobile: proportionally smaller */
         @media (max-width: 768px) {
-            .splash-arrow {
-                width: 120px;
+            .splash-content {
+                width: 210px;  /* Reduced by 30px from 240px */
+                height: 194px;  /* Maintains same aspect ratio */
+            }
+            
+            .arrow-bottom {
+                width: 42px;  /* Proportional to 210px container */
             }
         }
 
         /* Accessibility: reduced motion */
         @media (prefers-reduced-motion: reduce) {
-            .splash-arrow {
-                animation: arrowFadeOnly 600ms ease-out forwards !important;
+            .arrow-bottom,
+            .arrow-top {
+                animation-duration: 400ms !important;
             }
             
-            #splash-screen.arrow-exit .splash-arrow {
-                animation: arrowFadeOnly 400ms ease-out forwards !important;
-            }
-            
-            @keyframes arrowFadeOnly {
-                0% { opacity: 0; }
-                100% { opacity: 1; }
+            #splash-screen.move-to-hero .splash-content {
+                animation-duration: 600ms !important;
             }
         }
 
@@ -188,20 +239,23 @@
             align-items: center;
             z-index: 10000 !important;
             background-color: var(--color-white);
-            transition: all 300ms ease;
+            transition: all 300ms ease, border-bottom 300ms ease;
+            border-bottom: 1px solid transparent;  /* Start with transparent border */
             opacity: 0;
             pointer-events: none;
         }
 
-        /* Show nav after splash screen completes */
+        /* Show nav after splash screen completes - EARLIER TIMING */
         body:not(.loading) nav {
             opacity: 1;
             pointer-events: auto;
-            transition: opacity 600ms ease-out 300ms;
+            /* Start transition at 5000ms (when loading class removed) */
+            transition: opacity 800ms ease-out 200ms;
         }
 
         nav.scrolled {
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            border-bottom: 1px solid #202020;  /* Dark gray border when scrolled */
         }
 
         .nav-logo {
@@ -212,9 +266,60 @@
         }
 
         .nav-logo .logo {
-            width: 120px;
+            width: 180px;  /* Bigger logo - more accentuated */
             height: auto;
             display: block;
+            transition: opacity 400ms ease-in;
+        }
+
+        /* Logo container for arrow integration */
+        .nav-logo {
+            position: relative;
+        }
+
+        /* Arrow overlay in logo - replaces "A" */
+        .nav-logo .logo-arrow {
+            position: absolute;
+            width: 45px;  /* Exact width of "A" */
+            height: 41px;  /* Proportional height */
+            left: -1px;  /* Position to overlap "A": -2px + 1px = -1px */
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 2;  /* Above logo image */
+            transition: opacity 400ms ease-in;
+        }
+
+        .nav-logo .logo-arrow .arrow-bottom {
+            position: absolute;
+            width: 9px;
+            height: auto;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            opacity: 0;  /* Start hidden */
+            transition: opacity 300ms ease-in 100ms;  /* Fade in after 100ms delay */
+        }
+
+        /* Show bottom arrow when logo arrow is visible */
+        .nav-logo .logo-arrow.visible .arrow-bottom {
+            opacity: 1;
+        }
+
+        .nav-logo .logo-arrow .arrow-top {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Show arrow in logo after morph */
+        .nav-logo .logo-arrow.visible {
+            opacity: 1;
         }
 
         .nav-center {
@@ -317,19 +422,24 @@
             z-index: 2;
         }
 
+
         .hero-text {
             font-size: 36px;
             font-weight: 300;
-            margin-top: 80px;
+            margin-top: 0;
             letter-spacing: 0.01em;
         }
 
         .hero-large {
             font-size: 180px;
-            font-weight: 200;
+            font-weight: 700;
             line-height: 1;
             margin-top: 20px;
             letter-spacing: 0.01em;
+        }
+
+        .hero-large .percent {
+            font-size: 100px;
         }
 
         .hero-subtitle {
@@ -389,24 +499,364 @@
         }
 
         .intro-content {
-            max-width: 900px;
-            margin: 0 auto;
+            width: 100%;
+            text-align: left;
         }
 
         .intro-block {
-            font-size: 48px;
-            font-weight: 300;
-            line-height: 1.3;
+            color: #202020;
+            letter-spacing: -0.03em;
+            font-size: 6em;
+            font-weight: 600;
+            line-height: 0.914634;
+            text-align: left;
             margin-bottom: 60px;
             opacity: 0;
-            transform: translateY(50px);
+            transform: translate3d(0px, 50px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+            transform-style: preserve-3d;
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
             will-change: opacity, transform;
+            width: 100%;
         }
 
         .intro-block.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+            transform-style: preserve-3d;
+        }
+
+        /* ============================================
+           SECTION 2.5: SAVINGS CALCULATOR - SIMPLIFIED
+           ============================================ */
+        .calculator {
+            background-color: var(--color-white);
+            padding: 120px 0;
+        }
+
+        .calculator-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #000000;
+            color: var(--color-white);
+            padding: 80px 60px;
+            border: 3px solid #000000;
+        }
+
+        .calculator-title {
+            font-size: 42px;
+            font-weight: 300;
+            margin-bottom: 60px;
+            text-align: center;
+            letter-spacing: 0.01em;
+        }
+
+        /* Input Fields */
+        .calculator-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 60px;
+            padding-bottom: 60px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 400;
+            opacity: 0.5;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            background-color: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: var(--color-white);
+            padding: 18px 20px;
+            font-size: 16px;
+            font-weight: 300;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .input-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='white' stroke-opacity='0.6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 48px;
+        }
+
+        .input-group input:hover,
+        .input-group select:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Results Section */
+        .calculator-results {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .results-header {
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .annual-revenue {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .annual-revenue .label {
+            font-size: 13px;
+            font-weight: 400;
+            opacity: 0.5;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .annual-revenue .value {
+            font-size: 36px;
+            font-weight: 200;
+        }
+
+        /* Comparison Grid - Aligned, No Highlights */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 50px;
+        }
+
+        .comparison-column {
+            background-color: #202020;
+            padding: 40px 32px;
+        }
+
+        .column-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .column-header h3 {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .percentage {
+            font-size: 48px;
+            font-weight: 200;
+            line-height: 1;
+        }
+
+        .percent-symbol {
+            font-size: 0.6em;
+            opacity: 0.7;
+        }
+
+        .breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .breakdown-row .label {
+            font-size: 13px;
+            font-weight: 400;
+            opacity: 0.5;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .breakdown-row .value {
+            font-size: 22px;
+            font-weight: 300;
+        }
+
+        .breakdown-row.keep {
+            border-top: 2px solid rgba(255, 255, 255, 0.15);
+            padding-top: 20px;
+            margin-top: 8px;
+        }
+
+        .breakdown-row.keep .value {
+            font-size: 28px;
+            font-weight: 300;
+        }
+
+        /* Savings Highlight */
+        .savings-highlight {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 50px;
+        }
+
+        .savings-label {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .savings-amount {
+            font-size: 52px;
+            font-weight: 200;
+        }
+
+        /* What's Included */
+        .included-info {
+            margin-bottom: 40px;
+        }
+
+        .included-toggle {
+            width: 100%;
+            background-color: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: var(--color-white);
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .included-toggle:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .included-toggle .chevron {
+            transition: transform 0.3s ease;
+        }
+
+        .included-toggle.active .chevron {
+            transform: rotate(180deg);
+        }
+
+        .included-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        .included-content.active {
+            max-height: 500px;
+            padding: 40px 32px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-top: none;
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .included-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .included-item {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .included-item .check {
+            color: var(--color-white);
+            font-size: 18px;
+            opacity: 0.9;
+            flex-shrink: 0;
+        }
+
+        /* CTA Button */
+        .calculator-cta {
+            text-align: center;
+        }
+
+        /* CTA Button - Consistent with page style */
+        .calculator-cta {
+            text-align: center;
+        }
+
+        .btn-calculator {
+            display: inline-block;
+            padding: 10px 24px;
+            border: 1px solid var(--color-white);
+            background-color: transparent;
+            color: var(--color-white);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+
+        .btn-calculator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-white);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .btn-calculator:hover {
+            color: var(--color-black);
+        }
+
+        .btn-calculator:hover::before {
+            left: 0;
         }
 
         /* ============================================
@@ -484,7 +934,7 @@
            SECTION 4: PARALLAX SHOWCASE
            ============================================ */
         .showcase {
-            background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+            background: linear-gradient(180deg, #202020 0%, #1a1a1a 100%);
             color: var(--color-white);
             overflow: hidden;
         }
@@ -816,6 +1266,20 @@
                 padding: 0 24px;
             }
 
+            .nav-logo .logo {
+                width: 140px;  /* Slightly smaller on mobile but still bigger */
+            }
+
+            .nav-logo .logo-arrow {
+                width: 35px;  /* Proportional to smaller logo, matches "A" size */
+                height: 32px;
+                left: -7px;  /* Mobile: -8px + 1px = -7px */
+            }
+
+            .nav-logo .logo-arrow .arrow-bottom {
+                width: 6.5px;  /* Mobile size */
+            }
+
             .nav-center,
             .nav-button {
                 display: none;
@@ -837,8 +1301,9 @@
                 font-size: 100px;
             }
 
+
             .intro-block {
-                font-size: 32px;
+                font-size: 3em;
             }
 
             .features-container {
@@ -863,6 +1328,85 @@
                 grid-template-columns: 1fr;
                 gap: 40px;
                 padding: 40px 24px;
+            }
+
+            .calculator {
+                padding: 80px 0;
+            }
+
+            .calculator-card {
+                padding: 60px 24px;
+                border-width: 2px;
+            }
+
+            .calculator-title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+
+            .calculator-inputs {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-bottom: 40px;
+                padding-bottom: 40px;
+            }
+
+            .annual-revenue {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .annual-revenue .value {
+                font-size: 28px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 2px;
+                border-width: 2px;
+            }
+
+            .comparison-column {
+                padding: 32px 24px;
+            }
+
+            .column-header h3 {
+                font-size: 12px;
+            }
+
+            .percentage {
+                font-size: 36px;
+            }
+
+            .breakdown-row .value {
+                font-size: 18px;
+            }
+
+            .breakdown-row.keep .value {
+                font-size: 22px;
+            }
+
+            .savings-highlight {
+                flex-direction: column;
+                gap: 20px;
+                padding: 32px 24px;
+                text-align: center;
+                border-width: 2px;
+            }
+
+            .savings-amount {
+                font-size: 38px;
+            }
+
+            .included-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .btn-calculator {
+                width: 100%;
+                font-size: 13px;
             }
 
             .testimonial-quote {
@@ -955,7 +1499,10 @@
     <!-- Splash Screen -->
     <div id="splash-screen">
         <div class="splash-content">
-            <img src="Images/airoam-arrow-black.svg" alt="Airoam" class="splash-arrow">
+            <!-- Bottom arrow appears FIRST (small inner triangle) -->
+            <img src="Images/arrow-bottom-white.svg" class="arrow-part arrow-bottom" alt="">
+            <!-- Top arrow appears SECOND (large outer frame) -->
+            <img src="Images/arrow-top-white.svg" class="arrow-part arrow-top" alt="">
         </div>
     </div>
 
@@ -965,10 +1512,10 @@
             <img src="images/airoam-logo-black.svg" alt="Airoam" class="logo">
         </a>
         <div class="nav-center">
-            <a href="#intro">Index</a>
+            <a href="#about">About</a>
+            <a href="#calculator">Calculator</a>
             <a href="#features">How It Works</a>
             <a href="#pricing">Pricing</a>
-            <a href="#about">About</a>
         </div>
         <a href="#cta" class="nav-button">Get Started</a>
         <div class="nav-hamburger">
@@ -984,7 +1531,7 @@
     <section class="hero" id="hero">
         <div class="hero-content">
             <p class="hero-text">Airbnb management.</p>
-            <div class="hero-large">9%</div>
+            <div class="hero-large">9<span class="percent">%</span></div>
             <p class="hero-subtitle">Light. Simple. Honest.</p>
         </div>
         <div class="scroll-indicator" id="scroll-indicator">
@@ -993,13 +1540,136 @@
         </div>
     </section>
 
-    <!-- Section 2: Introduction -->
-    <section class="intro" id="intro">
+    <!-- Section 2: About -->
+    <section class="intro" id="about">
         <div class="container">
             <div class="intro-content">
                 <div class="intro-block" data-delay="0">For 10 years, we've been mastering<br>short-term rental management.</div>
                 <div class="intro-block" data-delay="200">Now we're using that expertise<br>to build something better.</div>
                 <div class="intro-block" data-delay="400">Technology that works.<br>Pricing that's honest.<br>Service that scales.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2.5: Savings Calculator -->
+    <section class="calculator" id="calculator">
+        <div class="container">
+            <div class="calculator-card">
+                <h2 class="calculator-title">Calculate your savings</h2>
+                
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="property-address">Property address or suburb</label>
+                        <input 
+                            type="text" 
+                            id="property-address" 
+                            value="Gold Coast, QLD"
+                            placeholder="e.g. Surfers Paradise, QLD"
+                        >
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="num-bedrooms">Bedrooms</label>
+                        <select id="num-bedrooms">
+                            <option value="1">1 bedroom</option>
+                            <option value="2" selected>2 bedrooms</option>
+                            <option value="3">3 bedrooms</option>
+                            <option value="4">4 bedrooms</option>
+                            <option value="5">5+ bedrooms</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="calculator-results" id="calculator-results">
+                    <div class="results-header">
+                        <div class="annual-revenue">
+                            <span class="label">Annual revenue</span>
+                            <span class="value" id="annual-revenue">$480,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="comparison-grid">
+                        <div class="comparison-column airoam">
+                            <div class="column-header">
+                                <h3>With Airoam</h3>
+                                <div class="percentage">9<span class="percent-symbol">%</span></div>
+                            </div>
+                            <div class="breakdown">
+                                <div class="breakdown-row">
+                                    <span class="label">You pay</span>
+                                    <span class="value" id="airoam-pay">$43,200</span>
+                                </div>
+                                <div class="breakdown-row keep">
+                                    <span class="label">You keep</span>
+                                    <span class="value" id="airoam-keep">$436,800</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-column industry">
+                            <div class="column-header">
+                                <h3>Industry standard</h3>
+                                <div class="percentage">20<span class="percent-symbol">%</span></div>
+                            </div>
+                            <div class="breakdown">
+                                <div class="breakdown-row">
+                                    <span class="label">You pay</span>
+                                    <span class="value" id="industry-pay">$96,000</span>
+                                </div>
+                                <div class="breakdown-row keep">
+                                    <span class="label">You keep</span>
+                                    <span class="value" id="industry-keep">$384,000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="savings-highlight">
+                        <span class="savings-label">Your annual savings</span>
+                        <span class="savings-amount" id="savings-amount">$52,800</span>
+                    </div>
+                    
+                    <div class="included-info">
+                        <button class="included-toggle" id="included-toggle">
+                            <span>What's included in 9%</span>
+                            <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="included-content" id="included-content">
+                            <div class="included-grid">
+                                <div class="included-item">
+                                    <span class="check">✓</span>
+                                    <span>24/7 AI guest communication</span>
+                                </div>
+                                <div class="included-item">
+                                    <span class="check">✓</span>
+                                    <span>Dynamic pricing optimization</span>
+                                </div>
+                                <div class="included-item">
+                                    <span class="check">✓</span>
+                                    <span>Cleaning & maintenance coordination</span>
+                                </div>
+                                <div class="included-item">
+                                    <span class="check">✓</span>
+                                    <span>Revenue & performance analytics</span>
+                                </div>
+                                <div class="included-item">
+                                    <span class="check">✓</span>
+                                    <span>Multi-platform listing management</span>
+                                </div>
+                                <div class="included-item">
+                                    <span class="check">✓</span>
+                                    <span>Review management</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-cta">
+                        <a href="#cta" class="btn-calculator">Get Started →</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1062,7 +1732,7 @@
     </section>
 
     <!-- Section 5: Testimonials -->
-    <section class="testimonials" id="about">
+    <section class="testimonials" id="testimonials">
         <div class="container">
             <div class="testimonial">
                 <div class="testimonial-quote" id="testimonial-1">
@@ -1146,7 +1816,7 @@
                 <div class="footer-links">
                     <a href="#features">How It Works</a>
                     <a href="#pricing">Pricing</a>
-                    <a href="#about">About</a>
+                    <a href="#testimonials">Testimonials</a>
                     <a href="#contact">Contact</a>
                 </div>
             </div>
@@ -1162,47 +1832,227 @@
 
     <script>
         // ============================================
+        // ============================================
+        // FORCE SCROLL TO TOP - ENHANCED
+        // ============================================
+        // Immediate scroll to top (before anything loads)
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+
+        // Force to top immediately
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+
+        // Prevent scroll during page load
+        window.addEventListener('DOMContentLoaded', function() {
+            window.scrollTo(0, 0);
+        });
+
+        // Also on full page load
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+        });
+
+        // Handle back/forward navigation
+        window.addEventListener('pageshow', function(event) {
+            window.scrollTo(0, 0);
+            if (event.persisted) {
+                window.scrollTo(0, 0);
+            }
+        });
+
+        // Prevent any scroll attempts during splash
+        window.addEventListener('scroll', function preventScrollDuringSplash(e) {
+            if (document.body.classList.contains('loading')) {
+                window.scrollTo(0, 0);
+                e.preventDefault();
+            }
+        }, { passive: false });
+        
+        // ============================================
         // DETECT MOBILE
         // ============================================
         const isMobile = window.innerWidth <= 768;
 
         // ============================================
-        // SPLASH SCREEN ANIMATION
+        // SPLASH SCREEN ANIMATION - FIXED
         // ============================================
         (function() {
-            // Add loading class to body
             document.body.classList.add('loading');
             
-            // Always show splash on every page load/refresh
             const splash = document.getElementById('splash-screen');
             
-            // ANIMATION SEQUENCE
+            /* 
+            OPTIMIZED TIMELINE - Arrow morphs into logo "A"
             
-            // PHASE 1: Arrow fades in (white on black) - 0 to 1000ms
-            // (handled by CSS animation automatically)
+            0ms     - Black screen
+            400ms   - Bottom arrow starts fading in
+            1300ms  - Bottom arrow fully visible
+            1500ms  - Top arrow starts fading in
+            2400ms  - Top arrow fully visible
+            2400ms-2900ms - HOLD for 0.5 seconds (reduced)
+            2900ms  - Background turns white + Arrow turns black + Arrow starts morphing to logo
+            3800ms  - Arrow reaches logo position and transfers to nav logo
+            3800ms  - Main content starts fading in immediately
+            4200ms  - Splash fades out
+            4600ms  - Complete
+            */
             
-            // PHASE 2: Background transitions black → white - at 1000ms
+            // Background turns white + Arrow changes + Calculate logo position + Starts morphing at 2900ms
             setTimeout(function() {
                 splash.classList.add('white-bg');
-            }, 1000);
+                splash.classList.add('move-to-hero');
+                
+                // Change arrow images to black
+                const arrowBottom = splash.querySelector('.arrow-bottom');
+                const arrowTop = splash.querySelector('.arrow-top');
+                if (arrowBottom) arrowBottom.src = 'Images/arrow-bottom-black.svg';
+                if (arrowTop) arrowTop.src = 'Images/arrow-top-black.svg';
+                
+                // Calculate exact logo "A" position for precise morphing
+                const splashContent = splash.querySelector('.splash-content');
+                const navLogo = document.getElementById('nav-logo');
+                
+                if (navLogo && splashContent) {
+                    // FIXED CALCULATIONS for precise alignment
+                    
+                    // Navigation is fixed at top: 0, left padding: 60px
+                    // Logo width is 180px, logo starts at x: 60px from left edge
+                    // "A" letter is approximately at 15% from left of logo = 60px + (180px × 0.15) = 87px from left edge
+                    // "A" width is approximately 45px
+                    // "A" center is approximately at: 87px + (45px / 2) = 109.5px from left edge
+                    
+                    const viewportCenterX = window.innerWidth / 2;
+                    const viewportCenterY = window.innerHeight / 2;
+                    
+                    // Desktop calculations
+                    if (window.innerWidth > 768) {
+                        const logoStartX = 60; // Left padding of nav
+                        const logoWidth = 180; // Width of logo image
+                        const aPositionInLogo = 0.15; // "A" is 15% from left of logo
+                        const aWidth = 45; // Width of "A" letter
+                        const aCenterX = logoStartX + (logoWidth * aPositionInLogo) + (aWidth / 2) - 28; // 29px - 1px = 28px left adjustment
+                        
+                        // Navigation height is 80px, logo is vertically centered
+                        const navHeight = 80;
+                        const aCenterY = navHeight / 2; // Center of nav = center of "A"
+                        
+                        // Calculate offset from splash center to "A" center
+                        const offsetX = aCenterX - viewportCenterX;
+                        const offsetY = aCenterY - viewportCenterY;
+                        
+                        // Calculate scale: arrow is 290px, target "A" is 45px
+                        const arrowStartSize = 290; // Current splash arrow size
+                        const targetSize = 45; // Target size to match "A"
+                        const scale = targetSize / arrowStartSize; // = 0.155
+                        
+                        // Set CSS custom properties for morphing
+                        splashContent.style.setProperty('--hero-9-x', offsetX + 'px');
+                        splashContent.style.setProperty('--hero-9-y', offsetY + 'px');
+                        splashContent.style.setProperty('--hero-9-scale', scale);
+                    } else {
+                        // Mobile calculations
+                        const logoStartX = 24; // Mobile nav padding
+                        const logoWidth = 140; // Mobile logo width
+                        const aPositionInLogo = 0.15; // "A" is 15% from left of logo
+                        const aWidth = 35; // Smaller "A" on mobile
+                        const aCenterX = logoStartX + (logoWidth * aPositionInLogo) + (aWidth / 2) - 24; // 25px - 1px = 24px left adjustment (proportional)
+                        
+                        const navHeight = 80;
+                        const aCenterY = navHeight / 2;
+                        
+                        const offsetX = aCenterX - viewportCenterX;
+                        const offsetY = aCenterY - viewportCenterY;
+                        
+                        const arrowStartSize = 210; // Mobile splash arrow size
+                        const targetSize = 35;
+                        const scale = targetSize / arrowStartSize;
+                        
+                        splashContent.style.setProperty('--hero-9-x', offsetX + 'px');
+                        splashContent.style.setProperty('--hero-9-y', offsetY + 'px');
+                        splashContent.style.setProperty('--hero-9-scale', scale);
+                    }
+                }
+            }, 2900);
             
-            // PHASE 3: Arrow inverts to black - at 1000ms (CSS handles transition)
-            // PHASE 4: Arrow pulses/floats upward - at 1300ms
+            // HIDE BOTTOM ARROW at 3600ms (200ms before transfer) to avoid size glitch
             setTimeout(function() {
-                splash.classList.add('arrow-exit');
-            }, 1300);
+                const arrowBottom = splash.querySelector('.arrow-bottom');
+                if (arrowBottom) {
+                    arrowBottom.style.transition = 'opacity 200ms ease-out';
+                    arrowBottom.style.opacity = '0';
+                }
+            }, 3600);
             
-            // PHASE 5: Fade out splash screen - at 2500ms
+            // Transfer arrow to logo and reveal content at 3800ms (when morph completes)
+            setTimeout(function() {
+                const arrowBottom = splash.querySelector('.arrow-bottom');
+                const arrowTop = splash.querySelector('.arrow-top');
+                const navLogo = document.getElementById('nav-logo');
+                
+                if (navLogo && arrowBottom && arrowTop) {
+                    // Create arrow container in logo
+                    let logoArrow = navLogo.querySelector('.logo-arrow');
+                    if (!logoArrow) {
+                        logoArrow = document.createElement('div');
+                        logoArrow.className = 'logo-arrow';
+                        navLogo.insertBefore(logoArrow, navLogo.firstChild);
+                    }
+                    
+                    // Clone arrows to logo (keep splash arrows for fade out)
+                    const bottomClone = arrowBottom.cloneNode(true);
+                    const topClone = arrowTop.cloneNode(true);
+                    
+                    // Set logo arrow positioning - start hidden, CSS fades it in
+                    bottomClone.style.position = 'absolute';
+                    bottomClone.style.width = '9px';
+                    bottomClone.style.height = 'auto';
+                    bottomClone.style.bottom = '0';
+                    bottomClone.style.left = '50%';
+                    bottomClone.style.transform = 'translateX(-50%)';
+                    bottomClone.style.opacity = '0';  // Start hidden, CSS fades it in
+                    bottomClone.style.zIndex = '2';
+                    bottomClone.style.animation = 'none';
+                    
+                    topClone.style.position = 'absolute';
+                    topClone.style.width = '100%';
+                    topClone.style.height = '100%';
+                    topClone.style.top = '0';
+                    topClone.style.left = '0';
+                    topClone.style.transform = 'none';
+                    topClone.style.opacity = '1';
+                    topClone.style.zIndex = '1';
+                    topClone.style.animation = 'none';
+                    
+                    logoArrow.appendChild(bottomClone);
+                    logoArrow.appendChild(topClone);
+                    
+                    // Show arrow in logo
+                    logoArrow.classList.add('visible');
+                }
+                
+                // Fade out splash arrows (they've morphed into logo)
+                if (arrowBottom) arrowBottom.style.opacity = '0';
+                if (arrowTop) arrowTop.style.opacity = '0';
+                
+                // Start fading in main content immediately (no lag)
+                document.body.classList.remove('loading');
+            }, 3800);
+            
+            // Start fading splash background at 4200ms
+            setTimeout(function() {
+                splash.classList.add('fade-bg');
+            }, 4200);
+            
+            // Hide splash completely at 4600ms
             setTimeout(function() {
                 splash.classList.add('hidden');
-                document.body.classList.remove('loading');
-                
-                // Remove splash from DOM after fade completes
                 setTimeout(function() {
                     splash.style.display = 'none';
-                }, 500);
-                
-            }, 2500);
+                }, 400);
+            }, 4600);
         })();
 
         // ============================================
@@ -1252,6 +2102,107 @@
             });
         })();
 
+        // ============================================
+        // SAVINGS CALCULATOR - SIMPLIFIED
+        // ============================================
+        (function() {
+            const addressInput = document.getElementById('property-address');
+            const bedroomsSelect = document.getElementById('num-bedrooms');
+            const annualRevenueEl = document.getElementById('annual-revenue');
+            const airoamPayEl = document.getElementById('airoam-pay');
+            const airoamKeepEl = document.getElementById('airoam-keep');
+            const industryPayEl = document.getElementById('industry-pay');
+            const industryKeepEl = document.getElementById('industry-keep');
+            const savingsAmountEl = document.getElementById('savings-amount');
+            const includedToggle = document.getElementById('included-toggle');
+            const includedContent = document.getElementById('included-content');
+
+            if (!addressInput || !bedroomsSelect) return;
+
+            // Estimated monthly revenue based on bedrooms (Australian market averages)
+            const revenueEstimates = {
+                1: 3500,   // 1 bedroom: ~$3,500/month
+                2: 5000,   // 2 bedrooms: ~$5,000/month
+                3: 7000,   // 3 bedrooms: ~$7,000/month
+                4: 9500,   // 4 bedrooms: ~$9,500/month
+                5: 12000   // 5+ bedrooms: ~$12,000/month
+            };
+
+            // Format number with commas
+            function formatCurrency(num) {
+                return '$' + Math.round(num).toLocaleString('en-US');
+            }
+
+            // Animate number count-up
+            function animateValue(element, start, end, duration) {
+                const range = end - start;
+                const increment = range / (duration / 16); // 60fps
+                let current = start;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                        current = end;
+                        clearInterval(timer);
+                    }
+                    element.textContent = formatCurrency(current);
+                }, 16);
+            }
+
+            // Parse currency value
+            function parseValue(text) {
+                return parseFloat(text.replace(/[^0-9.]/g, '')) || 0;
+            }
+
+            // Calculate and update display
+            function calculate() {
+                const bedrooms = parseInt(bedroomsSelect.value) || 2;
+                
+                // Estimate monthly revenue based on bedrooms (single property)
+                const monthlyRevenue = revenueEstimates[bedrooms] || 5000;
+                const annualRevenue = monthlyRevenue * 12;
+                
+                const airoamFee = 0.09;
+                const industryFee = 0.20;
+                
+                const airoamPay = annualRevenue * airoamFee;
+                const airoamKeep = annualRevenue - airoamPay;
+                
+                const industryPay = annualRevenue * industryFee;
+                const industryKeep = annualRevenue - industryPay;
+                
+                const savings = industryPay - airoamPay;
+                
+                // Get current values for animation start
+                const currentAnnual = parseValue(annualRevenueEl.textContent);
+                const currentAiroamPay = parseValue(airoamPayEl.textContent);
+                const currentAiroamKeep = parseValue(airoamKeepEl.textContent);
+                const currentIndustryPay = parseValue(industryPayEl.textContent);
+                const currentIndustryKeep = parseValue(industryKeepEl.textContent);
+                const currentSavings = parseValue(savingsAmountEl.textContent);
+                
+                // Animate to new values
+                animateValue(annualRevenueEl, currentAnnual, annualRevenue, 600);
+                animateValue(airoamPayEl, currentAiroamPay, airoamPay, 600);
+                animateValue(airoamKeepEl, currentAiroamKeep, airoamKeep, 600);
+                animateValue(industryPayEl, currentIndustryPay, industryPay, 600);
+                animateValue(industryKeepEl, currentIndustryKeep, industryKeep, 600);
+                animateValue(savingsAmountEl, currentSavings, savings, 800);
+            }
+
+            // Input event listeners
+            addressInput.addEventListener('input', calculate);
+            bedroomsSelect.addEventListener('change', calculate);
+
+            // Toggle "What's included" section
+            includedToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+                includedContent.classList.toggle('active');
+            });
+
+            // Initial calculation on page load
+            calculate();
+        })();
 
         // ============================================
         // NAVIGATION SCROLL BEHAVIOR
