@@ -240,7 +240,7 @@
             z-index: 10000 !important;
             background-color: var(--color-white);
             transition: all 300ms ease, border-bottom 300ms ease;
-            border-bottom: 1px solid transparent;  /* Start with transparent border */
+            border-bottom: 3px solid transparent;  /* Start with transparent border */
             opacity: 0;
             pointer-events: none;
         }
@@ -255,7 +255,7 @@
 
         nav.scrolled {
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
-            border-bottom: 1px solid #202020;  /* Dark gray border when scrolled */
+            border-bottom: 3px solid #202020;  /* Dark gray border when scrolled */
         }
 
         .nav-logo {
@@ -341,7 +341,7 @@
 
         .nav-button {
             padding: 10px 24px;
-            border: 1px solid var(--color-black);
+            border: 3px solid var(--color-black);
             background-color: transparent;
             color: var(--color-black);
             text-decoration: none;
@@ -449,47 +449,6 @@
             opacity: 0.5;
         }
 
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        .scroll-indicator.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .scroll-text {
-            font-size: 12px;
-            font-weight: 300;
-            color: var(--color-text-grey);
-            margin-bottom: 10px;
-            letter-spacing: 0.1em;
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(10px);
-            }
-        }
-
-        .scroll-arrow {
-            width: 20px;
-            height: 20px;
-            border-right: 1px solid var(--color-text-grey);
-            border-bottom: 1px solid var(--color-text-grey);
-            transform: rotate(45deg);
-            margin: 0 auto;
-            animation: bounce 1.5s ease-in-out infinite;
-        }
 
         /* ============================================
            SECTION 2: INTRODUCTION
@@ -506,15 +465,15 @@
         .intro-block {
             color: #202020;
             letter-spacing: -0.03em;
-            font-size: 6em;
+            font-size: 5em;
             font-weight: 600;
             line-height: 0.914634;
             text-align: left;
             margin-bottom: 60px;
             opacity: 0;
-            transform: translate3d(0px, 50px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+            transform: translate3d(0px, 80px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
             transform-style: preserve-3d;
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
             will-change: opacity, transform;
             width: 100%;
         }
@@ -526,338 +485,345 @@
         }
 
         /* ============================================
-           SECTION 2.5: SAVINGS CALCULATOR - SIMPLIFIED
+           SECTION 2.5: INTERACTIVE PRICING SPLIT
            ============================================ */
-        .calculator {
+        .pricing-split {
+            min-height: 100vh;
             background-color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
             padding: 120px 0;
         }
 
-        .calculator-card {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #000000;
-            color: var(--color-white);
-            padding: 80px 60px;
-            border: 3px solid #000000;
-        }
-
-        .calculator-title {
-            font-size: 42px;
-            font-weight: 300;
-            margin-bottom: 60px;
-            text-align: center;
-            letter-spacing: 0.01em;
-        }
-
-        /* Input Fields */
-        .calculator-inputs {
+        /* Grid layout */
+        .pricing-split-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 60px;
-            padding-bottom: 60px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            grid-template-columns: 1fr 1.3fr 1fr;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            perspective: 2000px;
         }
 
-        .input-group {
+        /* Individual panels */
+        .pricing-panel {
+            position: relative;
+            height: 500px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Center panel highlight */
+        .pricing-panel.center-panel {
+            height: 550px;
+        }
+
+        .pricing-panel.entered {
+            transform: translateY(0);
+        }
+
+        .pricing-panel.entered.center-panel {
+            transform: translateY(-25px);
+        }
+
+        /* Hover states - must come after .entered rules for proper override */
+        .pricing-panel:hover {
+            transform: rotateY(180deg) !important;
+        }
+
+        .pricing-panel.entered:hover {
+            transform: rotateY(180deg) !important;
+        }
+
+        .pricing-panel.center-panel:hover {
+            transform: translateY(-25px) rotateY(180deg) !important;
+        }
+
+        .pricing-panel.entered.center-panel:hover {
+            transform: translateY(-25px) rotateY(180deg) !important;
+        }
+
+        /* Front and back faces */
+        .panel-front,
+        .panel-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 3px solid #202020;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-        }
-
-        .input-group label {
-            font-size: 13px;
-            font-weight: 400;
-            opacity: 0.5;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .input-group input,
-        .input-group select {
-            width: 100%;
-            background-color: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: var(--color-white);
-            padding: 18px 20px;
-            font-size: 16px;
-            font-weight: 300;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            background-color: var(--color-white);
             transition: all 0.3s ease;
         }
 
-        .input-group select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='white' stroke-opacity='0.6' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: 48px;
-        }
-
-        .input-group input:hover,
-        .input-group select:hover {
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        .input-group input:focus,
-        .input-group select:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.8);
-        }
-
-        .input-group input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Results Section */
-        .calculator-results {
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        .results-header {
-            margin-bottom: 40px;
-            padding-bottom: 40px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .annual-revenue {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .annual-revenue .label {
-            font-size: 13px;
-            font-weight: 400;
-            opacity: 0.5;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .annual-revenue .value {
-            font-size: 36px;
-            font-weight: 200;
-        }
-
-        /* Comparison Grid - Aligned, No Highlights */
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3px;
-            background-color: rgba(255, 255, 255, 0.15);
-            border: 3px solid rgba(255, 255, 255, 0.15);
-            margin-bottom: 50px;
-        }
-
-        .comparison-column {
+        .panel-back {
+            transform: rotateY(180deg);
             background-color: #202020;
-            padding: 40px 32px;
+            color: var(--color-white);
         }
 
-        .column-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .column-header h3 {
-            font-size: 14px;
+        /* Panel content */
+        .panel-label {
+            font-size: 13px;
             font-weight: 500;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
+            opacity: 0.5;
+            margin-bottom: 30px;
         }
 
-        .percentage {
-            font-size: 48px;
-            font-weight: 200;
+        .panel-number {
+            font-size: 120px;
+            font-weight: 700;
             line-height: 1;
+            margin-bottom: 20px;
         }
 
-        .percent-symbol {
-            font-size: 0.6em;
+        .center-panel .panel-number {
+            font-size: 140px;
+        }
+
+        .panel-number .percent {
+            font-size: 0.5em;
             opacity: 0.7;
         }
 
-        .breakdown {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        .panel-word {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 20px;
         }
 
-        .breakdown-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-        }
-
-        .breakdown-row .label {
-            font-size: 13px;
-            font-weight: 400;
-            opacity: 0.5;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        .breakdown-row .value {
-            font-size: 22px;
+        .panel-subtitle {
+            font-size: 16px;
             font-weight: 300;
+            opacity: 0.6;
         }
 
-        .breakdown-row.keep {
-            border-top: 2px solid rgba(255, 255, 255, 0.15);
-            padding-top: 20px;
-            margin-top: 8px;
+        /* Back panel details */
+        .panel-detail {
+            text-align: center;
         }
 
-        .breakdown-row.keep .value {
-            font-size: 28px;
+        .panel-detail p {
+            font-size: 18px;
             font-weight: 300;
-        }
-
-        /* Savings Highlight */
-        .savings-highlight {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            margin-bottom: 50px;
-        }
-
-        .savings-label {
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .savings-amount {
-            font-size: 52px;
-            font-weight: 200;
-        }
-
-        /* What's Included */
-        .included-info {
-            margin-bottom: 40px;
-        }
-
-        .included-toggle {
-            width: 100%;
-            background-color: transparent;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: var(--color-white);
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-        }
-
-        .included-toggle:hover {
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        .included-toggle .chevron {
-            transition: transform 0.3s ease;
-        }
-
-        .included-toggle.active .chevron {
-            transform: rotate(180deg);
-        }
-
-        .included-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-        }
-
-        .included-content.active {
-            max-height: 500px;
-            padding: 40px 32px;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-top: none;
-            background-color: rgba(255, 255, 255, 0.02);
-        }
-
-        .included-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        .included-item {
-            display: flex;
-            align-items: start;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 300;
+            margin-bottom: 16px;
             line-height: 1.6;
         }
 
-        .included-item .check {
-            color: var(--color-white);
-            font-size: 18px;
-            opacity: 0.9;
-            flex-shrink: 0;
+        .panel-icon {
+            font-size: 80px;
+            margin-top: 40px;
+            opacity: 0.8;
         }
 
-        /* CTA Button */
-        .calculator-cta {
-            text-align: center;
+        .included-list-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-size: 16px;
+            font-weight: 300;
+            text-align: left;
         }
 
-        /* CTA Button - Consistent with page style */
-        .calculator-cta {
-            text-align: center;
+        .included-list-mini div {
+            padding-left: 8px;
         }
 
-        .btn-calculator {
-            display: inline-block;
-            padding: 10px 24px;
-            border: 1px solid var(--color-white);
+        /* Hover effects for panels */
+        .pricing-panel:hover .panel-front {
+            border-color: #000000;
+        }
+
+        /* ============================================
+           SECTION 3: SAVINGS CALCULATOR - VERTICAL BARS
+           ============================================ */
+        .calculator {
+            background-color: #202020;
+            padding: 120px 0;
+        }
+
+        /* Toggle Buttons */
+        .pricing-comparison-vertical .toggle-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .pricing-comparison-vertical .toggle-wrapper {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: inline-flex;
+            padding: 6px;
+            gap: 6px;
+        }
+
+        .pricing-comparison-vertical .toggle-btn {
+            padding: 14px 60px;
             background-color: transparent;
-            color: var(--color-white);
-            text-decoration: none;
-            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            border: none;
+            font-size: 15px;
             font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-comparison-vertical .toggle-btn.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+
+        /* Savings Header */
+        .pricing-comparison-vertical .savings-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .pricing-comparison-vertical .savings-label {
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.5;
+            margin-bottom: 12px;
             letter-spacing: 0.05em;
-            position: relative;
-            overflow: hidden;
-            transition: color 0.4s ease;
+            color: #ffffff;
         }
 
-        .btn-calculator::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background-color: var(--color-white);
-            transition: left 0.4s ease;
-            z-index: -1;
+        .pricing-comparison-vertical .savings-amount {
+            font-size: 70px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 6px;
+            color: #00ff88;
         }
 
-        .btn-calculator:hover {
-            color: var(--color-black);
+        .pricing-comparison-vertical .savings-subtitle {
+            font-size: 15px;
+            font-weight: 300;
+            opacity: 0.5;
+            color: #ffffff;
         }
 
-        .btn-calculator:hover::before {
-            left: 0;
+        /* Main Comparison Layout - Labels on sides */
+        .pricing-comparison-vertical .comparison-layout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 700px;
+            margin: 0 auto;
         }
+
+        /* Left Label (Airoam) */
+        .pricing-comparison-vertical .label-left {
+            text-align: right;
+            min-width: 120px;
+        }
+
+        /* Right Label (Industry) */
+        .pricing-comparison-vertical .label-right {
+            text-align: left;
+            min-width: 120px;
+        }
+
+        .pricing-comparison-vertical .column-label {
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.6;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .pricing-comparison-vertical .column-value {
+            font-size: 32px;
+            font-weight: 300;
+            margin-bottom: 4px;
+            color: #ffffff;
+        }
+
+        .pricing-comparison-vertical .label-left .column-value {
+            color: #00ff88;
+        }
+
+        .pricing-comparison-vertical .label-right .column-value {
+            color: #888888;
+        }
+
+        .pricing-comparison-vertical .column-description {
+            font-size: 13px;
+            font-weight: 300;
+            opacity: 0.5;
+            color: #ffffff;
+        }
+
+        /* Two Columns (Bars Only) - Closer together */
+        .pricing-comparison-vertical .two-columns {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Each Bar Column */
+        .pricing-comparison-vertical .bar-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Vertical Stacked Bars - Half height */
+        .pricing-comparison-vertical .vertical-stack {
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 4px;
+            height: 140px;
+            justify-content: flex-start;
+        }
+
+        .pricing-comparison-vertical .stack-bar {
+            width: 60px;
+            height: 10px;
+            border-radius: 3px;
+            transition: background-color 1.5s ease;
+        }
+
+        /* Airoam bars - start dark gray, fill with green */
+        .pricing-comparison-vertical .bar-column.airoam .stack-bar {
+            background-color: #2a2a2a;
+        }
+
+        .pricing-comparison-vertical .bar-column.airoam .stack-bar.filled {
+            background-color: #00ff88;
+        }
+
+        /* Industry bars - all light gray */
+        .pricing-comparison-vertical .bar-column.industry .stack-bar {
+            background-color: #666666;
+        }
+
+        /* Animation on scroll */
+        .pricing-comparison-vertical .bar-column.airoam.animate .stack-bar.filled {
+            animation: fillUpGreen 1.5s ease-out forwards;
+        }
+
+        @keyframes fillUpGreen {
+            from {
+                background-color: #2a2a2a;
+            }
+            to {
+                background-color: #00ff88;
+            }
+        }
+
 
         /* ============================================
            SECTION 3: HORIZONTAL SCROLLING FEATURES
@@ -883,7 +849,7 @@
             min-width: 70vw;
             height: 70vh;
             background-color: var(--color-white);
-            border: 1px solid var(--color-border);
+            border: 3px solid var(--color-border);
             border-radius: 12px;
             padding: 80px;
             display: flex;
@@ -1102,6 +1068,269 @@
         }
 
         /* ============================================
+           CONTACT FORM SECTION - OBYS INSPIRED
+           ============================================ */
+        .contact-form {
+            min-height: 100vh;
+            background-color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating geometric shape */
+        .contact-float-shape {
+            position: absolute;
+            top: 20%;
+            right: 10%;
+            width: 300px;
+            height: 300px;
+            border: 2px solid rgba(0, 0, 0, 0.03);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatContactShape 30s ease-in-out infinite;
+        }
+
+        @keyframes floatContactShape {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(40px, -40px) scale(1.05);
+            }
+            66% {
+                transform: translate(-30px, 30px) scale(0.95);
+            }
+        }
+
+        /* Grid Layout */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            gap: 100px;
+            align-items: start;
+        }
+
+        /* Left: Contact Info */
+        .contact-info {
+            position: sticky;
+            top: 120px;
+        }
+
+        .contact-title {
+            font-size: 72px;
+            font-weight: 300;
+            line-height: 1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .contact-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            opacity: 0.6;
+            margin-bottom: 80px;
+            line-height: 1.6;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detail-label {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        .detail-value {
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--color-black);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .detail-value:hover {
+            opacity: 0.6;
+        }
+
+        /* Right: Form */
+        .contact-form-wrapper {
+            background-color: var(--color-white);
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        /* Form Groups */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .form-group-full {
+            grid-column: 1 / -1;
+        }
+
+        .form label {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.5;
+        }
+
+        /* Input Styles - Blocky & Minimal */
+        .form input,
+        .form select,
+        .form textarea {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+            color: var(--color-black);
+            padding: 18px 0;
+            font-size: 18px;
+            font-weight: 300;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: border-color 0.3s ease;
+            outline: none;
+        }
+
+        .form input::placeholder,
+        .form textarea::placeholder {
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+        .form input:focus,
+        .form select:focus,
+        .form textarea:focus {
+            border-bottom-color: var(--color-black);
+        }
+
+        /* Select Dropdown */
+        .form select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='black' stroke-opacity='0.5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0 center;
+            padding-right: 30px;
+        }
+
+        /* Textarea */
+        .form textarea {
+            resize: vertical;
+            min-height: 120px;
+            padding-top: 18px;
+        }
+
+        /* Submit Button - Blocky Obys Style */
+        .btn-submit {
+            width: 100%;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            border: 3px solid var(--color-black);
+            padding: 24px 40px;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-submit:hover {
+            background-color: transparent;
+            color: var(--color-black);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-2px);
+        }
+
+        .btn-arrow {
+            font-size: 24px;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-submit:hover .btn-arrow {
+            transform: translateX(8px);
+        }
+
+        /* Loading State */
+        .btn-submit.loading {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .btn-submit.loading .btn-text::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        /* Success/Error Messages */
+        .form-message {
+            padding: 20px 24px;
+            border: 3px solid transparent;
+            font-size: 15px;
+            font-weight: 400;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+        }
+
+        .form-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .form-message.success {
+            border-color: #00ff88;
+            color: #00aa5a;
+            background-color: rgba(0, 255, 136, 0.05);
+        }
+
+        .form-message.error {
+            border-color: #ff4444;
+            color: #cc0000;
+            background-color: rgba(255, 68, 68, 0.05);
+        }
+
+        /* ============================================
            SECTION 6: FINAL CTA
            ============================================ */
         .cta {
@@ -1149,7 +1378,7 @@
         .btn-cta {
             display: inline-block;
             padding: 20px 48px;
-            border: 1px solid var(--color-white);
+            border: 3px solid var(--color-white);
             background-color: transparent;
             color: var(--color-white);
             text-decoration: none;
@@ -1180,7 +1409,7 @@
             background-color: var(--color-black);
             color: var(--color-white);
             padding: 80px 60px 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid rgba(255, 255, 255, 0.1);
         }
 
         .footer-grid {
@@ -1247,7 +1476,7 @@
         .footer-bottom {
             text-align: center;
             padding-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid rgba(255, 255, 255, 0.1);
             font-size: 13px;
             font-weight: 300;
             opacity: 0.5;
@@ -1330,13 +1559,131 @@
                 padding: 40px 24px;
             }
 
+            /* Pricing Split Mobile */
+            .pricing-split {
+                padding: 80px 0;
+            }
+
+            .pricing-split-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                padding: 0 24px;
+            }
+
+            .pricing-panel {
+                height: 400px;
+            }
+
+            .pricing-panel.center-panel {
+                height: 450px;
+                transform: translateY(0);
+            }
+
+            .pricing-panel.center-panel:hover {
+                transform: rotateY(180deg);
+            }
+
+            .panel-number {
+                font-size: 90px;
+                font-weight: 700;
+            }
+
+            .center-panel .panel-number {
+                font-size: 110px;
+            }
+
+            .panel-word {
+                font-size: 48px;
+                font-weight: 700;
+            }
+
             .calculator {
                 padding: 80px 0;
             }
 
+            /* Contact Form Mobile */
+            .contact-form {
+                padding: 80px 0;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .contact-info {
+                position: relative;
+                top: 0;
+            }
+
+            .contact-title {
+                font-size: 48px;
+            }
+
+            .contact-subtitle {
+                margin-bottom: 40px;
+            }
+
+            .form {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .btn-submit {
+                padding: 20px 32px;
+            }
+
+            .contact-float-shape {
+                width: 200px;
+                height: 200px;
+                right: -50px;
+            }
+
+            /* Calculator Vertical Bars Mobile */
+            .pricing-comparison-vertical {
+                padding: 80px 0;
+            }
+
+            .pricing-comparison-vertical .toggle-btn {
+                padding: 12px 40px;
+                font-size: 14px;
+            }
+
+            .pricing-comparison-vertical .savings-amount {
+                font-size: 56px;
+            }
+
+            .pricing-comparison-vertical .comparison-layout {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .pricing-comparison-vertical .label-left,
+            .pricing-comparison-vertical .label-right {
+                text-align: center;
+                min-width: auto;
+            }
+
+            .pricing-comparison-vertical .two-columns {
+                gap: 15px;
+            }
+
+            .pricing-comparison-vertical .column-value {
+                font-size: 28px;
+            }
+
+            .pricing-comparison-vertical .vertical-stack {
+                height: 110px;
+            }
+
+            .pricing-comparison-vertical .stack-bar {
+                width: 50px;
+                height: 8px;
+            }
+
             .calculator-card {
                 padding: 60px 24px;
-                border-width: 2px;
+                border-width: 3px;
             }
 
             .calculator-title {
@@ -1364,7 +1711,7 @@
             .comparison-grid {
                 grid-template-columns: 1fr;
                 gap: 2px;
-                border-width: 2px;
+                border-width: 3px;
             }
 
             .comparison-column {
@@ -1392,7 +1739,7 @@
                 gap: 20px;
                 padding: 32px 24px;
                 text-align: center;
-                border-width: 2px;
+                border-width: 3px;
             }
 
             .savings-amount {
@@ -1534,141 +1881,127 @@
             <div class="hero-large">9<span class="percent">%</span></div>
             <p class="hero-subtitle">Light. Simple. Honest.</p>
         </div>
-        <div class="scroll-indicator" id="scroll-indicator">
-            <div class="scroll-text">Scroll to explore</div>
-            <div class="scroll-arrow"></div>
-        </div>
     </section>
 
     <!-- Section 2: About -->
     <section class="intro" id="about">
         <div class="container">
             <div class="intro-content">
-                <div class="intro-block" data-delay="0">For 10 years, we've been mastering<br>short-term rental management.</div>
-                <div class="intro-block" data-delay="200">Now we're using that expertise<br>to build something better.</div>
-                <div class="intro-block" data-delay="400">Technology that works.<br>Pricing that's honest.<br>Service that scales.</div>
+                <div class="intro-block" data-delay="0">For ten years, we've been managing short-term rentals.</div>
+                <div class="intro-block" data-delay="200">We've learned what works. What guests need. What owners value.</div>
+                <div class="intro-block" data-delay="400">We built Airoam to share that knowledge - through technology that works reliably, pricing that's transparent, and service that scales.</div>
             </div>
         </div>
     </section>
 
-    <!-- Section 2.5: Savings Calculator -->
-    <section class="calculator" id="calculator">
+    <!-- Section 2.5: Interactive Pricing Split -->
+    <section class="pricing-split" id="pricing-split">
         <div class="container">
-            <div class="calculator-card">
-                <h2 class="calculator-title">Calculate your savings</h2>
-                
-                <div class="calculator-inputs">
-                    <div class="input-group">
-                        <label for="property-address">Property address or suburb</label>
-                        <input 
-                            type="text" 
-                            id="property-address" 
-                            value="Gold Coast, QLD"
-                            placeholder="e.g. Surfers Paradise, QLD"
-                        >
+            <div class="pricing-split-grid">
+                <!-- Panel 1: What You Pay -->
+                <div class="pricing-panel" data-panel="pay">
+                    <div class="panel-front">
+                        <div class="panel-label">What you pay</div>
+                        <div class="panel-number">9<span class="percent">%</span></div>
+                        <div class="panel-subtitle">of rental income</div>
                     </div>
-                    
-                    <div class="input-group">
-                        <label for="num-bedrooms">Bedrooms</label>
-                        <select id="num-bedrooms">
-                            <option value="1">1 bedroom</option>
-                            <option value="2" selected>2 bedrooms</option>
-                            <option value="3">3 bedrooms</option>
-                            <option value="4">4 bedrooms</option>
-                            <option value="5">5+ bedrooms</option>
-                        </select>
+                    <div class="panel-back">
+                        <div class="panel-detail">
+                            <p>Industry standard: 15-25%</p>
+                            <p>You save: 6-16%</p>
+                            <div class="panel-icon">💰</div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="calculator-results" id="calculator-results">
-                    <div class="results-header">
-                        <div class="annual-revenue">
-                            <span class="label">Annual revenue</span>
-                            <span class="value" id="annual-revenue">$480,000</span>
-                        </div>
+
+                <!-- Panel 2: What's Included (Center - Highlighted) -->
+                <div class="pricing-panel center-panel" data-panel="included">
+                    <div class="panel-front">
+                        <div class="panel-label">What's included</div>
+                        <div class="panel-word">Everything</div>
+                        <div class="panel-subtitle">No hidden fees</div>
                     </div>
-                    
-                    <div class="comparison-grid">
-                        <div class="comparison-column airoam">
-                            <div class="column-header">
-                                <h3>With Airoam</h3>
-                                <div class="percentage">9<span class="percent-symbol">%</span></div>
-                            </div>
-                            <div class="breakdown">
-                                <div class="breakdown-row">
-                                    <span class="label">You pay</span>
-                                    <span class="value" id="airoam-pay">$43,200</span>
-                                </div>
-                                <div class="breakdown-row keep">
-                                    <span class="label">You keep</span>
-                                    <span class="value" id="airoam-keep">$436,800</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="comparison-column industry">
-                            <div class="column-header">
-                                <h3>Industry standard</h3>
-                                <div class="percentage">20<span class="percent-symbol">%</span></div>
-                            </div>
-                            <div class="breakdown">
-                                <div class="breakdown-row">
-                                    <span class="label">You pay</span>
-                                    <span class="value" id="industry-pay">$96,000</span>
-                                </div>
-                                <div class="breakdown-row keep">
-                                    <span class="label">You keep</span>
-                                    <span class="value" id="industry-keep">$384,000</span>
-                                </div>
+                    <div class="panel-back">
+                        <div class="panel-detail">
+                            <div class="included-list-mini">
+                                <div>✓ 24/7 AI communication</div>
+                                <div>✓ Dynamic pricing</div>
+                                <div>✓ Maintenance coordination</div>
+                                <div>✓ Analytics & reporting</div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="savings-highlight">
-                        <span class="savings-label">Your annual savings</span>
-                        <span class="savings-amount" id="savings-amount">$52,800</span>
+                </div>
+
+                <!-- Panel 3: What You Keep -->
+                <div class="pricing-panel" data-panel="keep">
+                    <div class="panel-front">
+                        <div class="panel-label">What you keep</div>
+                        <div class="panel-number">91<span class="percent">%</span></div>
+                        <div class="panel-subtitle">in your pocket</div>
                     </div>
-                    
-                    <div class="included-info">
-                        <button class="included-toggle" id="included-toggle">
-                            <span>What's included in 9%</span>
-                            <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </button>
-                        <div class="included-content" id="included-content">
-                            <div class="included-grid">
-                                <div class="included-item">
-                                    <span class="check">✓</span>
-                                    <span>24/7 AI guest communication</span>
-                                </div>
-                                <div class="included-item">
-                                    <span class="check">✓</span>
-                                    <span>Dynamic pricing optimization</span>
-                                </div>
-                                <div class="included-item">
-                                    <span class="check">✓</span>
-                                    <span>Cleaning & maintenance coordination</span>
-                                </div>
-                                <div class="included-item">
-                                    <span class="check">✓</span>
-                                    <span>Revenue & performance analytics</span>
-                                </div>
-                                <div class="included-item">
-                                    <span class="check">✓</span>
-                                    <span>Multi-platform listing management</span>
-                                </div>
-                                <div class="included-item">
-                                    <span class="check">✓</span>
-                                    <span>Review management</span>
-                                </div>
-                            </div>
+                    <div class="panel-back">
+                        <div class="panel-detail">
+                            <p>On $60k annual revenue:</p>
+                            <p>You keep: $54,600</p>
+                            <div class="panel-icon">🎯</div>
                         </div>
                     </div>
-                    
-                    <div class="calculator-cta">
-                        <a href="#cta" class="btn-calculator">Get Started →</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section: Pricing Comparison - 2 Vertical Columns -->
+    <section class="calculator pricing-comparison-vertical" id="calculator">
+        <div class="container">
+            <!-- Toggle: Month / Year -->
+            <div class="toggle-container">
+                <div class="toggle-wrapper">
+                    <button class="toggle-btn active" data-period="month">Month</button>
+                    <button class="toggle-btn" data-period="year">Year</button>
+                </div>
+            </div>
+
+            <!-- Savings Display -->
+            <div class="savings-header">
+                <div class="savings-label">Estimated Savings</div>
+                <div class="savings-amount" id="pricing-savings-amount">$625</div>
+                <div class="savings-subtitle">Saved</div>
+            </div>
+
+            <!-- Comparison Layout: Labels on sides, bars in center -->
+            <div class="comparison-layout">
+                <!-- Left: Airoam Label -->
+                <div class="label-left">
+                    <div class="column-label">Airoam</div>
+                    <div class="column-value" id="pricing-airoam-value">$511</div>
+                    <div class="column-description">9% of gross income</div>
+                </div>
+
+                <!-- Center: Two Bar Columns -->
+                <div class="two-columns">
+                    <!-- Airoam Bars -->
+                    <div class="bar-column airoam" id="airoam-column">
+                        <div class="vertical-stack" id="airoam-stack">
+                            <!-- Bars generated by JavaScript -->
+                        </div>
                     </div>
+
+                    <!-- Industry Bars -->
+                    <div class="bar-column industry" id="industry-column">
+                        <div class="vertical-stack" id="industry-stack">
+                            <!-- Bars generated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Industry Label -->
+                <div class="label-right">
+                    <div class="column-label">Industry</div>
+                    <div class="column-value" id="pricing-industry-value">$1,136</div>
+                    <div class="column-description">22% of gross income</div>
                 </div>
             </div>
         </div>
@@ -1783,6 +2116,107 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Section: Contact Form -->
+    <section class="contact-form" id="contact">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Left: Title & Info -->
+                <div class="contact-info">
+                    <h2 class="contact-title">Get in touch</h2>
+                    <p class="contact-subtitle">Ready to transform your property management? Let's talk.</p>
+                    
+                    <div class="contact-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Email</div>
+                            <a href="mailto:hello@airoam.com.au" class="detail-value">hello@airoam.com.au</a>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Phone</div>
+                            <a href="tel:1300000000" class="detail-value">1300 XXX XXX</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Form -->
+                <div class="contact-form-wrapper">
+                    <form class="form" id="contact-form">
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                required
+                                placeholder="Your full name"
+                            >
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                required
+                                placeholder="your@email.com"
+                            >
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone"
+                                placeholder="04XX XXX XXX"
+                            >
+                        </div>
+
+                        <!-- Number of Properties -->
+                        <div class="form-group">
+                            <label for="properties">Properties</label>
+                            <select id="properties" name="properties">
+                                <option value="">Select number</option>
+                                <option value="1">1 property</option>
+                                <option value="2-3">2-3 properties</option>
+                                <option value="4-10">4-10 properties</option>
+                                <option value="10+">10+ properties</option>
+                            </select>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="form-group form-group-full">
+                            <label for="message">Message</label>
+                            <textarea 
+                                id="message" 
+                                name="message" 
+                                rows="5"
+                                placeholder="Tell us about your needs..."
+                            ></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group form-group-full">
+                            <button type="submit" class="btn-submit">
+                                <span class="btn-text">Send message</span>
+                                <span class="btn-arrow">→</span>
+                            </button>
+                        </div>
+
+                        <!-- Success Message -->
+                        <div class="form-message" id="form-message"></div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Floating geometric element -->
+            <div class="contact-float-shape"></div>
         </div>
     </section>
 
@@ -2103,40 +2537,109 @@
         })();
 
         // ============================================
-        // SAVINGS CALCULATOR - SIMPLIFIED
+        // ============================================
+        // ============================================
+        // PRICING COMPARISON - 2 VERTICAL COLUMNS
         // ============================================
         (function() {
-            const addressInput = document.getElementById('property-address');
-            const bedroomsSelect = document.getElementById('num-bedrooms');
-            const annualRevenueEl = document.getElementById('annual-revenue');
-            const airoamPayEl = document.getElementById('airoam-pay');
-            const airoamKeepEl = document.getElementById('airoam-keep');
-            const industryPayEl = document.getElementById('industry-pay');
-            const industryKeepEl = document.getElementById('industry-keep');
-            const savingsAmountEl = document.getElementById('savings-amount');
-            const includedToggle = document.getElementById('included-toggle');
-            const includedContent = document.getElementById('included-content');
-
-            if (!addressInput || !bedroomsSelect) return;
-
-            // Estimated monthly revenue based on bedrooms (Australian market averages)
-            const revenueEstimates = {
-                1: 3500,   // 1 bedroom: ~$3,500/month
-                2: 5000,   // 2 bedrooms: ~$5,000/month
-                3: 7000,   // 3 bedrooms: ~$7,000/month
-                4: 9500,   // 4 bedrooms: ~$9,500/month
-                5: 12000   // 5+ bedrooms: ~$12,000/month
+            const pricingData = {
+                month: {
+                    savings: 625,
+                    airoam: 511,
+                    industry: 1136
+                },
+                year: {
+                    savings: 7495,
+                    airoam: 6132,
+                    industry: 13628
+                }
             };
 
-            // Format number with commas
+            const toggleBtns = document.querySelectorAll('.pricing-comparison-vertical .toggle-btn');
+            const savingsAmount = document.getElementById('pricing-savings-amount');
+            const airoamValue = document.getElementById('pricing-airoam-value');
+            const industryValue = document.getElementById('pricing-industry-value');
+            const airoamColumn = document.getElementById('airoam-column');
+            const airoamStack = document.getElementById('airoam-stack');
+            const industryStack = document.getElementById('industry-stack');
+
+            if (!airoamStack) return;
+
+            let currentPeriod = 'month';
+            const totalBars = 12;
+
+            // Create bars
+            function createBars(airoamAmount, industryAmount) {
+                const maxValue = Math.max(airoamAmount, industryAmount);
+                const greenBars = Math.round((airoamAmount / maxValue) * totalBars);
+                
+                airoamStack.innerHTML = '';
+                industryStack.innerHTML = '';
+                
+                // Airoam bars (green + dark gray)
+                for (let i = 0; i < totalBars; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'stack-bar';
+                    if (i < greenBars) {
+                        bar.classList.add('filled');
+                    }
+                    airoamStack.appendChild(bar);
+                }
+                
+                // Industry bars (all light gray)
+                for (let i = 0; i < totalBars; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'stack-bar';
+                    industryStack.appendChild(bar);
+                }
+            }
+
+            // Animate green fill
+            function animateGreenFill() {
+                airoamColumn.classList.remove('animate');
+                setTimeout(() => {
+                    airoamColumn.classList.add('animate');
+                }, 100);
+            }
+
+            // Toggle functionality
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const period = this.getAttribute('data-period');
+                    if (period === currentPeriod) return;
+                    
+                    toggleBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    updatePricing(period);
+                });
+            });
+
+            // Update pricing
+            function updatePricing(period) {
+                currentPeriod = period;
+                const data = pricingData[period];
+                
+                animateValue(savingsAmount, parseCurrency(savingsAmount.textContent), data.savings, 800);
+                animateValue(airoamValue, parseCurrency(airoamValue.textContent), data.airoam, 600);
+                animateValue(industryValue, parseCurrency(industryValue.textContent), data.industry, 600);
+                
+                createBars(data.airoam, data.industry);
+                animateGreenFill();
+            }
+
+            // Helper functions
+            function parseCurrency(text) {
+                return parseFloat(text.replace(/[^0-9]/g, '')) || 0;
+            }
+
             function formatCurrency(num) {
                 return '$' + Math.round(num).toLocaleString('en-US');
             }
 
-            // Animate number count-up
             function animateValue(element, start, end, duration) {
                 const range = end - start;
-                const increment = range / (duration / 16); // 60fps
+                const increment = range / (duration / 16);
                 let current = start;
                 
                 const timer = setInterval(() => {
@@ -2149,59 +2652,22 @@
                 }, 16);
             }
 
-            // Parse currency value
-            function parseValue(text) {
-                return parseFloat(text.replace(/[^0-9.]/g, '')) || 0;
+            // Scroll trigger
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateGreenFill();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            // Initial load
+            const data = pricingData.month;
+            createBars(data.airoam, data.industry);
+            if (airoamColumn) {
+                observer.observe(airoamColumn);
             }
-
-            // Calculate and update display
-            function calculate() {
-                const bedrooms = parseInt(bedroomsSelect.value) || 2;
-                
-                // Estimate monthly revenue based on bedrooms (single property)
-                const monthlyRevenue = revenueEstimates[bedrooms] || 5000;
-                const annualRevenue = monthlyRevenue * 12;
-                
-                const airoamFee = 0.09;
-                const industryFee = 0.20;
-                
-                const airoamPay = annualRevenue * airoamFee;
-                const airoamKeep = annualRevenue - airoamPay;
-                
-                const industryPay = annualRevenue * industryFee;
-                const industryKeep = annualRevenue - industryPay;
-                
-                const savings = industryPay - airoamPay;
-                
-                // Get current values for animation start
-                const currentAnnual = parseValue(annualRevenueEl.textContent);
-                const currentAiroamPay = parseValue(airoamPayEl.textContent);
-                const currentAiroamKeep = parseValue(airoamKeepEl.textContent);
-                const currentIndustryPay = parseValue(industryPayEl.textContent);
-                const currentIndustryKeep = parseValue(industryKeepEl.textContent);
-                const currentSavings = parseValue(savingsAmountEl.textContent);
-                
-                // Animate to new values
-                animateValue(annualRevenueEl, currentAnnual, annualRevenue, 600);
-                animateValue(airoamPayEl, currentAiroamPay, airoamPay, 600);
-                animateValue(airoamKeepEl, currentAiroamKeep, airoamKeep, 600);
-                animateValue(industryPayEl, currentIndustryPay, industryPay, 600);
-                animateValue(industryKeepEl, currentIndustryKeep, industryKeep, 600);
-                animateValue(savingsAmountEl, currentSavings, savings, 800);
-            }
-
-            // Input event listeners
-            addressInput.addEventListener('input', calculate);
-            bedroomsSelect.addEventListener('change', calculate);
-
-            // Toggle "What's included" section
-            includedToggle.addEventListener('click', function() {
-                this.classList.toggle('active');
-                includedContent.classList.toggle('active');
-            });
-
-            // Initial calculation on page load
-            calculate();
         })();
 
         // ============================================
@@ -2231,44 +2697,67 @@
         // ============================================
         (function() {
             const hero = document.querySelector('.hero');
-            const scrollIndicator = document.getElementById('scroll-indicator');
-
-            // Hide scroll indicator on scroll
-            window.addEventListener('scroll', () => {
-                const scrollY = window.pageYOffset;
-
-                // Hide scroll indicator
-                if (scrollY > 200) {
-                    scrollIndicator.classList.add('hidden');
-                } else {
-                    scrollIndicator.classList.remove('hidden');
-                }
-            }, { passive: true });
         })();
 
         // ============================================
         // INTRODUCTION STAGGERED ANIMATION
         // ============================================
+        // ABOUT SECTION - SCROLL-BASED FADE UP ANIMATION
+        // ============================================
         (function() {
             const blocks = document.querySelectorAll('.intro-block');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        blocks.forEach((block, index) => {
-                            const delay = parseInt(block.dataset.delay) || 0;
-                            setTimeout(() => {
-                                block.classList.add('visible');
-                            }, delay);
-                        });
-                        observer.unobserve(entry.target);
+            const introSection = document.querySelector('.intro');
+            
+            if (!blocks.length || !introSection) return;
+
+            // Scroll-based animation function
+            function animateOnScroll() {
+                const sectionTop = introSection.getBoundingClientRect().top;
+                const sectionHeight = introSection.offsetHeight;
+                const windowHeight = window.innerHeight;
+                
+                // Calculate scroll progress (0 to 1)
+                let scrollProgress = 0;
+                if (sectionTop < windowHeight && sectionTop > -sectionHeight) {
+                    // Section is in viewport
+                    scrollProgress = Math.max(0, Math.min(1, (windowHeight - sectionTop) / (windowHeight + sectionHeight * 0.5)));
+                }
+                
+                // Animate each block with staggered delay
+                blocks.forEach((block, index) => {
+                    const delay = parseInt(block.dataset.delay) || 0;
+                    const blockProgress = Math.max(0, Math.min(1, (scrollProgress * 3) - (delay / 1000))); // Slower progression
+                    
+                    if (blockProgress > 0) {
+                        const opacity = Math.min(1, blockProgress);
+                        const translateY = 80 * (1 - blockProgress); // Start at 80px, end at 0
+                        
+                        block.style.opacity = opacity;
+                        block.style.transform = `translate3d(0px, ${translateY}px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)`;
+                        block.style.transformStyle = 'preserve-3d';
+                        
+                        // Add visible class when fully animated
+                        if (opacity >= 0.95) {
+                            block.classList.add('visible');
+                        }
                     }
                 });
-            }, { threshold: 0.3 });
-
-            const introSection = document.querySelector('.intro');
-            if (introSection) {
-                observer.observe(introSection);
             }
+            
+            // Throttled scroll handler
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        animateOnScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+            
+            // Initial check
+            animateOnScroll();
         })();
 
         // ============================================
@@ -2419,6 +2908,82 @@
         })();
 
         // ============================================
+        // CONTACT FORM SUBMISSION
+        // ============================================
+        (function() {
+            const form = document.getElementById('contact-form');
+            const messageDiv = document.getElementById('form-message');
+            const submitBtn = form ? form.querySelector('.btn-submit') : null;
+
+            if (!form) return;
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Get form data
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                // Validate required fields
+                if (!data.name || !data.email) {
+                    showMessage('Please fill in all required fields.', 'error');
+                    return;
+                }
+
+                // Show loading state
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+
+                // Simulate form submission (replace with your actual endpoint)
+                try {
+                    // TODO: Replace this with your actual API endpoint
+                    // Example: await fetch('/api/contact', { 
+                    //   method: 'POST', 
+                    //   headers: { 'Content-Type': 'application/json' },
+                    //   body: JSON.stringify(data) 
+                    // })
+                    
+                    // Simulate network delay
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+
+                    // Success
+                    showMessage('Message sent! We\'ll get back to you soon.', 'success');
+                    form.reset();
+
+                } catch (error) {
+                    // Error
+                    showMessage('Something went wrong. Please try again.', 'error');
+                } finally {
+                    // Remove loading state
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+                }
+            });
+
+            function showMessage(text, type) {
+                messageDiv.textContent = text;
+                messageDiv.className = 'form-message show ' + type;
+
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    messageDiv.classList.remove('show');
+                }, 5000);
+            }
+
+            // Smooth focus animations
+            const inputs = form.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateX(4px)';
+                });
+
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'translateX(0)';
+                });
+            });
+        })();
+
+        // ============================================
         // SMOOTH ANCHOR LINKS
         // ============================================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -2436,6 +3001,46 @@
                 }
             });
         });
+
+        // ============================================
+        // PRICING SPLIT PANELS INTERACTION
+        // ============================================
+        (function() {
+            const panels = document.querySelectorAll('.pricing-panel');
+            
+            if (!panels.length) return;
+
+            // Intersection observer for scroll reveal
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // Get the panel index for stagger
+                        const panel = entry.target;
+                        const allPanels = Array.from(panels);
+                        const index = allPanels.indexOf(panel);
+                        
+                        // Stagger the panel entrance
+                        setTimeout(() => {
+                            panel.style.opacity = '1';
+                            panel.classList.add('entered');
+                            // Remove inline transform after animation so CSS hover works
+                            setTimeout(() => {
+                                panel.style.transform = '';
+                            }, 800);
+                        }, index * 150);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            // Set initial state and observe
+            panels.forEach((panel) => {
+                panel.style.opacity = '0';
+                panel.style.transform = 'translateY(50px)';
+                panel.style.transition = 'opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                observer.observe(panel);
+            });
+
+        })();
     </script>
     </div><!-- End main-content -->
 
