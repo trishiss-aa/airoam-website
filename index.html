@@ -705,7 +705,7 @@
             font-weight: 700;
             line-height: 1;
             margin-bottom: 6px;
-            color: #00ff88;
+            color: #ffffff;
         }
 
         .pricing-comparison-vertical .savings-subtitle {
@@ -747,13 +747,13 @@
 
         .pricing-comparison-vertical .column-value {
             font-size: 32px;
-            font-weight: 300;
+            font-weight: 700;
             margin-bottom: 4px;
             color: #ffffff;
         }
 
         .pricing-comparison-vertical .label-left .column-value {
-            color: #00ff88;
+            color: #ffffff;
         }
 
         .pricing-comparison-vertical .label-right .column-value {
@@ -802,7 +802,7 @@
         }
 
         .pricing-comparison-vertical .bar-column.airoam .stack-bar.filled {
-            background-color: #00ff88;
+            background-color: #ffffff;
         }
 
         /* Industry bars - all light gray */
@@ -820,7 +820,7 @@
                 background-color: #2a2a2a;
             }
             to {
-                background-color: #00ff88;
+                background-color: #ffffff;
             }
         }
 
@@ -1319,9 +1319,9 @@
         }
 
         .form-message.success {
-            border-color: #00ff88;
-            color: #00aa5a;
-            background-color: rgba(0, 255, 136, 0.05);
+            border-color: #ffffff;
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
         .form-message.error {
@@ -1860,9 +1860,9 @@
         </a>
         <div class="nav-center">
             <a href="#about">About</a>
-            <a href="#calculator">Calculator</a>
+            <a href="#calculator">Pricing</a>
             <a href="#features">How It Works</a>
-            <a href="#pricing">Pricing</a>
+            <a href="#contact">Contact</a>
         </div>
         <a href="#cta" class="nav-button">Get Started</a>
         <div class="nav-hamburger">
@@ -2594,12 +2594,23 @@
                 }
             }
 
-            // Animate green fill
+            // Animate green fill - bars load one by one
             function animateGreenFill() {
                 airoamColumn.classList.remove('animate');
-                setTimeout(() => {
-                    airoamColumn.classList.add('animate');
-                }, 100);
+                const filledBars = airoamStack.querySelectorAll('.stack-bar.filled');
+                
+                // Reset all bars to dark gray
+                filledBars.forEach(bar => {
+                    bar.style.backgroundColor = '#2a2a2a';
+                });
+                
+                // Animate bars one by one
+                filledBars.forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.transition = 'background-color 1.5s ease-out';
+                        bar.style.backgroundColor = '#ffffff';
+                    }, index * 200); // 200ms delay between each bar
+                });
             }
 
             // Toggle functionality
@@ -2652,15 +2663,54 @@
                 }, 16);
             }
 
-            // Scroll trigger
+            // Scroll trigger - start at 3/4 of section height
+            const section = document.querySelector('.pricing-comparison-vertical');
+            let hasAnimated = false;
+            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animateGreenFill();
-                        observer.unobserve(entry.target);
+                    if (entry.isIntersecting && !hasAnimated) {
+                        const rect = entry.boundingClientRect;
+                        const viewportHeight = window.innerHeight;
+                        const sectionTop = rect.top;
+                        const sectionHeight = rect.height;
+                        
+                        // Calculate visible portion: when 3/4 of section is visible
+                        // Section is 3/4 visible when: sectionTop <= viewportHeight * 0.25
+                        const visiblePortion = (viewportHeight - sectionTop) / sectionHeight;
+                        
+                        if (visiblePortion >= 0.75) {
+                            animateGreenFill();
+                            hasAnimated = true;
+                            observer.unobserve(entry.target);
+                        }
                     }
                 });
-            }, { threshold: 0.3 });
+            }, { 
+                threshold: [0, 0.25, 0.5, 0.75, 1],
+                rootMargin: '0px'
+            });
+            
+            // Also check on scroll for more precise control
+            function checkScrollPosition() {
+                if (hasAnimated) return;
+                
+                const rect = section.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const sectionTop = rect.top;
+                const sectionHeight = rect.height;
+                
+                // Calculate visible portion
+                const visiblePortion = (viewportHeight - sectionTop) / sectionHeight;
+                
+                if (visiblePortion >= 0.75 && sectionTop < viewportHeight) {
+                    animateGreenFill();
+                    hasAnimated = true;
+                    window.removeEventListener('scroll', checkScrollPosition);
+                }
+            }
+            
+            window.addEventListener('scroll', checkScrollPosition, { passive: true });
 
             // Initial load
             const data = pricingData.month;
