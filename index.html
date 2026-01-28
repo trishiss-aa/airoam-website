@@ -139,20 +139,20 @@
             object-fit: contain;
         }
 
-        /* Arrow moves to logo position - smooth animation */
+        /* Arrow floats upward and fades out - smooth glide */
         #splash-screen.move-to-hero .splash-content {
-            animation: moveToHero 900ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation: floatUpward 1400ms cubic-bezier(0.33, 0, 0.2, 1) forwards;
+            will-change: transform, opacity;
         }
 
-        @keyframes moveToHero {
+        @keyframes floatUpward {
             0% {
-                transform: translate(0, 0) scale(1);
+                transform: translate3d(0, 0, 0) scale(1);
                 opacity: 1;
             }
             100% {
-                /* Arrow morphs into logo "A" position - calculated dynamically */
-                transform: translate(var(--hero-9-x, 0px), var(--hero-9-y, -40vh)) scale(var(--hero-9-scale, 0.155));
-                opacity: 1;  /* Keep visible during morph */
+                transform: translate3d(0, -30vh, 0) scale(0.92);
+                opacity: 0;
             }
         }
 
@@ -169,17 +169,44 @@
             transition: opacity 400ms ease-out;
         }
 
-        /* Main content starts hidden */
+        /* Disable ALL animations/transitions during splash */
+        body.loading * {
+            animation-play-state: paused !important;
+        }
+
+        body.loading *:not(#splash-screen):not(.splash-content):not(.arrow-bottom):not(.arrow-top) {
+            transition: none !important;
+        }
+
+        /* Allow only splash animations */
+        body.loading #splash-screen,
+        body.loading #splash-screen *,
+        body.loading .splash-content,
+        body.loading .arrow-bottom,
+        body.loading .arrow-top {
+            animation-play-state: running !important;
+        }
+
+        /* Main content starts hidden - NO VISIBILITY */
         body.loading .main-content {
             opacity: 0;
+            visibility: hidden;
             transform: scale(0.98);
         }
 
-        /* Main content fades in smoothly - STARTS WHILE SPLASH STILL VISIBLE */
+        /* Main content fades in smoothly - AFTER splash */
         .main-content {
-            opacity: 0;  /* Start at 0 */
+            opacity: 0;
+            visibility: hidden;
             transform: scale(0.98);
-            transition: opacity 1200ms ease-out, transform 1200ms ease-out;
+            transition: opacity 1200ms ease-out, transform 1200ms ease-out, visibility 0s linear 0s;
+        }
+
+        /* Content visible when loading class removed */
+        body:not(.loading) .main-content {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
         }
 
         /* Content visible when loading class removed */
@@ -414,6 +441,62 @@
         .hero {
             background-color: var(--color-white);
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 100px; /* Reduced space from nav (nav is 80px) */
+        }
+
+        /* Hide hero completely during splash */
+        body.loading .hero {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Show hero after splash */
+        body:not(.loading) .hero {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 800ms ease-out 400ms;
+        }
+
+        /* Magnetic particle canvas background */
+        .hero-canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1200ms ease-out;
+        }
+
+        /* Hide canvas container entirely during splash */
+        body.loading .hero-canvas-container {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Show after splash completes */
+        body:not(.loading) .hero-canvas-container {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #hero-canvas {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            display: block;
+            transition: opacity 1200ms ease-out;
+        }
+
+        /* Fade in canvas after splash */
+        #hero-canvas.active {
+            opacity: 0.85;
         }
 
         .hero-content {
@@ -426,8 +509,19 @@
         .hero-text {
             font-size: 36px;
             font-weight: 300;
-            margin-top: 0;
+            margin-top: 60px;
             letter-spacing: 0.01em;
+            opacity: 0;
+            transform: translate3d(0px, 80px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+            transform-style: preserve-3d;
+            transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .hero-text.visible {
+            opacity: 1;
+            transform: translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg);
+            transform-style: preserve-3d;
         }
 
         .hero-large {
@@ -436,17 +530,54 @@
             line-height: 1;
             margin-top: 20px;
             letter-spacing: 0.01em;
+            animation: floatSubtle 6s ease-in-out infinite;
+            transform-origin: center center;
         }
 
         .hero-large .percent {
             font-size: 100px;
+            animation: floatPercent 5s ease-in-out infinite;
+            animation-delay: 0.3s;
+        }
+
+        /* More obvious floating animation */
+        @keyframes floatSubtle {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-15px) translateX(3px) rotate(0.5deg);
+            }
+            50% {
+                transform: translateY(-20px) translateX(0px) rotate(0deg);
+            }
+            75% {
+                transform: translateY(-15px) translateX(-3px) rotate(-0.5deg);
+            }
+        }
+
+        /* Slightly different timing for % symbol - more obvious */
+        @keyframes floatPercent {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            30% {
+                transform: translateY(-12px) translateX(2px);
+            }
+            60% {
+                transform: translateY(-18px) translateX(0px);
+            }
+            80% {
+                transform: translateY(-12px) translateX(-2px);
+            }
         }
 
         .hero-subtitle {
             font-size: 16px;
             font-weight: 400;
             margin-top: 20px;
-            opacity: 0.5;
+            color: #606060;
+            opacity: 1;
         }
 
 
@@ -501,7 +632,7 @@
         /* Grid layout */
         .pricing-split-grid {
             display: grid;
-            grid-template-columns: 1fr 1.3fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 40px;
             max-width: 1400px;
             margin: 0 auto;
@@ -517,17 +648,8 @@
             transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Center panel highlight */
-        .pricing-panel.center-panel {
-            height: 550px;
-        }
-
         .pricing-panel.entered {
             transform: translateY(0);
-        }
-
-        .pricing-panel.entered.center-panel {
-            transform: translateY(-25px);
         }
 
         /* Hover states - must come after .entered rules for proper override */
@@ -537,14 +659,6 @@
 
         .pricing-panel.entered:hover {
             transform: rotateY(180deg) !important;
-        }
-
-        .pricing-panel.center-panel:hover {
-            transform: translateY(-25px) rotateY(180deg) !important;
-        }
-
-        .pricing-panel.entered.center-panel:hover {
-            transform: translateY(-25px) rotateY(180deg) !important;
         }
 
         /* Front and back faces */
@@ -585,10 +699,6 @@
             font-weight: 700;
             line-height: 1;
             margin-bottom: 20px;
-        }
-
-        .center-panel .panel-number {
-            font-size: 140px;
         }
 
         .panel-number .percent {
@@ -650,7 +760,7 @@
            ============================================ */
         .calculator {
             background-color: #202020;
-            padding: 120px 0;
+            padding: 120px 0 100px 0;
         }
 
         /* Toggle Buttons */
@@ -662,7 +772,7 @@
 
         .pricing-comparison-vertical .toggle-wrapper {
             background-color: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.1);
             display: inline-flex;
             padding: 6px;
             gap: 6px;
@@ -826,245 +936,354 @@
 
 
         /* ============================================
-           SECTION 3: HORIZONTAL SCROLLING FEATURES
+           WORKFLOW TIMELINE - HORIZONTAL SCROLL
            ============================================ */
-        .features-section {
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-            background-color: #F8F8F8;
+        /* Workflow boxes now inside pricing section */
+        .pricing-comparison-vertical .workflow-container {
+            margin-top: 100px;
         }
 
-        .features-container {
-            position: absolute;
-            display: flex;
-            gap: 80px;
-            height: 100%;
-            align-items: center;
-            will-change: transform;
+        .workflow-header {
+            text-align: center;
+            margin-bottom: 100px;
             padding: 0 60px;
         }
 
-        .feature-card {
-            min-width: 70vw;
-            height: 70vh;
-            background-color: var(--color-white);
-            border: 3px solid var(--color-border);
-            border-radius: 12px;
-            padding: 80px;
+        .workflow-title {
+            font-size: 56px;
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -0.02em;
+        }
+
+        .workflow-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            opacity: 0.6;
+        }
+
+        .workflow-container {
+            display: flex;
+            gap: 120px;
+            padding: 0;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .workflow-step {
+            min-width: 380px;
+            flex: 1;
+            max-width: 420px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .workflow-step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-card {
+            background-color: #202020;
+            padding: 80px 60px;
+            min-height: 400px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .workflow-step.visible .step-card::before {
+            clip-path: inset(0 0 0 0);
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .step-title {
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+        }
+
+        .step-description {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0.7;
+            color: #ffffff;
+        }
+
+        .workflow-step::after {
+            display: none;
+        }
+
+        /* ============================================
+           SECTION 3: HORIZONTAL SCROLLING FEATURES
+           COMMENTED OUT FOR NOW - WILL REVISIT LATER
+           ============================================ */
+        /*
+        .features-section {
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            position: relative;
+            background-color: var(--color-white);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .features-section::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .features-section::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .features-section::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .features-section::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .features-container {
+            position: static;
+            display: flex;
+            gap: 120px;
+            height: 100%;
+            align-items: center;
+            padding: 0 60px;
+            width: max-content;
+        }
+
+        .feature-card {
+            min-width: 380px;
+            flex: 1;
+            max-width: 420px;
+            background-color: #202020;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 0;
+            padding: 80px 60px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.4s ease;
             cursor: pointer;
-            will-change: transform;
+            position: relative;
         }
 
         .feature-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border-color: rgba(0, 0, 0, 0.12);
         }
 
         .feature-card.hero-card {
-            background: linear-gradient(135deg, var(--color-white) 0%, var(--color-accent) 100%);
+            background-color: #202020;
         }
 
         .feature-icon {
-            font-size: 80px;
-            margin-bottom: 40px;
+            font-size: 60px;
+            margin-bottom: 30px;
             font-weight: 200;
+            color: #ffffff;
         }
 
         .feature-number {
-            font-size: 200px;
+            font-size: 140px;
             font-weight: 200;
             line-height: 1;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
+            color: #ffffff;
         }
 
         .feature-title {
-            font-size: 32px;
-            font-weight: 300;
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1.3;
             margin-bottom: 20px;
+            letter-spacing: -0.01em;
+            color: #ffffff;
         }
 
         .feature-description {
-            font-size: 18px;
-            font-weight: 400;
-            color: var(--color-text-grey);
+            font-size: 16px;
+            font-weight: 300;
             line-height: 1.6;
+            opacity: 0.7;
+            color: #ffffff;
         }
+        */
 
         /* ============================================
-           SECTION 4: PARALLAX SHOWCASE
+           SECTION 5: TESTIMONIALS - 3 FULL-WIDTH COLUMNS
            ============================================ */
-        .showcase {
-            background: linear-gradient(180deg, #202020 0%, #1a1a1a 100%);
-            color: var(--color-white);
-            overflow: hidden;
-        }
-
-        .showcase-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: hidden;
-        }
-
-        .showcase-watermark {
-            position: absolute;
-            font-size: 1200px;
-            font-weight: 200;
-            color: rgba(255, 255, 255, 0.03);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            white-space: nowrap;
-            will-change: transform;
-            pointer-events: none;
-        }
-
-        .showcase-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .showcase-card {
+        .testimonials {
             background-color: var(--color-white);
-            color: var(--color-black);
-            padding: 60px;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            will-change: transform;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 0 120px 0;
         }
 
-        .showcase-title {
-            font-size: 32px;
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+        }
+
+        /* Individual testimonial column - full height */
+        .testimonial-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            opacity: 0;
+            transform: translateY(80px);
+            transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            min-height: 100vh;
+        }
+
+        .testimonial-column.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Quote block - no border */
+        .testimonial-quote-block {
+            background-color: var(--color-white);
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .testimonial-quote-mark {
+            font-size: 80px;
+            font-weight: 200;
+            line-height: 0;
+            opacity: 0.1;
+            margin-bottom: 40px;
+        }
+
+        .testimonial-quote-text {
+            font-size: 28px;
             font-weight: 300;
-            margin-bottom: 20px;
             line-height: 1.3;
+            letter-spacing: -0.01em;
         }
 
-        .showcase-button {
-            display: inline-block;
-            padding: 16px 32px;
-            background-color: var(--color-black);
-            color: var(--color-white);
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
-            border-radius: 4px;
-            transition: transform 0.3s ease;
+        /* Image block - no border, fades to white */
+        .testimonial-image-block {
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+            min-height: 50vh;
         }
 
-        .showcase-button:hover {
-            transform: scale(1.05);
+        .testimonial-image {
+            width: 100%;
+            height: 100%;
+            min-height: 50vh;
+            object-fit: cover;
+            background-color: #F5F5F5;
+            filter: grayscale(100%);
         }
 
-        .showcase-arrows {
+        /* Fade gradient from image to white - enhanced */
+        .testimonial-image-block::after {
+            content: '';
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
-            bottom: 0;
+            height: 300px;
+            background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.2) 30%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 1) 100%);
             pointer-events: none;
             z-index: 1;
         }
 
-        .floating-arrow {
+        /* Middle column: gradient flows downwards (top to bottom) */
+        .testimonial-column:nth-child(2) .testimonial-image-block::after {
+            top: 0;
+            bottom: auto;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 40%, rgba(255, 255, 255, 0.2) 70%, transparent 100%);
+        }
+
+        /* Customer info overlay on image */
+        .testimonial-overlay {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            opacity: 0.1;
-            will-change: transform;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+            padding: 40px;
+            color: var(--color-white);
+            z-index: 3;
         }
 
-        .floating-arrow svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* ============================================
-           SECTION 5: TESTIMONIALS
-           ============================================ */
-        .testimonials {
-            background-color: var(--color-white);
-        }
-
-        .testimonial {
-            display: grid;
-            grid-template-columns: 60% 40%;
-            gap: 80px;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .testimonial-quote {
-            font-size: 64px;
-            font-weight: 300;
-            line-height: 1.2;
-            position: relative;
-            padding: 80px;
-            opacity: 0;
-            transform: translateX(-100px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            will-change: opacity, transform;
-        }
-
-        .testimonial-quote.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .testimonial-quote-mark {
-            font-size: 120px;
-            font-weight: 200;
-            line-height: 0;
-            opacity: 0.1;
-            display: inline-block;
-            margin-right: 20px;
-        }
-
-        .testimonial-image {
-            opacity: 0;
-            transform: translateX(100px);
-            transition: opacity 0.8s ease-out 0.1s, transform 0.8s ease-out 0.1s;
-            will-change: opacity, transform;
-        }
-
-        .testimonial-image.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .testimonial-image-placeholder {
-            width: 100%;
-            height: 400px;
-            background-color: #F5F5F5;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-
-        .testimonial-info {
-            margin-top: 20px;
+        /* Middle column: overlay on top */
+        .testimonial-column:nth-child(2) .testimonial-overlay {
+            top: 0;
+            bottom: auto;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
         }
 
         .testimonial-name {
             font-size: 24px;
-            font-weight: 400;
+            font-weight: 500;
             margin-bottom: 8px;
         }
 
         .testimonial-location {
             font-size: 16px;
             font-weight: 300;
-            color: var(--color-text-grey);
+            opacity: 0.8;
+        }
+
+        /* Column 1: Quote top, Image bottom */
+        .testimonial-column:nth-child(1) {
+            transition-delay: 0s;
+        }
+
+        /* Column 2: Image top, Quote bottom */
+        .testimonial-column:nth-child(2) {
+            transition-delay: 0.15s;
+        }
+
+        /* Column 3: Quote top, Image bottom */
+        .testimonial-column:nth-child(3) {
+            transition-delay: 0.3s;
         }
 
         /* ============================================
@@ -1074,37 +1293,42 @@
             min-height: 100vh;
             background-color: var(--color-white);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             padding: 120px 0;
             position: relative;
             overflow: hidden;
         }
 
-        /* Floating geometric shape */
-        .contact-float-shape {
+        /* Magnetic particle canvas background for contact */
+        .contact-canvas-container {
             position: absolute;
-            top: 20%;
-            right: 10%;
-            width: 300px;
-            height: 300px;
-            border: 2px solid rgba(0, 0, 0, 0.03);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
             pointer-events: none;
-            animation: floatContactShape 30s ease-in-out infinite;
+            opacity: 0;
+            transition: opacity 1200ms ease-out;
         }
 
-        @keyframes floatContactShape {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(40px, -40px) scale(1.05);
-            }
-            66% {
-                transform: translate(-30px, 30px) scale(0.95);
-            }
+        body:not(.loading) .contact-canvas-container {
+            opacity: 1;
         }
+
+        #contact-canvas {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            display: block;
+            transition: opacity 1200ms ease-out;
+        }
+
+        #contact-canvas.active {
+            opacity: 0.85;
+        }
+
 
         /* Grid Layout */
         .contact-grid {
@@ -1112,17 +1336,19 @@
             grid-template-columns: 40% 60%;
             gap: 100px;
             align-items: start;
+            position: relative;
+            z-index: 2;
         }
 
         /* Left: Contact Info */
         .contact-info {
             position: sticky;
-            top: 120px;
+            top: 0;
         }
 
         .contact-title {
             font-size: 72px;
-            font-weight: 300;
+            font-weight: 700;
             line-height: 1;
             margin-bottom: 24px;
             letter-spacing: -0.02em;
@@ -1331,78 +1557,6 @@
         }
 
         /* ============================================
-           SECTION 6: FINAL CTA
-           ============================================ */
-        .cta {
-            background-color: var(--color-black);
-            color: var(--color-white);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-arrow {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            will-change: transform, opacity;
-            transition: transform 0.1s ease-out, opacity 0.1s ease-out;
-            opacity: 0.3;
-        }
-
-        .cta-arrow svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .cta-content {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-
-        .cta-title {
-            font-size: 56px;
-            font-weight: 200;
-            margin-bottom: 40px;
-            line-height: 1.2;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .cta-title.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .btn-cta {
-            display: inline-block;
-            padding: 20px 48px;
-            border: 3px solid var(--color-white);
-            background-color: transparent;
-            color: var(--color-white);
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
-        }
-
-        .btn-cta.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .btn-cta:hover {
-            background-color: var(--color-white);
-            color: var(--color-black);
-        }
-
-        /* ============================================
            FOOTER
            ============================================ */
         footer {
@@ -1543,20 +1697,66 @@
                 padding: 40px 24px;
             }
 
+            /*
             .feature-card {
                 min-width: 90vw;
                 height: auto;
-                padding: 40px;
+                padding: 80px 60px;
+                min-height: 400px;
             }
+            */
 
             .feature-number {
                 font-size: 120px;
             }
 
-            .testimonial {
+            .testimonials {
+                padding: 80px 0;
+            }
+
+            .testimonials-grid {
                 grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 40px 24px;
+                gap: 0;
+                padding: 0;
+            }
+
+            .testimonial-column {
+                gap: 0;
+                min-height: auto;
+            }
+
+            .testimonial-quote-block {
+                padding: 60px 30px;
+                min-height: 300px;
+            }
+
+            .testimonial-quote-text {
+                font-size: 24px;
+            }
+
+            .testimonial-quote-mark {
+                font-size: 60px;
+                margin-bottom: 30px;
+            }
+
+            .testimonial-image-block {
+                min-height: 300px;
+            }
+
+            .testimonial-image {
+                min-height: 300px;
+            }
+
+            .testimonial-overlay {
+                padding: 30px;
+            }
+
+            .testimonial-name {
+                font-size: 20px;
+            }
+
+            .testimonial-location {
+                font-size: 14px;
             }
 
             /* Pricing Split Mobile */
@@ -1574,23 +1774,12 @@
                 height: 400px;
             }
 
-            .pricing-panel.center-panel {
-                height: 450px;
-                transform: translateY(0);
-            }
-
-            .pricing-panel.center-panel:hover {
-                transform: rotateY(180deg);
-            }
 
             .panel-number {
                 font-size: 90px;
                 font-weight: 700;
             }
 
-            .center-panel .panel-number {
-                font-size: 110px;
-            }
 
             .panel-word {
                 font-size: 48px;
@@ -1633,15 +1822,36 @@
                 padding: 20px 32px;
             }
 
-            .contact-float-shape {
-                width: 200px;
-                height: 200px;
-                right: -50px;
+
+            /* Workflow Timeline Mobile */
+            .pricing-comparison-vertical .workflow-container {
+                margin-top: 60px;
+            }
+
+            .workflow-container {
+                flex-direction: column;
+                gap: 60px;
+                padding: 0;
+                max-width: 100%;
+            }
+
+            .workflow-step {
+                min-width: 100%;
+                max-width: 100%;
+            }
+
+            .step-card {
+                padding: 60px 40px;
+                min-height: auto;
+            }
+
+            .workflow-step::after {
+                display: none;
             }
 
             /* Calculator Vertical Bars Mobile */
             .pricing-comparison-vertical {
-                padding: 80px 0;
+                padding: 80px 0 60px 0;
             }
 
             .pricing-comparison-vertical .toggle-btn {
@@ -1761,13 +1971,7 @@
                 padding: 0;
             }
 
-            .cta-title {
-                font-size: 36px;
-            }
 
-            .showcase-watermark {
-                font-size: 600px;
-            }
 
             .footer-grid {
                 grid-template-columns: 1fr;
@@ -1864,7 +2068,7 @@
             <a href="#features">How It Works</a>
             <a href="#contact">Contact</a>
         </div>
-        <a href="#cta" class="nav-button">Get Started</a>
+        <a href="#contact" class="nav-button">Get Started</a>
         <div class="nav-hamburger">
             <span></span>
             <span></span>
@@ -1876,6 +2080,11 @@
     <div class="main-content">
     <!-- Section 1: Hero -->
     <section class="hero" id="hero">
+        <!-- Magnetic particle background -->
+        <div class="hero-canvas-container">
+            <canvas id="hero-canvas"></canvas>
+        </div>
+        
         <div class="hero-content">
             <p class="hero-text">Airbnb management.</p>
             <div class="hero-large">9<span class="percent">%</span></div>
@@ -1907,15 +2116,14 @@
                     </div>
                     <div class="panel-back">
                         <div class="panel-detail">
-                            <p>Industry standard: 15-25%</p>
+                            <p>Industry standard: <br/>15-25%</p>
                             <p>You save: 6-16%</p>
-                            <div class="panel-icon">💰</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Panel 2: What's Included (Center - Highlighted) -->
-                <div class="pricing-panel center-panel" data-panel="included">
+                <!-- Panel 2: What's Included -->
+                <div class="pricing-panel" data-panel="included">
                     <div class="panel-front">
                         <div class="panel-label">What's included</div>
                         <div class="panel-word">Everything</div>
@@ -1924,27 +2132,14 @@
                     <div class="panel-back">
                         <div class="panel-detail">
                             <div class="included-list-mini">
-                                <div>✓ 24/7 AI communication</div>
-                                <div>✓ Dynamic pricing</div>
-                                <div>✓ Maintenance coordination</div>
-                                <div>✓ Analytics & reporting</div>
+                                <div>24/7 AI guest communication</div>
+                                <div>Cleaning coordination</div>
+                                <div>Maintenance dispatch</div>
+                                <div>Check-in management</div>
+                                <div>Dynamic pricing</div>
+                                <div>Weekly reports</div>
+                                <div>Direct deposits</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Panel 3: What You Keep -->
-                <div class="pricing-panel" data-panel="keep">
-                    <div class="panel-front">
-                        <div class="panel-label">What you keep</div>
-                        <div class="panel-number">91<span class="percent">%</span></div>
-                        <div class="panel-subtitle">in your pocket</div>
-                    </div>
-                    <div class="panel-back">
-                        <div class="panel-detail">
-                            <p>On $60k annual revenue:</p>
-                            <p>You keep: $54,600</p>
-                            <div class="panel-icon">🎯</div>
                         </div>
                     </div>
                 </div>
@@ -2004,10 +2199,43 @@
                     <div class="column-description">22% of gross income</div>
                 </div>
             </div>
-        </div>
+
+            <!-- Horizontal Steps -->
+            <div class="workflow-container" id="workflow-container">
+                <!-- Step 1 -->
+                <div class="workflow-step" data-step="1">
+                    <div class="step-card">
+                        <div>
+                            <h3 class="step-title">AI handles guest communication</h3>
+                            <p class="step-description">Questions, check-ins, requests - answered instantly, any time.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="workflow-step" data-step="2">
+                    <div class="step-card">
+                        <div>
+                            <h3 class="step-title">Services coordinate automatically</h3>
+                            <p class="step-description">Cleaning, maintenance, check-ins. One dashboard, all connected.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="workflow-step" data-step="3">
+                    <div class="step-card">
+                        <div>
+                            <h3 class="step-title">You receive weekly reports</h3>
+                            <p class="step-description">Revenue, bookings, performance. Direct deposits every week.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </section>
 
-    <!-- Section 3: Horizontal Scrolling Features -->
+    <!-- Section 3: Horizontal Scrolling Features - COMMENTED OUT FOR NOW -->
+    <!--
     <section class="features-section" id="features">
         <div class="features-container" id="features-container">
             <div class="feature-card">
@@ -2047,70 +2275,59 @@
             </div>
         </div>
     </section>
+    -->
 
-    <!-- Section 4: Parallax Showcase -->
-    <section class="showcase" id="pricing">
-        <div class="showcase-background">
-            <div class="showcase-watermark" id="showcase-watermark">9%</div>
-            <div class="showcase-arrows" id="showcase-arrows"></div>
-        </div>
-        <div class="container">
-            <div class="showcase-content">
-                <div class="showcase-card" id="showcase-card">
-                    <h2 class="showcase-title">Simple pricing.<br>Just 9% of rental income.<br>Everything included.</h2>
-                    <a href="#cta" class="showcase-button">Compare pricing →</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 5: Testimonials -->
+    <!-- Section 5: Testimonials - 3 Column Layout -->
     <section class="testimonials" id="testimonials">
-        <div class="container">
-            <div class="testimonial">
-                <div class="testimonial-quote" id="testimonial-1">
-                    <span class="testimonial-quote-mark">"</span>
-                    Airoam's AI saved me 15 hours a week. And it costs just 9%. This is the future.
+        <div class="testimonials-grid">
+            <!-- Column 1: Quote Top, Image Bottom -->
+            <div class="testimonial-column" data-column="1">
+                <!-- Quote Block -->
+                <div class="testimonial-quote-block">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-quote-text">Airoam's AI saved me 15 hours a week. And it costs just 9%. This is the future.</p>
                 </div>
-                <div class="testimonial-image" id="testimonial-image-1">
-                    <div class="testimonial-image-placeholder"></div>
-                    <div class="testimonial-info">
+                
+                <!-- Image Block with Overlay -->
+                <div class="testimonial-image-block">
+                    <img src="images/airoam-property.jpg" alt="Airoam property" class="testimonial-image">
+                    <div class="testimonial-overlay">
                         <div class="testimonial-name">Michael T.</div>
                         <div class="testimonial-location">Gold Coast, 22 properties</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section class="testimonials">
-        <div class="container">
-            <div class="testimonial">
-                <div class="testimonial-quote" id="testimonial-2">
-                    <span class="testimonial-quote-mark">"</span>
-                    I travel 6 months a year now. My properties run themselves. That's freedom.
-                </div>
-                <div class="testimonial-image" id="testimonial-image-2">
-                    <div class="testimonial-image-placeholder"></div>
-                    <div class="testimonial-info">
+            <!-- Column 2: Image Top, Quote Bottom -->
+            <div class="testimonial-column" data-column="2">
+                <!-- Image Block with Overlay -->
+                <div class="testimonial-image-block">
+                    <img src="images/airoam-property1.jpg" alt="Airoam property" class="testimonial-image">
+                    <div class="testimonial-overlay">
                         <div class="testimonial-name">Emma S.</div>
                         <div class="testimonial-location">Byron Bay, 7 properties</div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="testimonials">
-        <div class="container">
-            <div class="testimonial">
-                <div class="testimonial-quote" id="testimonial-3">
-                    <span class="testimonial-quote-mark">"</span>
-                    The transparency is refreshing. 9% covers everything. No surprises, no stress.
+                
+                <!-- Quote Block -->
+                <div class="testimonial-quote-block">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-quote-text">I travel 6 months a year now. My properties run themselves. That's freedom.</p>
                 </div>
-                <div class="testimonial-image" id="testimonial-image-3">
-                    <div class="testimonial-image-placeholder"></div>
-                    <div class="testimonial-info">
+            </div>
+
+            <!-- Column 3: Quote Top, Image Bottom -->
+            <div class="testimonial-column" data-column="3">
+                <!-- Quote Block -->
+                <div class="testimonial-quote-block">
+                    <div class="testimonial-quote-mark">"</div>
+                    <p class="testimonial-quote-text">The transparency is refreshing. 9% covers everything. No surprises, no stress.</p>
+                </div>
+                
+                <!-- Image Block with Overlay -->
+                <div class="testimonial-image-block">
+                    <img src="images/airoam-property2.jpg" alt="Airoam property" class="testimonial-image">
+                    <div class="testimonial-overlay">
                         <div class="testimonial-name">Priya K.</div>
                         <div class="testimonial-location">Sydney, 3 properties</div>
                     </div>
@@ -2121,6 +2338,11 @@
 
     <!-- Section: Contact Form -->
     <section class="contact-form" id="contact">
+        <!-- Magnetic particle background -->
+        <div class="contact-canvas-container">
+            <canvas id="contact-canvas"></canvas>
+        </div>
+        
         <div class="container">
             <div class="contact-grid">
                 <!-- Left: Title & Info -->
@@ -2216,24 +2438,6 @@
             </div>
 
             <!-- Floating geometric element -->
-            <div class="contact-float-shape"></div>
-        </div>
-    </section>
-
-    <!-- Section 6: Final CTA -->
-    <section class="cta" id="cta">
-        <div class="cta-arrow" id="cta-arrow">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 40 160 L 100 40 L 160 40" stroke="rgba(255,255,255,0.3)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                <path d="M 50 160 L 100 40 L 150 40" stroke="rgba(255,255,255,0.3)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                <path d="M 55 145 L 100 55 L 145 145 Z" fill="rgba(255,255,255,0.3)"/>
-            </svg>
-        </div>
-        <div class="container">
-            <div class="cta-content">
-                <h2 class="cta-title" id="cta-title">Ready to elevate your<br>property management?</h2>
-                <a href="#get-started" class="btn-cta" id="cta-button">Get Started →</a>
-            </div>
         </div>
     </section>
 
@@ -2411,82 +2615,23 @@
                 }
             }, 2900);
             
-            // HIDE BOTTOM ARROW at 3600ms (200ms before transfer) to avoid size glitch
+            // Remove loading class after splash completes (at 4800ms)
             setTimeout(function() {
-                const arrowBottom = splash.querySelector('.arrow-bottom');
-                if (arrowBottom) {
-                    arrowBottom.style.transition = 'opacity 200ms ease-out';
-                    arrowBottom.style.opacity = '0';
-                }
-            }, 3600);
-            
-            // Transfer arrow to logo and reveal content at 3800ms (when morph completes)
-            setTimeout(function() {
-                const arrowBottom = splash.querySelector('.arrow-bottom');
-                const arrowTop = splash.querySelector('.arrow-top');
-                const navLogo = document.getElementById('nav-logo');
-                
-                if (navLogo && arrowBottom && arrowTop) {
-                    // Create arrow container in logo
-                    let logoArrow = navLogo.querySelector('.logo-arrow');
-                    if (!logoArrow) {
-                        logoArrow = document.createElement('div');
-                        logoArrow.className = 'logo-arrow';
-                        navLogo.insertBefore(logoArrow, navLogo.firstChild);
-                    }
-                    
-                    // Clone arrows to logo (keep splash arrows for fade out)
-                    const bottomClone = arrowBottom.cloneNode(true);
-                    const topClone = arrowTop.cloneNode(true);
-                    
-                    // Set logo arrow positioning - start hidden, CSS fades it in
-                    bottomClone.style.position = 'absolute';
-                    bottomClone.style.width = '9px';
-                    bottomClone.style.height = 'auto';
-                    bottomClone.style.bottom = '0';
-                    bottomClone.style.left = '50%';
-                    bottomClone.style.transform = 'translateX(-50%)';
-                    bottomClone.style.opacity = '0';  // Start hidden, CSS fades it in
-                    bottomClone.style.zIndex = '2';
-                    bottomClone.style.animation = 'none';
-                    
-                    topClone.style.position = 'absolute';
-                    topClone.style.width = '100%';
-                    topClone.style.height = '100%';
-                    topClone.style.top = '0';
-                    topClone.style.left = '0';
-                    topClone.style.transform = 'none';
-                    topClone.style.opacity = '1';
-                    topClone.style.zIndex = '1';
-                    topClone.style.animation = 'none';
-                    
-                    logoArrow.appendChild(bottomClone);
-                    logoArrow.appendChild(topClone);
-                    
-                    // Show arrow in logo
-                    logoArrow.classList.add('visible');
-                }
-                
-                // Fade out splash arrows (they've morphed into logo)
-                if (arrowBottom) arrowBottom.style.opacity = '0';
-                if (arrowTop) arrowTop.style.opacity = '0';
-                
-                // Start fading in main content immediately (no lag)
                 document.body.classList.remove('loading');
-            }, 3800);
+            }, 4800);
             
-            // Start fading splash background at 4200ms
+            // Start fading splash background at 4000ms (after arrow starts fading)
             setTimeout(function() {
                 splash.classList.add('fade-bg');
-            }, 4200);
+            }, 4000);
             
-            // Hide splash completely at 4600ms
+            // Hide splash completely at 4800ms (give more time for smooth float)
             setTimeout(function() {
                 splash.classList.add('hidden');
                 setTimeout(function() {
                     splash.style.display = 'none';
                 }, 400);
-            }, 4600);
+            }, 4800);
         })();
 
         // ============================================
@@ -2743,10 +2888,28 @@
         })();
 
         // ============================================
-        // HERO SCROLL INDICATOR
+        // HERO TEXT ANIMATION (same as intro-block)
         // ============================================
         (function() {
+            const heroText = document.querySelector('.hero-text');
             const hero = document.querySelector('.hero');
+            
+            if (!heroText || !hero) return;
+            
+            // Wait for splash to complete, then animate hero text
+            function animateHeroText() {
+                if (document.body.classList.contains('loading')) {
+                    // Still loading, check again
+                    setTimeout(animateHeroText, 100);
+                } else {
+                    // Splash complete, trigger animation
+                    setTimeout(() => {
+                        heroText.classList.add('visible');
+                    }, 200);
+                }
+            }
+            
+            animateHeroText();
         })();
 
         // ============================================
@@ -2811,151 +2974,132 @@
         })();
 
         // ============================================
-        // HORIZONTAL SCROLLING FEATURES
+        // WORKFLOW TIMELINE - CONTINUOUS LINE FLOW
         // ============================================
         (function() {
-            const container = document.getElementById('features-container');
-            const section = document.querySelector('.features-section');
-            
-            if (isMobile) return; // Stack vertically on mobile
+            const workflowSteps = document.querySelectorAll('.workflow-step');
+            const workflowContainer = document.getElementById('workflow-container');
 
-            window.addEventListener('scroll', () => {
-                const rect = section.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
-                
-                if (rect.top < windowHeight && rect.bottom > 0) {
-                    const sectionTop = rect.top + window.pageYOffset;
-                    const scrollY = window.pageYOffset;
-                    const sectionStart = sectionTop - windowHeight;
-                    const sectionEnd = sectionTop + rect.height;
-                    
-                    if (scrollY >= sectionStart && scrollY <= sectionEnd) {
-                        const progress = (scrollY - sectionStart) / (sectionEnd - sectionStart);
-                        const maxTranslate = container.scrollWidth - window.innerWidth;
-                        const translateX = -progress * maxTranslate * 0.8;
-                        container.style.transform = `translate3d(${translateX}px, 0, 0)`;
+            if (!workflowSteps.length || !workflowContainer) return;
+
+            let hasAnimated = false;
+
+            // Continuous line flow - line draws WITH border for seamless effect
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasAnimated) {
+                        hasAnimated = true;
+                        
+                        // Card 1: Fade up + border (0.5s duration)
+                        setTimeout(() => {
+                            workflowSteps[0].classList.add('visible');
+                        }, 0);
+
+                        // Card 2: Starts when Card 1 completes (0.5s)
+                        setTimeout(() => {
+                            workflowSteps[1].classList.add('visible');
+                        }, 500);
+
+                        // Card 3: Starts when Card 2 completes (1.0s)
+                        setTimeout(() => {
+                            workflowSteps[2].classList.add('visible');
+                        }, 1000);
                     }
-                }
-            }, { passive: true });
-        })();
-
-        // ============================================
-        // PARALLAX SHOWCASE
-        // ============================================
-        (function() {
-            const watermark = document.getElementById('showcase-watermark');
-            const card = document.getElementById('showcase-card');
-            const arrowsContainer = document.getElementById('showcase-arrows');
-            const section = document.querySelector('.showcase');
-
-            // Create floating arrows
-            for (let i = 0; i < 6; i++) {
-                const arrow = document.createElement('div');
-                arrow.className = 'floating-arrow';
-                arrow.innerHTML = '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><path d="M 40 160 L 100 40 L 160 40" stroke="rgba(255,255,255,0.1)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M 50 160 L 100 40 L 150 40" stroke="rgba(255,255,255,0.1)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M 55 145 L 100 55 L 145 145 Z" fill="rgba(255,255,255,0.1)"/></svg>';
-                arrow.style.left = Math.random() * 100 + '%';
-                arrow.style.top = Math.random() * 100 + '%';
-                arrowsContainer.appendChild(arrow);
-            }
-
-            window.addEventListener('scroll', () => {
-                const rect = section.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
-                
-                if (rect.top < windowHeight && rect.bottom > 0) {
-                    const scrollOffset = window.pageYOffset - (rect.top + window.pageYOffset - windowHeight);
-                    
-                    // Layer 1: Watermark (0.3x speed)
-                    watermark.style.transform = `translate3d(-50%, ${-50 + scrollOffset * 0.3}%, 0)`;
-                    
-                    // Layer 2: Card (0.7x speed)
-                    card.style.transform = `translate3d(0, ${scrollOffset * 0.7}px, 0)`;
-                    
-                    // Layer 3: Arrows (1.2x speed)
-                    const arrows = arrowsContainer.querySelectorAll('.floating-arrow');
-                    arrows.forEach((arrow, index) => {
-                        arrow.style.transform = `translate3d(0, ${scrollOffset * 1.2}px, 0) rotate(${index * 60}deg)`;
-                    });
-                }
-            }, { passive: true });
-        })();
-
-        // ============================================
-        // TESTIMONIALS REVEAL
-        // ============================================
-        (function() {
-            const testimonials = [
-                { quote: document.getElementById('testimonial-1'), image: document.getElementById('testimonial-image-1') },
-                { quote: document.getElementById('testimonial-2'), image: document.getElementById('testimonial-image-2') },
-                { quote: document.getElementById('testimonial-3'), image: document.getElementById('testimonial-image-3') }
-            ];
-
-            testimonials.forEach(({ quote, image }) => {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            quote.classList.add('visible');
-                            image.classList.add('visible');
-                        }
-                    });
-                }, { threshold: 0.3 });
-
-                if (quote) observer.observe(quote);
-            });
-        })();
-
-        // ============================================
-        // CTA ASCENDING ARROW & MAGNETIC BUTTON
-        // ============================================
-        (function() {
-            const arrow = document.getElementById('cta-arrow');
-            const button = document.getElementById('cta-button');
-            const title = document.getElementById('cta-title');
-            const section = document.querySelector('.cta');
-
-            // Magnetic button
-            if (!isMobile) {
-                button.addEventListener('mousemove', (e) => {
-                    const rect = button.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    const distance = Math.sqrt(x * x + y * y);
-                    
-                    if (distance < 40) {
-                        button.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-                    }
-                }, { passive: true });
-
-                button.addEventListener('mouseleave', () => {
-                    button.style.transform = 'translate(0, 0)';
                 });
-            }
+            }, { threshold: 0.3 });
 
-            // Ascending arrow
-            window.addEventListener('scroll', () => {
-                const rect = section.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
-                
-                if (rect.top < windowHeight && rect.bottom > 0) {
-                    const scrollProgress = 1 - (rect.bottom / windowHeight);
-                    const arrowSize = 100 + (scrollProgress * 100);
-                    const arrowY = windowHeight - rect.top - (scrollProgress * windowHeight * 0.7);
-                    
-                    arrow.style.width = arrowSize + 'px';
-                    arrow.style.height = arrowSize + 'px';
-                    arrow.style.top = arrowY + 'px';
-                    arrow.style.left = '50%';
-                    arrow.style.transform = 'translateX(-50%)';
-                    arrow.style.opacity = Math.min(0.3 + scrollProgress * 0.7, 1);
-                }
-
-                // Reveal title and button
-                if (rect.top < windowHeight * 0.8) {
-                    title.classList.add('visible');
-                    button.classList.add('visible');
-                }
-            }, { passive: true });
+            observer.observe(workflowContainer);
         })();
+
+        // ============================================
+        // HORIZONTAL SCROLLING FEATURES - AUTO SCROLL WITH HOVER PAUSE
+        // COMMENTED OUT FOR NOW - WILL REVISIT LATER
+        // ============================================
+        /*
+        (function() {
+            const section = document.querySelector('.features-section');
+            const container = document.getElementById('features-container');
+            
+            if (!section || !container || isMobile) return;
+            
+            let scrollInterval = null;
+            let isHovering = false;
+            const scrollSpeed = 0.5; // pixels per frame
+            
+            // Auto-scroll function
+            function startAutoScroll() {
+                if (scrollInterval) return;
+                
+                scrollInterval = setInterval(() => {
+                    if (!isHovering && section.scrollLeft < (container.scrollWidth - section.clientWidth)) {
+                        section.scrollLeft += scrollSpeed;
+                    } else if (section.scrollLeft >= (container.scrollWidth - section.clientWidth)) {
+                        // Reset to start when reaching end
+                        section.scrollLeft = 0;
+                    }
+                }, 16); // ~60fps
+            }
+            
+            // Stop auto-scroll on hover
+            const cards = section.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    isHovering = true;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    isHovering = false;
+                });
+            });
+            
+            // Start auto-scroll when section is visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startAutoScroll();
+                    } else {
+                        if (scrollInterval) {
+                            clearInterval(scrollInterval);
+                            scrollInterval = null;
+                        }
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            observer.observe(section);
+        })();
+        */
+
+
+        // ============================================
+        // TESTIMONIALS - STAGGERED 3-COLUMN REVEAL
+        // ============================================
+        (function() {
+            const columns = document.querySelectorAll('.testimonial-column');
+            const section = document.querySelector('.testimonials');
+            
+            if (!columns.length || !section) return;
+
+            let hasAnimated = false;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasAnimated) {
+                        hasAnimated = true;
+                        
+                        // Stagger columns with delay
+                        columns.forEach((column, index) => {
+                            setTimeout(() => {
+                                column.classList.add('visible');
+                            }, index * 150); // 150ms stagger between columns
+                        });
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            observer.observe(section);
+        })();
+
 
         // ============================================
         // CONTACT FORM SUBMISSION
@@ -3051,6 +3195,590 @@
                 }
             });
         });
+
+        // ============================================
+        // HERO MAGNETIC AIR PARTICLE SYSTEM
+        // ============================================
+        (function() {
+            // Wait for DOM to be ready
+            function initParticleSystem() {
+                const canvas = document.getElementById('hero-canvas');
+                const hero = document.querySelector('.hero');
+                
+                if (!canvas || !hero) {
+                    // Retry if not ready yet
+                    setTimeout(initParticleSystem, 100);
+                    return;
+                }
+                
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+                
+                // Detect mobile
+                const isMobileDevice = window.innerWidth <= 768;
+                
+                // Get hero dimensions
+                const updateDimensions = () => {
+                    width = hero.offsetWidth || window.innerWidth;
+                    height = hero.offsetHeight || window.innerHeight;
+                    canvas.width = width;
+                    canvas.height = height;
+                };
+                
+                let width, height;
+                updateDimensions();
+                
+                // Ensure we have valid dimensions
+                if (width === 0 || height === 0) {
+                    setTimeout(initParticleSystem, 100);
+                    return;
+                }
+                
+                // Mouse position
+                let mouse = {
+                    x: width / 2,
+                    y: height / 2,
+                    radius: 150
+                };
+                
+                // Particle system
+                const particles = [];
+                const particleCount = isMobileDevice ? 35 : 70; // Reduced particle count
+                const lines = [];
+                const lineCount = isMobileDevice ? 8 : 15;
+                
+                // Particle class (tiny dots)
+                class Particle {
+                constructor() {
+                    this.reset();
+                    this.y = Math.random() * height;
+                }
+                
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.baseX = this.x;
+                    this.baseY = this.y;
+                    this.size = Math.random() * 3.5 + 0.5; // More size variation: 0.5-4px
+                    this.speedX = Math.random() * 0.5 - 0.25;
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                    this.opacity = Math.random() * 0.6 + 0.2; // More opacity variation: 0.2-0.8
+                }
+                
+                update() {
+                    // Update base position first (random floating)
+                    this.baseX += this.speedX;
+                    this.baseY += this.speedY;
+                    
+                    // Wrap around edges
+                    if (this.baseX > width) this.baseX = 0;
+                    if (this.baseX < 0) this.baseX = width;
+                    if (this.baseY > height) this.baseY = 0;
+                    if (this.baseY < 0) this.baseY = height;
+                    
+                    // Magnetic effect only when mouse is near (not at center)
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < mouse.radius && distance > 0) {
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
+                        const force = (mouse.radius - distance) / mouse.radius;
+                        this.x -= forceDirectionX * force * 3;
+                        this.y -= forceDirectionY * force * 3;
+                    } else {
+                        // Always drift toward base position (which is moving randomly)
+                        this.x += (this.baseX - this.x) * 0.02;
+                        this.y += (this.baseY - this.y) * 0.02;
+                    }
+                }
+                
+                draw() {
+                    ctx.fillStyle = `rgba(100, 100, 100, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                }
+                
+                // Flowing ribbon class (air currents)
+                class FlowLine {
+                constructor() {
+                    this.reset();
+                    this.y = Math.random() * height;
+                }
+                
+                reset() {
+                    this.points = [];
+                    this.numPoints = 40; // More points for smoother curves
+                    // Start at random Y position within or slightly below viewport
+                    this.y = Math.random() * (height + 200) - 100; // Can start anywhere from -100 to height+100
+                    this.baseY = this.y;
+                    this.amplitude = Math.random() * 100 + 80; // Larger amplitude for more wavy curves: 80-180px
+                    this.frequency = Math.random() * 0.025 + 0.015; // More variation in frequency for wind-like movement
+                    this.speed = Math.random() * 0.5 + 0.4; // Faster wave movement for wind effect
+                    this.offset = Math.random() * Math.PI * 2;
+                    this.baseOpacity = Math.random() * 0.15 + 0.1; // More subtle: 0.1-0.25
+                    this.currentOpacity = 0; // Start invisible for fade in
+                    this.ribbonWidth = Math.random() * 5 + 4; // Ribbon width: 4-9px (thinner)
+                    this.riseSpeed = Math.random() * 0.5 + 0.3; // Upward floating speed
+                    this.angle = Math.random() * 0.3 - 0.15; // Diagonal angle: -0.15 to 0.15 radians (~-8.5° to 8.5°)
+                    this.horizontalOffset = Math.random() * width - width / 2; // Start at random horizontal position
+                    this.fadeInDistance = 150; // Distance to fade in from bottom
+                    this.fadeOutDistance = 150; // Distance to fade out at top
+                    
+                    // Generate points with initial curved shape
+                    for (let i = 0; i <= this.numPoints; i++) {
+                        const x = (width / this.numPoints) * i + this.horizontalOffset;
+                        // Start with a curved wave shape - multiple waves for complex, wavy curves
+                        const wave1 = Math.sin(i * this.frequency + this.offset) * this.amplitude;
+                        const wave2 = Math.sin(i * this.frequency * 1.8 + this.offset * 0.6) * (this.amplitude * 0.5);
+                        const wave3 = Math.sin(i * this.frequency * 0.6 + this.offset * 1.4) * (this.amplitude * 0.35);
+                        const wave4 = Math.sin(i * this.frequency * 2.2 + this.offset * 0.9) * (this.amplitude * 0.2);
+                        const initialCurve = wave1 + wave2 + wave3 + wave4;
+                        this.points.push({
+                            x: x,
+                            y: this.baseY + initialCurve
+                        });
+                    }
+                }
+                
+                update() {
+                    this.offset += this.speed * 0.01;
+                    
+                    // Float upward at an angle
+                    this.baseY -= this.riseSpeed;
+                    this.horizontalOffset += Math.sin(this.angle) * this.riseSpeed * 0.5; // Diagonal movement
+                    
+                    // Calculate fade based on position
+                    const bottomEdge = this.baseY - this.amplitude;
+                    const topEdge = this.baseY + this.amplitude;
+                    
+                    // Fade in from bottom
+                    if (bottomEdge < this.fadeInDistance && bottomEdge > -this.fadeInDistance) {
+                        // Fading in: opacity increases as it enters viewport
+                        const fadeProgress = Math.max(0, Math.min(1, (bottomEdge + this.fadeInDistance) / (this.fadeInDistance * 2)));
+                        this.currentOpacity = this.baseOpacity * fadeProgress;
+                    }
+                    // Fade out at top
+                    else if (topEdge > height - this.fadeOutDistance && topEdge < height + this.fadeOutDistance) {
+                        // Fading out: opacity decreases as it exits viewport
+                        const fadeProgress = Math.max(0, Math.min(1, (height + this.fadeOutDistance - topEdge) / (this.fadeOutDistance * 2)));
+                        this.currentOpacity = this.baseOpacity * fadeProgress;
+                    }
+                    // Fully visible in middle
+                    else if (bottomEdge >= this.fadeInDistance && topEdge <= height - this.fadeOutDistance) {
+                        this.currentOpacity = this.baseOpacity;
+                    }
+                    // Completely invisible
+                    else {
+                        this.currentOpacity = 0;
+                    }
+                    
+                    // Reset ribbon when it floats off the top - reappear at random position
+                    if (this.baseY < -200) {
+                        this.baseY = Math.random() * (height + 200) - 100; // Random Y position
+                        this.horizontalOffset = Math.random() * width - width / 2; // Random X position
+                        this.offset = Math.random() * Math.PI * 2;
+                        this.currentOpacity = 0; // Start invisible for fade in
+                        // Reset all points to new position
+                        this.points.forEach((point, i) => {
+                            const x = (width / this.numPoints) * i + this.horizontalOffset;
+                            const wave1 = Math.sin(i * this.frequency + this.offset) * this.amplitude;
+                            const wave2 = Math.sin(i * this.frequency * 1.8 + this.offset * 0.6) * (this.amplitude * 0.5);
+                            const wave3 = Math.sin(i * this.frequency * 0.6 + this.offset * 1.4) * (this.amplitude * 0.35);
+                            const wave4 = Math.sin(i * this.frequency * 2.2 + this.offset * 0.9) * (this.amplitude * 0.2);
+                            point.x = x;
+                            point.y = this.baseY + wave1 + wave2 + wave3 + wave4;
+                        });
+                    }
+                    
+                    // Update each point with flowing wave motion - wind-like waviness
+                    this.points.forEach((point, i) => {
+                        // Create more organic, varied curves with multiple sine waves
+                        // Add more wave layers for complex, wind-like wavy movement
+                        const wave1 = Math.sin(i * this.frequency + this.offset) * this.amplitude;
+                        const wave2 = Math.sin(i * this.frequency * 1.8 + this.offset * 0.6) * (this.amplitude * 0.5);
+                        const wave3 = Math.sin(i * this.frequency * 0.6 + this.offset * 1.4) * (this.amplitude * 0.35);
+                        const wave4 = Math.sin(i * this.frequency * 2.2 + this.offset * 0.9) * (this.amplitude * 0.2); // Additional wave for more waviness
+                        const baseY = this.baseY + wave1 + wave2 + wave3 + wave4;
+                        
+                        // Add diagonal angle to x position
+                        const baseX = (width / this.numPoints) * i + this.horizontalOffset;
+                        
+                        // Magnetic effect on line
+                        const dx = mouse.x - baseX;
+                        const dy = mouse.y - baseY;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < mouse.radius) {
+                            const force = (mouse.radius - distance) / mouse.radius;
+                            point.y = baseY + (dy * force * 0.5);
+                            point.x = baseX + (dx * force * 0.3);
+                        } else {
+                            // Ease back to wave position smoothly
+                            point.y += (baseY - point.y) * 0.05;
+                            point.x += (baseX - point.x) * 0.05;
+                        }
+                    });
+                }
+                
+                draw() {
+                    // Skip drawing if completely invisible
+                    if (this.currentOpacity <= 0) return;
+                    
+                    // Calculate perpendicular vectors for ribbon width
+                    const topPoints = [];
+                    const bottomPoints = [];
+                    
+                    for (let i = 0; i < this.points.length; i++) {
+                        const point = this.points[i];
+                        let angle;
+                        
+                        if (i === 0) {
+                            // First point: use angle to next point
+                            const next = this.points[i + 1];
+                            angle = Math.atan2(next.y - point.y, next.x - point.x);
+                        } else if (i === this.points.length - 1) {
+                            // Last point: use angle from previous point
+                            const prev = this.points[i - 1];
+                            angle = Math.atan2(point.y - prev.y, point.x - prev.x);
+                        } else {
+                            // Middle points: average angle
+                            const prev = this.points[i - 1];
+                            const next = this.points[i + 1];
+                            angle = Math.atan2(next.y - prev.y, next.x - prev.x);
+                        }
+                        
+                        // Perpendicular angle (90 degrees)
+                        const perpAngle = angle + Math.PI / 2;
+                        const halfWidth = this.ribbonWidth / 2;
+                        
+                        topPoints.push({
+                            x: point.x + Math.cos(perpAngle) * halfWidth,
+                            y: point.y + Math.sin(perpAngle) * halfWidth
+                        });
+                        
+                        bottomPoints.push({
+                            x: point.x - Math.cos(perpAngle) * halfWidth,
+                            y: point.y - Math.sin(perpAngle) * halfWidth
+                        });
+                    }
+                    
+                    // Create gradient for sheen effect
+                    const gradient = ctx.createLinearGradient(
+                        this.points[0].x, this.points[0].y,
+                        this.points[this.points.length - 1].x, this.points[this.points.length - 1].y
+                    );
+                    
+                    // Gradient from darker to lighter (sheen effect) - more subtle
+                    // Use currentOpacity for fade in/out effect
+                    gradient.addColorStop(0, `rgba(100, 100, 100, ${this.currentOpacity * 0.4})`);
+                    gradient.addColorStop(0.3, `rgba(140, 140, 140, ${this.currentOpacity * 0.6})`);
+                    gradient.addColorStop(0.5, `rgba(180, 180, 180, ${this.currentOpacity * 0.7})`); // Highlight/sheen
+                    gradient.addColorStop(0.7, `rgba(140, 140, 140, ${this.currentOpacity * 0.6})`);
+                    gradient.addColorStop(1, `rgba(100, 100, 100, ${this.currentOpacity * 0.4})`);
+                    
+                    // Draw ribbon as filled path
+                    ctx.beginPath();
+                    ctx.moveTo(topPoints[0].x, topPoints[0].y);
+                    
+                    // Draw top edge with smooth curves
+                    for (let i = 1; i < topPoints.length; i++) {
+                        const current = topPoints[i];
+                        const prev = topPoints[i - 1];
+                        const cpX = (prev.x + current.x) / 2;
+                        const cpY = (prev.y + current.y) / 2;
+                        ctx.quadraticCurveTo(prev.x, prev.y, cpX, cpY);
+                    }
+                    
+                    // Draw bottom edge (reverse order)
+                    for (let i = bottomPoints.length - 1; i >= 0; i--) {
+                        const current = bottomPoints[i];
+                        if (i === bottomPoints.length - 1) {
+                            ctx.lineTo(current.x, current.y);
+                        } else {
+                            const next = bottomPoints[i + 1];
+                            const cpX = (current.x + next.x) / 2;
+                            const cpY = (current.y + next.y) / 2;
+                            ctx.quadraticCurveTo(next.x, next.y, cpX, cpY);
+                        }
+                    }
+                    
+                    ctx.closePath();
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+                }
+                }
+                
+                // Initialize particles and lines
+                function init() {
+                    particles.length = 0;
+                    lines.length = 0;
+                    
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push(new Particle());
+                    }
+                    
+                    for (let i = 0; i < lineCount; i++) {
+                        const line = new FlowLine();
+                        // Stagger initial positions so they don't all appear at once
+                        line.baseY = Math.random() * (height + 200) - 100;
+                        line.horizontalOffset = Math.random() * width - width / 2;
+                        line.currentOpacity = 0; // Start invisible for fade in
+                        // Update points to match new position
+                        line.points.forEach((point, j) => {
+                            const x = (width / line.numPoints) * j + line.horizontalOffset;
+                            const wave1 = Math.sin(j * line.frequency + line.offset) * line.amplitude;
+                            const wave2 = Math.sin(j * line.frequency * 1.8 + line.offset * 0.6) * (line.amplitude * 0.5);
+                            const wave3 = Math.sin(j * line.frequency * 0.6 + line.offset * 1.4) * (line.amplitude * 0.35);
+                            const wave4 = Math.sin(j * line.frequency * 2.2 + line.offset * 0.9) * (line.amplitude * 0.2);
+                            point.x = x;
+                            point.y = line.baseY + wave1 + wave2 + wave3 + wave4;
+                        });
+                        lines.push(line);
+                    }
+                }
+                
+                // Animation loop
+                function animate() {
+                    ctx.clearRect(0, 0, width, height);
+                    
+                    // Draw and update lines
+                    lines.forEach(line => {
+                        line.update();
+                        line.draw();
+                    });
+                    
+                    // Draw and update particles
+                    particles.forEach(particle => {
+                        particle.update();
+                        particle.draw();
+                    });
+                    
+                    requestAnimationFrame(animate);
+                }
+                
+                // Mouse move handler (desktop only)
+                if (!isMobileDevice) {
+                    hero.addEventListener('mousemove', (e) => {
+                        const rect = hero.getBoundingClientRect();
+                        mouse.x = e.clientX - rect.left;
+                        mouse.y = e.clientY - rect.top;
+                    }, { passive: true });
+                    
+                    hero.addEventListener('mouseleave', () => {
+                        // Don't reset to center - let particles continue random movement
+                        // mouse.x and mouse.y will be ignored when distance > radius
+                    });
+                }
+                
+                // Resize handler
+                const handleResize = () => {
+                    updateDimensions();
+                    mouse.x = width / 2;
+                    mouse.y = height / 2;
+                    init();
+                };
+                
+                window.addEventListener('resize', handleResize);
+                
+                // Start animation and fade in canvas
+                canvas.classList.add('active');
+                init();
+                animate();
+            }
+            
+            // Initialize ONLY after splash completes and body.loading removed
+            function waitForSplashComplete() {
+                if (document.body.classList.contains('loading')) {
+                    // Still in splash, check again
+                    setTimeout(waitForSplashComplete, 100);
+                } else {
+                    // Splash complete, wait additional buffer then start
+                    setTimeout(initParticleSystem, 500);
+                }
+            }
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', waitForSplashComplete);
+            } else {
+                waitForSplashComplete();
+            }
+        })();
+
+        // ============================================
+        // CONTACT MAGNETIC AIR PARTICLE SYSTEM
+        // ============================================
+        (function() {
+            // Wait for DOM to be ready
+            function initContactParticleSystem() {
+                const canvas = document.getElementById('contact-canvas');
+                const contactSection = document.querySelector('.contact-form');
+                
+                if (!canvas || !contactSection) {
+                    // Retry if not ready yet
+                    setTimeout(initContactParticleSystem, 100);
+                    return;
+                }
+                
+                const ctx = canvas.getContext('2d');
+                if (!ctx) return;
+                
+                // Detect mobile
+                const isMobileDevice = window.innerWidth <= 768;
+                
+                // Get contact section dimensions
+                const updateDimensions = () => {
+                    width = contactSection.offsetWidth || window.innerWidth;
+                    height = contactSection.offsetHeight || window.innerHeight;
+                    canvas.width = width;
+                    canvas.height = height;
+                };
+                
+                let width, height;
+                updateDimensions();
+                
+                // Ensure we have valid dimensions
+                if (width === 0 || height === 0) {
+                    setTimeout(initContactParticleSystem, 100);
+                    return;
+                }
+                
+                // Mouse position
+                let mouse = {
+                    x: width / 2,
+                    y: height / 2,
+                    radius: 150
+                };
+                
+                // Particle system
+                const particles = [];
+                const particleCount = isMobileDevice ? 35 : 70;
+                
+                // Particle class (tiny dots)
+                class Particle {
+                    constructor() {
+                        this.reset();
+                        this.y = Math.random() * height;
+                    }
+                    
+                    reset() {
+                        this.x = Math.random() * width;
+                        this.y = Math.random() * height;
+                        this.baseX = this.x;
+                        this.baseY = this.y;
+                        this.size = Math.random() * 3.5 + 0.5;
+                        this.speedX = Math.random() * 0.5 - 0.25;
+                        this.speedY = Math.random() * 0.5 - 0.25;
+                        this.opacity = Math.random() * 0.6 + 0.2;
+                    }
+                    
+                    update() {
+                        // Update base position first (random floating)
+                        this.baseX += this.speedX;
+                        this.baseY += this.speedY;
+                        
+                        // Wrap around edges
+                        if (this.baseX > width) this.baseX = 0;
+                        if (this.baseX < 0) this.baseX = width;
+                        if (this.baseY > height) this.baseY = 0;
+                        if (this.baseY < 0) this.baseY = height;
+                        
+                        // Magnetic effect only when mouse is near (not at center)
+                        const dx = mouse.x - this.x;
+                        const dy = mouse.y - this.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < mouse.radius && distance > 0) {
+                            const forceDirectionX = dx / distance;
+                            const forceDirectionY = dy / distance;
+                            const force = (mouse.radius - distance) / mouse.radius;
+                            this.x -= forceDirectionX * force * 3;
+                            this.y -= forceDirectionY * force * 3;
+                        } else {
+                            // Always drift toward base position (which is moving randomly)
+                            this.x += (this.baseX - this.x) * 0.02;
+                            this.y += (this.baseY - this.y) * 0.02;
+                        }
+                    }
+                    
+                    draw() {
+                        ctx.fillStyle = `rgba(80, 80, 80, ${this.opacity})`;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+                
+                // Initialize particles only
+                function init() {
+                    particles.length = 0;
+                    
+                    for (let i = 0; i < particleCount; i++) {
+                        particles.push(new Particle());
+                    }
+                }
+                
+                // Animation loop
+                function animate() {
+                    ctx.clearRect(0, 0, width, height);
+                    
+                    // Draw and update particles only
+                    particles.forEach(particle => {
+                        particle.update();
+                        particle.draw();
+                    });
+                    
+                    requestAnimationFrame(animate);
+                }
+                
+                // Mouse move handler (desktop only)
+                if (!isMobileDevice) {
+                    contactSection.addEventListener('mousemove', (e) => {
+                        const rect = contactSection.getBoundingClientRect();
+                        mouse.x = e.clientX - rect.left;
+                        mouse.y = e.clientY - rect.top;
+                    }, { passive: true });
+                    
+                    contactSection.addEventListener('mouseleave', () => {
+                        // Don't reset to center - let particles continue random movement
+                        // mouse.x and mouse.y will be ignored when distance > radius
+                    });
+                }
+                
+                // Resize handler
+                const handleResize = () => {
+                    updateDimensions();
+                    mouse.x = width / 2;
+                    mouse.y = height / 2;
+                    init();
+                };
+                
+                window.addEventListener('resize', handleResize);
+                
+                // Start animation and fade in canvas
+                canvas.classList.add('active');
+                init();
+                animate();
+            }
+            
+            // Initialize when section is visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(initContactParticleSystem, 200);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            const contactSection = document.querySelector('.contact-form');
+            if (contactSection) {
+                observer.observe(contactSection);
+            }
+        })();
 
         // ============================================
         // PRICING SPLIT PANELS INTERACTION
