@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airoam - Airbnb Management</title>
+    <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,6 +49,12 @@
 
         /* Change to white after splash */
         body:not(.loading) {
+            background-color: #FFFFFF;
+        }
+
+        /* Page background white when splash goes white (avoids black flash when splash fades) */
+        html.page-bg-white,
+        body.page-bg-white {
             background-color: #FFFFFF;
         }
 
@@ -194,12 +201,12 @@
             transform: scale(0.98);
         }
 
-        /* Main content fades in smoothly - AFTER splash */
+        /* Main content fades in quickly - AFTER splash */
         .main-content {
             opacity: 0;
             visibility: hidden;
             transform: scale(0.98);
-            transition: opacity 1200ms ease-out, transform 1200ms ease-out, visibility 0s linear 0s;
+            transition: opacity 500ms ease-out, transform 500ms ease-out, visibility 0s linear 0s;
         }
 
         /* Content visible when loading class removed */
@@ -458,7 +465,7 @@
         body:not(.loading) .hero {
             opacity: 1;
             visibility: visible;
-            transition: opacity 800ms ease-out 400ms;
+            transition: opacity 400ms ease-out;
         }
 
         /* Magnetic particle canvas background */
@@ -471,7 +478,7 @@
             z-index: 1;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 1200ms ease-out;
+            transition: opacity 500ms ease-out;
         }
 
         /* Hide canvas container entirely during splash */
@@ -491,7 +498,7 @@
             height: 100%;
             opacity: 0;
             display: block;
-            transition: opacity 1200ms ease-out;
+            transition: opacity 500ms ease-out;
         }
 
         /* Fade in canvas after splash */
@@ -2048,62 +2055,243 @@
         }
 
         /* ============================================
-           VOICE WIDGET
+           VOICE WIDGET (Airoam look: minimal, 3px border, shadow)
            ============================================ */
-        .voice-widget {
+        .voice-widget-wrap {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background-color: var(--color-black);
-            color: var(--color-white);
-            display: none;
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .voice-widget-wrap.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .voice-widget {
+            display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+            padding: 14px 22px;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            border: 3px solid var(--color-black);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
             cursor: pointer;
-            z-index: 9998;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-            border: none;
-            padding: 0;
-            opacity: 0;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .voice-widget:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.25);
+        .voice-widget:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .voice-widget:active {
-            transform: scale(0.95);
+        .voice-widget:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .voice-widget:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
         }
 
         .voice-widget-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .voice-widget-text {
+            white-space: nowrap;
+        }
+
+        .voice-widget.state-connecting {
+            background-color: #e8e8e8;
+            color: #606060;
+            border-color: #a0a0a0;
+        }
+
+        .voice-widget-icon-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .voice-widget.state-call .voice-widget-icon {
+            color: #202020;
+        }
+
+        .voice-widget.state-call .voice-widget-icon-wrap::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
             width: 28px;
-            height: 28px;
-            fill: currentColor;
+            height: 2px;
+            background: #202020;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            pointer-events: none;
         }
 
-        .voice-widget.active {
-            background-color: var(--color-white);
+        .voice-widget-powered {
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Modals – anchored bottom-right, no page darkening */
+        .voice-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: transparent;
+            z-index: 10001;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 24px;
+            padding-bottom: 100px;
+            padding-right: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .voice-modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .voice-modal-overlay.open .voice-modal {
+            pointer-events: auto;
+        }
+
+        .voice-modal {
+            background: var(--color-white);
+            border: 3px solid var(--color-black);
+            max-width: 220px;
+            width: 100%;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            margin-bottom: 0;
+        }
+
+        .voice-modal-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .voice-modal p {
+            font-size: 11px;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--color-text-grey);
+            margin-bottom: 14px;
+        }
+
+        .voice-modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .voice-modal-btn {
+            padding: 8px 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            border: 2px solid var(--color-black);
+            background: var(--color-white);
             color: var(--color-black);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
         }
 
-        /* Mobile: slightly smaller */
+        .voice-modal-btn:hover {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+
+        .voice-modal-btn.primary {
+            background: var(--color-black);
+            color: var(--color-white);
+        }
+
+        .voice-modal-btn.primary:hover {
+            background: #404040;
+        }
+
+        .voice-feedback-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .voice-feedback-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--color-black);
+            background: var(--color-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .voice-feedback-btn:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .voice-feedback-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+
         @media (max-width: 768px) {
-            .voice-widget {
-                width: 56px;
-                height: 56px;
+            .voice-widget-wrap {
                 bottom: 20px;
                 right: 20px;
             }
 
+            .voice-widget {
+                padding: 12px 18px;
+                font-size: 13px;
+            }
+
             .voice-widget-icon {
-                width: 24px;
-                height: 24px;
+                width: 18px;
+                height: 18px;
+            }
+
+            .voice-modal-overlay {
+                padding: 16px;
+                padding-bottom: 90px;
             }
         }
 
@@ -2409,7 +2597,7 @@
             <div class="contact-grid">
                 <!-- Left: Title & Info -->
                 <div class="contact-info">
-                    <h2 class="contact-title">Get in touch</h2>
+                    <h2 class="contact-title">Get Started</h2>
                     <p class="contact-subtitle">Ready to transform your property management? Let's talk.</p>
                     
                     <div class="contact-details">
@@ -2610,9 +2798,11 @@
             4600ms  - Complete
             */
             
-            // Background turns white + Arrow changes + Calculate logo position + Starts morphing at 2900ms
+            // Background turns white + Page (html/body) turns white so no black flash when splash fades
             setTimeout(function() {
                 splash.classList.add('white-bg');
+                document.documentElement.classList.add('page-bg-white');
+                document.body.classList.add('page-bg-white');
                 splash.classList.add('move-to-hero');
                 
                 // Change arrow images to black
@@ -2687,23 +2877,23 @@
                 }
             }, 2900);
             
-            // Remove loading class after splash completes (at 4800ms)
+            // Remove loading class earlier so hero content appears sooner (4200ms)
             setTimeout(function() {
                 document.body.classList.remove('loading');
-            }, 4800);
+            }, 4200);
             
             // Start fading splash background at 4000ms (after arrow starts fading)
             setTimeout(function() {
                 splash.classList.add('fade-bg');
             }, 4000);
             
-            // Hide splash completely at 4800ms (give more time for smooth float)
+            // Hide splash completely at 4200ms (in sync with content reveal)
             setTimeout(function() {
                 splash.classList.add('hidden');
                 setTimeout(function() {
                     splash.style.display = 'none';
-                }, 400);
-            }, 4800);
+                }, 300);
+            }, 4200);
         })();
 
         // ============================================
@@ -3901,42 +4091,135 @@
     </div><!-- End main-content -->
 
     <!-- Voice Widget -->
-    <button class="voice-widget" id="voice-widget" aria-label="Voice Assistant">
-        <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 1C10.34 1 9 2.34 9 4V12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12V4C15 2.34 13.66 1 12 1Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M19 10V12C19 15.87 15.87 19 12 19C8.13 19 5 15.87 5 12V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 19V23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M8 23H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-    </button>
+    <div class="voice-widget-wrap" id="voice-widget-wrap">
+        <button type="button" class="voice-widget" id="voice-widget" aria-label="Voice call">
+            <span class="voice-widget-icon-wrap">
+                <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
+            <span class="voice-widget-text" id="voice-widget-text">Voice call</span>
+        </button>
+        <span class="voice-widget-powered">Powered by Heya</span>
+    </div>
+
+    <!-- Terms & Conditions modal -->
+    <div class="voice-modal-overlay" id="voice-terms-overlay" aria-hidden="true">
+        <div class="voice-modal" role="dialog" aria-labelledby="voice-terms-title">
+            <h2 class="voice-modal-title" id="voice-terms-title">Terms and conditions</h2>
+            <p>By clicking 'Agree' and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy. If you do not wish to have your conversations recorded, please refrain from using this service.</p>
+            <div class="voice-modal-actions">
+                <button type="button" class="voice-modal-btn" id="voice-terms-cancel">Cancel</button>
+                <button type="button" class="voice-modal-btn primary" id="voice-terms-agree">Agree</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback modal -->
+    <div class="voice-modal-overlay" id="voice-feedback-overlay" aria-hidden="true">
+        <div class="voice-modal" role="dialog" aria-labelledby="voice-feedback-title">
+            <h2 class="voice-modal-title" id="voice-feedback-title">Was the call helpful?</h2>
+            <div class="voice-feedback-buttons">
+                <button type="button" class="voice-feedback-btn" id="voice-feedback-down" aria-label="No">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button type="button" class="voice-feedback-btn" id="voice-feedback-up" aria-label="Yes">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // ============================================
-        // VOICE WIDGET
+        // VOICE WIDGET (Terms → Connecting → End call → Feedback)
         // ============================================
         (function() {
-            const voiceWidget = document.getElementById('voice-widget');
-            
-            // Hide widget during splash screen
-            document.body.classList.add('loading');
-            const splash = document.getElementById('splash-screen');
-            
-            // Show widget after splash completes
-            setTimeout(function() {
-                voiceWidget.style.opacity = '0';
-                voiceWidget.style.display = 'flex';
-                voiceWidget.style.transition = 'opacity 600ms ease-out';
-                setTimeout(function() {
-                    voiceWidget.style.opacity = '1';
-                }, 100);
-            }, 3000);
-            
-            // Toggle active state on click (placeholder functionality)
-            voiceWidget.addEventListener('click', function() {
-                this.classList.toggle('active');
-                // Placeholder: Add your voice widget functionality here
-                console.log('Voice widget clicked');
+            const wrap = document.getElementById('voice-widget-wrap');
+            const btn = document.getElementById('voice-widget');
+            const textEl = document.getElementById('voice-widget-text');
+            const termsOverlay = document.getElementById('voice-terms-overlay');
+            const termsCancel = document.getElementById('voice-terms-cancel');
+            const termsAgree = document.getElementById('voice-terms-agree');
+            const feedbackOverlay = document.getElementById('voice-feedback-overlay');
+            const feedbackUp = document.getElementById('voice-feedback-up');
+            const feedbackDown = document.getElementById('voice-feedback-down');
+
+            let state = 'idle'; // idle | connecting | call | ended
+
+            function showWrap() {
+                wrap.classList.add('visible');
+            }
+
+            function setButtonState(s) {
+                state = s;
+                btn.disabled = (s === 'connecting');
+                btn.classList.remove('state-connecting', 'state-call');
+                if (s === 'connecting') {
+                    btn.classList.add('state-connecting');
+                    textEl.textContent = 'Connecting';
+                } else if (s === 'call') {
+                    btn.classList.add('state-call');
+                    textEl.textContent = 'End call';
+                } else {
+                    textEl.textContent = 'Voice call';
+                }
+            }
+
+            function openTerms() {
+                termsOverlay.classList.add('open');
+                termsOverlay.setAttribute('aria-hidden', 'false');
+            }
+
+            function closeTerms() {
+                termsOverlay.classList.remove('open');
+                termsOverlay.setAttribute('aria-hidden', 'true');
+            }
+
+            function openFeedback() {
+                feedbackOverlay.classList.add('open');
+                feedbackOverlay.setAttribute('aria-hidden', 'false');
+            }
+
+            function closeFeedback() {
+                feedbackOverlay.classList.remove('open');
+                feedbackOverlay.setAttribute('aria-hidden', 'true');
+            }
+
+            btn.addEventListener('click', function() {
+                if (state === 'idle') {
+                    openTerms();
+                    return;
+                }
+                if (state === 'call') {
+                    setButtonState('idle');
+                    openFeedback();
+                    return;
+                }
             });
+
+            termsCancel.addEventListener('click', closeTerms);
+            termsAgree.addEventListener('click', function() {
+                closeTerms();
+                setButtonState('connecting');
+                // Simulate Voice AI connecting; replace with real Heya/API when ready
+                setTimeout(function() {
+                    setButtonState('call');
+                }, 1500);
+            });
+
+            feedbackUp.addEventListener('click', function() { closeFeedback(); });
+            feedbackDown.addEventListener('click', function() { closeFeedback(); });
+
+            termsOverlay.addEventListener('click', function(e) {
+                if (e.target === termsOverlay) closeTerms();
+            });
+            feedbackOverlay.addEventListener('click', function(e) {
+                if (e.target === feedbackOverlay) closeFeedback();
+            });
+
+            setTimeout(showWrap, 3200);
         })();
     </script>
 </body>
