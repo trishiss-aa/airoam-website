@@ -415,6 +415,9 @@
             flex-direction: column;
             justify-content: space-between;
             cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
         }
 
         .nav-hamburger span {
@@ -422,7 +425,31 @@
             height: 2px;
             background-color: var(--color-black);
             transition: all 0.3s ease;
+            display: block;
         }
+
+        .nav-mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: var(--color-white);
+            border-bottom: 3px solid var(--color-black);
+            padding: 24px;
+            z-index: 9999;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .nav-mobile-menu.open { display: flex; }
+        .nav-mobile-menu a {
+            font-size: 16px;
+            color: var(--color-black);
+            text-decoration: none;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .nav-mobile-menu a:last-child { border-bottom: none; }
 
         /* ============================================
            SECTION BASE STYLES
@@ -1154,7 +1181,7 @@
             background-color: var(--color-white);
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             padding: 0;
         }
 
@@ -1197,7 +1224,7 @@
             flex-direction: column;
             justify-content: center;
             flex: 0 0 auto;
-            height: calc(35vh + 15px);
+            height: calc(35vh + 35px);
             position: relative;
             margin-top: 0;
         }
@@ -1222,7 +1249,7 @@
             position: relative;
             overflow: hidden;
             flex: 0 0 auto;
-            height: calc(35vh + 15px);
+            height: calc(35vh + 35px);
         }
 
         .testimonial-image {
@@ -1230,7 +1257,6 @@
             height: 100%;
             object-fit: cover;
             background-color: #F5F5F5;
-            filter: grayscale(100%);
         }
 
         /* Fade gradient from image to white - enhanced */
@@ -1808,12 +1834,12 @@
             }
 
             .testimonial-image-block {
-                min-height: 250px;
-                height: 250px;
+                min-height: 270px;
+                height: 270px;
             }
 
             .testimonial-image {
-                min-height: 250px;
+                min-height: 270px;
                 height: 100%;
             }
 
@@ -2316,15 +2342,23 @@
         <div class="nav-center">
             <a href="#about">About</a>
             <a href="#calculator">Pricing</a>
+            <a href="blog.html">Blog</a>
             <a href="#contact">Contact</a>
         </div>
         <a href="#contact" class="nav-button">Get Started</a>
-        <div class="nav-hamburger">
+        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
             <span></span>
             <span></span>
             <span></span>
-        </div>
+        </button>
     </nav>
+    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+        <a href="#about">About</a>
+        <a href="#calculator">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact">Get Started</a>
+    </div>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -2715,6 +2749,7 @@
                 <div class="footer-links">
                     <a href="#pricing">Pricing</a>
                     <a href="#testimonials">Testimonials</a>
+                    <a href="blog.html">Blog</a>
                     <a href="#contact">Contact</a>
                 </div>
             </div>
@@ -3128,10 +3163,12 @@
         })();
 
         // ============================================
-        // NAVIGATION SCROLL BEHAVIOR
+        // NAVIGATION SCROLL BEHAVIOR & MOBILE MENU
         // ============================================
         (function() {
             const nav = document.getElementById('main-nav');
+            const hamburger = document.getElementById('nav-hamburger');
+            const mobileMenu = document.getElementById('nav-mobile-menu');
 
             // Add shadow to nav on scroll
             window.addEventListener('scroll', () => {
@@ -3147,6 +3184,22 @@
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+
+            // Mobile menu toggle
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', function() {
+                    var isOpen = mobileMenu.classList.toggle('open');
+                    mobileMenu.setAttribute('aria-hidden', !isOpen);
+                    hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+                });
+                mobileMenu.querySelectorAll('a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.remove('open');
+                        mobileMenu.setAttribute('aria-hidden', 'true');
+                        hamburger.setAttribute('aria-label', 'Open menu');
+                    });
+                });
+            }
         })();
 
         // ============================================
