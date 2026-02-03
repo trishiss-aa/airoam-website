@@ -1340,11 +1340,13 @@
             padding-right: 60px;
         }
 
+        /* "Latest posts" and "View all" in one row above the carousel */
         .blog-carousel-header {
             display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            margin-bottom: 48px;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 40px;
             padding: 0 60px;
             max-width: 1400px;
             margin-left: auto;
@@ -1359,14 +1361,13 @@
             font-weight: 600;
             line-height: 0.914634;
             text-align: left;
-            margin-bottom: 24px;
-            width: 100%;
+            margin-bottom: 0;
+            width: auto;
         }
 
         .blog-carousel-view-all-wrap {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 24px;
+            flex-shrink: 0;
+            margin-bottom: 0;
         }
 
         .blog-carousel-view-all {
@@ -1406,32 +1407,27 @@
             border-radius: 4px;
         }
 
+        /* Blog carousel cards – same style as blog.html (rounded, overlay text box, text box moves up on hover) */
         .blog-carousel-card {
             flex: 0 0 360px;
             scroll-snap-align: start;
-            background-color: var(--color-white);
-            border: 3px solid var(--color-black);
-            border-top: none;
+            position: relative;
+            display: block;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 12px;
+            aspect-ratio: 3 / 3.23;
+            text-decoration: none;
+            color: inherit;
+            transition: box-shadow 0.3s ease;
         }
 
         .blog-carousel-card:hover {
-            transform: translateY(-4px);
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
         }
 
-        /* Top border on image wrapper so it sits above the image and stays visible on hover */
         .blog-carousel-card-image {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 10;
-            overflow: hidden;
-            background-color: var(--color-border);
-            flex-shrink: 0;
-            border-top: 3px solid var(--color-black);
+            position: absolute;
+            inset: 0;
         }
 
         .blog-carousel-card-image img {
@@ -1441,25 +1437,30 @@
             display: block;
         }
 
-        .blog-carousel-card-category {
+        /* Overlay text box at bottom – moves up on hover (same as blog.html) */
+        .blog-carousel-card-text-box {
             position: absolute;
-            top: 16px;
-            left: 16px;
-            font-size: 11px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 28px 24px;
+            background-color: #F5E6C8;
+            border-radius: 0 0 12px 12px;
+            transition: transform 0.35s ease;
+        }
+
+        .blog-carousel-card:hover .blog-carousel-card-text-box {
+            transform: translateY(-24px);
+        }
+
+        .blog-carousel-card-category {
+            font-size: 12px;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--color-white);
-            background-color: var(--color-black);
-            padding: 6px 12px;
-            border-radius: 4px;
-        }
-
-        .blog-carousel-card-body {
-            padding: 28px 24px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
+            color: var(--color-black);
+            margin-bottom: 8px;
+            opacity: 0.7;
         }
 
         .blog-carousel-card-title {
@@ -1468,30 +1469,23 @@
             line-height: 1.3;
             letter-spacing: -0.01em;
             color: var(--color-black);
-            margin-bottom: 12px;
-        }
-
-        .blog-carousel-card-desc {
-            font-size: 14px;
-            font-weight: 300;
-            line-height: 1.5;
-            color: var(--color-text-grey);
-            flex: 1;
+            margin-bottom: 0;
         }
 
         .blog-carousel-card-link {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             letter-spacing: 0.05em;
             color: var(--color-black);
             text-decoration: none;
-            margin-top: 20px;
+            margin-top: 12px;
             display: inline-block;
-            transition: opacity 0.3s ease;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
         }
 
         .blog-carousel-card-link:hover {
-            opacity: 0.6;
+            opacity: 1;
         }
 
         @media (max-width: 768px) {
@@ -1500,17 +1494,16 @@
             }
 
             .blog-carousel-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: baseline;
                 padding: 0 24px;
-                margin-bottom: 32px;
+                margin-bottom: 28px;
             }
 
             .blog-carousel-title {
                 font-size: 2em;
-                margin-bottom: 20px;
-            }
-
-            .blog-carousel-view-all-wrap {
-                margin-bottom: 20px;
+                margin-bottom: 0;
             }
 
             .blog-carousel-scroll {
@@ -1520,9 +1513,10 @@
 
             .blog-carousel-card {
                 flex: 0 0 280px;
+                aspect-ratio: 3 / 3.23;
             }
 
-            .blog-carousel-card-body {
+            .blog-carousel-card-text-box {
                 padding: 24px 20px;
             }
 
@@ -2834,72 +2828,66 @@
             </div>
         </div>
         <div class="blog-carousel-scroll" aria-label="Scroll through latest blog posts">
-            <article class="blog-carousel-card">
-                <a href="blog.html" class="blog-carousel-card-image">
+            <a href="blog.html" class="blog-carousel-card">
+                <div class="blog-carousel-card-image">
                     <img src="Images/airoam-property.jpg" alt="Getting your first listing ready for guests">
-                    <span class="blog-carousel-card-category">Tips</span>
-                </a>
-                <div class="blog-carousel-card-body">
+                </div>
+                <div class="blog-carousel-card-text-box">
+                    <div class="blog-carousel-card-category">Tips</div>
                     <h3 class="blog-carousel-card-title">Getting your first listing ready for guests</h3>
-                    <p class="blog-carousel-card-desc">A practical checklist for new hosts: photos, descriptions, and pricing.</p>
-                    <a href="blog.html" class="blog-carousel-card-link">Read more →</a>
+                    <span class="blog-carousel-card-link">Read more →</span>
                 </div>
-            </article>
-            <article class="blog-carousel-card">
-                <a href="blog.html" class="blog-carousel-card-image">
+            </a>
+            <a href="blog.html" class="blog-carousel-card">
+                <div class="blog-carousel-card-image">
                     <img src="Images/airoam-property1.jpg" alt="How AI handles guest messages 24/7">
-                    <span class="blog-carousel-card-category">Automation</span>
-                </a>
-                <div class="blog-carousel-card-body">
+                </div>
+                <div class="blog-carousel-card-text-box">
+                    <div class="blog-carousel-card-category">Automation</div>
                     <h3 class="blog-carousel-card-title">How AI handles guest messages 24/7</h3>
-                    <p class="blog-carousel-card-desc">What our AI actually does—and what stays human—when guests reach out.</p>
-                    <a href="blog.html" class="blog-carousel-card-link">Read more →</a>
+                    <span class="blog-carousel-card-link">Read more →</span>
                 </div>
-            </article>
-            <article class="blog-carousel-card">
-                <a href="blog.html" class="blog-carousel-card-image">
+            </a>
+            <a href="blog.html" class="blog-carousel-card">
+                <div class="blog-carousel-card-image">
                     <img src="Images/airoam-property2.jpg" alt="Why 9% makes sense for growing portfolios">
-                    <span class="blog-carousel-card-category">Pricing</span>
-                </a>
-                <div class="blog-carousel-card-body">
+                </div>
+                <div class="blog-carousel-card-text-box">
+                    <div class="blog-carousel-card-category">Pricing</div>
                     <h3 class="blog-carousel-card-title">Why 9% makes sense for growing portfolios</h3>
-                    <p class="blog-carousel-card-desc">Transparent pricing that scales with your revenue, not your property count.</p>
-                    <a href="blog.html" class="blog-carousel-card-link">Read more →</a>
+                    <span class="blog-carousel-card-link">Read more →</span>
                 </div>
-            </article>
-            <article class="blog-carousel-card">
-                <a href="blog.html" class="blog-carousel-card-image">
+            </a>
+            <a href="blog.html" class="blog-carousel-card">
+                <div class="blog-carousel-card-image">
                     <img src="Images/airoam-property.jpg" alt="Coordinating cleaning and turnover at scale">
-                    <span class="blog-carousel-card-category">Operations</span>
-                </a>
-                <div class="blog-carousel-card-body">
+                </div>
+                <div class="blog-carousel-card-text-box">
+                    <div class="blog-carousel-card-category">Operations</div>
                     <h3 class="blog-carousel-card-title">Coordinating cleaning and turnover at scale</h3>
-                    <p class="blog-carousel-card-desc">Keeping turnovers smooth when you have multiple properties and same-day flips.</p>
-                    <a href="blog.html" class="blog-carousel-card-link">Read more →</a>
+                    <span class="blog-carousel-card-link">Read more →</span>
                 </div>
-            </article>
-            <article class="blog-carousel-card">
-                <a href="blog.html" class="blog-carousel-card-image">
+            </a>
+            <a href="blog.html" class="blog-carousel-card">
+                <div class="blog-carousel-card-image">
                     <img src="Images/airoam-property1.jpg" alt="Setting up dynamic pricing for your market">
-                    <span class="blog-carousel-card-category">Guides</span>
-                </a>
-                <div class="blog-carousel-card-body">
+                </div>
+                <div class="blog-carousel-card-text-box">
+                    <div class="blog-carousel-card-category">Guides</div>
                     <h3 class="blog-carousel-card-title">Setting up dynamic pricing for your market</h3>
-                    <p class="blog-carousel-card-desc">How we adjust rates by season, demand, and local events.</p>
-                    <a href="blog.html" class="blog-carousel-card-link">Read more →</a>
+                    <span class="blog-carousel-card-link">Read more →</span>
                 </div>
-            </article>
-            <article class="blog-carousel-card">
-                <a href="blog.html" class="blog-carousel-card-image">
+            </a>
+            <a href="blog.html" class="blog-carousel-card">
+                <div class="blog-carousel-card-image">
                     <img src="Images/airoam-property2.jpg" alt="What's new in the Airoam dashboard">
-                    <span class="blog-carousel-card-category">Updates</span>
-                </a>
-                <div class="blog-carousel-card-body">
-                    <h3 class="blog-carousel-card-title">What's new in the Airoam dashboard</h3>
-                    <p class="blog-carousel-card-desc">Recent features and improvements for reporting and guest communication.</p>
-                    <a href="blog.html" class="blog-carousel-card-link">Read more →</a>
                 </div>
-            </article>
+                <div class="blog-carousel-card-text-box">
+                    <div class="blog-carousel-card-category">Updates</div>
+                    <h3 class="blog-carousel-card-title">What's new in the Airoam dashboard</h3>
+                    <span class="blog-carousel-card-link">Read more →</span>
+                </div>
+            </a>
         </div>
     </section>
 

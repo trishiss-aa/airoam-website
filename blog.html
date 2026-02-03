@@ -142,10 +142,14 @@
             width: 100%;
         }
 
-        /* Blog page hero – title, breadcrumb, subtitle */
+        /* Blog page hero – title aligns left with sticky sidebar */
         .blog-hero {
-            padding: 80px 0 60px;
             background-color: var(--color-white);
+        }
+        .blog-hero .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 60px 60px;
         }
         .blog-breadcrumb {
             font-size: 13px;
@@ -163,7 +167,7 @@
         .blog-breadcrumb a:hover { opacity: 0.7; }
         .blog-title {
             font-size: 56px;
-            font-weight: 300;
+            font-weight: 700;
             line-height: 1.1;
             letter-spacing: -0.02em;
             margin-bottom: 24px;
@@ -176,63 +180,193 @@
             max-width: 640px;
         }
 
-        /* Blog grid – case studies style */
+        /* Blog layout: sticky sidebar + content */
+        .blog-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 60px 120px;
+            align-items: start;
+        }
+
+        .blog-sidebar {
+            position: sticky;
+            top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .blog-sidebar-title {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-black);
+            margin-bottom: 4px;
+        }
+
+        .blog-sidebar-categories {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .blog-sidebar-categories a {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--color-text-grey);
+            text-decoration: none;
+            padding: 8px 0;
+            transition: color 0.2s ease;
+        }
+
+        .blog-sidebar-categories a:hover,
+        .blog-sidebar-categories a.active {
+            color: var(--color-black);
+            font-weight: 500;
+        }
+
+        .blog-sidebar-subscribe-title {
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-black);
+            margin-bottom: 12px;
+        }
+
+        .blog-sidebar-subscribe-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .blog-sidebar-subscribe-form input[type="email"] {
+            width: 100%;
+            padding: 12px 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            border: 2px solid var(--color-black);
+            background: var(--color-white);
+            color: var(--color-black);
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .blog-sidebar-subscribe-form input[type="email"]::placeholder {
+            color: var(--color-text-grey);
+            opacity: 0.7;
+        }
+
+        .blog-sidebar-subscribe-form input[type="email"]:focus {
+            border-color: var(--color-black);
+        }
+
+        .blog-sidebar-subscribe-btn {
+            display: block;
+            width: 100%;
+            padding: 14px 24px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border: 3px solid var(--color-black);
+            background: var(--color-black);
+            color: var(--color-white);
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .blog-sidebar-subscribe-btn:hover {
+            background: var(--color-white);
+            color: var(--color-black);
+        }
+
+        /* Blog grid – image card with overlay text box (text box moves up on hover) */
         .blog-section {
-            padding: 80px 0 120px;
+            padding: 0;
             background-color: var(--color-white);
         }
+
+        .blog-content {
+            min-width: 0;
+        }
+
         .blog-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 40px;
         }
         .blog-card {
-            background-color: var(--color-black);
-            border: 3px solid var(--color-black);
-            padding: 48px 40px;
-            min-height: 280px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: block;
+            overflow: hidden;
+            border-radius: 12px;
+            aspect-ratio: 3 / 3.8;
+            text-decoration: none;
+            color: inherit;
+            transition: box-shadow 0.3s ease;
         }
         .blog-card:hover {
-            transform: translateY(-4px);
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+        .blog-card-image {
+            position: absolute;
+            inset: 0;
+        }
+        .blog-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        /* Text box overlay at bottom – moves up on hover */
+        .blog-card-text-box {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 28px 24px;
+            background-color: #F5E6C8;
+            border-radius: 0 0 12px 12px;
+            transition: transform 0.35s ease;
+        }
+        .blog-card:hover .blog-card-text-box {
+            transform: translateY(-24px);
         }
         .blog-card-category {
             font-size: 12px;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 16px;
+            color: var(--color-black);
+            margin-bottom: 8px;
+            opacity: 0.7;
         }
         .blog-card-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 600;
             line-height: 1.3;
             letter-spacing: -0.01em;
-            color: var(--color-white);
-            margin-bottom: 12px;
-        }
-        .blog-card-desc {
-            font-size: 15px;
-            font-weight: 300;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.75);
+            color: var(--color-black);
+            margin-bottom: 0;
         }
         .blog-card-link {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             letter-spacing: 0.05em;
-            color: var(--color-white);
+            color: var(--color-black);
             text-decoration: none;
-            margin-top: 20px;
+            margin-top: 12px;
             display: inline-block;
-            transition: opacity 0.3s ease;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
         }
-        .blog-card-link:hover { opacity: 0.7; }
+        .blog-card-link:hover { opacity: 1; }
 
         /* Footer */
         footer {
@@ -429,9 +563,32 @@
             .nav-hamburger { display: flex; }
             .nav-logo .logo { width: 140px; }
             .container { padding: 0 24px; }
+            .blog-hero .container { padding: 60px 24px 40px; }
             .blog-title { font-size: 40px; }
+            .blog-layout {
+                grid-template-columns: 1fr;
+                padding: 40px 24px 80px;
+                gap: 40px;
+            }
+            .blog-sidebar {
+                position: static;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 24px;
+                padding-bottom: 24px;
+                border-bottom: 2px solid rgba(0,0,0,0.1);
+            }
+            .blog-sidebar-categories {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .blog-sidebar-subscribe-form { min-width: 200px; }
+            .blog-sidebar-subscribe-btn { width: auto; }
             .blog-grid { grid-template-columns: 1fr; gap: 24px; }
-            .blog-card { padding: 36px 28px; min-height: 240px; }
+            .blog-card { aspect-ratio: 3 / 3.8; }
+            .blog-card-text-box { padding: 24px 20px; }
+            .blog-card-title { font-size: 18px; }
             .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: left; }
             .footer-contact { text-align: left; }
             .voice-widget-wrap { bottom: 20px; right: 20px; }
@@ -480,60 +637,95 @@
             </div>
         </section>
 
-        <section class="blog-section">
-            <div class="container">
-                <div class="blog-grid">
-                    <article class="blog-card">
-                        <div>
+        <div class="blog-layout">
+            <aside class="blog-sidebar" aria-label="Blog filters and subscribe">
+                <div>
+                    <h2 class="blog-sidebar-title">Category</h2>
+                    <ul class="blog-sidebar-categories">
+                        <li><a href="blog.html" class="active">All</a></li>
+                        <li><a href="blog.html?category=tips">Tips</a></li>
+                        <li><a href="blog.html?category=automation">Automation</a></li>
+                        <li><a href="blog.html?category=pricing">Pricing</a></li>
+                        <li><a href="blog.html?category=operations">Operations</a></li>
+                        <li><a href="blog.html?category=guides">Guides</a></li>
+                        <li><a href="blog.html?category=updates">Updates</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2 class="blog-sidebar-subscribe-title">Subscribe to news</h2>
+                    <form class="blog-sidebar-subscribe-form" action="#" method="post" aria-label="Subscribe to newsletter">
+                        <input type="email" name="email" placeholder="Your email" required aria-label="Email address">
+                        <button type="submit" class="blog-sidebar-subscribe-btn">Subscribe</button>
+                    </form>
+                </div>
+            </aside>
+            <section class="blog-section">
+                <div class="blog-content">
+                    <div class="blog-grid">
+                    <a href="#" class="blog-card">
+                        <div class="blog-card-image">
+                            <img src="Images/airoam-property.jpg" alt="Getting your first listing ready for guests">
+                        </div>
+                        <div class="blog-card-text-box">
                             <div class="blog-card-category">Tips</div>
                             <h2 class="blog-card-title">Getting your first listing ready for guests</h2>
-                            <p class="blog-card-desc">A practical checklist for new hosts: photos, descriptions, and pricing.</p>
+                            <span class="blog-card-link">Read more →</span>
                         </div>
-                        <a href="#" class="blog-card-link">Read more →</a>
-                    </article>
-                    <article class="blog-card">
-                        <div>
+                    </a>
+                    <a href="#" class="blog-card">
+                        <div class="blog-card-image">
+                            <img src="Images/airoam-property1.jpg" alt="How AI handles guest messages 24/7">
+                        </div>
+                        <div class="blog-card-text-box">
                             <div class="blog-card-category">Automation</div>
                             <h2 class="blog-card-title">How AI handles guest messages 24/7</h2>
-                            <p class="blog-card-desc">What our AI actually does—and what stays human—when guests reach out.</p>
+                            <span class="blog-card-link">Read more →</span>
                         </div>
-                        <a href="#" class="blog-card-link">Read more →</a>
-                    </article>
-                    <article class="blog-card">
-                        <div>
+                    </a>
+                    <a href="#" class="blog-card">
+                        <div class="blog-card-image">
+                            <img src="Images/airoam-property2.jpg" alt="Why 9% makes sense for growing portfolios">
+                        </div>
+                        <div class="blog-card-text-box">
                             <div class="blog-card-category">Pricing</div>
                             <h2 class="blog-card-title">Why 9% makes sense for growing portfolios</h2>
-                            <p class="blog-card-desc">Transparent pricing that scales with your revenue, not your property count.</p>
+                            <span class="blog-card-link">Read more →</span>
                         </div>
-                        <a href="#" class="blog-card-link">Read more →</a>
-                    </article>
-                    <article class="blog-card">
-                        <div>
+                    </a>
+                    <a href="#" class="blog-card">
+                        <div class="blog-card-image">
+                            <img src="Images/airoam-property.jpg" alt="Coordinating cleaning and turnover at scale">
+                        </div>
+                        <div class="blog-card-text-box">
                             <div class="blog-card-category">Operations</div>
                             <h2 class="blog-card-title">Coordinating cleaning and turnover at scale</h2>
-                            <p class="blog-card-desc">Keeping turnovers smooth when you have multiple properties and same-day flips.</p>
+                            <span class="blog-card-link">Read more →</span>
                         </div>
-                        <a href="#" class="blog-card-link">Read more →</a>
-                    </article>
-                    <article class="blog-card">
-                        <div>
+                    </a>
+                    <a href="#" class="blog-card">
+                        <div class="blog-card-image">
+                            <img src="Images/airoam-property1.jpg" alt="Setting up dynamic pricing for your market">
+                        </div>
+                        <div class="blog-card-text-box">
                             <div class="blog-card-category">Guides</div>
                             <h2 class="blog-card-title">Setting up dynamic pricing for your market</h2>
-                            <p class="blog-card-desc">How we adjust rates by season, demand, and local events.</p>
+                            <span class="blog-card-link">Read more →</span>
                         </div>
-                        <a href="#" class="blog-card-link">Read more →</a>
-                    </article>
-                    <article class="blog-card">
-                        <div>
+                    </a>
+                    <a href="#" class="blog-card">
+                        <div class="blog-card-image">
+                            <img src="Images/airoam-property2.jpg" alt="What's new in the Airoam dashboard">
+                        </div>
+                        <div class="blog-card-text-box">
                             <div class="blog-card-category">Updates</div>
                             <h2 class="blog-card-title">What's new in the Airoam dashboard</h2>
-                            <p class="blog-card-desc">Recent features and improvements for reporting and guest communication.</p>
+                            <span class="blog-card-link">Read more →</span>
                         </div>
-                        <a href="#" class="blog-card-link">Read more →</a>
-                    </article>
+                    </a>
                 </div>
-            </div>
-        </section>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer>
