@@ -258,11 +258,11 @@
 
 
         /* ============================================
-           NAVIGATION
+           NAVIGATION - CONSISTENT ACROSS ALL PAGES
            ============================================ */
         nav {
-            position: fixed !important;
-            top: 0 !important;
+            position: fixed;
+            top: 0;
             left: 0;
             right: 0;
             width: 100%;
@@ -271,96 +271,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 10000 !important;
+            z-index: 10000;
             background-color: var(--color-white);
-            transition: all 300ms ease, border-bottom 300ms ease;
-            border-bottom: 3px solid transparent;  /* Start with transparent border */
-            opacity: 0;
-            pointer-events: none;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-
-        /* Show nav after splash screen completes - EARLIER TIMING */
-        body:not(.loading) nav {
-            opacity: 1;
-            pointer-events: auto;
-            /* Start transition at 5000ms (when loading class removed) */
-            transition: opacity 800ms ease-out 200ms;
-        }
-
         nav.scrolled {
+            border-bottom-color: #202020;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
-            border-bottom: 3px solid #202020;  /* Dark gray border when scrolled */
         }
-
         .nav-logo {
             display: flex;
             align-items: center;
             text-decoration: none;
             cursor: pointer;
         }
-
         .nav-logo .logo {
-            width: 180px;  /* Bigger logo - more accentuated */
+            width: 180px;
             height: auto;
             display: block;
-            transition: opacity 400ms ease-in;
         }
-
-        /* Logo container for arrow integration */
-        .nav-logo {
-            position: relative;
-        }
-
-        /* Arrow overlay in logo - replaces "A" */
-        .nav-logo .logo-arrow {
-            position: absolute;
-            width: 45px;  /* Exact width of "A" */
-            height: 41px;  /* Proportional height */
-            left: -1px;  /* Position to overlap "A": -2px + 1px = -1px */
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 2;  /* Above logo image */
-            transition: opacity 400ms ease-in;
-        }
-
-        .nav-logo .logo-arrow .arrow-bottom {
-            position: absolute;
-            width: 9px;
-            height: auto;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            opacity: 0;  /* Start hidden */
-            transition: opacity 300ms ease-in 100ms;  /* Fade in after 100ms delay */
-        }
-
-        /* Show bottom arrow when logo arrow is visible */
-        .nav-logo .logo-arrow.visible .arrow-bottom {
-            opacity: 1;
-        }
-
-        .nav-logo .logo-arrow .arrow-top {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        /* Show arrow in logo after morph */
-        .nav-logo .logo-arrow.visible {
-            opacity: 1;
-        }
-
         .nav-center {
             display: flex;
             gap: 40px;
+            align-items: center;
         }
-
         .nav-center a {
             font-size: 14px;
             letter-spacing: 0.05em;
@@ -368,25 +303,24 @@
             text-decoration: none;
             transition: opacity 0.3s ease;
         }
-
         .nav-center a:hover {
             opacity: 0.6;
         }
-
         .nav-button {
             padding: 10px 24px;
             border: 3px solid var(--color-black);
             background-color: transparent;
             color: var(--color-black);
-            text-decoration: none;
             font-size: 14px;
             font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
             position: relative;
             overflow: hidden;
             transition: color 0.4s ease;
         }
-
         .nav-button::before {
             content: '';
             position: absolute;
@@ -398,16 +332,12 @@
             transition: left 0.4s ease;
             z-index: -1;
         }
-
         .nav-button:hover {
             color: var(--color-white);
         }
-
         .nav-button:hover::before {
             left: 0;
         }
-
-        /* Mobile Hamburger */
         .nav-hamburger {
             display: none;
             width: 30px;
@@ -418,18 +348,26 @@
             background: none;
             border: none;
             padding: 0;
+            position: relative;
+            z-index: 10001;
         }
-
         .nav-hamburger span {
             width: 100%;
             height: 2px;
             background-color: var(--color-black);
-            transition: all 0.3s ease;
             display: block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
-
+        .nav-hamburger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+        .nav-hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-hamburger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
         .nav-mobile-menu {
-            display: none;
             position: fixed;
             top: 80px;
             left: 0;
@@ -438,18 +376,53 @@
             border-bottom: 3px solid var(--color-black);
             padding: 24px;
             z-index: 9999;
+            display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 0;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
         }
-        .nav-mobile-menu.open { display: flex; }
+        .nav-mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
         .nav-mobile-menu a {
             font-size: 16px;
             color: var(--color-black);
             text-decoration: none;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: opacity 0.2s ease, padding-left 0.2s ease;
         }
-        .nav-mobile-menu a:last-child { border-bottom: none; }
+        .nav-mobile-menu a:last-child {
+            border-bottom: none;
+        }
+        .nav-mobile-menu a:hover {
+            opacity: 0.6;
+            padding-left: 8px;
+        }
+        /* Index: hide nav during splash, show after */
+        body.loading nav {
+            opacity: 0;
+            pointer-events: none;
+        }
+        body:not(.loading) nav {
+            opacity: 1;
+            pointer-events: auto;
+            transition: opacity 800ms ease-out 200ms;
+        }
+        @media (max-width: 768px) {
+            nav { padding: 0 24px; }
+            .nav-logo .logo { width: 140px; }
+            .nav-center { display: none; }
+            .nav-button { display: none; }
+            .nav-hamburger { display: flex; }
+        }
 
         /* ============================================
            SECTION BASE STYLES
@@ -472,14 +445,40 @@
         /* ============================================
            SECTION 1: HERO
            ============================================ */
+        /* Hero gradient: long white band at top to blend with nav, then eases into cream (responsive %) */
         .hero {
-            background-color: var(--color-white);
+            background: linear-gradient(
+                to bottom,
+                #ffffff 0%,
+                #ffffff 28%,
+                #FEFCF9 45%,
+                #FDF9F3 65%,
+                #FAF0DD 100%
+            );
             flex-direction: column;
             position: relative;
             overflow: hidden;
             align-items: center;
             justify-content: flex-start;
             padding-top: 100px; /* Reduced space from nav (nav is 80px) */
+        }
+
+        /* Hero warm glow – transparent at very top (no tint on white/nav blend), cream glow in middle and lower */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                transparent 20%,
+                rgba(250, 240, 221, 0.08) 40%,
+                rgba(250, 240, 221, 0.15) 65%,
+                rgba(250, 240, 221, 0.06) 88%,
+                transparent 100%
+            );
         }
 
         /* Hide hero completely during splash */
@@ -619,7 +618,13 @@
            SECTION 2: INTRODUCTION
            ============================================ */
         .intro {
-            background-color: var(--color-white);
+            background: linear-gradient(
+                to bottom,
+                #FAF0DD 0%,
+                #F9EDD6 30%,
+                #FDF9F3 70%,
+                #ffffff 100%
+            );
         }
 
         .intro-content {
@@ -1341,6 +1346,8 @@
            SECTION 5: TESTIMONIALS - MINIMAL TEXT FOCUS
            ============================================ */
         .testimonials-minimal {
+            position: relative;
+            overflow: hidden;
             background-color: var(--color-white);
             min-height: 100vh;
             display: flex;
@@ -1350,7 +1357,26 @@
             padding: 120px 60px;
         }
 
+        /* Testimonials - Smoke/Mist canvas */
+        .testimonials-canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #testimonials-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
         .testimonials-minimal-container {
+            position: relative;
+            z-index: 2;
             max-width: 1200px;
             width: 100%;
             text-align: center;
@@ -1488,9 +1514,9 @@
            BLOG SECTION - MAGAZINE GRID
            ============================================ */
         .blog-magazine-section {
-            background-color: var(--color-white);
+            background-color: #FAF0DD;
             padding: 100px 0 120px;
-            border-top: 3px solid var(--color-border);
+            border-top: none;
         }
 
         .blog-magazine-container {
@@ -2105,33 +2131,6 @@
            RESPONSIVE DESIGN
            ============================================ */
         @media (max-width: 768px) {
-            nav {
-                padding: 0 24px;
-            }
-
-            .nav-logo .logo {
-                width: 140px;  /* Slightly smaller on mobile but still bigger */
-            }
-
-            .nav-logo .logo-arrow {
-                width: 35px;  /* Proportional to smaller logo, matches "A" size */
-                height: 32px;
-                left: -7px;  /* Mobile: -8px + 1px = -7px */
-            }
-
-            .nav-logo .logo-arrow .arrow-bottom {
-                width: 6.5px;  /* Mobile size */
-            }
-
-            .nav-center,
-            .nav-button {
-                display: none;
-            }
-
-            .nav-hamburger {
-                display: flex;
-            }
-
             .container {
                 padding: 0 24px;
             }
@@ -2500,7 +2499,7 @@
             position: fixed;
             inset: 0;
             background: transparent;
-            z-index: 10001;
+            z-index: 10002;
             display: flex;
             align-items: flex-end;
             justify-content: flex-end;
@@ -2508,12 +2507,14 @@
             padding-bottom: 100px;
             padding-right: 24px;
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
-            transition: opacity 0.25s ease;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
         }
 
         .voice-modal-overlay.open {
             opacity: 1;
+            visibility: visible;
             pointer-events: auto;
         }
 
@@ -2647,8 +2648,8 @@
 
     <!-- Navigation -->
     <nav id="main-nav">
-        <a href="#" class="nav-logo" id="nav-logo">
-            <img src="images/airoam-logo-black.svg" alt="Airoam" class="logo">
+        <a href="index.html" class="nav-logo" id="nav-logo">
+            <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo">
         </a>
         <div class="nav-center">
             <a href="#about">About</a>
@@ -2903,6 +2904,11 @@
 
     <!-- Section 5: Testimonials - Minimal Text Focus -->
     <section class="testimonials-minimal" id="testimonials">
+        <!-- Smoke/Mist Canvas Background -->
+        <div class="testimonials-canvas-container">
+            <canvas id="testimonials-canvas"></canvas>
+        </div>
+
         <div class="testimonials-minimal-container">
             <!-- Giant rotating quote -->
             <div class="testimonials-quote-wrapper">
@@ -3551,42 +3557,81 @@
         })();
 
         // ============================================
-        // NAVIGATION SCROLL BEHAVIOR & MOBILE MENU
+        // NAVIGATION - CONSISTENT ACROSS ALL PAGES
         // ============================================
         (function() {
-            const nav = document.getElementById('main-nav');
-            const hamburger = document.getElementById('nav-hamburger');
-            const mobileMenu = document.getElementById('nav-mobile-menu');
+            var nav = document.getElementById('main-nav');
+            var hamburger = document.getElementById('nav-hamburger');
+            var mobileMenu = document.getElementById('nav-mobile-menu');
+            var navLogo = document.getElementById('nav-logo');
 
-            // Add shadow to nav on scroll
-            window.addEventListener('scroll', () => {
+            if (!nav) return;
+
+            function handleScroll() {
                 if (window.scrollY > 50) {
                     nav.classList.add('scrolled');
                 } else {
                     nav.classList.remove('scrolled');
                 }
-            }, { passive: true });
+            }
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll();
 
-            // Logo click scroll to top
-            document.getElementById('nav-logo').addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            if (navLogo) {
+                navLogo.addEventListener('click', function(e) {
+                    var isIndex = window.location.pathname === '/' ||
+                                  window.location.pathname.endsWith('index.html') ||
+                                  window.location.pathname === '';
+                    if (isIndex) {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
+            }
 
-            // Mobile menu toggle
             if (hamburger && mobileMenu) {
-                hamburger.addEventListener('click', function() {
-                    var isOpen = mobileMenu.classList.toggle('open');
-                    mobileMenu.setAttribute('aria-hidden', !isOpen);
-                    hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+                function closeMenu() {
+                    mobileMenu.classList.remove('open');
+                    hamburger.classList.remove('active');
+                    mobileMenu.setAttribute('aria-hidden', 'true');
+                    hamburger.setAttribute('aria-label', 'Open menu');
+                    document.body.style.overflow = '';
+                }
+                function openMenu() {
+                    mobileMenu.classList.add('open');
+                    hamburger.classList.add('active');
+                    mobileMenu.setAttribute('aria-hidden', 'false');
+                    hamburger.setAttribute('aria-label', 'Close menu');
+                    document.body.style.overflow = 'hidden';
+                }
+                hamburger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (mobileMenu.classList.contains('open')) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
                 });
                 mobileMenu.querySelectorAll('a').forEach(function(link) {
-                    link.addEventListener('click', function() {
-                        mobileMenu.classList.remove('open');
-                        mobileMenu.setAttribute('aria-hidden', 'true');
-                        hamburger.setAttribute('aria-label', 'Open menu');
-                    });
+                    link.addEventListener('click', function() { closeMenu(); });
                 });
+                document.addEventListener('click', function(e) {
+                    if (mobileMenu.classList.contains('open') &&
+                        !mobileMenu.contains(e.target) &&
+                        !hamburger.contains(e.target)) {
+                        closeMenu();
+                    }
+                });
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+                        closeMenu();
+                    }
+                });
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768 && mobileMenu.classList.contains('open')) {
+                        closeMenu();
+                    }
+                }, { passive: true });
             }
         })();
 
@@ -3860,6 +3905,293 @@
 
 
         // ============================================
+        // TESTIMONIALS - RISING SMOKE/MIST EFFECT
+        // ============================================
+        (function() {
+            function initTestimonialsSmokeEffect() {
+                var canvas = document.getElementById('testimonials-canvas');
+                var section = document.querySelector('.testimonials-minimal');
+
+                if (!canvas || !section) {
+                    setTimeout(initTestimonialsSmokeEffect, 100);
+                    return;
+                }
+
+                var ctx = canvas.getContext('2d');
+                if (!ctx) return;
+
+                var width, height;
+                var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+                function updateDimensions() {
+                    width = section.offsetWidth;
+                    height = section.offsetHeight;
+                    canvas.width = width * dpr;
+                    canvas.height = height * dpr;
+                    canvas.style.width = width + 'px';
+                    canvas.style.height = height + 'px';
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.scale(dpr, dpr);
+                }
+
+                updateDimensions();
+
+                // Warm colors
+                var CREAM_LIGHT = { r: 250, g: 240, b: 221 }; // #FAF0DD
+                var CREAM_MID = { r: 245, g: 230, b: 200 };   // #F5E6C8
+                var CREAM_DARK = { r: 235, g: 217, b: 184 };  // #EBD9B8
+
+                // ========================================
+                // SMOKE PARTICLE CLASS
+                // ========================================
+                function SmokeParticle(isInitial) {
+                    this.reset(isInitial);
+                }
+
+                SmokeParticle.prototype.reset = function(isInitial) {
+                    this.x = Math.random() * width;
+                    this.y = isInitial ? Math.random() * height : height + Math.random() * 100;
+
+                    this.baseSize = Math.random() * 180 + 100;
+                    this.size = this.baseSize;
+
+                    this.speedY = -(Math.random() * 0.55 + 0.28);
+                    this.speedX = (Math.random() - 0.5) * 0.35;
+                    this.wobbleSpeed = Math.random() * 0.5 + 0.3;
+                    this.phase = Math.random() * Math.PI * 2;
+
+                    this.maxOpacity = Math.random() * 0.38 + 0.27;
+                    this.opacity = isInitial ? this.maxOpacity * Math.random() : 0;
+
+                    this.growthRate = Math.random() * 0.25 + 0.1;
+
+                    var colorChoice = Math.random();
+                    if (colorChoice < 0.5) {
+                        this.color = CREAM_LIGHT;
+                    } else if (colorChoice < 0.8) {
+                        this.color = CREAM_MID;
+                    } else {
+                        this.color = CREAM_DARK;
+                    }
+                };
+
+                SmokeParticle.prototype.update = function(time) {
+                    this.y += this.speedY;
+                    this.x += this.speedX + Math.sin(time * this.wobbleSpeed + this.phase) * 0.5;
+
+                    this.size += this.growthRate;
+
+                    var fadeInZone = height * 0.8;
+                    var fadeOutZone = height * 0.25;
+
+                    if (this.y > fadeInZone) {
+                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.008);
+                    } else if (this.y < fadeOutZone) {
+                        var fadeProgress = this.y / fadeOutZone;
+                        this.opacity = this.maxOpacity * fadeProgress;
+                    } else {
+                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.005);
+                    }
+
+                    if (this.y < -this.size || this.opacity <= 0) {
+                        this.reset(false);
+                    }
+                };
+
+                SmokeParticle.prototype.draw = function(ctx) {
+                    if (this.opacity <= 0.01) return;
+
+                    var gradient = ctx.createRadialGradient(
+                        this.x, this.y, 0,
+                        this.x, this.y, this.size
+                    );
+
+                    var r = this.color.r;
+                    var g = this.color.g;
+                    var b = this.color.b;
+
+                    gradient.addColorStop(0, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + this.opacity + ')');
+                    gradient.addColorStop(0.25, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.65) + ')');
+                    gradient.addColorStop(0.5, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.35) + ')');
+                    gradient.addColorStop(0.75, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.1) + ')');
+                    gradient.addColorStop(1, 'rgba(' + r + ', ' + g + ', ' + b + ', 0)');
+
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                };
+
+                // ========================================
+                // SMOKE WISP CLASS
+                // ========================================
+                function SmokeWisp(isInitial) {
+                    this.reset(isInitial);
+                }
+
+                SmokeWisp.prototype.reset = function(isInitial) {
+                    this.x = Math.random() * width;
+                    this.y = isInitial ? Math.random() * height : height + 50;
+
+                    this.wispWidth = Math.random() * 120 + 60;
+                    this.wispHeight = Math.random() * 280 + 140;
+
+                    this.speedY = -(Math.random() * 0.45 + 0.22);
+                    this.speedX = (Math.random() - 0.5) * 0.28;
+                    this.wobblePhase = Math.random() * Math.PI * 2;
+                    this.wobbleSpeed = Math.random() * 0.3 + 0.2;
+
+                    this.maxOpacity = Math.random() * 0.29 + 0.19;
+                    this.opacity = isInitial ? this.maxOpacity * Math.random() : 0;
+
+                    this.rotation = (Math.random() - 0.5) * 0.3;
+                    this.rotationSpeed = (Math.random() - 0.5) * 0.001;
+
+                    var colorChoice = Math.random();
+                    if (colorChoice < 0.6) {
+                        this.color = CREAM_LIGHT;
+                    } else {
+                        this.color = CREAM_MID;
+                    }
+                };
+
+                SmokeWisp.prototype.update = function(time) {
+                    this.y += this.speedY;
+                    this.x += this.speedX + Math.sin(time * this.wobbleSpeed + this.wobblePhase) * 0.7;
+                    this.rotation += this.rotationSpeed;
+
+                    var fadeInZone = height * 0.75;
+                    var fadeOutZone = height * 0.2;
+
+                    if (this.y > fadeInZone) {
+                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.005);
+                    } else if (this.y < fadeOutZone) {
+                        this.opacity = this.maxOpacity * (this.y / fadeOutZone);
+                    } else {
+                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.003);
+                    }
+
+                    if (this.y < -this.wispHeight) {
+                        this.reset(false);
+                    }
+                };
+
+                SmokeWisp.prototype.draw = function(ctx) {
+                    if (this.opacity <= 0.01) return;
+
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation);
+
+                    var maxDim = Math.max(this.wispWidth, this.wispHeight);
+                    var gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, maxDim);
+
+                    var r = this.color.r;
+                    var g = this.color.g;
+                    var b = this.color.b;
+
+                    gradient.addColorStop(0, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + this.opacity + ')');
+                    gradient.addColorStop(0.2, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.6) + ')');
+                    gradient.addColorStop(0.45, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.3) + ')');
+                    gradient.addColorStop(0.7, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.08) + ')');
+                    gradient.addColorStop(1, 'rgba(' + r + ', ' + g + ', ' + b + ', 0)');
+
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, this.wispWidth, this.wispHeight, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.restore();
+                };
+
+                // ========================================
+                // INITIALIZE
+                // ========================================
+                var smokeParticles = [];
+                var smokeWisps = [];
+
+                var isMobileDevice = window.innerWidth <= 768;
+                var particleCount = isMobileDevice ? 10 : 18;
+                var wispCount = isMobileDevice ? 6 : 10;
+
+                for (var i = 0; i < particleCount; i++) {
+                    smokeParticles.push(new SmokeParticle(true));
+                }
+
+                for (var i = 0; i < wispCount; i++) {
+                    smokeWisps.push(new SmokeWisp(true));
+                }
+
+                // ========================================
+                // ANIMATION LOOP
+                // ========================================
+                var rafId = null;
+                var lastTime = 0;
+                var frameInterval = 1000 / 60;
+
+                function animate(currentTime) {
+                    rafId = requestAnimationFrame(animate);
+
+                    var delta = currentTime - lastTime;
+                    if (delta < frameInterval) return;
+                    lastTime = currentTime - (delta % frameInterval);
+
+                    var time = currentTime * 0.001;
+
+                    ctx.clearRect(0, 0, width, height);
+
+                    // Draw wisps first (behind)
+                    for (var i = 0; i < smokeWisps.length; i++) {
+                        smokeWisps[i].update(time);
+                        smokeWisps[i].draw(ctx);
+                    }
+
+                    // Draw smoke particles (in front)
+                    for (var i = 0; i < smokeParticles.length; i++) {
+                        smokeParticles[i].update(time);
+                        smokeParticles[i].draw(ctx);
+                    }
+                }
+
+                // Resize handler
+                var resizeTimeout;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(updateDimensions, 100);
+                }, { passive: true });
+
+                // Start animation when section is visible
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            if (!rafId) {
+                                rafId = requestAnimationFrame(animate);
+                            }
+                        } else {
+                            if (rafId) {
+                                cancelAnimationFrame(rafId);
+                                rafId = null;
+                            }
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                observer.observe(section);
+
+                // Initial start
+                rafId = requestAnimationFrame(animate);
+            }
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTestimonialsSmokeEffect);
+            } else {
+                initTestimonialsSmokeEffect();
+            }
+        })();
+
+
+        // ============================================
         // CONTACT FORM SUBMISSION
         // ============================================
         (function() {
@@ -3955,16 +4287,14 @@
         });
 
         // ============================================
-        // HERO MAGNETIC AIR PARTICLE SYSTEM
+        // HERO ENHANCED PARTICLE SYSTEM V3
         // ============================================
         (function() {
-            // Wait for DOM to be ready
             function initParticleSystem() {
                 const canvas = document.getElementById('hero-canvas');
                 const hero = document.querySelector('.hero');
                 
                 if (!canvas || !hero) {
-                    // Retry if not ready yet
                     setTimeout(initParticleSystem, 100);
                     return;
                 }
@@ -3972,392 +4302,388 @@
                 const ctx = canvas.getContext('2d');
                 if (!ctx) return;
                 
-                // Detect mobile
                 const isMobileDevice = window.innerWidth <= 768;
                 
-                // Get hero dimensions
-                const updateDimensions = () => {
+                let width, height;
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                
+                const updateDimensions = function() {
                     width = hero.offsetWidth || window.innerWidth;
                     height = hero.offsetHeight || window.innerHeight;
-                    canvas.width = width;
-                    canvas.height = height;
+                    canvas.width = width * dpr;
+                    canvas.height = height * dpr;
+                    canvas.style.width = width + 'px';
+                    canvas.style.height = height + 'px';
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.scale(dpr, dpr);
                 };
                 
-                let width, height;
                 updateDimensions();
                 
-                // Ensure we have valid dimensions
                 if (width === 0 || height === 0) {
                     setTimeout(initParticleSystem, 100);
                     return;
                 }
                 
-                // Mouse position
-                let mouse = {
-                    x: width / 2,
-                    y: height / 2,
-                    radius: 150
-                };
+                const mouse = { x: width / 2, y: height / 2 };
                 
-                // Particle system
-                const particles = [];
-                const particleCount = isMobileDevice ? 35 : 70; // Reduced particle count
-                const lines = [];
-                const lineCount = isMobileDevice ? 8 : 15;
-                
-                // Particle class (tiny dots)
-                class Particle {
-                constructor() {
-                    this.reset();
-                    this.y = Math.random() * height;
-                }
-                
-                reset() {
+                // ========================================
+                // PARALLAX PARTICLES (3 Layers)
+                // ========================================
+                function Particle(layer) {
+                    this.layer = layer;
                     this.x = Math.random() * width;
                     this.y = Math.random() * height;
-                    this.baseX = this.x;
-                    this.baseY = this.y;
-                    this.size = Math.random() * 3.5 + 0.5; // More size variation: 0.5-4px
-                    this.speedX = Math.random() * 0.9 - 0.45;
-                    this.speedY = Math.random() * 0.9 - 0.45;
-                    this.opacity = Math.random() * 0.6 + 0.2; // More opacity variation: 0.2-0.8
                     this.phase = Math.random() * Math.PI * 2;
-                }
-                
-                update() {
-                    const t = Date.now() * 0.002;
-                    // Base drift
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    // Gentle levitation bob (sine/cos)
-                    this.x += Math.cos(t + this.phase) * 0.12;
-                    this.y += Math.sin(t + this.phase * 1.1) * 0.15;
-                    // Random wobble for organic floating
-                    this.x += (Math.random() - 0.5) * 0.35;
-                    this.y += (Math.random() - 0.5) * 0.35;
                     
-                    // Magnetic effect only when mouse is near
-                    const dx = mouse.x - this.x;
-                    const dy = mouse.y - this.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < mouse.radius && distance > 0) {
-                        const forceDirectionX = dx / distance;
-                        const forceDirectionY = dy / distance;
-                        const force = (mouse.radius - distance) / mouse.radius;
-                        this.x -= forceDirectionX * force * 3;
-                        this.y -= forceDirectionY * force * 3;
+                    if (layer === 0) {
+                        this.size = Math.random() * 1.5 + 0.5;
+                        this.speed = 0.1;
+                        this.opacity = Math.random() * 0.25 + 0.1;
+                        this.parallax = 0.015;
+                    } else if (layer === 1) {
+                        this.size = Math.random() * 2.5 + 1;
+                        this.speed = 0.3;
+                        this.opacity = Math.random() * 0.4 + 0.2;
+                        this.parallax = 0.04;
+                    } else {
+                        this.size = Math.random() * 3.5 + 2;
+                        this.speed = 0.5;
+                        this.opacity = Math.random() * 0.5 + 0.25;
+                        this.parallax = 0.07;
                     }
                     
-                    // Wrap around edges
-                    if (this.x > width) this.x = 0;
-                    if (this.x < 0) this.x = width;
-                    if (this.y > height) this.y = 0;
-                    if (this.y < 0) this.y = height;
+                    this.vx = (Math.random() - 0.5) * this.speed;
+                    this.vy = (Math.random() - 0.5) * this.speed;
+                    this.bobSpeed = Math.random() * 0.5 + 0.5;
+                    this.bobAmount = Math.random() * 0.3 + 0.1;
                 }
                 
-                draw() {
-                    ctx.fillStyle = `rgba(100, 100, 100, ${this.opacity})`;
+                Particle.prototype.update = function(time, mx, my) {
+                    this.x += this.vx + Math.sin(time * this.bobSpeed + this.phase) * this.bobAmount;
+                    this.y += this.vy + Math.cos(time * this.bobSpeed * 0.8 + this.phase) * this.bobAmount * 1.2;
+                    
+                    var cx = width / 2;
+                    var cy = height / 2;
+                    this.rx = this.x - (mx - cx) * this.parallax;
+                    this.ry = this.y - (my - cy) * this.parallax;
+                    
+                    var dx = mx - this.x;
+                    var dy = my - this.y;
+                    var dist = dx * dx + dy * dy;
+                    var radius = 30000;
+                    
+                    if (dist < radius) {
+                        var force = (radius - dist) / radius * 0.1;
+                        this.x -= dx * force;
+                        this.y -= dy * force;
+                    }
+                    
+                    if (this.x > width + 30) this.x = -30;
+                    else if (this.x < -30) this.x = width + 30;
+                    if (this.y > height + 30) this.y = -30;
+                    else if (this.y < -30) this.y = height + 30;
+                };
+                
+                Particle.prototype.draw = function(ctx) {
+                    ctx.fillStyle = 'rgba(90, 90, 90, ' + this.opacity + ')';
                     ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.arc(this.rx, this.ry, this.size, 0, Math.PI * 2);
                     ctx.fill();
-                }
-                }
+                };
                 
-                // Flowing ribbon class (air currents)
-                class FlowLine {
-                constructor() {
-                    this.reset();
-                    this.y = Math.random() * height;
-                }
-                
-                reset() {
+                // ========================================
+                // ENHANCED RIBBONS - STRONG MOUSE INTERACTION
+                // ========================================
+                function Ribbon(index, total) {
+                    this.index = index;
+                    this.total = total;
+                    this.numPoints = 35;
                     this.points = [];
-                    this.numPoints = 40; // More points for smoother curves
-                    // Start at random Y position within or slightly below viewport
-                    this.y = Math.random() * (height + 200) - 100; // Can start anywhere from -100 to height+100
-                    this.baseY = this.y;
-                    this.amplitude = Math.random() * 100 + 80; // Larger amplitude for more wavy curves: 80-180px
-                    this.frequency = Math.random() * 0.025 + 0.015; // More variation in frequency for wind-like movement
-                    this.speed = Math.random() * 0.5 + 0.4; // Faster wave movement for wind effect
-                    this.offset = Math.random() * Math.PI * 2;
-                    this.baseOpacity = Math.random() * 0.15 + 0.1; // More subtle: 0.1-0.25
-                    this.currentOpacity = 0; // Start invisible for fade in
-                    this.ribbonWidth = Math.random() * 5 + 4; // Ribbon width: 4-9px (thinner)
-                    this.riseSpeed = Math.random() * 0.5 + 0.3; // Upward floating speed
-                    this.angle = Math.random() * 0.3 - 0.15; // Diagonal angle: -0.15 to 0.15 radians (~-8.5° to 8.5°)
-                    this.horizontalOffset = Math.random() * width - width / 2; // Start at random horizontal position
-                    this.fadeInDistance = 150; // Distance to fade in from bottom
-                    this.fadeOutDistance = 150; // Distance to fade out at top
-                    
-                    // Generate points with initial curved shape
-                    for (let i = 0; i <= this.numPoints; i++) {
-                        const x = (width / this.numPoints) * i + this.horizontalOffset;
-                        // Start with a curved wave shape - multiple waves for complex, wavy curves
-                        const wave1 = Math.sin(i * this.frequency + this.offset) * this.amplitude;
-                        const wave2 = Math.sin(i * this.frequency * 1.8 + this.offset * 0.6) * (this.amplitude * 0.5);
-                        const wave3 = Math.sin(i * this.frequency * 0.6 + this.offset * 1.4) * (this.amplitude * 0.35);
-                        const wave4 = Math.sin(i * this.frequency * 2.2 + this.offset * 0.9) * (this.amplitude * 0.2);
-                        const initialCurve = wave1 + wave2 + wave3 + wave4;
-                        this.points.push({
-                            x: x,
-                            y: this.baseY + initialCurve
-                        });
+                    for (var i = 0; i < this.numPoints; i++) {
+                        this.points.push({ x: 0, y: 0, targetX: 0, targetY: 0 });
                     }
+                    this.init(true);
                 }
                 
-                update() {
-                    this.offset += this.speed * 0.01;
-                    
-                    // Float upward at an angle
-                    this.baseY -= this.riseSpeed;
-                    this.horizontalOffset += Math.sin(this.angle) * this.riseSpeed * 0.5; // Diagonal movement
-                    
-                    // Calculate fade based on position
-                    const bottomEdge = this.baseY - this.amplitude;
-                    const topEdge = this.baseY + this.amplitude;
-                    
-                    // Fade in from bottom
-                    if (bottomEdge < this.fadeInDistance && bottomEdge > -this.fadeInDistance) {
-                        // Fading in: opacity increases as it enters viewport
-                        const fadeProgress = Math.max(0, Math.min(1, (bottomEdge + this.fadeInDistance) / (this.fadeInDistance * 2)));
-                        this.currentOpacity = this.baseOpacity * fadeProgress;
+                Ribbon.prototype.init = function(initial) {
+                    if (initial) {
+                        this.baseY = (height / this.total) * this.index + Math.random() * 100 - 50;
+                    } else {
+                        this.baseY = height + 50 + Math.random() * 100;
                     }
-                    // Fade out at top
-                    else if (topEdge > height - this.fadeOutDistance && topEdge < height + this.fadeOutDistance) {
-                        // Fading out: opacity decreases as it exits viewport
-                        const fadeProgress = Math.max(0, Math.min(1, (height + this.fadeOutDistance - topEdge) / (this.fadeOutDistance * 2)));
-                        this.currentOpacity = this.baseOpacity * fadeProgress;
+                    
+                    this.amplitude = Math.random() * 70 + 40;
+                    this.freq = Math.random() * 0.018 + 0.008;
+                    this.speed = Math.random() * 0.4 + 0.25;
+                    this.offset = Math.random() * Math.PI * 2;
+                    this.baseOpacity = Math.random() * 0.14 + 0.08;
+                    this.currentOpacity = 0;
+                    this.lineWidth = Math.random() * 8 + 4;
+                    this.rise = Math.random() * 0.4 + 0.25;
+                    // ~30% ribbons visible on left (subtle), rest center-right
+                    if (Math.random() < 0.3) {
+                        this.hOffset = Math.random() * width * 0.35;
+                    } else {
+                        this.hOffset = Math.random() * width * 0.5 + width * 0.25;
                     }
-                    // Fully visible in middle
-                    else if (bottomEdge >= this.fadeInDistance && topEdge <= height - this.fadeOutDistance) {
+                    
+                    this.freq2 = this.freq * (1.4 + Math.random() * 0.4);
+                    this.amp2 = this.amplitude * (0.3 + Math.random() * 0.2);
+                    
+                    this.mouseInfluenceRadius = 280;
+                    this.mouseForceMultiplier = 1.2;
+                    this.elasticity = 0.06;
+                };
+                
+                Ribbon.prototype.update = function(time, mx, my) {
+                    this.offset += this.speed * 0.012;
+                    this.baseY -= this.rise;
+                    
+                    if (this.baseY < -200) {
+                        this.init(false);
+                    }
+                    
+                    var fadeInStart = height + 50;
+                    var fadeInEnd = height - 100;
+                    var fadeOutStart = 150;
+                    var fadeOutEnd = -50;
+                    
+                    if (this.baseY > fadeInEnd) {
+                        this.currentOpacity = this.baseOpacity * Math.max(0, 1 - (this.baseY - fadeInEnd) / (fadeInStart - fadeInEnd));
+                    } else if (this.baseY < fadeOutStart) {
+                        this.currentOpacity = this.baseOpacity * Math.max(0, (this.baseY - fadeOutEnd) / (fadeOutStart - fadeOutEnd));
+                    } else {
                         this.currentOpacity = this.baseOpacity;
                     }
-                    // Completely invisible
-                    else {
-                        this.currentOpacity = 0;
-                    }
                     
-                    // Reset ribbon when it floats off the top - reappear at random position
-                    if (this.baseY < -200) {
-                        this.baseY = Math.random() * (height + 200) - 100; // Random Y position
-                        this.horizontalOffset = Math.random() * width - width / 2; // Random X position
-                        this.offset = Math.random() * Math.PI * 2;
-                        this.currentOpacity = 0; // Start invisible for fade in
-                        // Reset all points to new position
-                        this.points.forEach((point, i) => {
-                            const x = (width / this.numPoints) * i + this.horizontalOffset;
-                            const wave1 = Math.sin(i * this.frequency + this.offset) * this.amplitude;
-                            const wave2 = Math.sin(i * this.frequency * 1.8 + this.offset * 0.6) * (this.amplitude * 0.5);
-                            const wave3 = Math.sin(i * this.frequency * 0.6 + this.offset * 1.4) * (this.amplitude * 0.35);
-                            const wave4 = Math.sin(i * this.frequency * 2.2 + this.offset * 0.9) * (this.amplitude * 0.2);
-                            point.x = x;
-                            point.y = this.baseY + wave1 + wave2 + wave3 + wave4;
-                        });
-                    }
-                    
-                    // Update each point with flowing wave motion - wind-like waviness
-                    this.points.forEach((point, i) => {
-                        // Create more organic, varied curves with multiple sine waves
-                        // Add more wave layers for complex, wind-like wavy movement
-                        const wave1 = Math.sin(i * this.frequency + this.offset) * this.amplitude;
-                        const wave2 = Math.sin(i * this.frequency * 1.8 + this.offset * 0.6) * (this.amplitude * 0.5);
-                        const wave3 = Math.sin(i * this.frequency * 0.6 + this.offset * 1.4) * (this.amplitude * 0.35);
-                        const wave4 = Math.sin(i * this.frequency * 2.2 + this.offset * 0.9) * (this.amplitude * 0.2); // Additional wave for more waviness
-                        const baseY = this.baseY + wave1 + wave2 + wave3 + wave4;
+                    for (var i = 0; i < this.numPoints; i++) {
+                        var t = i / this.numPoints;
+                        var px = t * width * 1.2 + this.hOffset - width * 0.1;
                         
-                        // Add diagonal angle to x position
-                        const baseX = (width / this.numPoints) * i + this.horizontalOffset;
+                        var wave1 = Math.sin(i * this.freq + this.offset) * this.amplitude;
+                        var wave2 = Math.sin(i * this.freq2 + this.offset * 0.7) * this.amp2;
+                        var wave3 = Math.sin(i * this.freq * 0.5 + this.offset * 1.3) * this.amplitude * 0.2;
                         
-                        // Magnetic effect on line
-                        const dx = mouse.x - baseX;
-                        const dy = mouse.y - baseY;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        var targetX = px;
+                        var targetY = this.baseY + wave1 + wave2 + wave3;
                         
-                        if (distance < mouse.radius) {
-                            const force = (mouse.radius - distance) / mouse.radius;
-                            point.y = baseY + (dy * force * 0.5);
-                            point.x = baseX + (dx * force * 0.3);
-                        } else {
-                            // Ease back to wave position smoothly
-                            point.y += (baseY - point.y) * 0.05;
-                            point.x += (baseX - point.x) * 0.05;
+                        var dx = mx - px;
+                        var dy = my - (this.baseY + wave1 + wave2 + wave3);
+                        var dist = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (dist < this.mouseInfluenceRadius) {
+                            var force = Math.pow((this.mouseInfluenceRadius - dist) / this.mouseInfluenceRadius, 1.5);
+                            var angle = Math.atan2(dy, dx);
+                            
+                            var pushStrength = force * 120 * this.mouseForceMultiplier;
+                            targetX -= Math.cos(angle) * pushStrength * 0.4;
+                            targetY -= Math.sin(angle) * pushStrength;
+                            
+                            var turbulence = force * 15;
+                            targetY += Math.sin(time * 8 + i * 0.3) * turbulence;
+                            targetX += Math.cos(time * 6 + i * 0.2) * turbulence * 0.5;
                         }
-                    });
-                }
+                        
+                        this.points[i].targetX = targetX;
+                        this.points[i].targetY = targetY;
+                        
+                        this.points[i].x += (this.points[i].targetX - this.points[i].x) * this.elasticity;
+                        this.points[i].y += (this.points[i].targetY - this.points[i].y) * this.elasticity;
+                    }
+                };
                 
-                draw() {
-                    // Skip drawing if completely invisible
-                    if (this.currentOpacity <= 0) return;
+                Ribbon.prototype.draw = function(ctx) {
+                    if (this.currentOpacity < 0.01) return;
                     
-                    // Calculate perpendicular vectors for ribbon width
-                    const topPoints = [];
-                    const bottomPoints = [];
+                    var shimmer = (Math.sin(Date.now() * 0.002 + this.offset) + 1) / 2;
                     
-                    for (let i = 0; i < this.points.length; i++) {
-                        const point = this.points[i];
-                        let angle;
-                        
-                        if (i === 0) {
-                            // First point: use angle to next point
-                            const next = this.points[i + 1];
-                            angle = Math.atan2(next.y - point.y, next.x - point.x);
-                        } else if (i === this.points.length - 1) {
-                            // Last point: use angle from previous point
-                            const prev = this.points[i - 1];
-                            angle = Math.atan2(point.y - prev.y, point.x - prev.x);
-                        } else {
-                            // Middle points: average angle
-                            const prev = this.points[i - 1];
-                            const next = this.points[i + 1];
-                            angle = Math.atan2(next.y - prev.y, next.x - prev.x);
-                        }
-                        
-                        // Perpendicular angle (90 degrees)
-                        const perpAngle = angle + Math.PI / 2;
-                        const halfWidth = this.ribbonWidth / 2;
-                        
-                        topPoints.push({
-                            x: point.x + Math.cos(perpAngle) * halfWidth,
-                            y: point.y + Math.sin(perpAngle) * halfWidth
-                        });
-                        
-                        bottomPoints.push({
-                            x: point.x - Math.cos(perpAngle) * halfWidth,
-                            y: point.y - Math.sin(perpAngle) * halfWidth
-                        });
-                    }
-                    
-                    // Create gradient for sheen effect
-                    const gradient = ctx.createLinearGradient(
+                    var gradient = ctx.createLinearGradient(
                         this.points[0].x, this.points[0].y,
-                        this.points[this.points.length - 1].x, this.points[this.points.length - 1].y
+                        this.points[this.numPoints - 1].x, this.points[this.numPoints - 1].y
                     );
                     
-                    // Gradient from darker to lighter (sheen effect) - more subtle
-                    // Use currentOpacity for fade in/out effect
-                    gradient.addColorStop(0, `rgba(100, 100, 100, ${this.currentOpacity * 0.4})`);
-                    gradient.addColorStop(0.3, `rgba(140, 140, 140, ${this.currentOpacity * 0.6})`);
-                    gradient.addColorStop(0.5, `rgba(180, 180, 180, ${this.currentOpacity * 0.7})`); // Highlight/sheen
-                    gradient.addColorStop(0.7, `rgba(140, 140, 140, ${this.currentOpacity * 0.6})`);
-                    gradient.addColorStop(1, `rgba(100, 100, 100, ${this.currentOpacity * 0.4})`);
+                    var op = this.currentOpacity;
+                    gradient.addColorStop(0, 'rgba(160, 160, 160, ' + (op * 0.2) + ')');
+                    gradient.addColorStop(0.3, 'rgba(175, 175, 175, ' + (op * 0.5) + ')');
+                    gradient.addColorStop(0.5 - shimmer * 0.1, 'rgba(190, 190, 190, ' + (op * 0.6) + ')');
+                    gradient.addColorStop(0.5, 'rgba(210, 210, 210, ' + (op * (0.8 + shimmer * 0.2)) + ')');
+                    gradient.addColorStop(0.5 + shimmer * 0.1, 'rgba(190, 190, 190, ' + (op * 0.6) + ')');
+                    gradient.addColorStop(0.7, 'rgba(175, 175, 175, ' + (op * 0.5) + ')');
+                    gradient.addColorStop(1, 'rgba(160, 160, 160, ' + (op * 0.2) + ')');
                     
-                    // Draw ribbon as filled path
+                    ctx.strokeStyle = gradient;
+                    ctx.lineWidth = this.lineWidth;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    
                     ctx.beginPath();
-                    ctx.moveTo(topPoints[0].x, topPoints[0].y);
+                    ctx.moveTo(this.points[0].x, this.points[0].y);
                     
-                    // Draw top edge with smooth curves
-                    for (let i = 1; i < topPoints.length; i++) {
-                        const current = topPoints[i];
-                        const prev = topPoints[i - 1];
-                        const cpX = (prev.x + current.x) / 2;
-                        const cpY = (prev.y + current.y) / 2;
-                        ctx.quadraticCurveTo(prev.x, prev.y, cpX, cpY);
+                    for (var i = 1; i < this.numPoints - 1; i++) {
+                        var xc = (this.points[i].x + this.points[i + 1].x) / 2;
+                        var yc = (this.points[i].y + this.points[i + 1].y) / 2;
+                        ctx.quadraticCurveTo(this.points[i].x, this.points[i].y, xc, yc);
                     }
                     
-                    // Draw bottom edge (reverse order)
-                    for (let i = bottomPoints.length - 1; i >= 0; i--) {
-                        const current = bottomPoints[i];
-                        if (i === bottomPoints.length - 1) {
-                            ctx.lineTo(current.x, current.y);
-                        } else {
-                            const next = bottomPoints[i + 1];
-                            const cpX = (current.x + next.x) / 2;
-                            const cpY = (current.y + next.y) / 2;
-                            ctx.quadraticCurveTo(next.x, next.y, cpX, cpY);
+                    ctx.stroke();
+                };
+                
+                // ========================================
+                // SOFT LIGHT SPOTS
+                // ========================================
+                function LightSpot() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 250 + 180;
+                    this.vx = (Math.random() - 0.5) * 0.25;
+                    this.vy = (Math.random() - 0.5) * 0.2;
+                    this.opacity = Math.random() * 0.06 + 0.03;
+                    this.phase = Math.random() * Math.PI * 2;
+                    this.pulseSpeed = Math.random() * 0.3 + 0.2;
+                }
+                
+                LightSpot.prototype.update = function(time) {
+                    this.x += this.vx + Math.sin(time * 0.5 + this.phase) * 0.2;
+                    this.y += this.vy + Math.cos(time * 0.4 + this.phase) * 0.15;
+                    
+                    this.currentOpacity = this.opacity * (0.8 + Math.sin(time * this.pulseSpeed + this.phase) * 0.2);
+                    this.currentSize = this.size * (0.95 + Math.sin(time * this.pulseSpeed * 0.7 + this.phase) * 0.05);
+                    
+                    if (this.x > width + this.size) this.x = -this.size;
+                    else if (this.x < -this.size) this.x = width + this.size;
+                    if (this.y > height + this.size) this.y = -this.size;
+                    else if (this.y < -this.size) this.y = height + this.size;
+                };
+                
+                LightSpot.prototype.draw = function(ctx) {
+                    var gradient = ctx.createRadialGradient(
+                        this.x, this.y, 0,
+                        this.x, this.y, this.currentSize
+                    );
+                    gradient.addColorStop(0, 'rgba(190, 200, 210, ' + this.currentOpacity + ')');
+                    gradient.addColorStop(0.4, 'rgba(180, 190, 200, ' + (this.currentOpacity * 0.5) + ')');
+                    gradient.addColorStop(1, 'rgba(170, 180, 190, 0)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.currentSize, 0, Math.PI * 2);
+                    ctx.fill();
+                };
+                
+                // ========================================
+                // INITIALIZE
+                // ========================================
+                var particles = [];
+                var ribbons = [];
+                var lights = [];
+                
+                var bgCount = isMobileDevice ? 20 : 40;
+                var midCount = isMobileDevice ? 15 : 30;
+                var fgCount = isMobileDevice ? 10 : 20;
+                var ribbonCount = isMobileDevice ? 8 : 14;
+                var lightCount = isMobileDevice ? 3 : 5;
+                
+                for (var i = 0; i < bgCount; i++) particles.push(new Particle(0));
+                for (var i = 0; i < midCount; i++) particles.push(new Particle(1));
+                for (var i = 0; i < fgCount; i++) particles.push(new Particle(2));
+                
+                for (var i = 0; i < ribbonCount; i++) ribbons.push(new Ribbon(i, ribbonCount));
+                
+                for (var i = 0; i < lightCount; i++) lights.push(new LightSpot());
+                
+                // ========================================
+                // ANIMATION LOOP
+                // ========================================
+                var lastTime = 0;
+                var frameInterval = 1000 / 60;
+                var rafId = null;
+                
+                function animate(currentTime) {
+                    rafId = requestAnimationFrame(animate);
+                    
+                    var delta = currentTime - lastTime;
+                    if (delta < frameInterval) return;
+                    lastTime = currentTime - (delta % frameInterval);
+                    
+                    var time = currentTime * 0.001;
+                    var mx = mouse.x;
+                    var my = mouse.y;
+                    
+                    ctx.clearRect(0, 0, width, height);
+                    
+                    // Light spots
+                    for (var i = 0; i < lights.length; i++) {
+                        lights[i].update(time);
+                        lights[i].draw(ctx);
+                    }
+                    
+                    // Background particles
+                    for (var i = 0; i < particles.length; i++) {
+                        if (particles[i].layer === 0) {
+                            particles[i].update(time, mx, my);
+                            particles[i].draw(ctx);
                         }
                     }
                     
-                    ctx.closePath();
-                    ctx.fillStyle = gradient;
-                    ctx.fill();
-                }
-                }
-                
-                // Initialize particles and lines
-                function init() {
-                    particles.length = 0;
-                    lines.length = 0;
-                    
-                    for (let i = 0; i < particleCount; i++) {
-                        particles.push(new Particle());
+                    // Ribbons
+                    for (var i = 0; i < ribbons.length; i++) {
+                        ribbons[i].update(time, mx, my);
+                        ribbons[i].draw(ctx);
                     }
                     
-                    for (let i = 0; i < lineCount; i++) {
-                        const line = new FlowLine();
-                        // Stagger initial positions so they don't all appear at once
-                        line.baseY = Math.random() * (height + 200) - 100;
-                        line.horizontalOffset = Math.random() * width - width / 2;
-                        line.currentOpacity = 0; // Start invisible for fade in
-                        // Update points to match new position
-                        line.points.forEach((point, j) => {
-                            const x = (width / line.numPoints) * j + line.horizontalOffset;
-                            const wave1 = Math.sin(j * line.frequency + line.offset) * line.amplitude;
-                            const wave2 = Math.sin(j * line.frequency * 1.8 + line.offset * 0.6) * (line.amplitude * 0.5);
-                            const wave3 = Math.sin(j * line.frequency * 0.6 + line.offset * 1.4) * (line.amplitude * 0.35);
-                            const wave4 = Math.sin(j * line.frequency * 2.2 + line.offset * 0.9) * (line.amplitude * 0.2);
-                            point.x = x;
-                            point.y = line.baseY + wave1 + wave2 + wave3 + wave4;
-                        });
-                        lines.push(line);
+                    // Mid particles
+                    for (var i = 0; i < particles.length; i++) {
+                        if (particles[i].layer === 1) {
+                            particles[i].update(time, mx, my);
+                            particles[i].draw(ctx);
+                        }
+                    }
+                    
+                    // Foreground particles
+                    for (var i = 0; i < particles.length; i++) {
+                        if (particles[i].layer === 2) {
+                            particles[i].update(time, mx, my);
+                            particles[i].draw(ctx);
+                        }
                     }
                 }
                 
-                // Animation loop
-                function animate() {
-                    ctx.clearRect(0, 0, width, height);
-                    
-                    // Draw and update lines
-                    lines.forEach(line => {
-                        line.update();
-                        line.draw();
-                    });
-                    
-                    // Draw and update particles
-                    particles.forEach(particle => {
-                        particle.update();
-                        particle.draw();
-                    });
-                    
-                    requestAnimationFrame(animate);
-                }
-                
-                // Mouse move handler (desktop only)
+                // Mouse tracking
+                var mouseThrottle = 0;
                 if (!isMobileDevice) {
-                    hero.addEventListener('mousemove', (e) => {
-                        const rect = hero.getBoundingClientRect();
+                    hero.addEventListener('mousemove', function(e) {
+                        var now = Date.now();
+                        if (now - mouseThrottle < 16) return;
+                        mouseThrottle = now;
+                        
+                        var rect = hero.getBoundingClientRect();
                         mouse.x = e.clientX - rect.left;
                         mouse.y = e.clientY - rect.top;
                     }, { passive: true });
-                    
-                    hero.addEventListener('mouseleave', () => {
-                        // Don't reset to center - let particles continue random movement
-                        // mouse.x and mouse.y will be ignored when distance > radius
-                    });
                 }
                 
-                // Resize handler
-                const handleResize = () => {
-                    updateDimensions();
-                    mouse.x = width / 2;
-                    mouse.y = height / 2;
-                    init();
-                };
+                // Resize
+                var resizeTimeout;
+                window.addEventListener('resize', function() {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(function() {
+                        updateDimensions();
+                        mouse.x = width / 2;
+                        mouse.y = height / 2;
+                    }, 100);
+                }, { passive: true });
                 
-                window.addEventListener('resize', handleResize);
-                
-                // Start animation and fade in canvas
+                // Start
                 canvas.classList.add('active');
-                init();
-                animate();
+                rafId = requestAnimationFrame(animate);
             }
             
-            // Initialize ONLY after splash completes and body.loading removed
+            // Initialize after splash
             function waitForSplashComplete() {
                 if (document.body.classList.contains('loading')) {
-                    // Still in splash, check again
                     setTimeout(waitForSplashComplete, 100);
                 } else {
-                    // Splash complete, wait additional buffer then start
                     setTimeout(initParticleSystem, 500);
                 }
             }

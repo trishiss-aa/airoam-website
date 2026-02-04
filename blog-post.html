@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog – Airoam</title>
+    <title>Getting your first listing ready for guests – Airoam Blog</title>
     <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --color-black: #202020;
@@ -25,7 +25,7 @@
         /* ============================================
            NAVIGATION - CONSISTENT ACROSS ALL PAGES
            ============================================ */
-        nav {
+        #main-nav {
             position: fixed;
             top: 0;
             left: 0;
@@ -41,7 +41,7 @@
             border-bottom: 3px solid transparent;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        nav.scrolled {
+        #main-nav.scrolled {
             border-bottom-color: #202020;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
         }
@@ -172,7 +172,7 @@
             padding-left: 8px;
         }
         @media (max-width: 768px) {
-            nav { padding: 0 24px; }
+            #main-nav { padding: 0 24px; }
             .nav-logo .logo { width: 140px; }
             .nav-center { display: none; }
             .nav-button { display: none; }
@@ -186,45 +186,7 @@
             width: 100%;
         }
 
-        /* Blog page hero – title aligns left with sticky sidebar */
-        .blog-hero {
-            background-color: var(--color-white);
-        }
-        .blog-hero .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 80px 60px 60px;
-        }
-        .blog-breadcrumb {
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            opacity: 0.5;
-            margin-top: 0;
-            margin-bottom: 24px;
-        }
-        .blog-breadcrumb a {
-            color: var(--color-black);
-            text-decoration: none;
-        }
-        .blog-breadcrumb a:hover { opacity: 0.7; }
-        .blog-title {
-            font-size: 56px;
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 24px;
-        }
-        .blog-subtitle {
-            font-size: 18px;
-            font-weight: 300;
-            line-height: 1.5;
-            color: var(--color-text-grey);
-            max-width: 640px;
-        }
-
-        /* Blog layout: sticky sidebar + content */
+        /* Blog layout: sticky sidebar + content (same as blog.html) */
         .blog-layout {
             display: grid;
             grid-template-columns: 280px 1fr;
@@ -330,87 +292,106 @@
             color: var(--color-black);
         }
 
-        /* Blog grid – image card with overlay text box (text box moves up on hover) */
-        .blog-section {
-            padding: 0;
-            background-color: var(--color-white);
+        /* Breadcrumb */
+        .blog-breadcrumb {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            opacity: 0.5;
+            margin-top: 0;
+            margin-bottom: 24px;
         }
+        .blog-breadcrumb a {
+            color: var(--color-black);
+            text-decoration: none;
+        }
+        .blog-breadcrumb a:hover { opacity: 0.7; }
 
-        .blog-content {
+        /* Post content column */
+        .blog-post-content {
             min-width: 0;
         }
 
-        .blog-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-        .blog-card {
-            position: relative;
-            display: block;
-            overflow: hidden;
-            border-radius: 12px;
-            aspect-ratio: 3 / 3.8;
-            text-decoration: none;
-            color: inherit;
-            transition: box-shadow 0.3s ease;
-        }
-        .blog-card:hover {
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-        }
-        .blog-card-image {
-            position: absolute;
-            inset: 0;
-        }
-        .blog-card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        /* Text box overlay at bottom – moves up on hover */
-        .blog-card-text-box {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 28px 24px;
-            background-color: #F5E6C8;
-            border-radius: 0 0 12px 12px;
-            transition: transform 0.35s ease;
-        }
-        .blog-card:hover .blog-card-text-box {
-            transform: translateY(-24px);
-        }
-        .blog-card-category {
+        .post-category {
             font-size: 12px;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: var(--color-black);
-            margin-bottom: 8px;
             opacity: 0.7;
+            margin-bottom: 12px;
         }
-        .blog-card-title {
-            font-size: 20px;
-            font-weight: 600;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
+
+        .post-title {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        .post-meta {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--color-text-grey);
+            margin-bottom: 32px;
+        }
+
+        .post-featured-image {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            aspect-ratio: 16 / 9;
+        }
+        .post-featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .post-body {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.7;
             color: var(--color-black);
+        }
+        .post-body p {
+            margin-bottom: 1.5em;
+        }
+        .post-body p:last-child {
             margin-bottom: 0;
         }
-        .blog-card-link {
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
+        .post-body a {
             color: var(--color-black);
-            text-decoration: none;
-            margin-top: 12px;
-            display: inline-block;
-            opacity: 0.8;
-            transition: opacity 0.2s ease;
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
-        .blog-card-link:hover { opacity: 1; }
+        .post-body a:hover {
+            opacity: 0.7;
+        }
+        .post-body h2 {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-top: 2em;
+            margin-bottom: 0.5em;
+        }
+        .post-body h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.4em;
+        }
+        .post-body ul, .post-body ol {
+            margin-bottom: 1.5em;
+            padding-left: 1.5em;
+        }
+        .post-body li {
+            margin-bottom: 0.4em;
+        }
 
         /* Footer */
         footer {
@@ -443,7 +424,7 @@
         }
         .footer-bottom a { color: var(--color-white); text-decoration: none; }
 
-        /* Voice widget – same as main site */
+        /* Voice widget – same as blog.html */
         .voice-widget-wrap {
             position: fixed;
             bottom: 24px;
@@ -483,28 +464,14 @@
         }
         .voice-widget:active:not(:disabled) { transform: translateY(0); }
         .voice-widget:disabled { cursor: not-allowed; opacity: 0.7; }
-        .voice-widget-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
+        .voice-widget-icon { width: 20px; height: 20px; flex-shrink: 0; }
         .voice-widget-text { white-space: nowrap; }
         .voice-widget.state-connecting {
             background-color: #e8e8e8;
             color: #606060;
             border-color: #a0a0a0;
         }
-        .voice-widget-icon-wrap {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .voice-widget-icon-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; }
         .voice-widget.state-call .voice-widget-icon { color: #202020; }
         .voice-widget.state-call .voice-widget-icon-wrap::after {
             content: '';
@@ -553,19 +520,8 @@
             padding: 16px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
-        .voice-modal-title {
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            letter-spacing: -0.01em;
-        }
-        .voice-modal p {
-            font-size: 11px;
-            font-weight: 300;
-            line-height: 1.5;
-            color: var(--color-text-grey);
-            margin-bottom: 14px;
-        }
+        .voice-modal-title { font-size: 12px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.01em; }
+        .voice-modal p { font-size: 11px; font-weight: 300; line-height: 1.5; color: var(--color-text-grey); margin-bottom: 14px; }
         .voice-modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
         .voice-modal-btn {
             padding: 8px 16px;
@@ -604,8 +560,6 @@
 
         @media (max-width: 768px) {
             .container { padding: 0 24px; }
-            .blog-hero .container { padding: 60px 24px 40px; }
-            .blog-title { font-size: 40px; }
             .blog-layout {
                 grid-template-columns: 1fr;
                 padding: 40px 24px 80px;
@@ -626,15 +580,13 @@
             }
             .blog-sidebar-subscribe-form { min-width: 200px; }
             .blog-sidebar-subscribe-btn { width: auto; }
-            .blog-grid { grid-template-columns: 1fr; gap: 24px; }
-            .blog-card { aspect-ratio: 3 / 3.8; }
-            .blog-card-text-box { padding: 24px 20px; }
-            .blog-card-title { font-size: 18px; }
+            .post-title { font-size: 28px; }
+            .post-featured-image { margin-bottom: 28px; }
+            .post-body { font-size: 16px; }
             .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: left; }
             .footer-contact { text-align: left; }
             .voice-widget-wrap { bottom: 20px; right: 20px; }
             .voice-widget { padding: 12px 18px; font-size: 13px; }
-            .voice-widget-icon { width: 18px; height: 18px; }
             .voice-modal-overlay { padding: 16px; padding-bottom: 90px; }
         }
     </style>
@@ -667,25 +619,13 @@
     </div>
 
     <main>
-        <section class="blog-hero">
-            <div class="container">
-                <h1 class="blog-title">Blog</h1>
-                <p class="blog-breadcrumb" aria-label="Breadcrumb">
-                    <a href="index.html">Home</a>
-                    <span> / </span>
-                    <span>Blog</span>
-                </p>
-                <p class="blog-subtitle">Insights on short-term rental management, automation, and scaling your properties.</p>
-            </div>
-        </section>
-
         <div class="blog-layout">
             <aside class="blog-sidebar" aria-label="Blog filters and subscribe">
                 <div>
                     <h2 class="blog-sidebar-title">Category</h2>
                     <ul class="blog-sidebar-categories">
-                        <li><a href="blog.html" class="active">All</a></li>
-                        <li><a href="blog.html?category=tips">Tips</a></li>
+                        <li><a href="blog.html">All</a></li>
+                        <li><a href="blog.html?category=tips" class="active">Tips</a></li>
                         <li><a href="blog.html?category=automation">Automation</a></li>
                         <li><a href="blog.html?category=pricing">Pricing</a></li>
                         <li><a href="blog.html?category=operations">Operations</a></li>
@@ -701,72 +641,35 @@
                     </form>
                 </div>
             </aside>
-            <section class="blog-section">
-                <div class="blog-content">
-                    <div class="blog-grid">
-                    <a href="blog-post.html" class="blog-card">
-                        <div class="blog-card-image">
-                            <img src="Images/airoam-property.jpg" alt="Getting your first listing ready for guests">
-                        </div>
-                        <div class="blog-card-text-box">
-                            <div class="blog-card-category">Tips</div>
-                            <h2 class="blog-card-title">Getting your first listing ready for guests</h2>
-                            <span class="blog-card-link">Read more →</span>
-                        </div>
-                    </a>
-                    <a href="#" class="blog-card">
-                        <div class="blog-card-image">
-                            <img src="Images/airoam-property1.jpg" alt="How AI handles guest messages 24/7">
-                        </div>
-                        <div class="blog-card-text-box">
-                            <div class="blog-card-category">Automation</div>
-                            <h2 class="blog-card-title">How AI handles guest messages 24/7</h2>
-                            <span class="blog-card-link">Read more →</span>
-                        </div>
-                    </a>
-                    <a href="#" class="blog-card">
-                        <div class="blog-card-image">
-                            <img src="Images/airoam-property2.jpg" alt="Why 9% makes sense for growing portfolios">
-                        </div>
-                        <div class="blog-card-text-box">
-                            <div class="blog-card-category">Pricing</div>
-                            <h2 class="blog-card-title">Why 9% makes sense for growing portfolios</h2>
-                            <span class="blog-card-link">Read more →</span>
-                        </div>
-                    </a>
-                    <a href="#" class="blog-card">
-                        <div class="blog-card-image">
-                            <img src="Images/airoam-property.jpg" alt="Coordinating cleaning and turnover at scale">
-                        </div>
-                        <div class="blog-card-text-box">
-                            <div class="blog-card-category">Operations</div>
-                            <h2 class="blog-card-title">Coordinating cleaning and turnover at scale</h2>
-                            <span class="blog-card-link">Read more →</span>
-                        </div>
-                    </a>
-                    <a href="#" class="blog-card">
-                        <div class="blog-card-image">
-                            <img src="Images/airoam-property1.jpg" alt="Setting up dynamic pricing for your market">
-                        </div>
-                        <div class="blog-card-text-box">
-                            <div class="blog-card-category">Guides</div>
-                            <h2 class="blog-card-title">Setting up dynamic pricing for your market</h2>
-                            <span class="blog-card-link">Read more →</span>
-                        </div>
-                    </a>
-                    <a href="#" class="blog-card">
-                        <div class="blog-card-image">
-                            <img src="Images/airoam-property2.jpg" alt="What's new in the Airoam dashboard">
-                        </div>
-                        <div class="blog-card-text-box">
-                            <div class="blog-card-category">Updates</div>
-                            <h2 class="blog-card-title">What's new in the Airoam dashboard</h2>
-                            <span class="blog-card-link">Read more →</span>
-                        </div>
-                    </a>
-                </div>
-                </div>
-            </section>
+
+            <div class="blog-post-content">
+                <nav class="blog-breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span> / </span>
+                    <a href="blog.html">Blog</a>
+                    <span> / </span>
+                    <span>Getting your first listing ready for guests</span>
+                </nav>
+
+                <article>
+                    <p class="post-category">Tips</p>
+                    <h1 class="post-title">Getting your first listing ready for guests</h1>
+                    <p class="post-meta">12 March 2026</p>
+
+                    <div class="post-featured-image">
+                        <img src="Images/airoam-property.jpg" alt="Getting your first listing ready for guests">
+                    </div>
+
+                    <div class="post-body">
+                        <p>Your first short-term rental listing sets the tone for every booking. Taking time to prepare the property, photos, and listing copy pays off in better reviews and fewer support headaches.</p>
+                        <p>Start with a deep clean and a neutral, welcoming style. Remove personal items and clutter so guests feel they have their own space. Invest in quality bedding and towels—guests notice. A small welcome guide (house rules, WiFi, local tips) goes a long way.</p>
+                        <h2>Checklist before you go live</h2>
+                        <p>Before you publish, make sure you have: professional or high-quality photos, a clear description of the space and amenities, accurate check-in and check-out instructions, and a plan for who handles cleaning and key handover. If you’re using a management partner like Airoam, they can handle messaging and operations so you can focus on the property itself.</p>
+                        <h2>After the first few bookings</h2>
+                        <p>Use early reviews to refine your listing and address any recurring feedback. Small improvements—extra pillows, better lighting, a coffee machine—often show up in ratings. Once your first listing runs smoothly, you’ll have a repeatable playbook for scaling to more properties.</p>
+                    </div>
+                </article>
+            </div>
         </div>
     </main>
 
@@ -796,7 +699,6 @@
         </div>
     </footer>
 
-    <!-- Voice widget (same as main site) -->
     <div class="voice-widget-wrap visible" id="voice-widget-wrap">
         <button type="button" class="voice-widget" id="voice-widget" aria-label="Voice call">
             <span class="voice-widget-icon-wrap">
@@ -913,7 +815,6 @@
             }
         })();
 
-        // Voice widget (same as main site – shown immediately on blog)
         (function() {
             var wrap = document.getElementById('voice-widget-wrap');
             var btn = document.getElementById('voice-widget');
@@ -924,7 +825,6 @@
             var feedbackOverlay = document.getElementById('voice-feedback-overlay');
             var feedbackUp = document.getElementById('voice-feedback-up');
             var feedbackDown = document.getElementById('voice-feedback-down');
-
             var state = 'idle';
 
             function setButtonState(s) {
@@ -941,7 +841,6 @@
                     textEl.textContent = 'Voice call';
                 }
             }
-
             function openTerms() {
                 termsOverlay.classList.add('open');
                 termsOverlay.setAttribute('aria-hidden', 'false');
@@ -958,35 +857,20 @@
                 feedbackOverlay.classList.remove('open');
                 feedbackOverlay.setAttribute('aria-hidden', 'true');
             }
-
             btn.addEventListener('click', function() {
-                if (state === 'idle') {
-                    openTerms();
-                    return;
-                }
-                if (state === 'call') {
-                    setButtonState('idle');
-                    openFeedback();
-                    return;
-                }
+                if (state === 'idle') { openTerms(); return; }
+                if (state === 'call') { setButtonState('idle'); openFeedback(); return; }
             });
-
             termsCancel.addEventListener('click', closeTerms);
             termsAgree.addEventListener('click', function() {
                 closeTerms();
                 setButtonState('connecting');
                 setTimeout(function() { setButtonState('call'); }, 1500);
             });
-
             feedbackUp.addEventListener('click', function() { closeFeedback(); });
             feedbackDown.addEventListener('click', function() { closeFeedback(); });
-
-            termsOverlay.addEventListener('click', function(e) {
-                if (e.target === termsOverlay) closeTerms();
-            });
-            feedbackOverlay.addEventListener('click', function(e) {
-                if (e.target === feedbackOverlay) closeFeedback();
-            });
+            termsOverlay.addEventListener('click', function(e) { if (e.target === termsOverlay) closeTerms(); });
+            feedbackOverlay.addEventListener('click', function(e) { if (e.target === feedbackOverlay) closeFeedback(); });
         })();
     </script>
 </body>
