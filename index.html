@@ -970,109 +970,272 @@
 
 
         /* ============================================
-           WORKFLOW TIMELINE - HORIZONTAL SCROLL
+           HOW IT WORKS - LARGE NUMBERS (OBYS STYLE)
            ============================================ */
-        /* Workflow boxes now inside pricing section */
-        .pricing-comparison-vertical .workflow-container {
-            margin-top: 100px;
+        .how-it-works-container {
+            margin-top: 120px;
+            padding-bottom: 100px;
         }
 
-        .workflow-header {
-            text-align: center;
-            margin-bottom: 100px;
-            padding: 0 60px;
-        }
-
-        .workflow-title {
-            font-size: 56px;
-            font-weight: 300;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            letter-spacing: -0.02em;
-        }
-
-        .workflow-subtitle {
-            font-size: 18px;
-            font-weight: 300;
-            opacity: 0.6;
-        }
-
-        .workflow-container {
-            display: flex;
-            gap: 120px;
-            padding: 0 0 100px 0;
-            position: relative;
-            justify-content: center;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .workflow-step {
-            min-width: 380px;
-            flex: 1;
-            max-width: 420px;
-            position: relative;
+        /* Section Header */
+        .how-it-works-header {
+            margin-bottom: 60px;
             opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
-        .workflow-step.visible {
+        .how-it-works-header.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .step-card {
-            background-color: #202020;
-            padding: 80px 60px;
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-            transition: all 0.4s ease;
-        }
-
-        .step-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border: 3px solid rgba(255, 255, 255, 0.5);
-            clip-path: inset(0 100% 0 0);
-            transition: clip-path 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .workflow-step.visible .step-card::before {
-            clip-path: inset(0 0 0 0);
-        }
-
-        .step-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .step-title {
-            font-size: 28px;
+        .how-it-works-title {
+            font-size: 42px;
             font-weight: 600;
-            line-height: 1.3;
-            margin-bottom: 20px;
-            letter-spacing: -0.01em;
             color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
         }
 
-        .step-description {
+        .how-it-works-subtitle {
             font-size: 16px;
             font-weight: 300;
-            line-height: 1.6;
-            opacity: 0.7;
-            color: #ffffff;
+            color: rgba(255, 255, 255, 0.5);
         }
 
-        .workflow-step::after {
+        /* Steps Grid */
+        .steps-grid {
+            display: flex;
+            position: relative;
+        }
+
+        /* Individual Step */
+        .step-item {
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Vertical Divider - draws from top */
+        .step-divider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 1px;
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .step-item:last-child .step-divider {
             display: none;
+        }
+
+        .step-item.visible .step-divider {
+            transform: scaleY(1);
+        }
+
+        /* Step Content */
+        .step-content {
+            padding: 40px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .step-item.visible .step-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger delays */
+        .step-item[data-step="0"] .step-content { transition-delay: 0.1s; }
+        .step-item[data-step="0"] .step-divider { transition-delay: 0.3s; }
+        .step-item[data-step="1"] .step-content { transition-delay: 0.25s; }
+        .step-item[data-step="1"] .step-divider { transition-delay: 0.45s; }
+        .step-item[data-step="2"] .step-content { transition-delay: 0.4s; }
+
+        /* Large Number */
+        .step-number-wrapper {
+            height: 120px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .step-number {
+            display: block;
+            font-size: 140px;
+            font-weight: 700;
+            line-height: 1;
+            color: rgba(255, 255, 255, 0.08);
+            transform: translateY(100%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        color 0.4s ease;
+        }
+
+        .step-item.visible .step-number {
+            transform: translateY(0);
+        }
+
+        /* Number animation delays */
+        .step-item[data-step="0"] .step-number { transition-delay: 0.2s, 0s; }
+        .step-item[data-step="1"] .step-number { transition-delay: 0.35s, 0s; }
+        .step-item[data-step="2"] .step-number { transition-delay: 0.5s, 0s; }
+
+        /* Hover - number brightens and scales */
+        .step-item:hover .step-number {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Step Title */
+        .step-item .step-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+            transition: transform 0.4s ease;
+        }
+
+        .step-item:hover .step-title {
+            transform: translateX(8px);
+        }
+
+        /* Step Description */
+        .step-item .step-description {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.5);
+            transition: color 0.3s ease;
+        }
+
+        .step-item:hover .step-description {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Hover CTA */
+        .step-hover-cta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transform: translateX(-16px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .step-item:hover .step-hover-cta {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .step-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .step-item:hover .step-arrow {
+            transform: translateX(6px);
+        }
+
+        /* Bottom Border - draws on hover */
+        .step-bottom-border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background-color: #ffffff;
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .step-item:hover .step-bottom-border {
+            width: 100%;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .how-it-works-container {
+                margin-top: 80px;
+                padding-bottom: 60px;
+            }
+
+            .step-content {
+                padding: 30px;
+            }
+
+            .step-number {
+                font-size: 100px;
+            }
+
+            .step-number-wrapper {
+                height: 90px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .how-it-works-container {
+                margin-top: 60px;
+                padding: 0 24px 60px;
+            }
+
+            .how-it-works-header {
+                margin-bottom: 40px;
+            }
+
+            .how-it-works-title {
+                font-size: 32px;
+            }
+
+            .steps-grid {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .step-item {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .step-item:last-child {
+                border-bottom: none;
+            }
+
+            .step-divider {
+                display: none;
+            }
+
+            .step-content {
+                padding: 40px 0;
+            }
+
+            .step-number {
+                font-size: 80px;
+            }
+
+            .step-number-wrapper {
+                height: 70px;
+                margin-bottom: 16px;
+            }
+
+            .step-item .step-title {
+                font-size: 20px;
+            }
+
+            .step-item .step-description {
+                font-size: 14px;
+            }
+
+            /* Show CTA on mobile by default */
+            .step-hover-cta {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         /* ============================================
@@ -1175,353 +1338,411 @@
         */
 
         /* ============================================
-           SECTION 5: TESTIMONIALS - 3 FULL-WIDTH COLUMNS
+           SECTION 5: TESTIMONIALS - MINIMAL TEXT FOCUS
            ============================================ */
-        .testimonials {
+        .testimonials-minimal {
             background-color: var(--color-white);
             min-height: 100vh;
             display: flex;
-            align-items: flex-start;
-            padding: 0;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
-            width: 100%;
-            max-width: 100%;
-            padding: 0;
-        }
-
-        /* Individual testimonial column - full height */
-        .testimonial-column {
-            display: flex;
             flex-direction: column;
-            gap: 0;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 60px;
+        }
+
+        .testimonials-minimal-container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Giant quote wrapper */
+        .testimonials-quote-wrapper {
+            position: relative;
+            min-height: 280px;
+            margin-bottom: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .testimonial-quote-item {
+            position: absolute;
+            width: 100%;
             opacity: 0;
-            transform: translateY(80px);
-            transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                        transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-            min-height: 70vh;
+            transform: translateY(20px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+            pointer-events: none;
         }
 
-        /* Ensure no gap between image and quote in column 2 */
-        .testimonial-column:nth-child(2) .testimonial-quote-block {
-            margin-top: 0;
-        }
-
-        .testimonial-column.visible {
+        .testimonial-quote-item.active {
             opacity: 1;
             transform: translateY(0);
+            pointer-events: auto;
         }
 
-        /* Quote block - no border */
-        .testimonial-quote-block {
-            background-color: var(--color-white);
-            padding: 50px 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex: 0 0 auto;
-            height: calc(35vh + 35px);
-            position: relative;
-            margin-top: 0;
-        }
-
-        .testimonial-quote-mark {
-            font-size: 60px;
-            font-weight: 200;
-            line-height: 0;
-            opacity: 0.1;
-            margin-bottom: 24px;
-        }
-
-        .testimonial-quote-text {
-            font-size: 24px;
+        .testimonial-giant-quote {
+            font-size: clamp(32px, 5vw, 56px);
             font-weight: 300;
-            line-height: 1.3;
-            letter-spacing: -0.01em;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--color-black);
+            margin: 0;
         }
 
-        /* Image block - no border, fades to white */
-        .testimonial-image-block {
-            position: relative;
-            overflow: hidden;
-            flex: 0 0 auto;
-            height: calc(35vh + 35px);
+        /* Author indicators */
+        .testimonials-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
         }
 
-        .testimonial-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background-color: #F5F5F5;
+        .testimonial-indicator {
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            padding: 0;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
         }
 
-        /* Fade gradient from image to white - enhanced */
-        .testimonial-image-block::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 300px;
-            background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.2) 30%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 1) 100%);
-            pointer-events: none;
-            z-index: 1;
+        .testimonial-indicator:hover {
+            opacity: 0.6;
         }
 
-        /* Middle column: gradient flows downwards (top to bottom) */
-        .testimonial-column:nth-child(2) .testimonial-image-block::after {
-            top: 0;
-            bottom: 0;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 40%, rgba(255, 255, 255, 0.2) 70%, transparent 100%);
+        .testimonial-indicator.active {
+            opacity: 1;
         }
 
-        /* Customer info overlay on image */
-        .testimonial-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-            padding: 40px;
-            color: var(--color-white);
-            z-index: 3;
+        .indicator-line {
+            width: 32px;
+            height: 2px;
+            background-color: var(--color-black);
+            margin-bottom: 12px;
+            transition: width 0.5s ease, background-color 0.3s ease;
         }
 
-        /* Middle column: overlay on top */
-        .testimonial-column:nth-child(2) .testimonial-overlay {
-            top: 0;
-            bottom: auto;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+        .testimonial-indicator.active .indicator-line {
+            width: 64px;
         }
 
-        .testimonial-name {
-            font-size: 24px;
-            font-weight: 500;
+        .indicator-number {
+            display: block;
+            font-size: 12px;
+            font-family: 'Plus Jakarta Sans', monospace;
+            letter-spacing: 0.05em;
+            color: var(--color-black);
             margin-bottom: 8px;
         }
 
-        .testimonial-location {
+        .indicator-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .indicator-name {
             font-size: 16px;
-            font-weight: 300;
-            opacity: 0.8;
+            font-weight: 600;
+            color: var(--color-black);
         }
 
-        /* Column 1: Quote top, Image bottom */
-        .testimonial-column:nth-child(1) {
-            transition-delay: 0s;
+        .indicator-location {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--color-text-grey);
         }
 
-        /* Column 2: Image top, Quote bottom */
-        .testimonial-column:nth-child(2) {
-            transition-delay: 0.15s;
-        }
+        /* Testimonials minimal - mobile */
+        @media (max-width: 768px) {
+            .testimonials-minimal {
+                padding: 80px 24px;
+            }
 
-        /* Column 3: Quote top, Image bottom */
-        .testimonial-column:nth-child(3) {
-            transition-delay: 0.3s;
+            .testimonials-quote-wrapper {
+                min-height: 200px;
+                margin-bottom: 60px;
+            }
+
+            .testimonial-giant-quote {
+                font-size: 28px;
+            }
+
+            .testimonials-indicators {
+                flex-direction: column;
+                gap: 32px;
+                align-items: center;
+            }
+
+            .testimonial-indicator {
+                text-align: center;
+            }
+
+            .indicator-line {
+                margin: 0 auto 12px auto;
+            }
         }
 
         /* ============================================
-           BLOG POST CAROUSEL - LATEST POSTS
+           BLOG SECTION - MAGAZINE GRID
            ============================================ */
-        .blog-carousel-section {
+        .blog-magazine-section {
             background-color: var(--color-white);
-            padding: 80px 0 100px;
+            padding: 100px 0 120px;
             border-top: 3px solid var(--color-border);
         }
 
-        .blog-carousel-section .container {
-            padding-left: 60px;
-            padding-right: 60px;
-        }
-
-        /* "Latest posts" and "View all" in one row above the carousel */
-        .blog-carousel-header {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 40px;
-            padding: 0 60px;
+        .blog-magazine-container {
             max-width: 1400px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto;
+            padding: 0 60px;
         }
 
-        /* Title above carousel – same font style as intro-block */
-        .blog-carousel-title {
+        .blog-magazine-header {
+            margin-bottom: 50px;
+        }
+
+        .blog-magazine-title {
             color: #202020;
             letter-spacing: -0.03em;
             font-size: clamp(2em, 5vw, 3.5em);
             font-weight: 600;
             line-height: 0.914634;
-            text-align: left;
-            margin-bottom: 0;
-            width: auto;
         }
 
-        .blog-carousel-view-all-wrap {
-            flex-shrink: 0;
-            margin-bottom: 0;
+        /* Magazine Grid Layout */
+        .blog-magazine-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 20px;
         }
 
-        .blog-carousel-view-all {
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            color: var(--color-black);
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .blog-carousel-view-all:hover {
-            opacity: 0.6;
-        }
-
-        .blog-carousel-scroll {
-            display: flex;
-            gap: 32px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            padding: 0 60px 24px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .blog-carousel-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .blog-carousel-scroll::-webkit-scrollbar-track {
-            background: var(--color-border);
-        }
-
-        .blog-carousel-scroll::-webkit-scrollbar-thumb {
-            background: var(--color-black);
-            border-radius: 4px;
-        }
-
-        /* Blog carousel cards – same style as blog.html (rounded, overlay text box, text box moves up on hover) */
-        .blog-carousel-card {
-            flex: 0 0 360px;
-            scroll-snap-align: start;
+        /* Base Card Styles */
+        .blog-magazine-section .blog-card {
             position: relative;
-            display: block;
             overflow: hidden;
-            border-radius: 12px;
-            aspect-ratio: 3 / 3.23;
+            display: block;
             text-decoration: none;
             color: inherit;
-            transition: box-shadow 0.3s ease;
         }
 
-        .blog-carousel-card:hover {
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-        }
-
-        .blog-carousel-card-image {
-            position: absolute;
-            inset: 0;
-        }
-
-        .blog-carousel-card-image img {
+        .blog-magazine-section .blog-card-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
+            position: absolute;
+            inset: 0;
+            transition: transform 0.7s ease;
         }
 
-        /* Overlay text box at bottom – moves up on hover (same as blog.html) */
-        .blog-carousel-card-text-box {
+        .blog-magazine-section .blog-card:hover .blog-card-image {
+            transform: scale(1.05);
+        }
+
+        .blog-magazine-section .blog-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+            transition: background 0.3s ease;
+        }
+
+        .blog-magazine-section .blog-card:hover .blog-card-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+        }
+
+        .blog-magazine-section .blog-card-content {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 28px 24px;
-            background-color: #F5E6C8;
-            border-radius: 0 0 12px 12px;
-            transition: transform 0.35s ease;
+            padding: 30px;
+            z-index: 2;
         }
 
-        .blog-carousel-card:hover .blog-carousel-card-text-box {
-            transform: translateY(-24px);
-        }
-
-        .blog-carousel-card-category {
-            font-size: 12px;
+        .blog-magazine-section .blog-card-category {
+            display: inline-block;
+            font-size: 11px;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--color-black);
-            margin-bottom: 8px;
-            opacity: 0.7;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 12px;
         }
 
-        .blog-carousel-card-title {
-            font-size: 20px;
+        .blog-magazine-section .blog-card-title {
+            font-size: 18px;
             font-weight: 600;
             line-height: 1.3;
-            letter-spacing: -0.01em;
-            color: var(--color-black);
-            margin-bottom: 0;
+            color: #ffffff;
+            margin: 0;
         }
 
-        .blog-carousel-card-link {
+        .blog-magazine-section .blog-card-date {
+            display: block;
             font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            color: var(--color-black);
-            text-decoration: none;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.5);
             margin-top: 12px;
-            display: inline-block;
-            opacity: 0.8;
-            transition: opacity 0.2s ease;
         }
 
-        .blog-carousel-card-link:hover {
-            opacity: 1;
+        /* Featured Card - Large (spans 2 cols, 2 rows) */
+        .blog-card-featured {
+            grid-column: span 2;
+            grid-row: span 2;
+            min-height: 500px;
         }
 
+        .blog-card-featured .blog-card-content {
+            padding: 40px;
+        }
+
+        .blog-card-featured .blog-card-title {
+            font-size: 28px;
+            max-width: 400px;
+        }
+
+        /* Medium Card - Top Right */
+        .blog-card-medium {
+            grid-column: span 2;
+            aspect-ratio: 2 / 1;
+        }
+
+        .blog-card-medium .blog-card-content {
+            padding: 24px;
+        }
+
+        .blog-card-medium .blog-card-title {
+            font-size: 20px;
+        }
+
+        /* Small Cards - Bottom Right */
+        .blog-card-small {
+            aspect-ratio: 4 / 3;
+        }
+
+        .blog-card-small .blog-card-content {
+            padding: 20px;
+        }
+
+        .blog-card-small .blog-card-title {
+            font-size: 16px;
+        }
+
+        /* See All Button */
+        .blog-magazine-footer {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        .blog-see-all-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px 48px;
+            border: 3px solid #202020;
+            background-color: transparent;
+            color: #202020;
+            font-size: 15px;
+            font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .blog-see-all-btn:hover {
+            background-color: #202020;
+            color: #ffffff;
+        }
+
+        .blog-see-all-btn .btn-arrow {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-see-all-btn:hover .btn-arrow {
+            transform: translateX(6px);
+        }
+
+        /* Blog Magazine - tablet */
+        @media (max-width: 1024px) {
+            .blog-magazine-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .blog-card-featured {
+                grid-column: span 2;
+                grid-row: span 1;
+                min-height: 350px;
+            }
+
+            .blog-card-medium {
+                grid-column: span 2;
+            }
+
+            .blog-card-small {
+                grid-column: span 1;
+            }
+        }
+
+        /* Blog Magazine - mobile */
         @media (max-width: 768px) {
-            .blog-carousel-section {
-                padding: 60px 0 80px;
+            .blog-magazine-section {
+                padding: 80px 0 100px;
             }
 
-            .blog-carousel-header {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: baseline;
+            .blog-magazine-container {
                 padding: 0 24px;
-                margin-bottom: 28px;
             }
 
-            .blog-carousel-title {
+            .blog-magazine-header {
+                margin-bottom: 40px;
+            }
+
+            .blog-magazine-title {
                 font-size: 2em;
-                margin-bottom: 0;
             }
 
-            .blog-carousel-scroll {
-                gap: 24px;
-                padding: 0 24px 24px;
+            .blog-magazine-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
             }
 
-            .blog-carousel-card {
-                flex: 0 0 280px;
-                aspect-ratio: 3 / 3.23;
+            .blog-card-featured,
+            .blog-card-medium,
+            .blog-card-small {
+                grid-column: span 1;
+                grid-row: span 1;
+                aspect-ratio: 4 / 3;
+                min-height: auto;
             }
 
-            .blog-carousel-card-text-box {
-                padding: 24px 20px;
+            .blog-card-featured .blog-card-content,
+            .blog-card-medium .blog-card-content,
+            .blog-card-small .blog-card-content {
+                padding: 24px;
             }
 
-            .blog-carousel-card-title {
+            .blog-card-featured .blog-card-title {
+                font-size: 22px;
+            }
+
+            .blog-card-medium .blog-card-title,
+            .blog-card-small .blog-card-title {
                 font-size: 18px;
+            }
+
+            .blog-magazine-footer {
+                margin-top: 40px;
+            }
+
+            .blog-see-all-btn {
+                width: 100%;
+                padding: 18px 32px;
             }
         }
 
@@ -1949,111 +2170,6 @@
                 font-size: 120px;
             }
 
-            .testimonials {
-                padding: 80px 0;
-            }
-
-            .testimonials-grid {
-                grid-template-columns: 1fr;
-                gap: 0;
-                padding: 0;
-            }
-
-            .testimonial-column {
-                gap: 0;
-                min-height: auto;
-                /* Reorder for mobile: Image first, then Quote for all columns */
-                flex-direction: column;
-            }
-
-            /* Mobile: Standardize order - Image first, Quote second for all */
-            .testimonial-column:nth-child(1) {
-                flex-direction: column;
-            }
-
-            .testimonial-column:nth-child(2) {
-                flex-direction: column;
-            }
-
-            .testimonial-column:nth-child(3) {
-                flex-direction: column;
-            }
-
-            /* Reorder elements using CSS order property */
-            .testimonial-column:nth-child(1) .testimonial-quote-block {
-                order: 2;
-            }
-
-            .testimonial-column:nth-child(1) .testimonial-image-block {
-                order: 1;
-            }
-
-            .testimonial-column:nth-child(2) .testimonial-quote-block {
-                order: 2;
-            }
-
-            .testimonial-column:nth-child(2) .testimonial-image-block {
-                order: 1;
-            }
-
-            .testimonial-column:nth-child(3) .testimonial-quote-block {
-                order: 2;
-            }
-
-            .testimonial-column:nth-child(3) .testimonial-image-block {
-                order: 1;
-            }
-
-            /* Mobile: All overlays at bottom */
-            .testimonial-column:nth-child(2) .testimonial-overlay {
-                top: auto;
-                bottom: 0;
-                background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-            }
-
-            /* Mobile: All gradients fade from bottom */
-            .testimonial-column:nth-child(2) .testimonial-image-block::after {
-                top: auto;
-                bottom: 0;
-                background: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.2) 30%, rgba(255, 255, 255, 0.6) 60%, rgba(255, 255, 255, 1) 100%);
-            }
-
-            .testimonial-quote-block {
-                padding: 50px 30px;
-                min-height: auto;
-            }
-
-            .testimonial-quote-text {
-                font-size: 22px;
-            }
-
-            .testimonial-quote-mark {
-                font-size: 50px;
-                margin-bottom: 20px;
-            }
-
-            .testimonial-image-block {
-                min-height: 270px;
-                height: 270px;
-            }
-
-            .testimonial-image {
-                min-height: 270px;
-                height: 100%;
-            }
-
-            .testimonial-overlay {
-                padding: 24px;
-            }
-
-            .testimonial-name {
-                font-size: 18px;
-            }
-
-            .testimonial-location {
-                font-size: 14px;
-            }
-
             /* Pricing Split Mobile */
             .pricing-split {
                 padding: 80px 0;
@@ -2138,10 +2254,6 @@
             .step-card {
                 padding: 60px 40px;
                 min-height: auto;
-            }
-
-            .workflow-step::after {
-                display: none;
             }
 
             /* Calculator Vertical Bars Mobile */
@@ -2683,35 +2795,64 @@
                 </div>
             </div>
 
-            <!-- Horizontal Steps -->
-            <div class="workflow-container" id="workflow-container">
-                <!-- Step 1 -->
-                <div class="workflow-step" data-step="1">
-                    <div class="step-card">
-                        <div>
+            <!-- How It Works - Large Numbers -->
+            <div class="how-it-works-container" id="how-it-works">
+                <!-- Section Header -->
+                <div class="how-it-works-header">
+                    <h2 class="how-it-works-title">How it works</h2>
+                    <p class="how-it-works-subtitle">Three simple steps to hands-free management</p>
+                </div>
+
+                <!-- Steps Grid -->
+                <div class="steps-grid">
+                    <!-- Step 1 -->
+                    <div class="step-item" data-step="0">
+                        <div class="step-divider"></div>
+                        <div class="step-content">
+                            <div class="step-number-wrapper">
+                                <span class="step-number" data-target="01">00</span>
+                            </div>
                             <h3 class="step-title">AI handles guest communication</h3>
                             <p class="step-description">Questions, check-ins, requests - answered instantly, any time.</p>
+                            <div class="step-hover-cta">
+                                <span>Learn more</span>
+                                <span class="step-arrow">→</span>
+                            </div>
                         </div>
+                        <div class="step-bottom-border"></div>
                     </div>
-                </div>
 
-                <!-- Step 2 -->
-                <div class="workflow-step" data-step="2">
-                    <div class="step-card">
-                        <div>
+                    <!-- Step 2 -->
+                    <div class="step-item" data-step="1">
+                        <div class="step-divider"></div>
+                        <div class="step-content">
+                            <div class="step-number-wrapper">
+                                <span class="step-number" data-target="02">00</span>
+                            </div>
                             <h3 class="step-title">Services coordinate automatically</h3>
                             <p class="step-description">Cleaning, maintenance, check-ins. One dashboard, all connected.</p>
+                            <div class="step-hover-cta">
+                                <span>Learn more</span>
+                                <span class="step-arrow">→</span>
+                            </div>
                         </div>
+                        <div class="step-bottom-border"></div>
                     </div>
-                </div>
 
-                <!-- Step 3 -->
-                <div class="workflow-step" data-step="3">
-                    <div class="step-card">
-                        <div>
+                    <!-- Step 3 -->
+                    <div class="step-item" data-step="2">
+                        <div class="step-content">
+                            <div class="step-number-wrapper">
+                                <span class="step-number" data-target="03">00</span>
+                            </div>
                             <h3 class="step-title">You receive weekly reports</h3>
                             <p class="step-description">Revenue, bookings, performance. Direct deposits every week.</p>
+                            <div class="step-hover-cta">
+                                <span>Learn more</span>
+                                <span class="step-arrow">→</span>
+                            </div>
                         </div>
+                        <div class="step-bottom-border"></div>
                     </div>
                 </div>
             </div>
@@ -2760,134 +2901,110 @@
     </section>
     -->
 
-    <!-- Section 5: Testimonials - 3 Column Layout -->
-    <section class="testimonials" id="testimonials">
-        <div class="testimonials-grid">
-            <!-- Column 1: Quote Top, Image Bottom -->
-            <div class="testimonial-column" data-column="1">
-                <!-- Quote Block -->
-                <div class="testimonial-quote-block">
-                    <div class="testimonial-quote-mark">"</div>
-                    <p class="testimonial-quote-text">Airoam's AI saved me 15 hours a week. And it costs just 9%. This is the future.</p>
+    <!-- Section 5: Testimonials - Minimal Text Focus -->
+    <section class="testimonials-minimal" id="testimonials">
+        <div class="testimonials-minimal-container">
+            <!-- Giant rotating quote -->
+            <div class="testimonials-quote-wrapper">
+                <div class="testimonial-quote-item active" data-index="0">
+                    <p class="testimonial-giant-quote">"Airoam's AI saved me 15 hours a week. And it costs just 9%. This is the future."</p>
                 </div>
-                
-                <!-- Image Block with Overlay -->
-                <div class="testimonial-image-block">
-                    <img src="images/airoam-property.jpg" alt="Airoam property" class="testimonial-image">
-                    <div class="testimonial-overlay">
-                        <div class="testimonial-name">Michael T.</div>
-                        <div class="testimonial-location">Gold Coast, 22 properties</div>
-                    </div>
+                <div class="testimonial-quote-item" data-index="1">
+                    <p class="testimonial-giant-quote">"I travel 6 months a year now. My properties run themselves. That's freedom."</p>
+                </div>
+                <div class="testimonial-quote-item" data-index="2">
+                    <p class="testimonial-giant-quote">"The transparency is refreshing. 9% covers everything. No surprises, no stress."</p>
                 </div>
             </div>
 
-            <!-- Column 2: Image Top, Quote Bottom -->
-            <div class="testimonial-column" data-column="2">
-                <!-- Image Block with Overlay -->
-                <div class="testimonial-image-block">
-                    <img src="images/airoam-property1.jpg" alt="Airoam property" class="testimonial-image">
-                    <div class="testimonial-overlay">
-                        <div class="testimonial-name">Emma S.</div>
-                        <div class="testimonial-location">Byron Bay, 7 properties</div>
+            <!-- Author indicators -->
+            <div class="testimonials-indicators">
+                <button type="button" class="testimonial-indicator active" data-index="0">
+                    <div class="indicator-line"></div>
+                    <span class="indicator-number">01</span>
+                    <div class="indicator-info">
+                        <span class="indicator-name">Michael T.</span>
+                        <span class="indicator-location">Gold Coast, 22 properties</span>
                     </div>
-                </div>
-                
-                <!-- Quote Block -->
-                <div class="testimonial-quote-block">
-                    <div class="testimonial-quote-mark">"</div>
-                    <p class="testimonial-quote-text">I travel 6 months a year now. My properties run themselves. That's freedom.</p>
-                </div>
-            </div>
-
-            <!-- Column 3: Quote Top, Image Bottom -->
-            <div class="testimonial-column" data-column="3">
-                <!-- Quote Block -->
-                <div class="testimonial-quote-block">
-                    <div class="testimonial-quote-mark">"</div>
-                    <p class="testimonial-quote-text">The transparency is refreshing. 9% covers everything. No surprises, no stress.</p>
-                </div>
-                
-                <!-- Image Block with Overlay -->
-                <div class="testimonial-image-block">
-                    <img src="images/airoam-property2.jpg" alt="Airoam property" class="testimonial-image">
-                    <div class="testimonial-overlay">
-                        <div class="testimonial-name">Priya K.</div>
-                        <div class="testimonial-location">Sydney, 3 properties</div>
+                </button>
+                <button type="button" class="testimonial-indicator" data-index="1">
+                    <div class="indicator-line"></div>
+                    <span class="indicator-number">02</span>
+                    <div class="indicator-info">
+                        <span class="indicator-name">Emma S.</span>
+                        <span class="indicator-location">Byron Bay, 7 properties</span>
                     </div>
-                </div>
+                </button>
+                <button type="button" class="testimonial-indicator" data-index="2">
+                    <div class="indicator-line"></div>
+                    <span class="indicator-number">03</span>
+                    <div class="indicator-info">
+                        <span class="indicator-name">Priya K.</span>
+                        <span class="indicator-location">Sydney, 3 properties</span>
+                    </div>
+                </button>
             </div>
         </div>
     </section>
 
-    <!-- Blog Post Carousel - Latest Posts -->
-    <section class="blog-carousel-section" id="blog-carousel">
-        <div class="blog-carousel-header">
-            <h2 class="blog-carousel-title">Latest posts</h2>
-            <div class="blog-carousel-view-all-wrap">
-                <a href="blog.html" class="blog-carousel-view-all">View all →</a>
+    <!-- Blog Section - Magazine Grid -->
+    <section class="blog-magazine-section" id="blog">
+        <div class="blog-magazine-container">
+            <!-- Header -->
+            <div class="blog-magazine-header">
+                <h2 class="blog-magazine-title">Latest posts</h2>
             </div>
-        </div>
-        <div class="blog-carousel-scroll" aria-label="Scroll through latest blog posts">
-            <a href="blog.html" class="blog-carousel-card">
-                <div class="blog-carousel-card-image">
-                    <img src="Images/airoam-property.jpg" alt="Getting your first listing ready for guests">
-                </div>
-                <div class="blog-carousel-card-text-box">
-                    <div class="blog-carousel-card-category">Tips</div>
-                    <h3 class="blog-carousel-card-title">Getting your first listing ready for guests</h3>
-                    <span class="blog-carousel-card-link">Read more →</span>
-                </div>
-            </a>
-            <a href="blog.html" class="blog-carousel-card">
-                <div class="blog-carousel-card-image">
-                    <img src="Images/airoam-property1.jpg" alt="How AI handles guest messages 24/7">
-                </div>
-                <div class="blog-carousel-card-text-box">
-                    <div class="blog-carousel-card-category">Automation</div>
-                    <h3 class="blog-carousel-card-title">How AI handles guest messages 24/7</h3>
-                    <span class="blog-carousel-card-link">Read more →</span>
-                </div>
-            </a>
-            <a href="blog.html" class="blog-carousel-card">
-                <div class="blog-carousel-card-image">
-                    <img src="Images/airoam-property2.jpg" alt="Why 9% makes sense for growing portfolios">
-                </div>
-                <div class="blog-carousel-card-text-box">
-                    <div class="blog-carousel-card-category">Pricing</div>
-                    <h3 class="blog-carousel-card-title">Why 9% makes sense for growing portfolios</h3>
-                    <span class="blog-carousel-card-link">Read more →</span>
-                </div>
-            </a>
-            <a href="blog.html" class="blog-carousel-card">
-                <div class="blog-carousel-card-image">
-                    <img src="Images/airoam-property.jpg" alt="Coordinating cleaning and turnover at scale">
-                </div>
-                <div class="blog-carousel-card-text-box">
-                    <div class="blog-carousel-card-category">Operations</div>
-                    <h3 class="blog-carousel-card-title">Coordinating cleaning and turnover at scale</h3>
-                    <span class="blog-carousel-card-link">Read more →</span>
-                </div>
-            </a>
-            <a href="blog.html" class="blog-carousel-card">
-                <div class="blog-carousel-card-image">
-                    <img src="Images/airoam-property1.jpg" alt="Setting up dynamic pricing for your market">
-                </div>
-                <div class="blog-carousel-card-text-box">
-                    <div class="blog-carousel-card-category">Guides</div>
-                    <h3 class="blog-carousel-card-title">Setting up dynamic pricing for your market</h3>
-                    <span class="blog-carousel-card-link">Read more →</span>
-                </div>
-            </a>
-            <a href="blog.html" class="blog-carousel-card">
-                <div class="blog-carousel-card-image">
-                    <img src="Images/airoam-property2.jpg" alt="What's new in the Airoam dashboard">
-                </div>
-                <div class="blog-carousel-card-text-box">
-                    <div class="blog-carousel-card-category">Updates</div>
-                    <h3 class="blog-carousel-card-title">What's new in the Airoam dashboard</h3>
-                    <span class="blog-carousel-card-link">Read more →</span>
-                </div>
-            </a>
+
+            <!-- Magazine Grid -->
+            <div class="blog-magazine-grid">
+                <!-- Large Featured - spans 2 cols and 2 rows -->
+                <a href="blog.html" class="blog-card blog-card-featured">
+                    <img src="Images/airoam-property.jpg" alt="Getting your first listing ready for guests" class="blog-card-image">
+                    <div class="blog-card-overlay"></div>
+                    <div class="blog-card-content">
+                        <span class="blog-card-category">Tips</span>
+                        <h3 class="blog-card-title">Getting your first listing ready for guests</h3>
+                        <span class="blog-card-date">Jan 28, 2026</span>
+                    </div>
+                </a>
+
+                <!-- Top Right - Medium -->
+                <a href="blog.html" class="blog-card blog-card-medium">
+                    <img src="Images/airoam-property1.jpg" alt="How AI handles guest messages 24/7" class="blog-card-image">
+                    <div class="blog-card-overlay"></div>
+                    <div class="blog-card-content">
+                        <span class="blog-card-category">Automation</span>
+                        <h3 class="blog-card-title">How AI handles guest messages 24/7</h3>
+                    </div>
+                </a>
+
+                <!-- Bottom Right - Two Small -->
+                <a href="blog.html" class="blog-card blog-card-small">
+                    <img src="Images/airoam-property2.jpg" alt="Why 9% makes sense for growing portfolios" class="blog-card-image">
+                    <div class="blog-card-overlay"></div>
+                    <div class="blog-card-content">
+                        <span class="blog-card-category">Pricing</span>
+                        <h3 class="blog-card-title">Why 9% makes sense for growing portfolios</h3>
+                    </div>
+                </a>
+
+                <a href="blog.html" class="blog-card blog-card-small">
+                    <img src="Images/airoam-property.jpg" alt="Coordinating cleaning and turnover at scale" class="blog-card-image">
+                    <div class="blog-card-overlay"></div>
+                    <div class="blog-card-content">
+                        <span class="blog-card-category">Operations</span>
+                        <h3 class="blog-card-title">Coordinating cleaning and turnover at scale</h3>
+                    </div>
+                </a>
+            </div>
+
+            <!-- See All Button -->
+            <div class="blog-magazine-footer">
+                <a href="blog.html" class="blog-see-all-btn">
+                    <span>See all posts</span>
+                    <span class="btn-arrow">→</span>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -3560,41 +3677,63 @@
         })();
 
         // ============================================
-        // WORKFLOW TIMELINE - CONTINUOUS LINE FLOW
+        // HOW IT WORKS - OBYS ANIMATED LARGE NUMBERS
         // ============================================
         (function() {
-            const workflowSteps = document.querySelectorAll('.workflow-step');
-            const workflowContainer = document.getElementById('workflow-container');
+            const container = document.getElementById('how-it-works');
+            const header = document.querySelector('.how-it-works-header');
+            const stepItems = document.querySelectorAll('.step-item');
+            const stepNumbers = document.querySelectorAll('.step-number');
 
-            if (!workflowSteps.length || !workflowContainer) return;
+            if (!container || !stepItems.length) return;
 
             let hasAnimated = false;
 
-            // Continuous line flow - line draws WITH border for seamless effect
+            // Number counter animation
+            function animateNumber(element) {
+                const target = element.getAttribute('data-target');
+                const targetNum = parseInt(target);
+                let current = 0;
+
+                const interval = setInterval(() => {
+                    current += 1;
+                    element.textContent = current.toString().padStart(2, '0');
+
+                    if (current >= targetNum) {
+                        clearInterval(interval);
+                    }
+                }, 100);
+            }
+
+            // Intersection Observer for scroll trigger
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !hasAnimated) {
                         hasAnimated = true;
-                        
-                        // Card 1: Fade up + border (0.5s duration)
-                        setTimeout(() => {
-                            workflowSteps[0].classList.add('visible');
-                        }, 0);
 
-                        // Card 2: Starts when Card 1 completes (0.5s)
-                        setTimeout(() => {
-                            workflowSteps[1].classList.add('visible');
-                        }, 500);
+                        // Animate header first
+                        if (header) {
+                            header.classList.add('visible');
+                        }
 
-                        // Card 3: Starts when Card 2 completes (1.0s)
-                        setTimeout(() => {
-                            workflowSteps[2].classList.add('visible');
-                        }, 1000);
+                        // Animate each step with stagger
+                        stepItems.forEach((item, index) => {
+                            setTimeout(() => {
+                                item.classList.add('visible');
+                            }, index * 150);
+                        });
+
+                        // Animate numbers with counter effect
+                        stepNumbers.forEach((num, index) => {
+                            setTimeout(() => {
+                                animateNumber(num);
+                            }, 400 + index * 150);
+                        });
                     }
                 });
             }, { threshold: 0.3 });
 
-            observer.observe(workflowContainer);
+            observer.observe(container);
         })();
 
         // ============================================
@@ -3658,30 +3797,63 @@
 
 
         // ============================================
-        // TESTIMONIALS - STAGGERED 3-COLUMN REVEAL
+        // TESTIMONIALS - MINIMAL AUTO-ROTATING
         // ============================================
         (function() {
-            const columns = document.querySelectorAll('.testimonial-column');
-            const section = document.querySelector('.testimonials');
-            
-            if (!columns.length || !section) return;
+            const quotes = document.querySelectorAll('.testimonial-quote-item');
+            const indicators = document.querySelectorAll('.testimonial-indicator');
+            const section = document.querySelector('.testimonials-minimal');
 
-            let hasAnimated = false;
+            if (!quotes.length || !indicators.length || !section) return;
+
+            let currentIndex = 0;
+            let autoRotateInterval = null;
+            const rotationDelay = 5000; // 5 seconds
+
+            function setActiveTestimonial(index) {
+                quotes.forEach((quote, i) => {
+                    quote.classList.toggle('active', i === index);
+                });
+                indicators.forEach((indicator, i) => {
+                    indicator.classList.toggle('active', i === index);
+                });
+                currentIndex = index;
+            }
+
+            function nextTestimonial() {
+                const nextIndex = (currentIndex + 1) % quotes.length;
+                setActiveTestimonial(nextIndex);
+            }
+
+            function startAutoRotate() {
+                if (autoRotateInterval) return;
+                autoRotateInterval = setInterval(nextTestimonial, rotationDelay);
+            }
+
+            function stopAutoRotate() {
+                if (autoRotateInterval) {
+                    clearInterval(autoRotateInterval);
+                    autoRotateInterval = null;
+                }
+            }
+
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    setActiveTestimonial(index);
+                    stopAutoRotate();
+                    startAutoRotate();
+                });
+            });
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting && !hasAnimated) {
-                        hasAnimated = true;
-                        
-                        // Stagger columns with delay
-                        columns.forEach((column, index) => {
-                            setTimeout(() => {
-                                column.classList.add('visible');
-                            }, index * 150); // 150ms stagger between columns
-                        });
+                    if (entry.isIntersecting) {
+                        startAutoRotate();
+                    } else {
+                        stopAutoRotate();
                     }
                 });
-            }, { threshold: 0.2 });
+            }, { threshold: 0.3 });
 
             observer.observe(section);
         })();
