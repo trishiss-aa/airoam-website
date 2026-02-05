@@ -688,8 +688,8 @@
         }
 
         .pricing-panel.entered {
-            transform: translateY(0);
-        }
+                transform: translateY(0);
+            }
 
         /* Hover states - must come after .entered rules for proper override */
         .pricing-panel:hover {
@@ -2917,10 +2917,10 @@
                 </div>
                 <div class="testimonial-quote-item" data-index="1">
                     <p class="testimonial-giant-quote">"I travel 6 months a year now. My properties run themselves. That's freedom."</p>
-                </div>
+            </div>
                 <div class="testimonial-quote-item" data-index="2">
                     <p class="testimonial-giant-quote">"The transparency is refreshing. 9% covers everything. No surprises, no stress."</p>
-                </div>
+        </div>
             </div>
 
             <!-- Author indicators -->
@@ -2931,7 +2931,7 @@
                     <div class="indicator-info">
                         <span class="indicator-name">Michael T.</span>
                         <span class="indicator-location">Gold Coast, 22 properties</span>
-                    </div>
+                </div>
                 </button>
                 <button type="button" class="testimonial-indicator" data-index="1">
                     <div class="indicator-line"></div>
@@ -2947,7 +2947,7 @@
                     <div class="indicator-info">
                         <span class="indicator-name">Priya K.</span>
                         <span class="indicator-location">Sydney, 3 properties</span>
-                    </div>
+                </div>
                 </button>
             </div>
         </div>
@@ -2959,7 +2959,7 @@
             <!-- Header -->
             <div class="blog-magazine-header">
                 <h2 class="blog-magazine-title">Latest posts</h2>
-            </div>
+                </div>
 
             <!-- Magazine Grid -->
             <div class="blog-magazine-grid">
@@ -2981,7 +2981,7 @@
                     <div class="blog-card-content">
                         <span class="blog-card-category">Automation</span>
                         <h3 class="blog-card-title">How AI handles guest messages 24/7</h3>
-                    </div>
+                </div>
                 </a>
 
                 <!-- Bottom Right - Two Small -->
@@ -3032,13 +3032,13 @@
                         <div class="detail-item">
                             <div class="detail-label">Email</div>
                             <a href="mailto:hello@airoam.com.au" class="detail-value">hello@airoam.com.au</a>
-                        </div>
+                </div>
                         <div class="detail-item">
                             <div class="detail-label">Phone</div>
                             <a href="tel:1300000000" class="detail-value">1300 XXX XXX</a>
-                        </div>
                     </div>
                 </div>
+            </div>
 
                 <!-- Right: Form -->
                 <div class="contact-form-wrapper">
@@ -3053,7 +3053,7 @@
                                 required
                                 placeholder="Your full name"
                             >
-                        </div>
+        </div>
 
                         <!-- Email -->
                         <div class="form-group">
@@ -3065,7 +3065,7 @@
                                 required
                                 placeholder="your@email.com"
                             >
-                        </div>
+        </div>
 
                         <!-- Phone -->
                         <div class="form-group">
@@ -3076,7 +3076,7 @@
                                 name="phone"
                                 placeholder="04XX XXX XXX"
                             >
-                        </div>
+            </div>
 
                         <!-- Number of Properties -->
                         <div class="form-group">
@@ -3204,12 +3204,47 @@
         const isMobile = window.innerWidth <= 768;
 
         // ============================================
-        // SPLASH SCREEN ANIMATION - FIXED
+        // HASH NAVIGATION HANDLER (#contact from other pages)
+        // ============================================
+        function handleHashNavigation() {
+            const hash = window.location.hash;
+            if (hash && hash === '#contact') {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    // Small delay to ensure page is ready
+                    setTimeout(function() {
+                        contactSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 100);
+                }
+            }
+        }
+
+        // ============================================
+        // SPLASH SCREEN ANIMATION - FIXED (only on first visit)
         // ============================================
         (function() {
-            document.body.classList.add('loading');
-            
             const splash = document.getElementById('splash-screen');
+            const hasSeenSplash = localStorage.getItem('airoam-splash-seen') === 'true';
+            
+            // Skip splash if user has seen it before
+            if (hasSeenSplash) {
+                if (splash) {
+                    splash.style.display = 'none';
+                }
+                document.body.classList.remove('loading');
+                // Handle hash navigation immediately if no splash
+                setTimeout(function() {
+                    handleHashNavigation();
+                }, 200);
+                return;
+            }
+            
+            // Mark splash as seen
+            localStorage.setItem('airoam-splash-seen', 'true');
+            document.body.classList.add('loading');
             
             /* 
             OPTIMIZED TIMELINE - Arrow morphs into logo "A"
@@ -3310,9 +3345,9 @@
             setTimeout(function() {
                 document.body.classList.remove('loading');
             }, 4200);
-            
+                
             // Start fading splash background at 4000ms (after arrow starts fading)
-            setTimeout(function() {
+                setTimeout(function() {
                 splash.classList.add('fade-bg');
             }, 4000);
             
@@ -3321,9 +3356,16 @@
                 splash.classList.add('hidden');
                 setTimeout(function() {
                     splash.style.display = 'none';
+                    // Handle hash navigation after splash completes
+                    handleHashNavigation();
                 }, 300);
             }, 4200);
         })();
+
+        // Listen for hash changes (e.g., browser back/forward)
+        window.addEventListener('hashchange', function() {
+            handleHashNavigation();
+        });
 
         // ============================================
         // CUSTOM SMOOTH SCROLL ENGINE
@@ -3583,8 +3625,8 @@
                                   window.location.pathname.endsWith('index.html') ||
                                   window.location.pathname === '';
                     if (isIndex) {
-                        e.preventDefault();
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                     }
                 });
             }
@@ -3685,8 +3727,8 @@
                 }
                 
                 // Animate each block with staggered delay
-                blocks.forEach((block, index) => {
-                    const delay = parseInt(block.dataset.delay) || 0;
+                        blocks.forEach((block, index) => {
+                            const delay = parseInt(block.dataset.delay) || 0;
                     const blockProgress = Math.max(0, Math.min(1, (scrollProgress * 3) - (delay / 1000))); // Slower progression
                     
                     if (blockProgress > 0) {
@@ -3699,7 +3741,7 @@
                         
                         // Add visible class when fully animated
                         if (opacity >= 0.95) {
-                            block.classList.add('visible');
+                                block.classList.add('visible');
                         }
                     }
                 });
@@ -3890,15 +3932,15 @@
                 });
             });
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
                         startAutoRotate();
                     } else {
                         stopAutoRotate();
-                    }
-                });
-            }, { threshold: 0.3 });
+                        }
+                    });
+                }, { threshold: 0.3 });
 
             observer.observe(section);
         })();
@@ -3955,12 +3997,12 @@
                     this.baseSize = Math.random() * 180 + 100;
                     this.size = this.baseSize;
 
-                    this.speedY = -(Math.random() * 0.55 + 0.28);
-                    this.speedX = (Math.random() - 0.5) * 0.35;
+                    this.speedY = -(Math.random() * 0.85 + 0.45);
+                    this.speedX = (Math.random() - 0.5) * 0.5;
                     this.wobbleSpeed = Math.random() * 0.5 + 0.3;
                     this.phase = Math.random() * Math.PI * 2;
 
-                    this.maxOpacity = Math.random() * 0.38 + 0.27;
+                    this.maxOpacity = Math.random() * 0.42 + 0.35;
                     this.opacity = isInitial ? this.maxOpacity * Math.random() : 0;
 
                     this.growthRate = Math.random() * 0.25 + 0.1;
@@ -3977,7 +4019,7 @@
 
                 SmokeParticle.prototype.update = function(time) {
                     this.y += this.speedY;
-                    this.x += this.speedX + Math.sin(time * this.wobbleSpeed + this.phase) * 0.5;
+                    this.x += this.speedX + Math.sin(time * this.wobbleSpeed + this.phase) * 0.8;
 
                     this.size += this.growthRate;
 
@@ -3985,12 +4027,12 @@
                     var fadeOutZone = height * 0.25;
 
                     if (this.y > fadeInZone) {
-                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.008);
+                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.014);
                     } else if (this.y < fadeOutZone) {
                         var fadeProgress = this.y / fadeOutZone;
                         this.opacity = this.maxOpacity * fadeProgress;
                     } else {
-                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.005);
+                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.009);
                     }
 
                     if (this.y < -this.size || this.opacity <= 0) {
@@ -4033,15 +4075,15 @@
                     this.x = Math.random() * width;
                     this.y = isInitial ? Math.random() * height : height + 50;
 
-                    this.wispWidth = Math.random() * 120 + 60;
-                    this.wispHeight = Math.random() * 280 + 140;
+                    this.wispWidth = Math.random() * 220 + 180;
+                    this.wispHeight = Math.random() * 320 + 280;
 
-                    this.speedY = -(Math.random() * 0.45 + 0.22);
-                    this.speedX = (Math.random() - 0.5) * 0.28;
+                    this.speedY = -(Math.random() * 0.7 + 0.38);
+                    this.speedX = (Math.random() - 0.5) * 0.45;
                     this.wobblePhase = Math.random() * Math.PI * 2;
                     this.wobbleSpeed = Math.random() * 0.3 + 0.2;
 
-                    this.maxOpacity = Math.random() * 0.29 + 0.19;
+                    this.maxOpacity = Math.random() * 0.35 + 0.28;
                     this.opacity = isInitial ? this.maxOpacity * Math.random() : 0;
 
                     this.rotation = (Math.random() - 0.5) * 0.3;
@@ -4057,18 +4099,18 @@
 
                 SmokeWisp.prototype.update = function(time) {
                     this.y += this.speedY;
-                    this.x += this.speedX + Math.sin(time * this.wobbleSpeed + this.wobblePhase) * 0.7;
+                    this.x += this.speedX + Math.sin(time * this.wobbleSpeed + this.wobblePhase) * 1.0;
                     this.rotation += this.rotationSpeed;
 
                     var fadeInZone = height * 0.75;
                     var fadeOutZone = height * 0.2;
 
                     if (this.y > fadeInZone) {
-                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.005);
+                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.01);
                     } else if (this.y < fadeOutZone) {
                         this.opacity = this.maxOpacity * (this.y / fadeOutZone);
                     } else {
-                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.003);
+                        this.opacity = Math.min(this.maxOpacity, this.opacity + 0.006);
                     }
 
                     if (this.y < -this.wispHeight) {
@@ -4082,8 +4124,10 @@
                     ctx.save();
                     ctx.translate(this.x, this.y);
                     ctx.rotate(this.rotation);
-
+                    // Scale so radial gradient stretches with the patch shape (elliptical soft edge)
                     var maxDim = Math.max(this.wispWidth, this.wispHeight);
+                    ctx.scale(this.wispWidth / maxDim, this.wispHeight / maxDim);
+
                     var gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, maxDim);
 
                     var r = this.color.r;
@@ -4091,14 +4135,14 @@
                     var b = this.color.b;
 
                     gradient.addColorStop(0, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + this.opacity + ')');
-                    gradient.addColorStop(0.2, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.6) + ')');
-                    gradient.addColorStop(0.45, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.3) + ')');
-                    gradient.addColorStop(0.7, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.08) + ')');
+                    gradient.addColorStop(0.25, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.65) + ')');
+                    gradient.addColorStop(0.5, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.25) + ')');
+                    gradient.addColorStop(0.75, 'rgba(' + r + ', ' + g + ', ' + b + ', ' + (this.opacity * 0.06) + ')');
                     gradient.addColorStop(1, 'rgba(' + r + ', ' + g + ', ' + b + ', 0)');
 
                     ctx.fillStyle = gradient;
                     ctx.beginPath();
-                    ctx.ellipse(0, 0, this.wispWidth, this.wispHeight, 0, 0, Math.PI * 2);
+                    ctx.arc(0, 0, maxDim, 0, Math.PI * 2);
                     ctx.fill();
 
                     ctx.restore();
@@ -4916,13 +4960,13 @@
     <div class="voice-widget-wrap" id="voice-widget-wrap">
         <button type="button" class="voice-widget" id="voice-widget" aria-label="Voice call">
             <span class="voice-widget-icon-wrap">
-                <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3 18v-6a9 9 0 0 1 18 0v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+        </svg>
             </span>
             <span class="voice-widget-text" id="voice-widget-text">Voice call</span>
-        </button>
+    </button>
         <span class="voice-widget-powered">Powered by Heya</span>
     </div>
 
@@ -5026,7 +5070,7 @@
                 closeTerms();
                 setButtonState('connecting');
                 // Simulate Voice AI connecting; replace with real Heya/API when ready
-                setTimeout(function() {
+            setTimeout(function() {
                     setButtonState('call');
                 }, 1500);
             });

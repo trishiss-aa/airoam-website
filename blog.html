@@ -23,9 +23,10 @@
         }
 
         /* ============================================
-           NAVIGATION - CONSISTENT ACROSS ALL PAGES
+           STICKY MAIN MENU - FIXED AT TOP
            ============================================ */
-        nav {
+        #main-nav,
+        nav#main-nav {
             position: fixed;
             top: 0;
             left: 0;
@@ -41,7 +42,8 @@
             border-bottom: 3px solid transparent;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        nav.scrolled {
+        #main-nav.scrolled,
+        nav#main-nav.scrolled {
             border-bottom-color: #202020;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
         }
@@ -188,7 +190,7 @@
 
         /* Blog page hero – title aligns left with sticky sidebar */
         .blog-hero {
-            background-color: var(--color-white);
+            background-color: #FAF0DD;
         }
         .blog-hero .container {
             max-width: 1400px;
@@ -222,115 +224,57 @@
             line-height: 1.5;
             color: var(--color-text-grey);
             max-width: 640px;
+            margin-bottom: 32px;
         }
 
-        /* Blog layout: sticky sidebar + content */
-        .blog-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 60px;
-            max-width: 1400px;
+        /* Content wrapper – full width, no sidebar */
+        .blog-content-wrapper {
+            background-color: var(--color-white);
+            padding: 48px 60px 80px;
+        }
+        .blog-content-wrapper .container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 60px 60px 120px;
-            align-items: start;
+            padding: 0;
         }
 
-        .blog-sidebar {
-            position: sticky;
-            top: 100px;
+        /* Category filter buttons – row under hero text */
+        .blog-hero-filters {
             display: flex;
-            flex-direction: column;
-            gap: 40px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
-
-        .blog-sidebar-title {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--color-black);
-            margin-bottom: 4px;
-        }
-
-        .blog-sidebar-categories {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .blog-sidebar-categories a {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--color-text-grey);
-            text-decoration: none;
-            padding: 8px 0;
-            transition: color 0.2s ease;
-        }
-
-        .blog-sidebar-categories a:hover,
-        .blog-sidebar-categories a.active {
-            color: var(--color-black);
-            font-weight: 500;
-        }
-
-        .blog-sidebar-subscribe-title {
-            font-size: 13px;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--color-black);
-            margin-bottom: 12px;
-        }
-
-        .blog-sidebar-subscribe-form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .blog-sidebar-subscribe-form input[type="email"] {
-            width: 100%;
-            padding: 12px 16px;
+        .blog-filter-btn {
+            display: inline-block;
+            padding: 12px 24px;
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: var(--color-black);
+            background-color: var(--color-white);
             border: 2px solid var(--color-black);
-            background: var(--color-white);
-            color: var(--color-black);
-            outline: none;
-            transition: border-color 0.2s ease;
-        }
-
-        .blog-sidebar-subscribe-form input[type="email"]::placeholder {
-            color: var(--color-text-grey);
-            opacity: 0.7;
-        }
-
-        .blog-sidebar-subscribe-form input[type="email"]:focus {
-            border-color: var(--color-black);
-        }
-
-        .blog-sidebar-subscribe-btn {
-            display: block;
-            width: 100%;
-            padding: 14px 24px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            border: 3px solid var(--color-black);
-            background: var(--color-black);
-            color: var(--color-white);
+            border-radius: 4px;
             cursor: pointer;
-            transition: background 0.2s ease, color 0.2s ease;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
         }
-
-        .blog-sidebar-subscribe-btn:hover {
-            background: var(--color-white);
-            color: var(--color-black);
+        .blog-filter-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        .blog-filter-btn.active {
+            background-color: var(--color-black);
+            color: var(--color-white);
+        }
+        .blog-filter-btn:focus {
+            outline: none;
         }
 
         /* Blog grid – image card with overlay text box (text box moves up on hover) */
+        /* ============================================
+           BLOG GRID - MAGAZINE MASONRY LAYOUT
+           ============================================ */
         .blog-section {
             padding: 0;
             background-color: var(--color-white);
@@ -342,75 +286,214 @@
 
         .blog-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
         }
+
+        /* Magazine pattern: 8-card repeat (1-2: 6 each, 3: 12, 4-5: 7+5, 6-7: 5+7, 8: 12) */
+        .blog-grid > a.blog-card:nth-of-type(8n+1),
+        .blog-grid > a.blog-card:nth-of-type(8n+2) {
+            grid-column: span 6;
+            min-height: 280px;
+        }
+        .blog-grid > a.blog-card:nth-of-type(8n+3) {
+            grid-column: span 12;
+            min-height: 420px;
+        }
+        .blog-grid > a.blog-card:nth-of-type(8n+3) .blog-card-text-box { padding: 36px; }
+        .blog-grid > a.blog-card:nth-of-type(8n+3) .blog-card-category {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            margin-bottom: 16px;
+        }
+        .blog-grid > a.blog-card:nth-of-type(8n+3) .blog-card-title { font-size: 28px; max-width: 500px; }
+        .blog-grid > a.blog-card:nth-of-type(8n+3) .blog-card-date { margin-top: 16px; }
+        .blog-grid > a.blog-card:nth-of-type(8n+4) { grid-column: span 7; min-height: 260px; }
+        .blog-grid > a.blog-card:nth-of-type(8n+5) { grid-column: span 5; min-height: 260px; }
+        .blog-grid > a.blog-card:nth-of-type(8n+6) { grid-column: span 5; min-height: 260px; }
+        .blog-grid > a.blog-card:nth-of-type(8n+7) { grid-column: span 7; min-height: 260px; }
+        .blog-grid > a.blog-card:nth-of-type(8n) { grid-column: span 12; min-height: 240px; }
+        .blog-grid > a.blog-card:nth-of-type(8n) .blog-card-title { font-size: 22px; max-width: 600px; }
+
+        /* Base card styles */
         .blog-card {
             position: relative;
             display: block;
             overflow: hidden;
-            border-radius: 12px;
-            aspect-ratio: 3 / 3.8;
+            border-radius: 16px;
             text-decoration: none;
             color: inherit;
-            transition: box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .blog-card:hover {
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        .blog-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
+
         .blog-card-image {
             position: absolute;
             inset: 0;
+            transition: transform 0.5s ease;
         }
+
         .blog-card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
-        /* Text box overlay at bottom – moves up on hover */
+
+        .blog-card:hover .blog-card-image {
+            transform: scale(1.05);
+        }
+
+        /* Dark gradient overlay */
+        .blog-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .blog-card:hover::after {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+        }
+
+        /* Text content - positioned over gradient */
         .blog-card-text-box {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 28px 24px;
-            background-color: #F5E6C8;
-            border-radius: 0 0 12px 12px;
-            transition: transform 0.35s ease;
+            padding: 28px;
+            z-index: 2;
+            background: transparent;
+            border-radius: 0;
+            transform: none;
+            transition: transform 0.3s ease;
         }
+
         .blog-card:hover .blog-card-text-box {
-            transform: translateY(-24px);
+            transform: translateY(-8px);
         }
+
         .blog-card-category {
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 0.1em;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--color-black);
-            margin-bottom: 8px;
-            opacity: 0.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
         }
+
         .blog-card-title {
             font-size: 20px;
             font-weight: 600;
-            line-height: 1.3;
+            line-height: 1.35;
             letter-spacing: -0.01em;
-            color: var(--color-black);
+            color: var(--color-white);
             margin-bottom: 0;
         }
+
         .blog-card-link {
+            display: none;
+        }
+
+        /* Date */
+        .blog-card-date {
             font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 12px;
+        }
+
+        /* ============================================
+           FILTERED STATE: UNIFORM 2-COL (6+6)
+           ============================================ */
+        .blog-card.is-hidden {
+            display: none !important;
+        }
+
+        .blog-grid.is-filtered .blog-card {
+            min-height: 280px;
+            grid-column: span 6 !important;
+        }
+        .blog-grid.is-filtered .blog-card .blog-card-text-box { padding: 28px; }
+        .blog-grid.is-filtered .blog-card .blog-card-category { font-size: 11px; margin-bottom: 10px; }
+        .blog-grid.is-filtered .blog-card .blog-card-title { font-size: 18px; max-width: none; }
+        .blog-grid.is-filtered .blog-card .blog-card-date { display: block; margin-top: 12px; }
+        .blog-grid.is-filtered .blog-card.span-full {
+            grid-column: span 12 !important;
+        }
+
+        /* ============================================
+           LOAD MORE BUTTON
+           ============================================ */
+
+        .blog-load-more {
+            grid-column: span 12;
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+
+        .blog-load-more-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
             font-weight: 500;
             letter-spacing: 0.05em;
+            border: 3px solid var(--color-black);
+            background: transparent;
             color: var(--color-black);
-            text-decoration: none;
-            margin-top: 12px;
-            display: inline-block;
-            opacity: 0.8;
-            transition: opacity 0.2s ease;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
-        .blog-card-link:hover { opacity: 1; }
+
+        .blog-load-more-btn:hover {
+            background-color: var(--color-black);
+            color: var(--color-white);
+        }
+
+        /* ============================================
+           BLOG GRID - MOBILE (<768px: single column)
+           ============================================ */
+        @media (max-width: 1024px) {
+            .blog-grid { gap: 20px; }
+            .blog-grid > a.blog-card:nth-of-type(8n+3) { min-height: 360px; }
+            .blog-grid > a.blog-card:nth-of-type(8n+3) .blog-card-title { font-size: 24px; }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .blog-grid > a.blog-card:nth-of-type(8n+1),
+            .blog-grid > a.blog-card:nth-of-type(8n+2),
+            .blog-grid > a.blog-card:nth-of-type(8n+3),
+            .blog-grid > a.blog-card:nth-of-type(8n+4),
+            .blog-grid > a.blog-card:nth-of-type(8n+5),
+            .blog-grid > a.blog-card:nth-of-type(8n+6),
+            .blog-grid > a.blog-card:nth-of-type(8n+7),
+            .blog-grid > a.blog-card:nth-of-type(8n) {
+                grid-column: span 1;
+            }
+            .blog-grid > a.blog-card:nth-of-type(8n+3) { min-height: 320px; }
+            .blog-grid > a.blog-card:nth-of-type(8n+3) .blog-card-text-box { padding: 24px; }
+            .blog-grid > a.blog-card:nth-of-type(8n+3) .blog-card-title { font-size: 22px; }
+            .blog-grid.is-filtered .blog-card,
+            .blog-grid.is-filtered .blog-card.span-full {
+                grid-column: span 1 !important;
+            }
+            .blog-load-more { grid-column: span 1; }
+        }
 
         /* Footer */
         footer {
@@ -602,34 +685,19 @@
             stroke-width: 2;
         }
 
+        @media (max-width: 1024px) {
+            .blog-content-wrapper {
+                padding: 40px 40px 60px;
+            }
+        }
+
         @media (max-width: 768px) {
             .container { padding: 0 24px; }
-            .blog-hero .container { padding: 60px 24px 40px; }
+            .blog-hero .container { padding: 48px 24px 40px; }
             .blog-title { font-size: 40px; }
-            .blog-layout {
-                grid-template-columns: 1fr;
-                padding: 40px 24px 80px;
-                gap: 40px;
-            }
-            .blog-sidebar {
-                position: static;
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 24px;
-                padding-bottom: 24px;
-                border-bottom: 2px solid rgba(0,0,0,0.1);
-            }
-            .blog-sidebar-categories {
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-            .blog-sidebar-subscribe-form { min-width: 200px; }
-            .blog-sidebar-subscribe-btn { width: auto; }
-            .blog-grid { grid-template-columns: 1fr; gap: 24px; }
-            .blog-card { aspect-ratio: 3 / 3.8; }
-            .blog-card-text-box { padding: 24px 20px; }
-            .blog-card-title { font-size: 18px; }
+            .blog-hero-filters { gap: 10px; }
+            .blog-filter-btn { padding: 10px 18px; font-size: 13px; }
+            .blog-content-wrapper { padding: 32px 24px 60px; }
             .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: left; }
             .footer-contact { text-align: left; }
             .voice-widget-wrap { bottom: 20px; right: 20px; }
@@ -640,8 +708,8 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav id="main-nav">
+    <!-- Sticky main menu (fixed at top) -->
+    <nav id="main-nav" aria-label="Main navigation">
         <a href="index.html" class="nav-logo" id="nav-logo">
             <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo">
         </a>
@@ -667,106 +735,121 @@
     </div>
 
     <main>
-        <section class="blog-hero">
+        <!-- Page header section: cream background, title, subtitle, then category filters -->
+        <header class="blog-hero">
             <div class="container">
-                <h1 class="blog-title">Blog</h1>
                 <p class="blog-breadcrumb" aria-label="Breadcrumb">
                     <a href="index.html">Home</a>
                     <span> / </span>
                     <span>Blog</span>
                 </p>
-                <p class="blog-subtitle">Insights on short-term rental management, automation, and scaling your properties.</p>
+                <h1 class="blog-title">Blog</h1>
+                <p class="blog-subtitle">Insights on short-term rental management, automation, and growing your portfolio.</p>
+                <nav class="blog-hero-filters" aria-label="Filter by category">
+                    <button type="button" class="blog-filter-btn active" data-filter="all">All Posts</button>
+                    <button type="button" class="blog-filter-btn" data-filter="tips">Tips</button>
+                    <button type="button" class="blog-filter-btn" data-filter="automation">Automation</button>
+                    <button type="button" class="blog-filter-btn" data-filter="pricing">Pricing</button>
+                    <button type="button" class="blog-filter-btn" data-filter="guides">Guides</button>
+                    <button type="button" class="blog-filter-btn" data-filter="success-stories">Success Stories</button>
+                </nav>
             </div>
-        </section>
+        </header>
 
-        <div class="blog-layout">
-            <aside class="blog-sidebar" aria-label="Blog filters and subscribe">
-                <div>
-                    <h2 class="blog-sidebar-title">Category</h2>
-                    <ul class="blog-sidebar-categories">
-                        <li><a href="blog.html" class="active">All</a></li>
-                        <li><a href="blog.html?category=tips">Tips</a></li>
-                        <li><a href="blog.html?category=automation">Automation</a></li>
-                        <li><a href="blog.html?category=pricing">Pricing</a></li>
-                        <li><a href="blog.html?category=operations">Operations</a></li>
-                        <li><a href="blog.html?category=guides">Guides</a></li>
-                        <li><a href="blog.html?category=updates">Updates</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h2 class="blog-sidebar-subscribe-title">Subscribe to news</h2>
-                    <form class="blog-sidebar-subscribe-form" action="#" method="post" aria-label="Subscribe to newsletter">
-                        <input type="email" name="email" placeholder="Your email" required aria-label="Email address">
-                        <button type="submit" class="blog-sidebar-subscribe-btn">Subscribe</button>
-                    </form>
-                </div>
-            </aside>
-            <section class="blog-section">
+        <div class="blog-content-wrapper">
+            <div class="container">
+                <section class="blog-section">
                 <div class="blog-content">
                     <div class="blog-grid">
-                    <a href="blog-post.html" class="blog-card">
+                    <!-- Featured Card (Large - spans 2 columns) | Category: Success Stories -->
+                    <a href="drowning-in-guest-messages.html" class="blog-card card-featured" data-category="success-stories">
+                        <div class="blog-card-image">
+                            <img src="Images/airoam-property.jpg" alt="Australian short-term rental hosts reclaim weekends with AI management - 4.74 star average">
+                        </div>
+                        <div class="blog-card-text-box">
+                            <div class="blog-card-category">Success Stories</div>
+                            <h2 class="blog-card-title">From Drowning in Messages to 4.74-Star Average: How 3,500+ Australian Hosts Reclaimed Their Weekends</h2>
+                            <p class="blog-card-date">April 2025</p>
+                        </div>
+                    </a>
+                    <!-- Medium Cards | Category: Pricing -->
+                    <a href="airbnb-melbourne-fees-9-percent.html" class="blog-card card-medium" data-category="pricing">
+                        <div class="blog-card-image">
+                            <img src="Images/airoam-property.jpg" alt="Melbourne apartment with calculator showing savings from switching to 9% AI-powered management">
+                        </div>
+                        <div class="blog-card-text-box">
+                            <div class="blog-card-category">Pricing &amp; Fees</div>
+                            <h2 class="blog-card-title">Paying 15% Management Fees in Melbourne? Here's Why Smart Hosts Are Switching to 9%</h2>
+                            <p class="blog-card-date">December 2024</p>
+                        </div>
+                    </a>
+                    <a href="3am-plumbing-emergency-airbnb-perth.html" class="blog-card card-medium" data-category="automation">
+                        <div class="blog-card-image">
+                            <img src="Images/airoam-property.jpg" alt="Perth or Fremantle apartment bathroom - proactive plumbing and maintenance for short-term rental hosts">
+                        </div>
+                        <div class="blog-card-text-box">
+                            <div class="blog-card-category">Automation &amp; AI</div>
+                            <h2 class="blog-card-title">The 3am Plumbing Emergency That Cost Me a 1-Star Review (And How Perth Hosts Can Avoid It)</h2>
+                            <p class="blog-card-date">October 2024</p>
+                        </div>
+                    </a>
+                    <!-- Small Cards | Category: Tips -->
+                    <a href="blog-post.html" class="blog-card card-small" data-category="tips">
                         <div class="blog-card-image">
                             <img src="Images/airoam-property.jpg" alt="Getting your first listing ready for guests">
                         </div>
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Tips</div>
                             <h2 class="blog-card-title">Getting your first listing ready for guests</h2>
-                            <span class="blog-card-link">Read more →</span>
                         </div>
                     </a>
-                    <a href="#" class="blog-card">
+                    <a href="perth-short-term-rental-regulations-2025.html" class="blog-card card-small" data-category="guides">
                         <div class="blog-card-image">
-                            <img src="Images/airoam-property1.jpg" alt="How AI handles guest messages 24/7">
+                            <img src="Images/airoam-property.jpg" alt="Perth short-term rental regulations 2025 - STRA compliance guide for Airbnb hosts in Western Australia">
                         </div>
                         <div class="blog-card-text-box">
-                            <div class="blog-card-category">Automation</div>
-                            <h2 class="blog-card-title">How AI handles guest messages 24/7</h2>
-                            <span class="blog-card-link">Read more →</span>
+                            <div class="blog-card-category">Regulations &amp; Compliance</div>
+                            <h2 class="blog-card-title">Perth Short-Term Rental Regulations: What Every Airbnb Host Needs to Know in 2025</h2>
                         </div>
                     </a>
-                    <a href="#" class="blog-card">
+                    <!-- Wide Card (spans 2 columns) | Category: Guides -->
+                    <a href="melbourne-property-underperforming.html" class="blog-card card-wide" data-category="guides">
                         <div class="blog-card-image">
-                            <img src="Images/airoam-property2.jpg" alt="Why 9% makes sense for growing portfolios">
+                            <img src="Images/airoam-property.jpg" alt="Melbourne Airbnb or short-term rental - professional photography and optimisation for higher earnings">
                         </div>
                         <div class="blog-card-text-box">
-                            <div class="blog-card-category">Pricing</div>
-                            <h2 class="blog-card-title">Why 9% makes sense for growing portfolios</h2>
-                            <span class="blog-card-link">Read more →</span>
+                            <div class="blog-card-category">Revenue Optimisation</div>
+                            <h2 class="blog-card-title">Melbourne Airbnb Owners: Why Your Property Is Underperforming (And the 30% Uplift You're Missing)</h2>
+                            <p class="blog-card-date">February 2025</p>
                         </div>
                     </a>
-                    <a href="#" class="blog-card">
+                    <!-- Small Cards | Category: Success Stories -->
+                    <a href="fired-perth-property-manager.html" class="blog-card card-small" data-category="success-stories">
                         <div class="blog-card-image">
-                            <img src="Images/airoam-property.jpg" alt="Coordinating cleaning and turnover at scale">
+                            <img src="Images/airoam-property.jpg" alt="Perth Scarborough short-term rental - switching from traditional property manager to AI-powered management">
                         </div>
                         <div class="blog-card-text-box">
-                            <div class="blog-card-category">Operations</div>
-                            <h2 class="blog-card-title">Coordinating cleaning and turnover at scale</h2>
-                            <span class="blog-card-link">Read more →</span>
+                            <div class="blog-card-category">Success Stories</div>
+                            <h2 class="blog-card-title">Fired My Perth Property Manager After 6 Months. Here's What I Learned.</h2>
                         </div>
                     </a>
-                    <a href="#" class="blog-card">
+                    <a href="ai-guest-messages-holiday-bali.html" class="blog-card card-small" data-category="automation">
                         <div class="blog-card-image">
-                            <img src="Images/airoam-property1.jpg" alt="Setting up dynamic pricing for your market">
+                            <img src="Images/airoam-property.jpg" alt="AI guest messages answered automatically - Melbourne Airbnb host holiday in Bali, phone-free hosting">
                         </div>
                         <div class="blog-card-text-box">
-                            <div class="blog-card-category">Guides</div>
-                            <h2 class="blog-card-title">Setting up dynamic pricing for your market</h2>
-                            <span class="blog-card-link">Read more →</span>
+                            <div class="blog-card-category">Automation &amp; AI</div>
+                            <h2 class="blog-card-title">How AI Answered 89% of My Guest Messages While I Was on Holiday in Bali</h2>
                         </div>
                     </a>
-                    <a href="#" class="blog-card">
-                        <div class="blog-card-image">
-                            <img src="Images/airoam-property2.jpg" alt="What's new in the Airoam dashboard">
-                        </div>
-                        <div class="blog-card-text-box">
-                            <div class="blog-card-category">Updates</div>
-                            <h2 class="blog-card-title">What's new in the Airoam dashboard</h2>
-                            <span class="blog-card-link">Read more →</span>
-                        </div>
-                    </a>
+                    <!-- Load More Button -->
+                    <div class="blog-load-more">
+                        <button type="button" class="blog-load-more-btn">Load more posts</button>
+                    </div>
                 </div>
                 </div>
-            </section>
+                </section>
+            </div>
         </div>
     </main>
 
@@ -911,6 +994,102 @@
                     }
                 }, { passive: true });
             }
+        })();
+
+        // ============================================
+        // BLOG CATEGORY FILTER (in-place, no reload + replaceState)
+        // ============================================
+        (function() {
+            var grid = document.querySelector('.blog-grid');
+            var filterBtns = document.querySelectorAll('.blog-hero-filters .blog-filter-btn');
+            var cards = document.querySelectorAll('.blog-card[data-category]');
+            var loadMore = document.querySelector('.blog-load-more');
+            var staggerMs = 90;
+            var ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+            if (!grid || !cards.length) return;
+
+            function getCategoryFromUrl() {
+                var params = new URLSearchParams(window.location.search);
+                var c = params.get('category');
+                return (c && c.trim()) ? c.trim().toLowerCase() : 'all';
+            }
+
+            function setUrl(category) {
+                var url = category && category !== 'all'
+                    ? 'blog.html?category=' + encodeURIComponent(category)
+                    : 'blog.html';
+                history.replaceState({ category: category || 'all' }, '', url);
+            }
+
+            function animateVisibleCards(visibleCards) {
+                visibleCards.forEach(function(card) {
+                    card.classList.remove('is-visible');
+                    card.style.transitionDelay = '';
+                });
+                requestAnimationFrame(function() {
+                    visibleCards.forEach(function(card, i) {
+                        card.style.transitionDelay = (i * staggerMs) + 'ms';
+                        card.classList.add('is-visible');
+                    });
+                });
+            }
+
+            function applyFilter(category) {
+                category = category === 'all' ? null : category;
+                var activeFilter = category || 'all';
+
+                filterBtns.forEach(function(btn) {
+                    if (btn.getAttribute('data-filter') === activeFilter) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                if (grid) {
+                    grid.classList.toggle('is-filtered', !!category);
+                }
+
+                var visibleCards = [];
+                cards.forEach(function(card) {
+                    var cardCat = card.getAttribute('data-category');
+                    if (!category || cardCat === category) {
+                        card.classList.remove('is-hidden');
+                        card.classList.remove('span-full');
+                        visibleCards.push(card);
+                    } else {
+                        card.classList.add('is-hidden');
+                        card.classList.remove('is-visible');
+                    }
+                });
+
+                if (category && visibleCards.length % 2 === 1) {
+                    visibleCards[visibleCards.length - 1].classList.add('span-full');
+                }
+
+                animateVisibleCards(visibleCards);
+
+                if (loadMore) {
+                    loadMore.style.display = visibleCards.length > 0 ? '' : 'none';
+                }
+            }
+
+            filterBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var filter = btn.getAttribute('data-filter');
+                    setUrl(filter);
+                    applyFilter(filter);
+                });
+            });
+
+            window.addEventListener('popstate', function() {
+                applyFilter(getCategoryFromUrl());
+            });
+
+            var current = getCategoryFromUrl();
+            setUrl(current);
+            applyFilter(current);
         })();
 
         // Voice widget (same as main site – shown immediately on blog)
