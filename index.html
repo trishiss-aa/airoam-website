@@ -2023,6 +2023,8 @@
             opacity: 0;
             transform: translateY(-10px);
             transition: all 0.4s ease;
+            margin-top: 16px;
+            border-radius: 0;
         }
 
         .form-message.show {
@@ -2031,15 +2033,15 @@
         }
 
         .form-message.success {
-            border-color: #ffffff;
-            color: #ffffff;
-            background-color: rgba(255, 255, 255, 0.05);
+            border-color: var(--color-black);
+            color: var(--color-black);
+            background-color: rgba(0, 0, 0, 0.03);
         }
 
         .form-message.error {
-            border-color: #ff4444;
-            color: #cc0000;
-            background-color: rgba(255, 68, 68, 0.05);
+            border-color: var(--color-black);
+            color: var(--color-black);
+            background-color: rgba(0, 0, 0, 0.03);
         }
 
         /* ============================================
@@ -2587,28 +2589,35 @@
         }
 
         .voice-feedback-btn {
-            width: 36px;
-            height: 36px;
+            width: 44px;
+            height: 44px;
             border: 2px solid var(--color-black);
+            border-radius: 50%;
             background: var(--color-white);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.2s, transform 0.2s;
+            transition: background 0.2s ease, transform 0.15s ease;
         }
 
         .voice-feedback-btn:hover {
-            background: #f0f0f0;
-            transform: scale(1.05);
+            background: #f5f5f5;
+            transform: scale(1.08);
+        }
+
+        .voice-feedback-btn:active {
+            transform: scale(0.95);
         }
 
         .voice-feedback-btn svg {
-            width: 18px;
-            height: 18px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
+            width: 20px;
+            height: 20px;
+            color: var(--color-black);
+        }
+
+        #voice-feedback-down svg {
+            transform: rotate(180deg);
         }
 
         @media (max-width: 768px) {
@@ -4258,31 +4267,47 @@
                     return;
                 }
 
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(data.email)) {
+                    showMessage('Please enter a valid email address.', 'error');
+                    return;
+                }
+
                 // Show loading state
                 submitBtn.classList.add('loading');
                 submitBtn.disabled = true;
 
-                // Simulate form submission (replace with your actual endpoint)
                 try {
-                    // TODO: Replace this with your actual API endpoint
-                    // Example: await fetch('/api/contact', { 
-                    //   method: 'POST', 
-                    //   headers: { 'Content-Type': 'application/json' },
-                    //   body: JSON.stringify(data) 
-                    // })
+                    // Prepare email content
+                    const subject = encodeURIComponent('New Contact Form Submission from ' + data.name);
+                    const body = encodeURIComponent(
+                        'Name: ' + data.name + '\n\n' +
+                        'Email: ' + data.email + '\n\n' +
+                        (data.phone ? 'Phone: ' + data.phone + '\n\n' : '') +
+                        (data.properties ? 'Number of Properties: ' + data.properties + '\n\n' : '') +
+                        (data.address ? 'Address: ' + data.address + '\n\n' : '') +
+                        (data.message ? 'Message:\n' + data.message : '')
+                    );
                     
-                    // Simulate network delay
-                    await new Promise(resolve => setTimeout(resolve, 1500));
-
-                    // Success
-                    showMessage('Message sent! We\'ll get back to you soon.', 'success');
-                    form.reset();
+                    // Send to both email addresses
+                    const recipients = 'james@airoam.com.au,tricia@airoam.com.au';
+                    const mailtoLink = 'mailto:' + recipients + '?subject=' + subject + '&body=' + body;
+                    
+                    // Open email client
+                    window.location.href = mailtoLink;
+                    
+                    // Show success message after a short delay
+                    setTimeout(() => {
+                        showMessage('Thank you! Your email client should open. If not, please email us directly at hello@airoam.com.au', 'success');
+                        form.reset();
+                        submitBtn.classList.remove('loading');
+                        submitBtn.disabled = false;
+                    }, 500);
 
                 } catch (error) {
                     // Error
-                    showMessage('Something went wrong. Please try again.', 'error');
-                } finally {
-                    // Remove loading state
+                    showMessage('Something went wrong. Please try again or email us directly at hello@airoam.com.au', 'error');
                     submitBtn.classList.remove('loading');
                     submitBtn.disabled = false;
                 }
@@ -4958,6 +4983,9 @@
 
     <!-- Voice Widget -->
     <div class="voice-widget-wrap" id="voice-widget-wrap">
+        <!-- Hidden button for Key Ninja to bind to -->
+        <button id="start-call-btn" style="display: none !important;">Start Call</button>
+        
         <button type="button" class="voice-widget" id="voice-widget" aria-label="Voice call">
             <span class="voice-widget-icon-wrap">
         <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -4988,10 +5016,14 @@
             <h2 class="voice-modal-title" id="voice-feedback-title">Was the call helpful?</h2>
             <div class="voice-feedback-buttons">
                 <button type="button" class="voice-feedback-btn" id="voice-feedback-down" aria-label="No">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 22V11M2 13V20C2 21.1046 2.89543 22 4 22H17.4262C18.907 22 20.1662 20.9197 20.3914 19.4562L21.4683 12.4562C21.7479 10.6389 20.3418 9 18.5032 9H15C14.4477 9 14 8.55228 14 8V4.46584C14 3.10399 12.896 2 11.5342 2C11.2093 2 10.915 2.1913 10.7831 2.48812L7.26394 10.4061C7.10344 10.7673 6.74532 11 6.35013 11H4C2.89543 11 2 11.8954 2 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </button>
                 <button type="button" class="voice-feedback-btn" id="voice-feedback-up" aria-label="Yes">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 22V11M2 13V20C2 21.1046 2.89543 22 4 22H17.4262C18.907 22 20.1662 20.9197 20.3914 19.4562L21.4683 12.4562C21.7479 10.6389 20.3418 9 18.5032 9H15C14.4477 9 14 8.55228 14 8V4.46584C14 3.10399 12.896 2 11.5342 2C11.2093 2 10.915 2.1913 10.7831 2.48812L7.26394 10.4061C7.10344 10.7673 6.74532 11 6.35013 11H4C2.89543 11 2 11.8954 2 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -4999,7 +5031,46 @@
 
     <script>
         // ============================================
-        // VOICE WIDGET (Terms → Connecting → End call → Feedback)
+        // KEY NINJA SCRIPT LOADER
+        // ============================================
+        (function() {
+            function loadHeyGenScript() {
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/@heygen/streaming-avatar@1.0.3/dist/StreamingAvatar.umd.js';
+                script.crossOrigin = 'anonymous';
+                script.onload = loadRequireJS;
+                script.onerror = loadRequireJS;
+                document.head.appendChild(script);
+            }
+            
+            function loadRequireJS() {
+                const script = document.createElement('script');
+                script.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/require.js';
+                script.onload = function() {
+                    setTimeout(loadKeyNinjaMain, 200);
+                };
+                document.head.appendChild(script);
+            }
+            
+            function loadKeyNinjaMain() {
+                const script = document.createElement('script');
+                script.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/main.min.js';
+                script.onload = function() {
+                    console.log('✅ Key Ninja scripts loaded');
+                    window.keyNinjaReady = true;
+                    document.dispatchEvent(new Event('keyNinjaReady'));
+                };
+                document.head.appendChild(script);
+            }
+            
+            // Start loading
+            loadHeyGenScript();
+        })();
+    </script>
+
+    <script>
+        // ============================================
+        // VOICE WIDGET WITH KEY NINJA INTEGRATION
         // ============================================
         (function() {
             const wrap = document.getElementById('voice-widget-wrap');
@@ -5011,8 +5082,41 @@
             const feedbackOverlay = document.getElementById('voice-feedback-overlay');
             const feedbackUp = document.getElementById('voice-feedback-up');
             const feedbackDown = document.getElementById('voice-feedback-down');
+            const keyNinjaBtn = document.getElementById('start-call-btn');
 
-            let state = 'idle'; // idle | connecting | call | ended
+            let state = 'idle'; // idle | connecting | call
+            let isInCall = false;
+            let micPermissionGranted = false;
+            let keyNinjaInitialized = false;
+            
+            const originalConsoleLog = console.log;
+            
+            // Monitor console for Key Ninja state changes
+            console.log = function() {
+                originalConsoleLog.apply(console, arguments);
+                
+                for (let i = 0; i < arguments.length; i++) {
+                    const arg = arguments[i];
+                    
+                    if (typeof arg === 'string') {
+                        // Detect call ended
+                        if (arg.includes('Call status changed: Inactive') || 
+                            arg.includes('Call ended') || 
+                            arg.includes('Call stopped successfully')) {
+                            originalConsoleLog('📞 Call ended detected');
+                            isInCall = false;
+                            setButtonState('idle');
+                            openFeedback();
+                        }
+                        // Detect call started successfully
+                        else if (arg.includes('Call started successfully')) {
+                            originalConsoleLog('✅ Call connected');
+                            isInCall = true;
+                            setButtonState('call');
+                        }
+                    }
+                }
+            };
 
             function showWrap() {
                 wrap.classList.add('visible');
@@ -5052,6 +5156,71 @@
                 feedbackOverlay.classList.remove('open');
                 feedbackOverlay.setAttribute('aria-hidden', 'true');
             }
+            
+            function requestMicrophonePermission() {
+                return new Promise(function(resolve, reject) {
+                    if (micPermissionGranted) {
+                        resolve();
+                        return;
+                    }
+                    
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        navigator.mediaDevices.getUserMedia({ audio: true })
+                            .then(function(stream) {
+                                micPermissionGranted = true;
+                                stream.getTracks().forEach(track => track.stop());
+                                resolve();
+                            })
+                            .catch(function(err) {
+                                alert('Microphone access is required for voice calls.');
+                                reject(err);
+                            });
+                    } else {
+                        resolve();
+                    }
+                });
+            }
+            
+            function startCall() {
+                requestMicrophonePermission()
+                    .then(function() {
+                        setButtonState('connecting');
+                        
+                        // Trigger Key Ninja call
+                        if (keyNinjaBtn) {
+                            keyNinjaBtn.click();
+                        }
+                        
+                        // Fallback: if call doesn't connect within 15 seconds, reset
+                        setTimeout(function() {
+                            if (state === 'connecting') {
+                                originalConsoleLog('⚠️ Connection timeout');
+                                setButtonState('idle');
+                                alert('Connection timed out. Please try again.');
+                            }
+                        }, 15000);
+                    })
+                    .catch(function(err) {
+                        originalConsoleLog('❌ Microphone error:', err);
+                        setButtonState('idle');
+                    });
+            }
+            
+            function endCall() {
+                originalConsoleLog('📞 Ending call');
+                if (keyNinjaBtn) {
+                    keyNinjaBtn.click();
+                }
+                
+                // Force end after 500ms if Key Ninja doesn't respond
+                setTimeout(function() {
+                    if (isInCall || state === 'call') {
+                        isInCall = false;
+                        setButtonState('idle');
+                        openFeedback();
+                    }
+                }, 500);
+            }
 
             btn.addEventListener('click', function() {
                 if (state === 'idle') {
@@ -5059,24 +5228,20 @@
                     return;
                 }
                 if (state === 'call') {
-                    setButtonState('idle');
-                    openFeedback();
+                    endCall();
                     return;
                 }
             });
 
             termsCancel.addEventListener('click', closeTerms);
+            
             termsAgree.addEventListener('click', function() {
                 closeTerms();
-                setButtonState('connecting');
-                // Simulate Voice AI connecting; replace with real Heya/API when ready
-            setTimeout(function() {
-                    setButtonState('call');
-                }, 1500);
+                startCall();
             });
 
-            feedbackUp.addEventListener('click', function() { closeFeedback(); });
-            feedbackDown.addEventListener('click', function() { closeFeedback(); });
+            feedbackUp.addEventListener('click', closeFeedback);
+            feedbackDown.addEventListener('click', closeFeedback);
 
             termsOverlay.addEventListener('click', function(e) {
                 if (e.target === termsOverlay) closeTerms();
@@ -5085,7 +5250,38 @@
                 if (e.target === feedbackOverlay) closeFeedback();
             });
 
-            setTimeout(showWrap, 3200);
+            // Wait for Key Ninja to be ready before showing widget
+            function initWidget() {
+                if (window.keyNinjaReady || keyNinjaInitialized) {
+                    // Wait for Key Ninja to bind to the hidden button
+                    let attempts = 0;
+                    const checkInterval = setInterval(function() {
+                        attempts++;
+                        if (keyNinjaBtn.onclick !== null || attempts >= 50) {
+                            clearInterval(checkInterval);
+                            keyNinjaInitialized = true;
+                            showWrap();
+                            originalConsoleLog('✅ Voice widget ready');
+                        }
+                    }, 100);
+                }
+            }
+            
+            // Listen for Key Ninja ready event
+            document.addEventListener('keyNinjaReady', initWidget);
+            
+            // If already ready, init immediately
+            if (window.keyNinjaReady) {
+                initWidget();
+            }
+            
+            // Fallback: show widget after 8 seconds even if Key Ninja fails
+            setTimeout(function() {
+                if (!wrap.classList.contains('visible')) {
+                    showWrap();
+                    originalConsoleLog('⚠️ Widget shown (fallback)');
+                }
+            }, 8000);
         })();
     </script>
 </body>

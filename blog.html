@@ -322,7 +322,7 @@
             position: relative;
             display: block;
             overflow: hidden;
-            border-radius: 16px;
+            border-radius: 0;
             text-decoration: none;
             color: inherit;
             opacity: 0;
@@ -762,7 +762,7 @@
                 <div class="blog-content">
                     <div class="blog-grid">
                     <!-- Featured Card (Large - spans 2 columns) | Category: Success Stories -->
-                    <a href="drowning-in-guest-messages.html" class="blog-card card-featured" data-category="success-stories">
+                    <a href="blog/drowning-in-guest-messages.html" class="blog-card card-featured" data-category="success-stories">
                         <div class="blog-card-image">
                             <img src="Images/airoam-property.jpg" alt="Australian short-term rental hosts reclaim weekends with AI management - 4.74 star average">
                         </div>
@@ -773,7 +773,7 @@
                         </div>
                     </a>
                     <!-- Medium Cards | Category: Pricing -->
-                    <a href="airbnb-melbourne-fees-9-percent.html" class="blog-card card-medium" data-category="pricing">
+                    <a href="blog/airbnb-melbourne-fees-9-percent.html" class="blog-card card-medium" data-category="pricing">
                         <div class="blog-card-image">
                             <img src="Images/airoam-property.jpg" alt="Melbourne apartment with calculator showing savings from switching to 9% AI-powered management">
                         </div>
@@ -783,7 +783,7 @@
                             <p class="blog-card-date">December 2024</p>
                         </div>
                     </a>
-                    <a href="3am-plumbing-emergency-airbnb-perth.html" class="blog-card card-medium" data-category="automation">
+                    <a href="blog/3am-plumbing-emergency-airbnb-perth.html" class="blog-card card-medium" data-category="automation">
                         <div class="blog-card-image">
                             <img src="Images/airoam-property.jpg" alt="Perth or Fremantle apartment bathroom - proactive plumbing and maintenance for short-term rental hosts">
                         </div>
@@ -794,7 +794,7 @@
                         </div>
                     </a>
                     <!-- Small Cards | Category: Tips -->
-                    <a href="blog-post.html" class="blog-card card-small" data-category="tips">
+                    <a href="blog/Getting-your-listing-ready.html" class="blog-card card-small" data-category="tips">
                         <div class="blog-card-image">
                             <img src="Images/airoam-property.jpg" alt="Getting your first listing ready for guests">
                         </div>
@@ -803,7 +803,7 @@
                             <h2 class="blog-card-title">Getting your first listing ready for guests</h2>
                         </div>
                     </a>
-                    <a href="perth-short-term-rental-regulations-2025.html" class="blog-card card-small" data-category="guides">
+                    <a href="blog/perth-short-term-rental-regulations-2025.html" class="blog-card card-small" data-category="guides">
                         <div class="blog-card-image">
                             <img src="Images/airoam-property.jpg" alt="Perth short-term rental regulations 2025 - STRA compliance guide for Airbnb hosts in Western Australia">
                         </div>
@@ -813,7 +813,7 @@
                         </div>
                     </a>
                     <!-- Wide Card (spans 2 columns) | Category: Guides -->
-                    <a href="melbourne-property-underperforming.html" class="blog-card card-wide" data-category="guides">
+                    <a href="blog/melbourne-property-underperforming.html" class="blog-card card-wide" data-category="guides">
                         <div class="blog-card-image">
                             <img src="Images/airoam-property.jpg" alt="Melbourne Airbnb or short-term rental - professional photography and optimisation for higher earnings">
                         </div>
@@ -824,7 +824,7 @@
                         </div>
                     </a>
                     <!-- Small Cards | Category: Success Stories -->
-                    <a href="fired-perth-property-manager.html" class="blog-card card-small" data-category="success-stories">
+                    <a href="blog/fired-perth-property-manager.html" class="blog-card card-small" data-category="success-stories">
                         <div class="blog-card-image">
                             <img src="Images/airoam-property.jpg" alt="Perth Scarborough short-term rental - switching from traditional property manager to AI-powered management">
                         </div>
@@ -833,7 +833,7 @@
                             <h2 class="blog-card-title">Fired My Perth Property Manager After 6 Months. Here's What I Learned.</h2>
                         </div>
                     </a>
-                    <a href="ai-guest-messages-holiday-bali.html" class="blog-card card-small" data-category="automation">
+                    <a href="blog/ai-guest-messages-holiday-bali.html" class="blog-card card-small" data-category="automation">
                         <div class="blog-card-image">
                             <img src="Images/airoam-property.jpg" alt="AI guest messages answered automatically - Melbourne Airbnb host holiday in Bali, phone-free hosting">
                         </div>
@@ -881,6 +881,9 @@
 
     <!-- Voice widget (same as main site) -->
     <div class="voice-widget-wrap visible" id="voice-widget-wrap">
+        <!-- Hidden button for Key Ninja to bind to -->
+        <button id="start-call-btn" style="display: none !important;">Start Call</button>
+        
         <button type="button" class="voice-widget" id="voice-widget" aria-label="Voice call">
             <span class="voice-widget-icon-wrap">
                 <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1092,19 +1095,89 @@
             applyFilter(current);
         })();
 
-        // Voice widget (same as main site – shown immediately on blog)
+        // ============================================
+        // KEY NINJA SCRIPT LOADER
+        // ============================================
         (function() {
-            var wrap = document.getElementById('voice-widget-wrap');
-            var btn = document.getElementById('voice-widget');
-            var textEl = document.getElementById('voice-widget-text');
-            var termsOverlay = document.getElementById('voice-terms-overlay');
-            var termsCancel = document.getElementById('voice-terms-cancel');
-            var termsAgree = document.getElementById('voice-terms-agree');
-            var feedbackOverlay = document.getElementById('voice-feedback-overlay');
-            var feedbackUp = document.getElementById('voice-feedback-up');
-            var feedbackDown = document.getElementById('voice-feedback-down');
+            function loadHeyGenScript() {
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/@heygen/streaming-avatar@1.0.3/dist/StreamingAvatar.umd.js';
+                script.crossOrigin = 'anonymous';
+                script.onload = loadRequireJS;
+                script.onerror = loadRequireJS;
+                document.head.appendChild(script);
+            }
+            
+            function loadRequireJS() {
+                const script = document.createElement('script');
+                script.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/require.js';
+                script.onload = function() {
+                    setTimeout(loadKeyNinjaMain, 200);
+                };
+                document.head.appendChild(script);
+            }
+            
+            function loadKeyNinjaMain() {
+                const script = document.createElement('script');
+                script.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/main.min.js';
+                script.onload = function() {
+                    console.log('✅ Key Ninja scripts loaded');
+                    window.keyNinjaReady = true;
+                    document.dispatchEvent(new Event('keyNinjaReady'));
+                };
+                document.head.appendChild(script);
+            }
+            
+            // Start loading
+            loadHeyGenScript();
+        })();
 
-            var state = 'idle';
+        // Voice widget with Key Ninja integration
+        (function() {
+            const wrap = document.getElementById('voice-widget-wrap');
+            const btn = document.getElementById('voice-widget');
+            const textEl = document.getElementById('voice-widget-text');
+            const termsOverlay = document.getElementById('voice-terms-overlay');
+            const termsCancel = document.getElementById('voice-terms-cancel');
+            const termsAgree = document.getElementById('voice-terms-agree');
+            const feedbackOverlay = document.getElementById('voice-feedback-overlay');
+            const feedbackUp = document.getElementById('voice-feedback-up');
+            const feedbackDown = document.getElementById('voice-feedback-down');
+            const keyNinjaBtn = document.getElementById('start-call-btn');
+
+            let state = 'idle'; // idle | connecting | call
+            let isInCall = false;
+            let micPermissionGranted = false;
+            let keyNinjaInitialized = false;
+            
+            const originalConsoleLog = console.log;
+            
+            // Monitor console for Key Ninja state changes
+            console.log = function() {
+                originalConsoleLog.apply(console, arguments);
+                
+                for (let i = 0; i < arguments.length; i++) {
+                    const arg = arguments[i];
+                    
+                    if (typeof arg === 'string') {
+                        // Detect call ended
+                        if (arg.includes('Call status changed: Inactive') || 
+                            arg.includes('Call ended') || 
+                            arg.includes('Call stopped successfully')) {
+                            originalConsoleLog('📞 Call ended detected');
+                            isInCall = false;
+                            setButtonState('idle');
+                            openFeedback();
+                        }
+                        // Detect call started successfully
+                        else if (arg.includes('Call started successfully')) {
+                            originalConsoleLog('✅ Call connected');
+                            isInCall = true;
+                            setButtonState('call');
+                        }
+                    }
+                }
+            };
 
             function setButtonState(s) {
                 state = s;
@@ -1137,6 +1210,71 @@
                 feedbackOverlay.classList.remove('open');
                 feedbackOverlay.setAttribute('aria-hidden', 'true');
             }
+            
+            function requestMicrophonePermission() {
+                return new Promise(function(resolve, reject) {
+                    if (micPermissionGranted) {
+                        resolve();
+                        return;
+                    }
+                    
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        navigator.mediaDevices.getUserMedia({ audio: true })
+                            .then(function(stream) {
+                                micPermissionGranted = true;
+                                stream.getTracks().forEach(track => track.stop());
+                                resolve();
+                            })
+                            .catch(function(err) {
+                                alert('Microphone access is required for voice calls.');
+                                reject(err);
+                            });
+                    } else {
+                        resolve();
+                    }
+                });
+            }
+            
+            function startCall() {
+                requestMicrophonePermission()
+                    .then(function() {
+                        setButtonState('connecting');
+                        
+                        // Trigger Key Ninja call
+                        if (keyNinjaBtn) {
+                            keyNinjaBtn.click();
+                        }
+                        
+                        // Fallback: if call doesn't connect within 15 seconds, reset
+                        setTimeout(function() {
+                            if (state === 'connecting') {
+                                originalConsoleLog('⚠️ Connection timeout');
+                                setButtonState('idle');
+                                alert('Connection timed out. Please try again.');
+                            }
+                        }, 15000);
+                    })
+                    .catch(function(err) {
+                        originalConsoleLog('❌ Microphone error:', err);
+                        setButtonState('idle');
+                    });
+            }
+            
+            function endCall() {
+                originalConsoleLog('📞 Ending call');
+                if (keyNinjaBtn) {
+                    keyNinjaBtn.click();
+                }
+                
+                // Force end after 500ms if Key Ninja doesn't respond
+                setTimeout(function() {
+                    if (isInCall || state === 'call') {
+                        isInCall = false;
+                        setButtonState('idle');
+                        openFeedback();
+                    }
+                }, 500);
+            }
 
             btn.addEventListener('click', function() {
                 if (state === 'idle') {
@@ -1144,21 +1282,20 @@
                     return;
                 }
                 if (state === 'call') {
-                    setButtonState('idle');
-                    openFeedback();
+                    endCall();
                     return;
                 }
             });
 
             termsCancel.addEventListener('click', closeTerms);
+            
             termsAgree.addEventListener('click', function() {
                 closeTerms();
-                setButtonState('connecting');
-                setTimeout(function() { setButtonState('call'); }, 1500);
+                startCall();
             });
 
-            feedbackUp.addEventListener('click', function() { closeFeedback(); });
-            feedbackDown.addEventListener('click', function() { closeFeedback(); });
+            feedbackUp.addEventListener('click', closeFeedback);
+            feedbackDown.addEventListener('click', closeFeedback);
 
             termsOverlay.addEventListener('click', function(e) {
                 if (e.target === termsOverlay) closeTerms();
@@ -1166,6 +1303,39 @@
             feedbackOverlay.addEventListener('click', function(e) {
                 if (e.target === feedbackOverlay) closeFeedback();
             });
+
+            // Wait for Key Ninja to be ready before showing widget
+            function initWidget() {
+                if (window.keyNinjaReady || keyNinjaInitialized) {
+                    // Wait for Key Ninja to bind to the hidden button
+                    let attempts = 0;
+                    const checkInterval = setInterval(function() {
+                        attempts++;
+                        if (keyNinjaBtn.onclick !== null || attempts >= 50) {
+                            clearInterval(checkInterval);
+                            keyNinjaInitialized = true;
+                            wrap.classList.add('visible');
+                            originalConsoleLog('✅ Voice widget ready');
+                        }
+                    }, 100);
+                }
+            }
+            
+            // Listen for Key Ninja ready event
+            document.addEventListener('keyNinjaReady', initWidget);
+            
+            // If already ready, init immediately
+            if (window.keyNinjaReady) {
+                initWidget();
+            }
+            
+            // Fallback: show widget after 8 seconds even if Key Ninja fails
+            setTimeout(function() {
+                if (!wrap.classList.contains('visible')) {
+                    wrap.classList.add('visible');
+                    originalConsoleLog('⚠️ Widget shown (fallback)');
+                }
+            }, 8000);
         })();
     </script>
 </body>

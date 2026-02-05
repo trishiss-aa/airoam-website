@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fired My Perth Property Manager After 6 Months. Here's Why. – Airoam Blog</title>
-    <meta name="description" content="A Perth host fired his property manager after 6 months. Hidden fees, slow responses, poor pricing—and what he switched to. Essential reading for WA hosts. Get a free performance comparison.">
+    <title>Getting your first listing ready for guests – Airoam Blog</title>
+    <meta name="description" content="Practical tips to get your first short-term rental listing ready for guests—from photography to pricing. Airoam's guide for new Australian hosts.">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "headline": "Fired My Perth Property Manager After 6 Months. Here's What I Learned.",
-      "description": "A Perth host fired his property manager after 6 months. Hidden fees, slow responses, poor pricing—and what he switched to. Essential reading for WA hosts. Get a free performance comparison.",
+      "headline": "Getting your first listing ready for guests",
+      "description": "Practical tips to get your first short-term rental listing ready for guests—from photography to pricing. Airoam's guide for new Australian hosts.",
       "author": { "@type": "Organization", "name": "Airoam", "url": "https://airoam.com.au" },
       "publisher": { "@type": "Organization", "name": "Airoam", "url": "https://airoam.com.au" },
-      "datePublished": "2025-06-15",
-      "dateModified": "2025-06-15",
+      "datePublished": "2024-08-15",
+      "dateModified": "2024-08-15",
       "image": "https://airoam.com.au/Images/airoam-property.jpg"
     }
     </script>
-    <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
+    <link rel="icon" type="image/svg+xml" href="../Images/airoam-arrow-black.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -783,6 +783,55 @@
             background-color: #404040;
         }
 
+        .post-sidebar-subscribe-form button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .post-sidebar-subscribe-form button.loading {
+            position: relative;
+        }
+
+        .post-sidebar-subscribe-form button.loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .subscribe-message {
+            padding: 12px 16px;
+            border: 2px solid transparent;
+            font-size: 13px;
+            font-weight: 400;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.4s ease;
+            margin-top: 12px;
+        }
+
+        .subscribe-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .subscribe-message.success {
+            border-color: var(--color-black);
+            color: var(--color-black);
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        .subscribe-message.error {
+            border-color: var(--color-black);
+            color: var(--color-black);
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
         /* Related Posts */
         .post-sidebar-related {
             display: flex;
@@ -1208,16 +1257,16 @@
 <body>
     <!-- Navigation -->
     <nav id="main-nav">
-        <a href="index.html" class="nav-logo" id="nav-logo">
-            <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo">
+        <a href="../index.html" class="nav-logo" id="nav-logo">
+            <img src="../Images/airoam-logo-black.svg" alt="Airoam" class="logo">
         </a>
         <div class="nav-center">
-            <a href="index.html#about">About</a>
-            <a href="index.html#pricing">Pricing</a>
-            <a href="blog.html">Blog</a>
-            <a href="index.html#contact">Contact</a>
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#pricing">Pricing</a>
+            <a href="../blog.html">Blog</a>
+            <a href="../index.html#contact">Contact</a>
         </div>
-        <a href="index.html#contact" class="nav-button">Get Started</a>
+        <a href="../index.html#contact" class="nav-button">Get Started</a>
         <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
             <span></span>
             <span></span>
@@ -1225,33 +1274,33 @@
         </button>
     </nav>
     <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
-        <a href="index.html#about">About</a>
-        <a href="index.html#pricing">Pricing</a>
-        <a href="blog.html">Blog</a>
-        <a href="index.html#contact">Contact</a>
-        <a href="index.html#contact">Get Started</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#pricing">Pricing</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../index.html#contact">Contact</a>
+        <a href="../index.html#contact">Get Started</a>
     </div>
 
     <main>
         <!-- Split Header -->
         <header class="post-header">
             <div class="post-header-content">
-                <a href="blog.html" class="back-to-blog">
+                <a href="../blog.html" class="back-to-blog">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M15 19l-7-7 7-7"/>
                     </svg>
                     Back to Blog
                 </a>
 
-                <span class="post-category-label">Success Stories</span>
+                <span class="post-category-label">Tips</span>
 
-                <h1 class="post-title">Fired My Perth Property Manager After 6 Months. Here's What I Learned.</h1>
+                <h1 class="post-title">Getting your first listing ready for guests</h1>
 
-                <p class="post-subtitle">Hidden fees, 4–6 hour response times, and a maintenance issue I only discovered in a review. What went wrong—and what I wish I'd known before signing up.</p>
+                <p class="post-subtitle">The essential guide to preparing your property for short-term rental success.</p>
             </div>
 
             <div class="post-header-image">
-                <img src="Images/airoam-property.jpg" alt="Perth Scarborough short-term rental - switching from traditional property manager to AI-powered management">
+                <img src="../Images/airoam-property.jpg" alt="Getting your first listing ready for guests">
             </div>
         </header>
 
@@ -1264,14 +1313,13 @@
                         <div class="post-sidebar-section">
                             <h3 class="post-sidebar-title">Categories</h3>
                             <ul class="post-sidebar-categories">
-                                <li><a href="blog.html">All Posts</a></li>
-                                <li><a href="blog.html?category=tips">Tips</a></li>
-                                <li><a href="blog.html?category=automation">Automation</a></li>
-                                <li><a href="blog.html?category=pricing">Pricing</a></li>
-                                <li><a href="blog.html?category=success" class="active">Success Stories</a></li>
-                                <li><a href="blog.html?category=operations">Operations</a></li>
-                                <li><a href="blog.html?category=guides">Guides</a></li>
-                                <li><a href="blog.html?category=updates">Updates</a></li>
+                                <li><a href="../blog.html">All Posts</a></li>
+                                <li><a href="../blog.html?category=tips" class="active">Tips</a></li>
+                                <li><a href="../blog.html?category=automation">Automation</a></li>
+                                <li><a href="../blog.html?category=pricing">Pricing</a></li>
+                                <li><a href="../blog.html?category=operations">Operations</a></li>
+                                <li><a href="../blog.html?category=guides">Guides</a></li>
+                                <li><a href="../blog.html?category=updates">Updates</a></li>
                             </ul>
                         </div>
 
@@ -1280,9 +1328,10 @@
                         <div class="post-sidebar-subscribe">
                             <h3 class="post-sidebar-title">Airoam News</h3>
                             <p class="post-sidebar-subscribe-text">Get hosting tips and industry insights delivered weekly.</p>
-                            <form class="post-sidebar-subscribe-form">
-                                <input type="email" placeholder="Your email" required>
+                            <form class="post-sidebar-subscribe-form" id="subscribe-form">
+                                <input type="email" name="email" id="subscribe-email" placeholder="Your email" required>
                                 <button type="submit">Subscribe</button>
+                                <div class="subscribe-message" id="subscribe-message"></div>
                             </form>
                         </div>
                     </div>
@@ -1292,78 +1341,56 @@
                 <article class="post-article">
                 <!-- Lead Paragraph -->
                 <p class="post-lead">
-                    When I bought my investment property in Scarborough three years ago, hiring a property manager seemed like the obvious move. I had a demanding job, zero experience with short-term rentals, and the agency promised 'full-service management' that would handle everything. Six months later, I fired them. Here's what went wrong—and what I wish I'd known from the start.
+                    Your first short-term rental listing sets the tone for every booking. Taking time to prepare the property, photos, and listing copy pays off in better reviews and fewer support headaches.
                 </p>
 
                 <div class="post-body">
-                    <h2>The Promise vs. The Reality</h2>
+                    <p>Start with a deep clean and a neutral, welcoming style. Remove personal items and clutter so guests feel they have their own space. Invest in quality bedding and towels—guests notice. A small welcome guide (house rules, WiFi, local tips) goes a long way.</p>
 
-                    <p>The pitch was compelling: 'We'll maximise your returns while you sit back and collect the income.' For 18% of my rental revenue, they'd handle listings, guest communication, cleaning coordination, maintenance, and pricing. I signed up expecting a passive investment. What I got was a part-time job I hadn't applied for.</p>
-
-                    <p>Within the first month, I noticed response times to guest enquiries averaging 4–6 hours. Potential guests were booking elsewhere. When I raised it, I was told their team was 'stretched' and they'd 'try to improve.' They didn't.</p>
-
-                    <p>Then came the pricing issues. My property sat empty during what turned out to be a busy weekend because the rate was 40% higher than comparable listings. 'We use market data,' they assured me. Apparently not very well.</p>
-
-                    <h2>The Hidden Costs They Don't Mention</h2>
-
-                    <p>The 18% headline fee was just the beginning. There were 'admin fees' for booking modifications. Charges for 'emergency coordination' when a guest locked themselves out (on a Saturday, naturally). A markup on cleaning that I only discovered when I compared quotes directly with the cleaners.</p>
-
-                    <p>By month four, I calculated my actual costs at closer to 24% of revenue. And my revenue was already lower than it should have been due to poor pricing and slow responses.</p>
-
-                    <p>The final straw was a maintenance issue that went unreported for three weeks. A guest had mentioned a slow-draining shower in their review—the first I'd heard of it. When I asked why I wasn't informed, the manager said they'd 'missed it in the review monitoring.' Three weeks of guests dealing with a drain issue, and potentially telling friends never to book my place.</p>
-
-                    <h2>What I Needed (But Didn't Know To Ask For)</h2>
-
-                    <p>Looking back, my mistake was assuming all property managers deliver roughly the same service. They don't. The gap between good and bad management is enormous—and the gap between traditional management and AI-powered systems is even larger.</p>
-
-                    <p>Here's what actually matters for a Perth short-term rental:</p>
-
-                    <p><strong>Instant response times.</strong> Not 'within business hours'—instant. Guests expect immediate answers, and the platforms reward hosts who provide them. If your manager can't guarantee sub-30-minute responses around the clock, you're losing bookings.</p>
-
-                    <p><strong>Dynamic pricing that actually works.</strong> Perth's market varies significantly by season, events, and even day of week. Your pricing should adjust automatically based on real-time data, not monthly reviews by an overworked analyst.</p>
-
-                    <p><strong>Proactive maintenance detection.</strong> Waiting for guests to complain—or worse, leave bad reviews—is reactive management. The system should identify potential issues before they impact guests.</p>
-
-                    <p><strong>Transparent reporting.</strong> I should see my performance data in real-time: occupancy, revenue, guest ratings, comparison to market benchmarks. If your manager sends monthly PDFs and calls that 'reporting,' you're being kept in the dark.</p>
-
-                    <h2>The Switch That Changed Everything</h2>
-
-                    <p>When I moved my Scarborough property to Airoam, the difference was immediate. The onboarding process was thorough—professional photography, listing optimisation, integration with all major platforms. But what really stood out was the technology.</p>
-
-                    <p>Their AI handles guest messages instantly, 24/7. The pricing adjusts multiple times daily based on demand signals I'd never have time to monitor. Their maintenance detection flagged a potential hot water issue from a guest comment I wouldn't have even noticed—and had it checked before the next arrival.</p>
-
-                    <p>Most importantly, I actually get to be hands-off. The Owner Insights Dashboard shows me everything I need to know at a glance, and their team reaches out proactively when decisions need my input. It's what 'full-service management' should have been all along.</p>
-
-                    <h2>The Numbers Don't Lie</h2>
-
-                    <p>In my first full quarter with Airoam, my Scarborough property earned 28% more than the same period under my previous manager. My occupancy increased, my average nightly rate increased, and I paid 9% in fees instead of 18% (plus hidden costs).</p>
-
-                    <p>That's not a testimonial I was paid to give. It's just maths.</p>
-
-                    <h2>Questions to Ask Your Current Manager</h2>
-
-                    <p>If you're working with a Perth property manager and wondering whether you're getting good value, here's what I'd ask:</p>
+                    <h2>Checklist before you go live</h2>
 
                     <ul class="post-numbered-list">
-                        <li><span class="list-number">—</span><span>What's your average response time to guest enquiries? (If they can't answer precisely, they're not tracking it.)</span></li>
-                        <li><span class="list-number">—</span><span>How often does pricing adjust, and what data drives those changes?</span></li>
-                        <li><span class="list-number">—</span><span>How do you identify maintenance issues before guests complain?</span></li>
-                        <li><span class="list-number">—</span><span>Can I see real-time performance data, or do I wait for monthly reports?</span></li>
-                        <li><span class="list-number">—</span><span>What's my all-in cost, including every fee and markup?</span></li>
+                        <li>
+                            <span class="list-number">1</span>
+                            <span>Professional or high-quality photos that showcase your space</span>
+                        </li>
+                        <li>
+                            <span class="list-number">2</span>
+                            <span>A clear description of the space and amenities</span>
+                        </li>
+                        <li>
+                            <span class="list-number">3</span>
+                            <span>Accurate check-in and check-out instructions</span>
+                        </li>
+                        <li>
+                            <span class="list-number">4</span>
+                            <span>A plan for who handles cleaning and key handover</span>
+                        </li>
                     </ul>
 
-                    <p>The answers will tell you everything you need to know.</p>
+                    <p>If you're using a management partner like Airoam, they can handle messaging and operations so you can focus on the property itself.</p>
 
-                    <p><strong>→</strong><br>Compare your current manager to Airoam. <a href="index.html#contact">Request a free performance comparison</a> and see exactly how your property stacks up—and what it could be earning with the right management behind it.</p>
+                    <div class="post-tip-box">
+                        <p class="post-tip-title">💡 Pro Tip</p>
+                        <p>Create a digital welcome guide that guests can access on their phone. Include WiFi password, checkout instructions, and your top 5 local recommendations.</p>
+                    </div>
+
+                    <h2>After the first few bookings</h2>
+
+                    <p>Use early reviews to refine your listing and address any recurring feedback. Small improvements—extra pillows, better lighting, a coffee machine—often show up in ratings. Once your first listing runs smoothly, you'll have a repeatable playbook for scaling to more properties.</p>
+
+                    <blockquote class="post-pullquote">
+                        "Once your first listing runs smoothly, you'll have a repeatable playbook for scaling to more properties."
+                    </blockquote>
+
+                    <p>The key is consistency. Document your processes, create templates for guest communication, and build relationships with reliable cleaners and maintenance people. This foundation makes adding your second, third, or tenth property much easier.</p>
                 </div>
 
                 <!-- Tags -->
                 <div class="post-tags">
-                    <span class="post-tag">Perth property manager</span>
-                    <span class="post-tag">Perth short-term rental</span>
-                    <span class="post-tag">Scarborough Airbnb</span>
-                    <span class="post-tag">AI property management</span>
-                    <span class="post-tag">Perth Hosting</span>
+                    <span class="post-tag">Property Management</span>
+                    <span class="post-tag">Getting Started</span>
+                    <span class="post-tag">Airbnb</span>
                 </div>
 
                 <!-- Share -->
@@ -1376,9 +1403,9 @@
 
                 <!-- CTA Box -->
                 <div class="post-cta-box">
-                    <h3>See how your property stacks up</h3>
-                    <p>Request a free performance comparison and find out what your Perth short-term rental could be earning with the right management.</p>
-                    <a href="index.html#contact" class="post-cta-btn">Get your free performance comparison →</a>
+                    <h3>Ready to list your property?</h3>
+                    <p>Let Airoam handle the heavy lifting for just 9%</p>
+                    <a href="../index.html#contact" class="post-cta-btn">Get Started →</a>
                 </div>
             </article>
         </div>
@@ -1404,29 +1431,9 @@
                 </div>
                 <div class="related-posts-carousel">
                     <div class="related-posts-track">
-                        <a href="drowning-in-guest-messages.html" class="related-post-card">
-                            <div class="related-post-card-image">
-                                <img src="Images/airoam-property.jpg" alt="Australian hosts reclaim weekends with AI management - 4.74 star average">
-                            </div>
-                            <div class="related-post-card-content">
-                                <span class="related-post-card-category">Success Stories</span>
-                                <h3 class="related-post-card-title">From Drowning in Messages to 4.74-Star Average: How 3,500+ Australian Hosts Reclaimed Their Weekends</h3>
-                                <span class="related-post-card-date">April 2025</span>
-                            </div>
-                        </a>
-                        <a href="perth-short-term-rental-regulations-2025.html" class="related-post-card">
-                            <div class="related-post-card-image">
-                                <img src="Images/airoam-property.jpg" alt="Perth short-term rental regulations 2025 - STRA compliance for Airbnb hosts">
-                            </div>
-                            <div class="related-post-card-content">
-                                <span class="related-post-card-category">Regulations &amp; Compliance</span>
-                                <h3 class="related-post-card-title">Perth Short-Term Rental Regulations: What Every Airbnb Host Needs to Know in 2025</h3>
-                                <span class="related-post-card-date">January 2025</span>
-                            </div>
-                        </a>
                         <a href="3am-plumbing-emergency-airbnb-perth.html" class="related-post-card">
                             <div class="related-post-card-image">
-                                <img src="Images/airoam-property.jpg" alt="Perth Airbnb proactive maintenance and plumbing for short-term rental hosts">
+                                <img src="../Images/airoam-property.jpg" alt="Perth Airbnb proactive maintenance and plumbing for short-term rental hosts">
                             </div>
                             <div class="related-post-card-content">
                                 <span class="related-post-card-category">Automation &amp; AI</span>
@@ -1436,12 +1443,32 @@
                         </a>
                         <a href="airbnb-melbourne-fees-9-percent.html" class="related-post-card">
                             <div class="related-post-card-image">
-                                <img src="Images/airoam-property.jpg" alt="Melbourne Airbnb management fees - switch to 9% AI-powered management">
+                                <img src="../Images/airoam-property.jpg" alt="Melbourne Airbnb management fees - switch to 9% AI-powered management">
                             </div>
                             <div class="related-post-card-content">
                                 <span class="related-post-card-category">Pricing &amp; Fees</span>
                                 <h3 class="related-post-card-title">Paying 15% Management Fees in Melbourne? Here's Why Smart Hosts Are Switching to 9%</h3>
                                 <span class="related-post-card-date">December 2024</span>
+                            </div>
+                        </a>
+                        <a href="perth-short-term-rental-regulations-2025.html" class="related-post-card">
+                            <div class="related-post-card-image">
+                                <img src="../Images/airoam-property.jpg" alt="Perth short-term rental regulations 2025 - STRA compliance for Airbnb hosts">
+                            </div>
+                            <div class="related-post-card-content">
+                                <span class="related-post-card-category">Regulations &amp; Compliance</span>
+                                <h3 class="related-post-card-title">Perth Short-Term Rental Regulations: What Every Airbnb Host Needs to Know in 2025</h3>
+                                <span class="related-post-card-date">January 2025</span>
+                            </div>
+                        </a>
+                        <a href="drowning-in-guest-messages.html" class="related-post-card">
+                            <div class="related-post-card-image">
+                                <img src="../Images/airoam-property.jpg" alt="Australian hosts reclaim weekends with AI management - 4.74 star average">
+                            </div>
+                            <div class="related-post-card-content">
+                                <span class="related-post-card-category">Success Stories</span>
+                                <h3 class="related-post-card-title">From Drowning in Messages to 4.74-Star Average: How 3,500+ Australian Hosts Reclaimed Their Weekends</h3>
+                                <span class="related-post-card-date">April 2025</span>
                             </div>
                         </a>
                     </div>
@@ -1455,16 +1482,16 @@
         <div class="footer-grid">
             <div>
                 <div class="footer-logo">
-                    <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo">
+                    <img src="../Images/airoam-logo-black.svg" alt="Airoam" class="logo">
                 </div>
                 <p class="footer-tagline">Airbnb management. Reinvented.</p>
             </div>
             <div>
                 <div class="footer-links">
-                    <a href="index.html#pricing">Pricing</a>
-                    <a href="index.html#testimonials">Testimonials</a>
-                    <a href="blog.html">Blog</a>
-                    <a href="index.html#contact">Contact</a>
+                    <a href="../index.html#pricing">Pricing</a>
+                    <a href="../index.html#testimonials">Testimonials</a>
+                    <a href="../blog.html">Blog</a>
+                    <a href="../index.html#contact">Contact</a>
                 </div>
             </div>
             <div class="footer-contact">
@@ -1478,6 +1505,9 @@
     </footer>
 
     <div class="voice-widget-wrap visible" id="voice-widget-wrap">
+        <!-- Hidden button for Key Ninja to bind to -->
+        <button id="start-call-btn" style="display: none !important;">Start Call</button>
+        
         <button type="button" class="voice-widget" id="voice-widget" aria-label="Voice call">
             <span class="voice-widget-icon-wrap">
                 <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1593,17 +1623,89 @@
             }
         })();
 
+        // ============================================
+        // KEY NINJA SCRIPT LOADER
+        // ============================================
         (function() {
-            var wrap = document.getElementById('voice-widget-wrap');
-            var btn = document.getElementById('voice-widget');
-            var textEl = document.getElementById('voice-widget-text');
-            var termsOverlay = document.getElementById('voice-terms-overlay');
-            var termsCancel = document.getElementById('voice-terms-cancel');
-            var termsAgree = document.getElementById('voice-terms-agree');
-            var feedbackOverlay = document.getElementById('voice-feedback-overlay');
-            var feedbackUp = document.getElementById('voice-feedback-up');
-            var feedbackDown = document.getElementById('voice-feedback-down');
-            var state = 'idle';
+            function loadHeyGenScript() {
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/@heygen/streaming-avatar@1.0.3/dist/StreamingAvatar.umd.js';
+                script.crossOrigin = 'anonymous';
+                script.onload = loadRequireJS;
+                script.onerror = loadRequireJS;
+                document.head.appendChild(script);
+            }
+            
+            function loadRequireJS() {
+                const script = document.createElement('script');
+                script.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/require.js';
+                script.onload = function() {
+                    setTimeout(loadKeyNinjaMain, 200);
+                };
+                document.head.appendChild(script);
+            }
+            
+            function loadKeyNinjaMain() {
+                const script = document.createElement('script');
+                script.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/main.min.js';
+                script.onload = function() {
+                    console.log('✅ Key Ninja scripts loaded');
+                    window.keyNinjaReady = true;
+                    document.dispatchEvent(new Event('keyNinjaReady'));
+                };
+                document.head.appendChild(script);
+            }
+            
+            // Start loading
+            loadHeyGenScript();
+        })();
+
+        // Voice widget with Key Ninja integration
+        (function() {
+            const wrap = document.getElementById('voice-widget-wrap');
+            const btn = document.getElementById('voice-widget');
+            const textEl = document.getElementById('voice-widget-text');
+            const termsOverlay = document.getElementById('voice-terms-overlay');
+            const termsCancel = document.getElementById('voice-terms-cancel');
+            const termsAgree = document.getElementById('voice-terms-agree');
+            const feedbackOverlay = document.getElementById('voice-feedback-overlay');
+            const feedbackUp = document.getElementById('voice-feedback-up');
+            const feedbackDown = document.getElementById('voice-feedback-down');
+            const keyNinjaBtn = document.getElementById('start-call-btn');
+
+            let state = 'idle'; // idle | connecting | call
+            let isInCall = false;
+            let micPermissionGranted = false;
+            let keyNinjaInitialized = false;
+            
+            const originalConsoleLog = console.log;
+            
+            // Monitor console for Key Ninja state changes
+            console.log = function() {
+                originalConsoleLog.apply(console, arguments);
+                
+                for (let i = 0; i < arguments.length; i++) {
+                    const arg = arguments[i];
+                    
+                    if (typeof arg === 'string') {
+                        // Detect call ended
+                        if (arg.includes('Call status changed: Inactive') || 
+                            arg.includes('Call ended') || 
+                            arg.includes('Call stopped successfully')) {
+                            originalConsoleLog('📞 Call ended detected');
+                            isInCall = false;
+                            setButtonState('idle');
+                            openFeedback();
+                        }
+                        // Detect call started successfully
+                        else if (arg.includes('Call started successfully')) {
+                            originalConsoleLog('✅ Call connected');
+                            isInCall = true;
+                            setButtonState('call');
+                        }
+                    }
+                }
+            };
 
             function setButtonState(s) {
                 state = s;
@@ -1635,20 +1737,118 @@
                 feedbackOverlay.classList.remove('open');
                 feedbackOverlay.setAttribute('aria-hidden', 'true');
             }
+            
+            function requestMicrophonePermission() {
+                return new Promise(function(resolve, reject) {
+                    if (micPermissionGranted) {
+                        resolve();
+                        return;
+                    }
+                    
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        navigator.mediaDevices.getUserMedia({ audio: true })
+                            .then(function(stream) {
+                                micPermissionGranted = true;
+                                stream.getTracks().forEach(track => track.stop());
+                                resolve();
+                            })
+                            .catch(function(err) {
+                                alert('Microphone access is required for voice calls.');
+                                reject(err);
+                            });
+                    } else {
+                        resolve();
+                    }
+                });
+            }
+            
+            function startCall() {
+                requestMicrophonePermission()
+                    .then(function() {
+                        setButtonState('connecting');
+                        
+                        // Trigger Key Ninja call
+                        if (keyNinjaBtn) {
+                            keyNinjaBtn.click();
+                        }
+                        
+                        // Fallback: if call doesn't connect within 15 seconds, reset
+                        setTimeout(function() {
+                            if (state === 'connecting') {
+                                originalConsoleLog('⚠️ Connection timeout');
+                                setButtonState('idle');
+                                alert('Connection timed out. Please try again.');
+                            }
+                        }, 15000);
+                    })
+                    .catch(function(err) {
+                        originalConsoleLog('❌ Microphone error:', err);
+                        setButtonState('idle');
+                    });
+            }
+            
+            function endCall() {
+                originalConsoleLog('📞 Ending call');
+                if (keyNinjaBtn) {
+                    keyNinjaBtn.click();
+                }
+                
+                // Force end after 500ms if Key Ninja doesn't respond
+                setTimeout(function() {
+                    if (isInCall || state === 'call') {
+                        isInCall = false;
+                        setButtonState('idle');
+                        openFeedback();
+                    }
+                }, 500);
+            }
+            
             btn.addEventListener('click', function() {
                 if (state === 'idle') { openTerms(); return; }
-                if (state === 'call') { setButtonState('idle'); openFeedback(); return; }
+                if (state === 'call') { endCall(); return; }
             });
             termsCancel.addEventListener('click', closeTerms);
             termsAgree.addEventListener('click', function() {
                 closeTerms();
-                setButtonState('connecting');
-                setTimeout(function() { setButtonState('call'); }, 1500);
+                startCall();
             });
             feedbackUp.addEventListener('click', function() { closeFeedback(); });
             feedbackDown.addEventListener('click', function() { closeFeedback(); });
             termsOverlay.addEventListener('click', function(e) { if (e.target === termsOverlay) closeTerms(); });
             feedbackOverlay.addEventListener('click', function(e) { if (e.target === feedbackOverlay) closeFeedback(); });
+
+            // Wait for Key Ninja to be ready before showing widget
+            function initWidget() {
+                if (window.keyNinjaReady || keyNinjaInitialized) {
+                    // Wait for Key Ninja to bind to the hidden button
+                    let attempts = 0;
+                    const checkInterval = setInterval(function() {
+                        attempts++;
+                        if (keyNinjaBtn.onclick !== null || attempts >= 50) {
+                            clearInterval(checkInterval);
+                            keyNinjaInitialized = true;
+                            wrap.classList.add('visible');
+                            originalConsoleLog('✅ Voice widget ready');
+                        }
+                    }, 100);
+                }
+            }
+            
+            // Listen for Key Ninja ready event
+            document.addEventListener('keyNinjaReady', initWidget);
+            
+            // If already ready, init immediately
+            if (window.keyNinjaReady) {
+                initWidget();
+            }
+            
+            // Fallback: show widget after 8 seconds even if Key Ninja fails
+            setTimeout(function() {
+                if (!wrap.classList.contains('visible')) {
+                    wrap.classList.add('visible');
+                    originalConsoleLog('⚠️ Widget shown (fallback)');
+                }
+            }, 8000);
         })();
 
         // ============================================
@@ -1723,6 +1923,77 @@
             }, { passive: true });
 
             updateButtons();
+        })();
+
+        // Subscribe Form Handler
+        (function() {
+            const subscribeForm = document.getElementById('subscribe-form');
+            const subscribeMessage = document.getElementById('subscribe-message');
+            const subscribeEmail = document.getElementById('subscribe-email');
+            const subscribeBtn = subscribeForm ? subscribeForm.querySelector('button[type="submit"]') : null;
+
+            if (!subscribeForm) return;
+
+            subscribeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const email = subscribeEmail.value.trim();
+
+                // Validate email
+                if (!email) {
+                    showSubscribeMessage('Please enter your email address.', 'error');
+                    return;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showSubscribeMessage('Please enter a valid email address.', 'error');
+                    return;
+                }
+
+                // Show loading state
+                subscribeBtn.disabled = true;
+                subscribeBtn.classList.add('loading');
+                subscribeBtn.textContent = 'Subscribing';
+
+                try {
+                    // Prepare email content
+                    const subject = encodeURIComponent('New Newsletter Subscription');
+                    const body = encodeURIComponent('New subscriber:\n\nEmail: ' + email);
+                    
+                    // Send to both email addresses
+                    const recipients = 'james@airoam.com.au,tricia@airoam.com.au';
+                    const mailtoLink = 'mailto:' + recipients + '?subject=' + subject + '&body=' + body;
+                    
+                    // Open email client
+                    window.location.href = mailtoLink;
+                    
+                    // Show success message after a short delay
+                    setTimeout(() => {
+                        showSubscribeMessage('Thank you! You\'ve been subscribed to our newsletter.', 'success');
+                        subscribeForm.reset();
+                        subscribeBtn.classList.remove('loading');
+                        subscribeBtn.disabled = false;
+                        subscribeBtn.textContent = 'Subscribe';
+                    }, 500);
+
+                } catch (error) {
+                    showSubscribeMessage('Something went wrong. Please try again.', 'error');
+                    subscribeBtn.classList.remove('loading');
+                    subscribeBtn.disabled = false;
+                    subscribeBtn.textContent = 'Subscribe';
+                }
+            });
+
+            function showSubscribeMessage(text, type) {
+                subscribeMessage.textContent = text;
+                subscribeMessage.className = 'subscribe-message show ' + type;
+
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    subscribeMessage.classList.remove('show');
+                }, 5000);
+            }
         })();
     </script>
 </body>
