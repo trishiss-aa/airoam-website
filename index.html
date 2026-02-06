@@ -2973,7 +2973,7 @@
             <!-- Magazine Grid -->
             <div class="blog-magazine-grid">
                 <!-- Large Featured - spans 2 cols and 2 rows -->
-                <a href="blog.html" class="blog-card blog-card-featured">
+                <a href="blog/Getting-your-listing-ready.html" class="blog-card blog-card-featured">
                     <img src="Images/airoam-property.jpg" alt="Getting your first listing ready for guests" class="blog-card-image">
                     <div class="blog-card-overlay"></div>
                     <div class="blog-card-content">
@@ -2984,7 +2984,7 @@
                 </a>
 
                 <!-- Top Right - Medium -->
-                <a href="blog.html" class="blog-card blog-card-medium">
+                <a href="blog/ai-guest-messages-holiday-bali.html" class="blog-card blog-card-medium">
                     <img src="Images/airoam-property1.jpg" alt="How AI handles guest messages 24/7" class="blog-card-image">
                     <div class="blog-card-overlay"></div>
                     <div class="blog-card-content">
@@ -2994,7 +2994,7 @@
                 </a>
 
                 <!-- Bottom Right - Two Small -->
-                <a href="blog.html" class="blog-card blog-card-small">
+                <a href="blog/airbnb-melbourne-fees-9-percent.html" class="blog-card blog-card-small">
                     <img src="Images/airoam-property2.jpg" alt="Why 9% makes sense for growing portfolios" class="blog-card-image">
                     <div class="blog-card-overlay"></div>
                     <div class="blog-card-content">
@@ -3003,7 +3003,7 @@
                     </div>
                 </a>
 
-                <a href="blog.html" class="blog-card blog-card-small">
+                <a href="blog/drowning-in-guest-messages.html" class="blog-card blog-card-small">
                     <img src="Images/airoam-property.jpg" alt="Coordinating cleaning and turnover at scale" class="blog-card-image">
                     <div class="blog-card-overlay"></div>
                     <div class="blog-card-content">
@@ -3051,7 +3051,9 @@
 
                 <!-- Right: Form -->
                 <div class="contact-form-wrapper">
-                    <form class="form" id="contact-form">
+                    <form class="form" id="contact-form" action="https://formspree.io/f/mkovwyzz" method="POST">
+                        <input type="text" name="_gotcha" style="display:none">
+                        <input type="hidden" name="_subject" value="New Contact Form Submission">
                         <!-- Name -->
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -4257,60 +4259,42 @@
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                // Get form data
                 const formData = new FormData(form);
                 const data = Object.fromEntries(formData.entries());
 
-                // Validate required fields
                 if (!data.name || !data.email) {
                     showMessage('Please fill in all required fields.', 'error');
                     return;
                 }
 
-                // Validate email format
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(data.email)) {
                     showMessage('Please enter a valid email address.', 'error');
                     return;
                 }
 
-                // Show loading state
                 submitBtn.classList.add('loading');
                 submitBtn.disabled = true;
 
                 try {
-                    // Prepare email content
-                    const subject = encodeURIComponent('New Contact Form Submission from ' + data.name);
-                    const body = encodeURIComponent(
-                        'Name: ' + data.name + '\n\n' +
-                        'Email: ' + data.email + '\n\n' +
-                        (data.phone ? 'Phone: ' + data.phone + '\n\n' : '') +
-                        (data.properties ? 'Number of Properties: ' + data.properties + '\n\n' : '') +
-                        (data.address ? 'Address: ' + data.address + '\n\n' : '') +
-                        (data.message ? 'Message:\n' + data.message : '')
-                    );
-                    
-                    // Send to both email addresses
-                    const recipients = 'james@airoam.com.au,tricia@airoam.com.au';
-                    const mailtoLink = 'mailto:' + recipients + '?subject=' + subject + '&body=' + body;
-                    
-                    // Open email client
-                    window.location.href = mailtoLink;
-                    
-                    // Show success message after a short delay
-                    setTimeout(() => {
-                        showMessage('Thank you! Your email client should open. If not, please email us directly at hello@airoam.com.au', 'success');
-                        form.reset();
-                        submitBtn.classList.remove('loading');
-                        submitBtn.disabled = false;
-                    }, 500);
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'Accept': 'application/json' }
+                    });
 
+                    if (response.ok) {
+                        showMessage('Thank you! We\'ll get back to you soon.', 'success');
+                        form.reset();
+                    } else {
+                        const err = await response.json();
+                        showMessage(err.error || 'Something went wrong. Please try again or email us at hello@airoam.com.au', 'error');
+                    }
                 } catch (error) {
-                    // Error
-                    showMessage('Something went wrong. Please try again or email us directly at hello@airoam.com.au', 'error');
-                    submitBtn.classList.remove('loading');
-                    submitBtn.disabled = false;
+                    showMessage('Something went wrong. Please try again or email us at hello@airoam.com.au', 'error');
                 }
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
             });
 
             function showMessage(text, type) {
@@ -5156,6 +5140,18 @@
                 feedbackOverlay.classList.remove('open');
                 feedbackOverlay.setAttribute('aria-hidden', 'true');
             }
+
+            function submitFeedback(isPositive) {
+                fetch('https://formspree.io/f/xqedznlr', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        feedback: isPositive ? 'positive' : 'negative',
+                        page: window.location.pathname,
+                        timestamp: new Date().toISOString()
+                    })
+                }).then(function() { closeFeedback(); }).catch(function() { closeFeedback(); });
+            }
             
             function requestMicrophonePermission() {
                 return new Promise(function(resolve, reject) {
@@ -5240,8 +5236,8 @@
                 startCall();
             });
 
-            feedbackUp.addEventListener('click', closeFeedback);
-            feedbackDown.addEventListener('click', closeFeedback);
+            feedbackUp.addEventListener('click', function() { submitFeedback(true); });
+            feedbackDown.addEventListener('click', function() { submitFeedback(false); });
 
             termsOverlay.addEventListener('click', function(e) {
                 if (e.target === termsOverlay) closeTerms();

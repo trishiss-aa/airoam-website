@@ -1210,6 +1210,18 @@
                 feedbackOverlay.classList.remove('open');
                 feedbackOverlay.setAttribute('aria-hidden', 'true');
             }
+
+            function submitFeedback(isPositive) {
+                fetch('https://formspree.io/f/xqedznlr', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        feedback: isPositive ? 'positive' : 'negative',
+                        page: window.location.pathname,
+                        timestamp: new Date().toISOString()
+                    })
+                }).then(function() { closeFeedback(); }).catch(function() { closeFeedback(); });
+            }
             
             function requestMicrophonePermission() {
                 return new Promise(function(resolve, reject) {
@@ -1294,8 +1306,8 @@
                 startCall();
             });
 
-            feedbackUp.addEventListener('click', closeFeedback);
-            feedbackDown.addEventListener('click', closeFeedback);
+            feedbackUp.addEventListener('click', function() { submitFeedback(true); });
+            feedbackDown.addEventListener('click', function() { submitFeedback(false); });
 
             termsOverlay.addEventListener('click', function(e) {
                 if (e.target === termsOverlay) closeTerms();

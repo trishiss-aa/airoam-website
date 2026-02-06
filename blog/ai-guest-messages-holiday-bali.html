@@ -1329,7 +1329,9 @@
                         <div class="post-sidebar-subscribe">
                             <h3 class="post-sidebar-title">Airoam News</h3>
                             <p class="post-sidebar-subscribe-text">Get hosting tips and industry insights delivered weekly.</p>
-                            <form class="post-sidebar-subscribe-form" id="subscribe-form">
+                            <form class="post-sidebar-subscribe-form" id="subscribe-form" action="https://formspree.io/f/mdalnbdv" method="POST">
+                                <input type="text" name="_gotcha" style="display:none">
+                                <input type="hidden" name="_subject" value="New Blog Subscriber">
                                 <input type="email" name="email" id="subscribe-email" placeholder="Your email" required>
                                 <button type="submit">Subscribe</button>
                                 <div class="subscribe-message" id="subscribe-message"></div>
@@ -1896,51 +1898,38 @@
                 e.preventDefault();
 
                 const email = subscribeEmail.value.trim();
-
-                // Validate email
                 if (!email) {
                     showSubscribeMessage('Please enter your email address.', 'error');
                     return;
                 }
-
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(email)) {
                     showSubscribeMessage('Please enter a valid email address.', 'error');
                     return;
                 }
 
-                // Show loading state
                 subscribeBtn.disabled = true;
                 subscribeBtn.classList.add('loading');
-                subscribeBtn.textContent = 'Subscribing';
-
-                try {
-                    // Prepare email content
-                    const subject = encodeURIComponent('New Newsletter Subscription');
-                    const body = encodeURIComponent('New subscriber:\n\nEmail: ' + email);
-                    
-                    // Send to both email addresses
-                    const recipients = 'james@airoam.com.au,tricia@airoam.com.au';
-                    const mailtoLink = 'mailto:' + recipients + '?subject=' + subject + '&body=' + body;
-                    
-                    // Open email client
-                    window.location.href = mailtoLink;
-                    
-                    // Show success message after a short delay
-                    setTimeout(() => {
-                        showSubscribeMessage('Thank you! You\'ve been subscribed to our newsletter.', 'success');
+                var formData = new FormData(subscribeForm);
+                fetch(subscribeForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                }).then(function(r) {
+                    if (r.ok) {
+                        showSubscribeMessage('Thank you! You\'ve been subscribed.', 'success');
                         subscribeForm.reset();
-                        subscribeBtn.classList.remove('loading');
-                        subscribeBtn.disabled = false;
-                        subscribeBtn.textContent = 'Subscribe';
-                    }, 500);
-
-                } catch (error) {
+                    } else {
+                        return r.json().then(function(err) {
+                            showSubscribeMessage(err.error || 'Something went wrong. Please try again.', 'error');
+                        });
+                    }
+                }).catch(function() {
                     showSubscribeMessage('Something went wrong. Please try again.', 'error');
+                }).then(function() {
                     subscribeBtn.classList.remove('loading');
                     subscribeBtn.disabled = false;
-                    subscribeBtn.textContent = 'Subscribe';
-                }
+                });
             });
 
             function showSubscribeMessage(text, type) {

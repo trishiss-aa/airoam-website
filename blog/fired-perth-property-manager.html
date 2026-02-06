@@ -27,14 +27,14 @@
             --color-black: #202020;
             --color-white: #FFFFFF;
             --color-text-grey: rgba(0, 0, 0, 0.6);
-        /* Related Posts */
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--color-white);
             color: var(--color-black);
             padding-top: 80px;
-        /* Related Posts */
+        }
 
         /* ============================================
            NAVIGATION - CONSISTENT ACROSS ALL PAGES
@@ -54,37 +54,37 @@
             background-color: var(--color-white);
             border-bottom: 3px solid transparent;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        /* Related Posts */
+        }
         #main-nav.scrolled {
             border-bottom-color: #202020;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
-        /* Related Posts */
+        }
         .nav-logo {
             display: flex;
             align-items: center;
             text-decoration: none;
             cursor: pointer;
-        /* Related Posts */
+        }
         .nav-logo .logo {
             width: 180px;
             height: auto;
             display: block;
-        /* Related Posts */
+        }
         .nav-center {
             display: flex;
             gap: 40px;
             align-items: center;
-        /* Related Posts */
+        }
         .nav-center a {
             font-size: 14px;
             letter-spacing: 0.05em;
             color: var(--color-black);
             text-decoration: none;
             transition: opacity 0.3s ease;
-        /* Related Posts */
+        }
         .nav-center a:hover {
             opacity: 0.6;
-        /* Related Posts */
+        }
         .nav-button {
             padding: 10px 24px;
             border: 3px solid var(--color-black);
@@ -99,7 +99,7 @@
             position: relative;
             overflow: hidden;
             transition: color 0.4s ease;
-        /* Related Posts */
+        }
         .nav-button::before {
             content: '';
             position: absolute;
@@ -110,13 +110,13 @@
             background-color: var(--color-black);
             transition: left 0.4s ease;
             z-index: -1;
-        /* Related Posts */
+        }
         .nav-button:hover {
             color: var(--color-white);
-        /* Related Posts */
+        }
         .nav-button:hover::before {
             left: 0;
-        /* Related Posts */
+        }
         .nav-hamburger {
             display: none;
             width: 30px;
@@ -129,23 +129,23 @@
             padding: 0;
             position: relative;
             z-index: 10001;
-        /* Related Posts */
+        }
         .nav-hamburger span {
             width: 100%;
             height: 2px;
             background-color: var(--color-black);
             display: block;
             transition: transform 0.3s ease, opacity 0.3s ease;
-        /* Related Posts */
+        }
         .nav-hamburger.active span:nth-child(1) {
             transform: translateY(9px) rotate(45deg);
-        /* Related Posts */
+        }
         .nav-hamburger.active span:nth-child(2) {
             opacity: 0;
-        /* Related Posts */
+        }
         .nav-hamburger.active span:nth-child(3) {
             transform: translateY(-9px) rotate(-45deg);
-        /* Related Posts */
+        }
         .nav-mobile-menu {
             position: fixed;
             top: 80px;
@@ -163,13 +163,13 @@
             visibility: hidden;
             pointer-events: none;
             transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-        /* Related Posts */
+        }
         .nav-mobile-menu.open {
             transform: translateY(0);
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-        /* Related Posts */
+        }
         .nav-mobile-menu a {
             font-size: 16px;
             color: var(--color-black);
@@ -177,21 +177,21 @@
             padding: 16px 0;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             transition: opacity 0.2s ease, padding-left 0.2s ease;
-        /* Related Posts */
+        }
         .nav-mobile-menu a:last-child {
             border-bottom: none;
-        /* Related Posts */
+        }
         .nav-mobile-menu a:hover {
             opacity: 0.6;
             padding-left: 8px;
-        /* Related Posts */
+        }
         @media (max-width: 768px) {
             #main-nav { padding: 0 24px; }
             .nav-logo .logo { width: 140px; }
             .nav-center { display: none; }
             .nav-button { display: none; }
             .nav-hamburger { display: flex; }
-        /* Related Posts */
+        }
 
         /* ============================================
            BLOG POST PAGE LAYOUT
@@ -205,7 +205,7 @@
             grid-template-columns: 1fr 1fr;
             min-height: 380px;
             max-height: 420px;
-        /* Related Posts */
+        }
 
         .post-header-content {
             display: flex;
@@ -213,7 +213,7 @@
             justify-content: center;
             padding: 48px 60px 48px max(60px, calc((100vw - 1400px) / 2 + 60px));
             background-color: #FAF0DD;
-        /* Related Posts */
+        }
 
         .back-to-blog {
             display: inline-flex;
@@ -228,16 +228,16 @@
             margin-bottom: 32px;
             transition: color 0.2s ease;
             width: fit-content;
-        /* Related Posts */
+        }
 
         .back-to-blog:hover {
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         .back-to-blog svg {
             width: 16px;
             height: 16px;
-        /* Related Posts */
+        }
 
         .post-category-label {
             font-size: 12px;
@@ -246,7 +246,7 @@
             text-transform: uppercase;
             color: rgba(0, 0, 0, 0.5);
             margin-bottom: 14px;
-        /* Related Posts */
+        }
 
         .post-header .post-title {
             font-size: clamp(26px, 2.8vw, 38px);
@@ -255,7 +255,7 @@
             letter-spacing: -0.02em;
             margin-bottom: 14px;
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         .post-subtitle {
             font-size: 16px;
@@ -264,55 +264,55 @@
             color: rgba(0, 0, 0, 0.5);
             margin-bottom: 28px;
             max-width: 420px;
-        /* Related Posts */
+        }
 
         .post-author {
             display: flex;
             align-items: center;
             gap: 12px;
-        /* Related Posts */
+        }
 
         .post-author-avatar {
             width: 42px;
             height: 42px;
             border-radius: 50%;
             background-color: #E5E5E5;
-        /* Related Posts */
+        }
 
         .post-author-info {
             display: flex;
             flex-direction: column;
             gap: 2px;
-        /* Related Posts */
+        }
 
         .post-author-name {
             font-size: 14px;
             font-weight: 600;
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         .post-author-meta {
             font-size: 13px;
             color: rgba(0, 0, 0, 0.4);
-        /* Related Posts */
+        }
 
         .post-header-image {
             position: relative;
             overflow: hidden;
             background-color: #E5E5E5;
-        /* Related Posts */
+        }
 
         .post-header-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        /* Related Posts */
+        }
 
         /* SECTION 2: CONTENT WRAPPER (1/3 + 2/3) */
         .post-content-wrapper {
             background-color: var(--color-white);
             padding-top: 64px;
-        /* Related Posts */
+        }
 
         .post-layout {
             display: grid;
@@ -321,13 +321,13 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 60px;
-        /* Related Posts */
+        }
 
         /* 1/3 SIDEBAR (Left) */
         .post-sidebar-inner {
             position: sticky;
             top: 100px;
-        /* Related Posts */
+        }
 
         .post-sidebar-title {
             font-size: 11px;
@@ -336,21 +336,21 @@
             text-transform: uppercase;
             color: var(--color-black);
             margin-bottom: 16px;
-        /* Related Posts */
+        }
 
         .post-sidebar-subscribe {
             border-radius: 8px;
-        /* Related Posts */
+        }
 
         .post-sidebar-subscribe-text {
             font-size: 13px;
-        /* Related Posts */
+        }
 
         /* 2/3 ARTICLE (Right) */
         .post-article {
             min-width: 0;
             max-width: 760px;
-        /* Related Posts */
+        }
 
         .post-lead {
             font-size: 22px;
@@ -360,18 +360,18 @@
             margin-bottom: 40px;
             padding-bottom: 40px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        /* Related Posts */
+        }
 
         .post-body {
             font-size: 17px;
             font-weight: 400;
             line-height: 1.85;
             color: rgba(0, 0, 0, 0.75);
-        /* Related Posts */
+        }
 
         .post-body p {
             margin-bottom: 28px;
-        /* Related Posts */
+        }
 
         .post-body h2 {
             font-size: 28px;
@@ -380,7 +380,7 @@
             color: var(--color-black);
             margin-top: 56px;
             margin-bottom: 20px;
-        /* Related Posts */
+        }
 
         .post-body h3 {
             font-size: 22px;
@@ -388,20 +388,20 @@
             color: var(--color-black);
             margin-top: 40px;
             margin-bottom: 14px;
-        /* Related Posts */
+        }
 
         /* Numbered List */
         .post-numbered-list {
             list-style: none;
             padding: 0;
             margin: 0 0 28px 0;
-        /* Related Posts */
+        }
 
         .post-numbered-list li {
             display: flex;
             gap: 14px;
             margin-bottom: 14px;
-        /* Related Posts */
+        }
 
         .post-numbered-list .list-number {
             width: 26px;
@@ -416,7 +416,7 @@
             justify-content: center;
             flex-shrink: 0;
             margin-top: 2px;
-        /* Related Posts */
+        }
 
         /* Tip Box */
         .post-tip-box {
@@ -424,19 +424,19 @@
             padding: 28px;
             border-radius: 10px;
             margin: 40px 0;
-        /* Related Posts */
+        }
 
         .post-tip-title {
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 6px;
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         .post-tip-box p:last-child {
             margin-bottom: 0;
             color: rgba(0, 0, 0, 0.75);
-        /* Related Posts */
+        }
 
         /* Pull Quote */
         .post-pullquote {
@@ -448,7 +448,7 @@
             line-height: 1.5;
             color: var(--color-black);
             font-style: normal;
-        /* Related Posts */
+        }
 
         /* Tags */
         .post-tags {
@@ -458,7 +458,7 @@
             margin-top: 56px;
             padding-top: 32px;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
-        /* Related Posts */
+        }
 
         .post-tag {
             padding: 8px 18px;
@@ -467,7 +467,7 @@
             font-weight: 500;
             border-radius: 100px;
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         /* Share */
         .post-share {
@@ -475,13 +475,13 @@
             align-items: center;
             gap: 14px;
             margin-top: 28px;
-        /* Related Posts */
+        }
 
         .post-share-label {
             font-size: 13px;
             font-weight: 500;
             color: rgba(0, 0, 0, 0.4);
-        /* Related Posts */
+        }
 
         .post-share-btn {
             width: 38px;
@@ -496,13 +496,13 @@
             color: var(--color-black);
             text-decoration: none;
             transition: all 0.2s ease;
-        /* Related Posts */
+        }
 
         .post-share-btn:hover {
             background-color: var(--color-black);
             border-color: var(--color-black);
             color: var(--color-white);
-        /* Related Posts */
+        }
 
         /* CTA Box */
         .post-cta-box {
@@ -510,20 +510,20 @@
             padding: 48px;
             border: 3px solid var(--color-black);
             text-align: center;
-        /* Related Posts */
+        }
 
         .post-cta-box h3 {
             font-size: 26px;
             font-weight: 700;
             margin-bottom: 10px;
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         .post-cta-box p {
             font-size: 15px;
             color: rgba(0, 0, 0, 0.5);
             margin-bottom: 28px;
-        /* Related Posts */
+        }
 
         .post-cta-btn {
             display: inline-block;
@@ -534,31 +534,31 @@
             font-weight: 500;
             text-decoration: none;
             transition: background-color 0.2s ease;
-        /* Related Posts */
+        }
 
         .post-cta-btn:hover {
             background-color: #404040;
-        /* Related Posts */
+        }
 
         /* SECTION 3: RELATED POSTS CAROUSEL */
         .related-posts-section {
             background-color: #F8F8F8;
             padding: 60px 0 80px;
             overflow: hidden;
-        /* Related Posts */
+        }
 
         .related-posts-container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 60px;
-        /* Related Posts */
+        }
 
         .related-posts-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 32px;
-        /* Related Posts */
+        }
 
         .related-posts-title {
             font-size: 12px;
@@ -566,12 +566,12 @@
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         .related-posts-nav {
             display: flex;
             gap: 8px;
-        /* Related Posts */
+        }
 
         .related-posts-arrow {
             width: 44px;
@@ -583,32 +583,32 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
-        /* Related Posts */
+        }
 
         .related-posts-arrow:hover:not(:disabled) {
             background-color: var(--color-black);
             color: var(--color-white);
-        /* Related Posts */
+        }
 
         .related-posts-arrow:hover:not(:disabled) svg {
             stroke: var(--color-white);
-        /* Related Posts */
+        }
 
         .related-posts-arrow:disabled {
             opacity: 0.3;
             cursor: not-allowed;
-        /* Related Posts */
+        }
 
         .related-posts-carousel {
             overflow: hidden;
-        /* Related Posts */
+        }
 
         .related-posts-track {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 24px;
             transition: transform 0.4s ease;
-        /* Related Posts */
+        }
 
         .related-post-card {
             background: var(--color-white);
@@ -616,33 +616,33 @@
             color: var(--color-black);
             overflow: hidden;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-        /* Related Posts */
+        }
 
         .related-post-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-        /* Related Posts */
+        }
 
         .related-post-card-image {
             aspect-ratio: 16 / 10;
             overflow: hidden;
             background-color: #E5E5E5;
-        /* Related Posts */
+        }
 
         .related-post-card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
-        /* Related Posts */
+        }
 
         .related-post-card:hover .related-post-card-image img {
             transform: scale(1.05);
-        /* Related Posts */
+        }
 
         .related-post-card-content {
             padding: 20px 20px 24px;
-        /* Related Posts */
+        }
 
         .related-post-card-category {
             font-size: 11px;
@@ -652,7 +652,7 @@
             color: rgba(0, 0, 0, 0.4);
             margin-bottom: 8px;
             display: block;
-        /* Related Posts */
+        }
 
         .related-post-card-title {
             font-size: 16px;
@@ -660,25 +660,25 @@
             line-height: 1.4;
             margin-bottom: 10px;
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         .related-post-card-date {
             font-size: 13px;
             color: rgba(0, 0, 0, 0.4);
-        /* Related Posts */
+        }
 
         .post-sidebar {
             position: relative;
-        /* Related Posts */
+        }
 
         .post-sidebar-inner {
             position: sticky;
             top: 100px;
-        /* Related Posts */
+        }
 
         .post-sidebar-section {
             margin-bottom: 0;
-        /* Related Posts */
+        }
 
         .post-sidebar-title {
             font-size: 11px;
@@ -687,24 +687,24 @@
             text-transform: uppercase;
             color: var(--color-black);
             margin-bottom: 16px;
-        /* Related Posts */
+        }
 
         .post-sidebar-divider {
             height: 1px;
             background-color: rgba(0, 0, 0, 0.1);
             margin: 32px 0;
-        /* Related Posts */
+        }
 
         /* Sidebar Categories */
         .post-sidebar-categories {
             list-style: none;
             padding: 0;
             margin: 0;
-        /* Related Posts */
+        }
 
         .post-sidebar-categories li {
             margin: 0;
-        /* Related Posts */
+        }
 
         .post-sidebar-categories a {
             display: block;
@@ -713,11 +713,11 @@
             color: rgba(0, 0, 0, 0.5);
             text-decoration: none;
             transition: color 0.2s ease;
-        /* Related Posts */
+        }
 
         .post-sidebar-categories a:hover {
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         .post-sidebar-categories a.active {
             color: var(--color-black);
@@ -725,25 +725,25 @@
             border-left: 2px solid var(--color-black);
             padding-left: 16px;
             margin-left: -2px;
-        /* Related Posts */
+        }
 
         /* Sidebar Subscribe */
         .post-sidebar-subscribe {
             background-color: #F8F8F8;
             padding: 24px;
             border-radius: 8px;
-        /* Related Posts */
+        }
 
         .post-sidebar-subscribe .post-sidebar-title {
             margin-bottom: 8px;
-        /* Related Posts */
+        }
 
         .post-sidebar-subscribe-text {
             font-size: 14px;
             color: rgba(0, 0, 0, 0.5);
             margin-bottom: 20px;
             line-height: 1.5;
-        /* Related Posts */
+        }
 
         .post-sidebar-subscribe-form input[type="email"] {
             width: 100%;
@@ -756,15 +756,15 @@
             outline: none;
             margin-bottom: 12px;
             transition: box-shadow 0.2s ease;
-        /* Related Posts */
+        }
 
         .post-sidebar-subscribe-form input[type="email"]:focus {
             box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-        /* Related Posts */
+        }
 
         .post-sidebar-subscribe-form input[type="email"]::placeholder {
             color: rgba(0, 0, 0, 0.4);
-        /* Related Posts */
+        }
 
         .post-sidebar-subscribe-form button {
             width: 100%;
@@ -777,7 +777,7 @@
             color: var(--color-white);
             cursor: pointer;
             transition: background-color 0.2s ease;
-        /* Related Posts */
+        }
 
         .post-sidebar-subscribe-form button:hover {
             background-color: #404040;
@@ -837,12 +837,12 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-        /* Related Posts */
+        }
 
         .related-post {
             text-decoration: none;
             color: var(--color-black);
-        /* Related Posts */
+        }
 
         .related-post-image {
             aspect-ratio: 16 / 9;
@@ -850,29 +850,29 @@
             overflow: hidden;
             margin-bottom: 12px;
             background-color: #E5E5E5;
-        /* Related Posts */
+        }
 
         .related-post-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
-        /* Related Posts */
+        }
 
         .related-post:hover .related-post-image img {
             transform: scale(1.05);
-        /* Related Posts */
+        }
 
         .related-post-title {
             font-size: 14px;
             font-weight: 500;
             line-height: 1.4;
             transition: color 0.2s ease;
-        /* Related Posts */
+        }
 
         .related-post:hover .related-post-title {
             color: rgba(0, 0, 0, 0.6);
-        /* Related Posts */
+        }
 
         /* MOBILE RESPONSIVE */
         @media (max-width: 1200px) {
@@ -883,7 +883,7 @@
             .related-post-card:nth-child(4) {
                 display: none;
             }
-        /* Related Posts */
+        }
 
         @media (max-width: 1024px) {
             .post-layout {
@@ -894,7 +894,7 @@
             .related-posts-container {
                 padding: 0 40px;
             }
-        /* Related Posts */
+        }
 
         @media (max-width: 900px) {
             .related-posts-track {
@@ -905,7 +905,7 @@
             .related-post-card:nth-child(4) {
                 display: none;
             }
-        /* Related Posts */
+        }
 
         @media (max-width: 768px) {
             .post-header {
@@ -1035,7 +1035,7 @@
             .related-posts-nav {
                 display: none;
             }
-        /* Related Posts */
+        }
 
         @media (max-width: 480px) {
             .post-sidebar-inner {
@@ -1054,7 +1054,7 @@
             .related-post-card {
                 flex: 0 0 85%;
             }
-        /* Related Posts */
+        }
 
         /* Footer */
         footer {
@@ -1062,13 +1062,13 @@
             color: var(--color-white);
             padding: 80px 60px 40px;
             border-top: 3px solid rgba(255, 255, 255, 0.1);
-        /* Related Posts */
+        }
         .footer-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 60px;
             margin-bottom: 60px;
-        /* Related Posts */
+        }
         .footer-logo .logo { width: 100px; height: auto; display: block; filter: brightness(0) invert(1); }
         .footer-tagline { font-size: 14px; font-weight: 300; opacity: 0.6; margin-top: 10px; }
         .footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -1084,7 +1084,7 @@
             font-size: 13px;
             font-weight: 300;
             opacity: 0.5;
-        /* Related Posts */
+        }
         .footer-bottom a { color: var(--color-white); text-decoration: none; }
 
         /* Voice widget – same as blog.html */
@@ -1099,11 +1099,11 @@
             gap: 8px;
             opacity: 0;
             pointer-events: none;
-        /* Related Posts */
+        }
         .voice-widget-wrap.visible {
             opacity: 1;
             pointer-events: auto;
-        /* Related Posts */
+        }
         .voice-widget {
             display: flex;
             align-items: center;
@@ -1120,11 +1120,11 @@
             cursor: pointer;
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
-        /* Related Posts */
+        }
         .voice-widget:hover:not(:disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
-        /* Related Posts */
+        }
         .voice-widget:active:not(:disabled) { transform: translateY(0); }
         .voice-widget:disabled { cursor: not-allowed; opacity: 0.7; }
         .voice-widget-icon { width: 20px; height: 20px; flex-shrink: 0; }
@@ -1133,7 +1133,7 @@
             background-color: #e8e8e8;
             color: #606060;
             border-color: #a0a0a0;
-        /* Related Posts */
+        }
         .voice-widget-icon-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; }
         .voice-widget.state-call .voice-widget-icon { color: #202020; }
         .voice-widget.state-call .voice-widget-icon-wrap::after {
@@ -1146,13 +1146,13 @@
             background: #202020;
             transform: translate(-50%, -50%) rotate(-45deg);
             pointer-events: none;
-        /* Related Posts */
+        }
         .voice-widget-powered {
             font-size: 10px;
             font-weight: 400;
             letter-spacing: 0.05em;
             color: rgba(0, 0, 0, 0.4);
-        /* Related Posts */
+        }
         .voice-modal-overlay {
             position: fixed;
             inset: 0;
@@ -1168,12 +1168,12 @@
             visibility: hidden;
             pointer-events: none;
             transition: opacity 0.25s ease, visibility 0.25s ease;
-        /* Related Posts */
+        }
         .voice-modal-overlay.open {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
-        /* Related Posts */
+        }
         .voice-modal-overlay.open .voice-modal { pointer-events: auto; }
         .voice-modal {
             background: var(--color-white);
@@ -1182,7 +1182,7 @@
             width: 100%;
             padding: 16px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-        /* Related Posts */
+        }
         .voice-modal-title { font-size: 12px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.01em; }
         .voice-modal p { font-size: 11px; font-weight: 300; line-height: 1.5; color: var(--color-text-grey); margin-bottom: 14px; }
         .voice-modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
@@ -1196,7 +1196,7 @@
             color: var(--color-black);
             cursor: pointer;
             transition: background 0.2s, color 0.2s;
-        /* Related Posts */
+        }
         .voice-modal-btn:hover { background: var(--color-black); color: var(--color-white); }
         .voice-modal-btn.primary { background: var(--color-black); color: var(--color-white); }
         .voice-modal-btn.primary:hover { background: #404040; }
@@ -1211,7 +1211,7 @@
             align-items: center;
             justify-content: center;
             transition: background 0.2s, transform 0.2s;
-        /* Related Posts */
+        }
         .voice-feedback-btn:hover { background: #f0f0f0; transform: scale(1.05); }
         .voice-feedback-btn svg {
             width: 18px;
@@ -1219,7 +1219,7 @@
             stroke: currentColor;
             fill: none;
             stroke-width: 2;
-        /* Related Posts */
+        }
 
         @media (max-width: 768px) {
             .container { padding: 0 24px; }
@@ -1251,7 +1251,7 @@
             .voice-widget-wrap { bottom: 20px; right: 20px; }
             .voice-widget { padding: 12px 18px; font-size: 13px; }
             .voice-modal-overlay { padding: 16px; padding-bottom: 90px; }
-        /* Related Posts */
+        }
     </style>
 </head>
 <body>
@@ -1329,7 +1329,9 @@
                         <div class="post-sidebar-subscribe">
                             <h3 class="post-sidebar-title">Airoam News</h3>
                             <p class="post-sidebar-subscribe-text">Get hosting tips and industry insights delivered weekly.</p>
-                            <form class="post-sidebar-subscribe-form" id="subscribe-form">
+                            <form class="post-sidebar-subscribe-form" id="subscribe-form" action="https://formspree.io/f/mdalnbdv" method="POST">
+                                <input type="text" name="_gotcha" style="display:none">
+                                <input type="hidden" name="_subject" value="New Blog Subscriber">
                                 <input type="email" name="email" id="subscribe-email" placeholder="Your email" required>
                                 <button type="submit">Subscribe</button>
                                 <div class="subscribe-message" id="subscribe-message"></div>
@@ -1963,51 +1965,38 @@
                 e.preventDefault();
 
                 const email = subscribeEmail.value.trim();
-
-                // Validate email
                 if (!email) {
                     showSubscribeMessage('Please enter your email address.', 'error');
                     return;
                 }
-
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(email)) {
                     showSubscribeMessage('Please enter a valid email address.', 'error');
                     return;
                 }
 
-                // Show loading state
                 subscribeBtn.disabled = true;
                 subscribeBtn.classList.add('loading');
-                subscribeBtn.textContent = 'Subscribing';
-
-                try {
-                    // Prepare email content
-                    const subject = encodeURIComponent('New Newsletter Subscription');
-                    const body = encodeURIComponent('New subscriber:\n\nEmail: ' + email);
-                    
-                    // Send to both email addresses
-                    const recipients = 'james@airoam.com.au,tricia@airoam.com.au';
-                    const mailtoLink = 'mailto:' + recipients + '?subject=' + subject + '&body=' + body;
-                    
-                    // Open email client
-                    window.location.href = mailtoLink;
-                    
-                    // Show success message after a short delay
-                    setTimeout(() => {
-                        showSubscribeMessage('Thank you! You\'ve been subscribed to our newsletter.', 'success');
+                var formData = new FormData(subscribeForm);
+                fetch(subscribeForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                }).then(function(r) {
+                    if (r.ok) {
+                        showSubscribeMessage('Thank you! You\'ve been subscribed.', 'success');
                         subscribeForm.reset();
-                        subscribeBtn.classList.remove('loading');
-                        subscribeBtn.disabled = false;
-                        subscribeBtn.textContent = 'Subscribe';
-                    }, 500);
-
-                } catch (error) {
+                    } else {
+                        return r.json().then(function(err) {
+                            showSubscribeMessage(err.error || 'Something went wrong. Please try again.', 'error');
+                        });
+                    }
+                }).catch(function() {
                     showSubscribeMessage('Something went wrong. Please try again.', 'error');
+                }).then(function() {
                     subscribeBtn.classList.remove('loading');
                     subscribeBtn.disabled = false;
-                    subscribeBtn.textContent = 'Subscribe';
-                }
+                });
             });
 
             function showSubscribeMessage(text, type) {
