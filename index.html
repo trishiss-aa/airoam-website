@@ -830,8 +830,8 @@
         }
 
         .pricing-comparison-vertical .toggle-btn.active {
-            background-color: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
+            background-color: #FAF0DD;
+            color: #202020;
         }
 
         /* Savings Header */
@@ -854,7 +854,7 @@
             font-weight: 700;
             line-height: 1;
             margin-bottom: 6px;
-            color: #ffffff;
+            color: #FAF0DD;
         }
 
         .pricing-comparison-vertical .savings-subtitle {
@@ -902,7 +902,7 @@
         }
 
         .pricing-comparison-vertical .label-left .column-value {
-            color: #ffffff;
+            color: #FAF0DD;
         }
 
         .pricing-comparison-vertical .label-right .column-value {
@@ -951,7 +951,7 @@
         }
 
         .pricing-comparison-vertical .bar-column.airoam .stack-bar.filled {
-            background-color: #ffffff;
+            background-color: #FAF0DD;
         }
 
         /* Industry bars - all light gray */
@@ -969,7 +969,7 @@
                 background-color: #2a2a2a;
             }
             to {
-                background-color: #ffffff;
+                background-color: #FAF0DD;
             }
         }
 
@@ -1075,7 +1075,7 @@
             font-size: 140px;
             font-weight: 700;
             line-height: 1;
-            color: rgba(255, 255, 255, 0.08);
+            color: rgba(250, 240, 221, 0.08);
             transform: translateY(100%);
             transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
                         color 0.4s ease;
@@ -1090,9 +1090,9 @@
         .step-item[data-step="1"] .step-number { transition-delay: 0.35s, 0s; }
         .step-item[data-step="2"] .step-number { transition-delay: 0.5s, 0s; }
 
-        /* Hover - number brightens and scales */
+        /* Hover - number brightens (cream) */
         .step-item:hover .step-number {
-            color: rgba(255, 255, 255, 0.25);
+            color: rgba(250, 240, 221, 0.25);
         }
 
         /* Step Title */
@@ -2939,7 +2939,7 @@
                     <span class="indicator-number">01</span>
                     <div class="indicator-info">
                         <span class="indicator-name">Michael T.</span>
-                        <span class="indicator-location">Gold Coast, 22 properties</span>
+                        <span class="indicator-location">Melbourne, 22 properties</span>
                 </div>
                 </button>
                 <button type="button" class="testimonial-indicator" data-index="1">
@@ -2947,7 +2947,7 @@
                     <span class="indicator-number">02</span>
                     <div class="indicator-info">
                         <span class="indicator-name">Emma S.</span>
-                        <span class="indicator-location">Byron Bay, 7 properties</span>
+                        <span class="indicator-location">Mornington, 7 properties</span>
                     </div>
                 </button>
                 <button type="button" class="testimonial-indicator" data-index="2">
@@ -2955,7 +2955,7 @@
                     <span class="indicator-number">03</span>
                     <div class="indicator-info">
                         <span class="indicator-name">Priya K.</span>
-                        <span class="indicator-location">Sydney, 3 properties</span>
+                        <span class="indicator-location">Perth, 1 property</span>
                 </div>
                 </button>
             </div>
@@ -3497,7 +3497,7 @@
                 filledBars.forEach((bar, index) => {
                     setTimeout(() => {
                         bar.style.transition = 'background-color 1.5s ease-out';
-                        bar.style.backgroundColor = '#ffffff';
+                        bar.style.backgroundColor = '#FAF0DD';
                     }, index * 200); // 200ms delay between each bar
                 });
             }
