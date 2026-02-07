@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms and Conditions | Airoam</title>
+    <meta name="description" content="Terms and conditions for Airoam's short-term rental management, guest stays, and AI-powered services. Security deposit, check-in, house rules, and legal terms.">
+    <link rel="canonical" href="https://airoam.com.au/terms-and-conditions">
+    <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-black: #202020;
+            --color-white: #FFFFFF;
+            --color-text-grey: rgba(0, 0, 0, 0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            padding-top: 80px;
+        }
+
+        #main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 80px;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10000;
+            background-color: var(--color-white);
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #main-nav.scrolled {
+            border-bottom-color: var(--color-black);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .nav-logo .logo { width: 180px; height: auto; display: block; }
+        .nav-center {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .nav-center a {
+            font-size: 14px;
+            letter-spacing: 0.05em;
+            color: var(--color-black);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .nav-center a:hover { opacity: 0.6; }
+        .nav-button {
+            padding: 10px 24px;
+            border: 3px solid var(--color-black);
+            background-color: transparent;
+            color: var(--color-black);
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-black);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+        .nav-button:hover { color: var(--color-white); }
+        .nav-button:hover::before { left: 0; }
+        .nav-hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            position: relative;
+            z-index: 10001;
+        }
+        .nav-hamburger span {
+            width: 100%;
+            height: 2px;
+            background-color: var(--color-black);
+            display: block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .nav-hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        .nav-mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: var(--color-white);
+            border-bottom: 3px solid var(--color-black);
+            padding: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .nav-mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .nav-mobile-menu a {
+            font-size: 16px;
+            color: var(--color-black);
+            text-decoration: none;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: opacity 0.2s ease, padding-left 0.2s ease;
+        }
+        .nav-mobile-menu a:last-child { border-bottom: none; }
+        .nav-mobile-menu a:hover { opacity: 0.6; padding-left: 8px; }
+        @media (max-width: 768px) {
+            #main-nav { padding: 0 24px; }
+            .nav-logo .logo { width: 140px; }
+            .nav-center { display: none; }
+            .nav-button { display: none; }
+            .nav-hamburger { display: flex; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px;
+            width: 100%;
+        }
+
+        .legal-hero {
+            background-color: #FAF0DD;
+            padding: 48px 60px 40px;
+        }
+        .legal-hero .container {
+            max-width: 800px;
+            padding: 0;
+        }
+        .legal-breadcrumb {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 24px;
+        }
+        .legal-breadcrumb a {
+            color: var(--color-black);
+            text-decoration: none;
+        }
+        .legal-breadcrumb a:hover { opacity: 0.8; }
+        .legal-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .legal-content {
+            padding: 48px 60px 80px;
+        }
+        .legal-content .container {
+            max-width: 800px;
+            padding: 0;
+        }
+        .legal-prose h3 {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
+        .legal-prose h3:first-of-type { margin-top: 0; }
+        .legal-prose p {
+            font-size: 16px;
+            line-height: 1.65;
+            color: var(--color-black);
+            margin-bottom: 16px;
+        }
+        .legal-prose ul {
+            margin: 0 0 20px 24px;
+            padding: 0;
+        }
+        .legal-prose li {
+            font-size: 16px;
+            line-height: 1.65;
+            margin-bottom: 8px;
+        }
+        .legal-prose a {
+            color: var(--color-black);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .legal-prose a:hover { opacity: 0.8; }
+
+        footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 80px 60px 40px;
+            border-top: 3px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+        .footer-logo { margin-bottom: 20px; }
+        .footer-logo .logo { width: 100px; height: auto; display: block; }
+        .logo-white { filter: brightness(0) invert(1); }
+        .footer-tagline {
+            font-size: 14px;
+            font-weight: 300;
+            opacity: 0.6;
+            margin-top: 10px;
+        }
+        .footer-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .footer-links a:nth-child(1) { grid-column: 1; grid-row: 1; }
+        .footer-links a:nth-child(2) { grid-column: 1; grid-row: 2; }
+        .footer-links a:nth-child(3) { grid-column: 1; grid-row: 3; }
+        .footer-links a:nth-child(4) { grid-column: 1; grid-row: 4; }
+        .footer-links a:nth-child(5) { grid-column: 2; grid-row: 1; }
+        .footer-links a:nth-child(6) { grid-column: 2; grid-row: 2; }
+        .footer-links a {
+            color: var(--color-white);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            transition: opacity 0.3s ease;
+        }
+        .footer-links a:hover { opacity: 0.6; }
+        .footer-contact { text-align: right; }
+        .footer-contact div { font-size: 14px; font-weight: 300; margin-bottom: 8px; }
+        .footer-contact a { color: var(--color-white); text-decoration: none; }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 3px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+            font-weight: 300;
+            opacity: 0.5;
+        }
+        .footer-bottom a { color: var(--color-white); text-decoration: none; }
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .legal-hero { padding: 40px 24px 32px; }
+            .legal-hero h1 { font-size: 36px; }
+            .legal-content { padding: 32px 24px 60px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: left; }
+            .footer-contact { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+    <nav id="main-nav" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo" id="nav-logo">
+            <img src="Images/airoam-logo-black.svg" alt="Airoam - Airbnb property management Australia" class="logo">
+        </a>
+        <div class="nav-center">
+            <a href="index.html#about">About</a>
+            <a href="index.html#pricing">Pricing</a>
+            <a href="blog.html">Blog</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+        <a href="index.html#contact" class="nav-button">Get Started</a>
+        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+        <a href="index.html#about">About</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="index.html#contact">Get Started</a>
+    </div>
+
+    <main>
+        <header class="legal-hero">
+            <div class="container">
+                <p class="legal-breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span> / </span>
+                    <span>Terms and Conditions</span>
+                </p>
+                <h1>Terms and Conditions</h1>
+            </div>
+        </header>
+        <div class="legal-content">
+            <div class="container">
+                <div class="legal-prose">
+                    <p>The below terms and conditions set out by Airoam are to be adhered to by all users of Airoam's services, including guests who stay in properties managed through Airoam's platform and users of Airoam's AI-powered tools and services. Failure to comply with these Terms and Conditions may result in non-provision of services at the discretion of Airoam.</p>
+                    <p>If you book services on behalf of additional guests, you are required to ensure that every additional guest meets any requirements as set by Airoam, and is made aware of and agrees to these Terms and any terms and conditions, rules and restrictions set by Airoam.</p>
+                    <p>All guests agree that any property will be left in the same clean, neat and tidy condition as it was when they arrived.</p>
+
+                    <h3>Security deposit</h3>
+                    <p>Guests are required to provide a minimum of AUD 300 security bond (in the form of a credit card pre-authorisation) that will be held as guarantee on the apartment and incidental charges.</p>
+                    <p>The security bond will be released in full to the guest as soon as practicable after the guest's departure, conditional on satisfactory property inspection and incidental charges.</p>
+                    <p>In the event the condition is not satisfactory, the security bond will be held pending resolution of the matter. The security bond payment may be used to cover incidental items such as (but not limited to):</p>
+                    <ul>
+                        <li>Extra guests not included in the booking</li>
+                        <li>Any breakages or damages incurred during the stay</li>
+                        <li>Odours caused by smoking</li>
+                        <li>Replacement keys/passes</li>
+                        <li>Emergency call-out fees or cleaning charges in excess of the normal levels of cleaning</li>
+                    </ul>
+
+                    <h3>Damages and security</h3>
+                    <p>Guests are liable to pay for any missing property or damage to the property, furniture or fittings on the premises caused by themselves or their visitors. Guests must report any damage or repairs immediately to Airoam. This includes, but is not limited to, all and any damage caused to areas including the apartment, and common areas including any recreational facilities, gardens, lounges and car parking facilities within the building premises.</p>
+                    <p>All fixtures, fittings, furniture and appliances are assumed to be in good working order at the commencement of your stay, and in the event that any item is not in good working order at the commencement of your stay, you must notify us immediately, so that the condition of the item can be recorded at that time. If we have not received notification from you, any damage will be deemed to have been caused by you.</p>
+                    <p>Airoam reserves the right to collect payment from you and pursue any remedies available to Airoam in situations in which you are responsible for any damage/missing property should the loss suffered by Airoam exceed the security bond.</p>
+                    <p>It is the responsibility of all guests to securely lock the accommodation.</p>
+                    <p>Smoking is strictly prohibited on premises, including inside the accommodation and on the balconies. An additional cleaning charge of AUD 300 will apply if traces of smoking in the apartment are found.</p>
+                    <p>Guests are encouraged to immediately notify Airoam of any suspicious, illegal activity or misdemeanour seen or witnessed, including any damage or loss, whether major or minor, within the building premises.</p>
+                    <p>Guests are required to keep all recreational facilities (if available) clean and tidy after use, and agree to adhere to all rules and regulations enforced by any administrators of the facilities.</p>
+                    <p>Guests must, at all times, observe the rules governing use of common amenities areas within the building premises. These rules can be found on signage located on the amenities floor and are to be adhered to in conjunction with the rules of the Owners Corporation. These areas are not recommended for use by children without adult supervision. Please observe all safety signage and instructions.</p>
+                    <p>Guests are liable to pay for any fire brigade call out fees due to guest negligence (e.g. smoking in the apartment, burnt cooking, etc.).</p>
+                    <p>Due to fire safety regulations, guests should notify Airoam of any disabilities or special circumstances required for evacuation.</p>
+                    <p>Guests are to note that all common areas are under strict surveillance and that all activity is monitored at all times.</p>
+
+                    <h3>Internet usage</h3>
+                    <p>Any unauthorised usage of the internet (illegal or illicit downloads) is strictly prohibited.</p>
+
+                    <h3>Car parking (where applicable)</h3>
+                    <p>It is the responsibility of the guest to park in the designated car park bay provided by Airoam, and to notify Airoam should certain circumstances prevent them from doing so.</p>
+                    <ul>
+                        <li>Airoam will not be held liable for any costs incurred in towing vehicles that have been illegally parked in unallocated bays or in common areas. Parking by guests not approved by Airoam will result in the vehicle being towed at the expense of the guest.</li>
+                        <li>Parking is at the driver's own risk. Airoam will not be held liable for any losses owing to theft or damage of the vehicle.</li>
+                    </ul>
+
+                    <h3>Check in and check out</h3>
+                    <ul>
+                        <li>Check-ins are between 3:00 PM to 9:00 PM AEST. Earlier check-ins may be accommodated upon request but are not guaranteed.</li>
+                        <li>Check-ins between 9:00 PM and midnight will incur a late check-in fee of $30.</li>
+                        <li>Check-ins after midnight will incur a late check-in fee of $60.</li>
+                        <li>You will be required to present a valid photo ID matching the booking at the time of check-in.</li>
+                        <li>Standard check-out time is at 10:00 AM AEST on the day of departure. Late check-out requests are subject to availability and only confirmed the day before departure. Penalties of at least AUD 150 may apply for late check-outs that have not been arranged with management.</li>
+                        <li>Guests will agree to the check-out policies and procedures set out, and advise Airoam immediately where there are special circumstances preventing the adherence to these policies and procedures.</li>
+                        <li>If guests stay past the agreed upon checkout time without Airoam's consent, Airoam is entitled to make you leave in a manner consistent with applicable law.</li>
+                        <li>Only guests whose name is under the initial booking are allowed to check-in, unless prior arrangements have otherwise been made with management. Guests are required to confirm their identity upon request through verification of official documentation including passport, driver's licence or national identity card, upon check-in.</li>
+                    </ul>
+
+                    <h3>Noise and parties</h3>
+                    <p>Guests will abide by the Terms and Conditions and House Rules stated within the Housing Manual and Reservation Confirmation. Airoam has the right to evict guests if there are complaints about noise, unruly behaviour, improper conduct or disturbances.</p>
+                    <p>Guests must not create any unreasonable noise or nuisance that disturbs the enjoyment of other residents, and must not conduct any illegal activity or activity that may be deemed unsafe or inappropriate.</p>
+                    <p>Guests must keep noise within the building premises to a minimum after 11:00 PM AEST on all nights, in respect for other residents in the building. This may be extended to 12:00 AM AEST on weekends.</p>
+                    <p>Guests will not exceed the maximum guests per apartment as per bedding configuration set by Airoam and arranged on each Reservation Confirmation. The maximum occupancy of guests includes any children, but not including any infants or babies below the age of four (4).</p>
+                    <p>There is a strict "No Party Policy" imposed, where severe penalties apply. This will result in loss of security deposit and further penalties as applicable by law.</p>
+                    <p>Guests must not allow any underage drinking to occur on the premises.</p>
+
+                    <h3>Loss of keys</h3>
+                    <p>Loss of keys, swipe cards and/or remotes will incur a replacement charge upon departure (minimum AUD 300).</p>
+
+                    <h3>Unaccompanied minors</h3>
+                    <p>All guests under the age of 18, who are considered minors, must be accompanied by a responsible adult such as a parent, step-parent, guardian or other adult who has parental rights and responsibilities for the minor.</p>
+                    <p>For minors who are not accompanied by a responsible adult as stated above, the responsible adult who made the initial booking must provide a guarantee to Airoam in the form of a security bond of up to AUD 300 (pre-authorised with a credit card) to cover any incidental charges or damages to the apartment should the circumstances arise.</p>
+                    <p>The responsible adult and any minors will adhere to the rules stated above. The responsible adult will be personally liable should any minors breach any of the above.</p>
+                    <p>As stated above, the responsible adult must provide official documentation during check-in and provide the names of all minors staying in the apartment.</p>
+                    <p>For any breach of clauses above by the responsible adult or minors, Airoam reserves the right to cancel the guest's booking and the full booking amount will be forfeited to Airoam under this clause.</p>
+
+                    <h3>Use of AI-powered services</h3>
+                    <p>Airoam utilises artificial intelligence ("AI") technologies to enhance and deliver its services to users. By using Airoam's services, you acknowledge and agree to the following terms relating to our AI-powered features:</p>
+                    <ul>
+                        <li><strong>AI-Assisted Communications:</strong> Airoam may use AI-powered chatbots, virtual assistants, and automated messaging systems to facilitate guest communications, booking enquiries, and customer support. While our AI systems are designed to provide accurate and helpful information, responses generated by AI should not be considered professional advice.</li>
+                        <li><strong>AI-Generated Content:</strong> Content such as property descriptions, recommendations, pricing suggestions, and other materials may be generated or assisted by AI. While Airoam endeavours to ensure accuracy, AI-generated content is provided on an "as is" basis and may contain errors or inaccuracies. Airoam does not warrant the completeness or reliability of AI-generated content.</li>
+                        <li><strong>Data Processing by AI:</strong> Your interactions with Airoam's AI systems, including text inputs, queries, and feedback, may be processed and analysed to improve service quality. Personal information processed by AI systems is handled in accordance with our <a href="privacy-policy.html">Privacy Policy</a> and applicable Australian privacy laws, including the Privacy Act 1988 (Cth).</li>
+                        <li><strong>Automated Decision-Making:</strong> Airoam may use AI for automated decision-making processes, including but not limited to dynamic pricing, booking management, and guest screening. You have the right to request human review of any significant automated decision that affects you.</li>
+                        <li><strong>AI Service Availability:</strong> AI-powered features are provided as a supplementary service and may be subject to downtime, errors, or discontinuation. Airoam does not guarantee uninterrupted access to AI features and shall not be liable for any losses arising from AI service interruptions.</li>
+                        <li><strong>Prohibited AI Interactions:</strong> Users must not attempt to manipulate, exploit, reverse-engineer, or interfere with Airoam's AI systems. Users must not input harmful, abusive, illegal, or misleading content into AI-powered tools. Any misuse of AI features may result in termination of access to Airoam's services.</li>
+                        <li><strong>Limitation of AI Liability:</strong> To the maximum extent permitted under Australian law, Airoam shall not be liable for any direct, indirect, incidental, or consequential damages arising from the use of or reliance on AI-generated outputs, recommendations, or automated decisions. Users acknowledge that AI systems may produce unexpected or inaccurate results and should exercise their own judgement.</li>
+                        <li><strong>Third-Party AI Providers:</strong> Airoam may engage third-party AI service providers to deliver certain features. By using Airoam's AI-powered services, you consent to your data being processed by these third-party providers in accordance with our Privacy Policy and applicable Australian data protection laws.</li>
+                    </ul>
+
+                    <h3>Release, indemnity and proportionate liability</h3>
+                    <p>To the extent permitted by law, guest(s) agree to release, indemnify and hold harmless Airoam and its current and former officers, employees, contractors, sub-contractors/consultants (including their respective employees and contractors) and agents against, from and in respect of all expenses, costs, liabilities, claims, actions, proceedings, damages, judgments and losses of any kind whatsoever (including but not limited to consequential and economic losses, property loss/damage and damages for injury, including personal injury and death) arising out of, caused by, attributable to or resulting from guest booking, guest stay, or use of Airoam's AI-powered services at the relevant Airoam property, except to the extent such expense, cost, liability, claim, action, proceeding, damage, judgment or loss arose out of, was caused by, attributable to or resulted from Airoam's negligence, wrongful act/omission or breach of these terms and conditions.</p>
+                    <p>To the extent permitted by law, the aggregate of Airoam's liability to guests and users is limited to an amount not exceeding the amount paid by the guests or users for their booking or services.</p>
+                    <p>Each indemnity in these terms and conditions is a continuing and independent obligation and survives the termination or expiry of these terms and conditions.</p>
+
+                    <h3>Governing law</h3>
+                    <p>These Terms and Conditions are governed by and construed in accordance with the laws of the Commonwealth of Australia and the applicable state and territory laws. You irrevocably submit to the exclusive jurisdiction of the courts of Australia in respect of any dispute arising out of or in connection with these Terms and Conditions.</p>
+
+                    <h3>Amendments</h3>
+                    <p>Airoam reserves the right to modify or update these Terms and Conditions at any time. Any changes will be effective immediately upon publication on the Airoam website or platform. Users are encouraged to review these Terms and Conditions periodically.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">
+                    <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo logo-white">
+                </div>
+                <p class="footer-tagline">AI-powered Airbnb management</p>
+            </div>
+            <div>
+                <div class="footer-links">
+                    <a href="index.html#pricing">Pricing</a>
+                    <a href="index.html#testimonials">Testimonials</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                    <a href="terms-and-conditions.html">Terms and Conditions</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <div><a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Airoam. All rights reserved. ABN 41 668 564 716. <a href="terms-and-conditions.html">Terms and Conditions</a> · <a href="privacy-policy.html">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            var nav = document.getElementById('main-nav');
+            var hamburger = document.getElementById('nav-hamburger');
+            var mobileMenu = document.getElementById('nav-mobile-menu');
+            if (!nav) return;
+            function handleScroll() {
+                nav.classList.toggle('scrolled', window.scrollY > 50);
+            }
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll();
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    mobileMenu.classList.toggle('open');
+                    mobileMenu.setAttribute('aria-hidden', mobileMenu.classList.contains('open') ? 'false' : 'true');
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

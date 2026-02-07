@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Airoam</title>
+    <meta name="description" content="How Airoam collects, uses, and protects your personal information. Australian Privacy Principles, AI data usage, and your rights under the Privacy Act 1988.">
+    <link rel="canonical" href="https://airoam.com.au/privacy-policy">
+    <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-black: #202020;
+            --color-white: #FFFFFF;
+            --color-text-grey: rgba(0, 0, 0, 0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            padding-top: 80px;
+        }
+
+        #main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 80px;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10000;
+            background-color: var(--color-white);
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #main-nav.scrolled {
+            border-bottom-color: var(--color-black);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .nav-logo .logo { width: 180px; height: auto; display: block; }
+        .nav-center {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .nav-center a {
+            font-size: 14px;
+            letter-spacing: 0.05em;
+            color: var(--color-black);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .nav-center a:hover { opacity: 0.6; }
+        .nav-button {
+            padding: 10px 24px;
+            border: 3px solid var(--color-black);
+            background-color: transparent;
+            color: var(--color-black);
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-black);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+        .nav-button:hover { color: var(--color-white); }
+        .nav-button:hover::before { left: 0; }
+        .nav-hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            position: relative;
+            z-index: 10001;
+        }
+        .nav-hamburger span {
+            width: 100%;
+            height: 2px;
+            background-color: var(--color-black);
+            display: block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        .nav-hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        .nav-mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: var(--color-white);
+            border-bottom: 3px solid var(--color-black);
+            padding: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .nav-mobile-menu.open {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .nav-mobile-menu a {
+            font-size: 16px;
+            color: var(--color-black);
+            text-decoration: none;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: opacity 0.2s ease, padding-left 0.2s ease;
+        }
+        .nav-mobile-menu a:last-child { border-bottom: none; }
+        .nav-mobile-menu a:hover { opacity: 0.6; padding-left: 8px; }
+        @media (max-width: 768px) {
+            #main-nav { padding: 0 24px; }
+            .nav-logo .logo { width: 140px; }
+            .nav-center { display: none; }
+            .nav-button { display: none; }
+            .nav-hamburger { display: flex; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px;
+            width: 100%;
+        }
+
+        .legal-hero {
+            background-color: #FAF0DD;
+            padding: 48px 60px 40px;
+        }
+        .legal-hero .container {
+            max-width: 800px;
+            padding: 0;
+        }
+        .legal-breadcrumb {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 24px;
+        }
+        .legal-breadcrumb a {
+            color: var(--color-black);
+            text-decoration: none;
+        }
+        .legal-breadcrumb a:hover { opacity: 0.8; }
+        .legal-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .legal-content {
+            padding: 48px 60px 80px;
+        }
+        .legal-content .container {
+            max-width: 800px;
+            padding: 0;
+        }
+        .legal-prose h3 {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
+        .legal-prose h3:first-of-type { margin-top: 0; }
+        .legal-prose p {
+            font-size: 16px;
+            line-height: 1.65;
+            color: var(--color-black);
+            margin-bottom: 16px;
+        }
+        .legal-prose ul {
+            margin: 0 0 20px 24px;
+            padding: 0;
+        }
+        .legal-prose li {
+            font-size: 16px;
+            line-height: 1.65;
+            margin-bottom: 8px;
+        }
+        .legal-prose a {
+            color: var(--color-black);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .legal-prose a:hover { opacity: 0.8; }
+
+        footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 80px 60px 40px;
+            border-top: 3px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+        .footer-logo { margin-bottom: 20px; }
+        .footer-logo .logo { width: 100px; height: auto; display: block; }
+        .logo-white { filter: brightness(0) invert(1); }
+        .footer-tagline {
+            font-size: 14px;
+            font-weight: 300;
+            opacity: 0.6;
+            margin-top: 10px;
+        }
+        .footer-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .footer-links a:nth-child(1) { grid-column: 1; grid-row: 1; }
+        .footer-links a:nth-child(2) { grid-column: 1; grid-row: 2; }
+        .footer-links a:nth-child(3) { grid-column: 1; grid-row: 3; }
+        .footer-links a:nth-child(4) { grid-column: 1; grid-row: 4; }
+        .footer-links a:nth-child(5) { grid-column: 2; grid-row: 1; }
+        .footer-links a:nth-child(6) { grid-column: 2; grid-row: 2; }
+        .footer-links a {
+            color: var(--color-white);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            transition: opacity 0.3s ease;
+        }
+        .footer-links a:hover { opacity: 0.6; }
+        .footer-contact { text-align: right; }
+        .footer-contact div { font-size: 14px; font-weight: 300; margin-bottom: 8px; }
+        .footer-contact a { color: var(--color-white); text-decoration: none; }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 3px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+            font-weight: 300;
+            opacity: 0.5;
+        }
+        .footer-bottom a { color: var(--color-white); text-decoration: none; }
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .legal-hero { padding: 40px 24px 32px; }
+            .legal-hero h1 { font-size: 36px; }
+            .legal-content { padding: 32px 24px 60px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: left; }
+            .footer-contact { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+    <nav id="main-nav" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo" id="nav-logo">
+            <img src="Images/airoam-logo-black.svg" alt="Airoam - Airbnb property management Australia" class="logo">
+        </a>
+        <div class="nav-center">
+            <a href="index.html#about">About</a>
+            <a href="index.html#pricing">Pricing</a>
+            <a href="blog.html">Blog</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+        <a href="index.html#contact" class="nav-button">Get Started</a>
+        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+        <a href="index.html#about">About</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="index.html#contact">Get Started</a>
+    </div>
+
+    <main>
+        <header class="legal-hero">
+            <div class="container">
+                <p class="legal-breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span> / </span>
+                    <span>Privacy Policy</span>
+                </p>
+                <h1>Privacy Policy</h1>
+            </div>
+        </header>
+        <div class="legal-content">
+            <div class="container">
+                <div class="legal-prose">
+                    <p>This website and platform is owned and operated by Airoam and will be referred to as "We", "our" and "us" in this Privacy Policy.</p>
+                    <p>By using this website or any of Airoam's services (including our AI-powered tools and platforms), you will be deemed to consent to us collecting, using, holding and disclosing your personal information in the manner set out in this Privacy Policy. This Privacy Policy relates to the collection and use of personal information you may supply to us through your conduct on the website and through your use of our services, including AI-powered services.</p>
+                    <p>We reserve the right, at our discretion, to modify or remove portions of this Privacy Policy from time to time and amendments will be effective immediately upon publishing on the website. This Privacy Policy should be reviewed periodically so that you are updated on any changes. This Privacy Policy is in addition to any other terms and conditions applicable to the website and our services.</p>
+                    <p>We recognise the importance of protecting the privacy of information collected about visitors to our website and users of our services, in particular information that is capable of identifying an individual ("personal information") and are committed to complying with the Australian Privacy Principles under the Privacy Act 1988 (Cth). This Privacy Policy governs the manner in which your personal information, obtained through the website and our services, will be dealt with. We welcome your comments and feedback.</p>
+
+                    <h3>Personal information</h3>
+                    <p>Personal information about visitors to our site and users of our services is collected only when knowingly and voluntarily submitted. For example, we may need to collect such information to provide you with further services or to answer or forward any requests or enquiries. We may not be able to answer your enquiries at an acceptable standard if you do not identify yourself. It is our intention that this policy will protect your personal information from being dealt with in any way that is inconsistent with the applicable Australian Privacy Principles and other applicable laws in Australia.</p>
+
+                    <h3>Use of information</h3>
+                    <p>Personal information that visitors and users submit to our site or services is used only for the purpose for which it is submitted or for such other secondary purposes that are related to the primary purpose, unless we disclose other uses in this Privacy Policy or at the time of collection.</p>
+                    <p>Purposes for which we may collect personal information include, but are not limited to:</p>
+                    <ul>
+                        <li>Being able to sell and promote our products and services to you</li>
+                        <li>To provide you with products and services that you have requested from us</li>
+                        <li>To communicate with you, including about products and services and special offers which might interest you</li>
+                        <li>To provide your personal information to third parties that assist us in providing products and services you have requested</li>
+                        <li>To improve and train our AI systems and services in order to enhance user experience (where permitted by law and in accordance with this Privacy Policy)</li>
+                        <li>To personalise your experience through AI-driven recommendations, insights, and content</li>
+                        <li>To comply with laws or regulations or to comply with any directions given by regulators or authorities</li>
+                    </ul>
+                    <p>Copies of correspondence sent from the website, that may contain personal information, are stored as archives for record-keeping and back-up purposes only.</p>
+
+                    <h3>AI data collection and usage</h3>
+                    <p>Airoam utilises artificial intelligence technologies as part of its service offerings. This section outlines how your data may be collected, used, and processed in connection with our AI-powered features:</p>
+                    <ul>
+                        <li><strong>Data inputs:</strong> When you interact with Airoam's AI-powered tools (such as chatbots, virtual assistants, automated booking systems, or recommendation engines), we may collect the content of your interactions, including text inputs, queries, preferences, and feedback.</li>
+                        <li><strong>AI processing:</strong> Your data may be processed by AI systems to generate responses, recommendations, pricing information, and other outputs. This processing is carried out to provide and improve our services.</li>
+                        <li><strong>AI training and improvement:</strong> Anonymised and aggregated data derived from user interactions may be used to train and improve our AI models and algorithms. We take reasonable steps to de-identify personal information before it is used for training purposes.</li>
+                        <li><strong>Automated profiling:</strong> Airoam may use AI to create profiles based on your usage patterns, preferences, and interactions to provide personalised services. You may opt out of automated profiling by contacting us.</li>
+                        <li><strong>Third-party AI processors:</strong> We may engage third-party AI service providers to process data on our behalf. These providers are bound by contractual obligations to protect your personal information and are only permitted to process your data in accordance with our instructions and applicable Australian privacy laws.</li>
+                        <li><strong>Data retention for AI:</strong> Data collected through AI interactions is retained only for as long as necessary to fulfil the purposes for which it was collected, or as required by law. You may request deletion of your AI interaction data by contacting us.</li>
+                    </ul>
+
+                    <h3>Collecting information on registered members</h3>
+                    <p>As part of registering with us, we collect personal information about you in order for you to take full advantage of our services. To do this it may be necessary for you to provide additional information to us as detailed below.</p>
+                    <p>Registration is completely optional. Registration may include submitting your name, email address, address, telephone numbers, date of birth, bank account details, preferences, options on receiving updates and promotional material and other information. You may access this information at any time by logging into your account.</p>
+
+                    <h3>Disclosure</h3>
+                    <p>Apart from where you have consented or disclosure is necessary to achieve the purpose for which it was submitted, personal information may be disclosed in special situations where we have reason to believe that doing so is necessary to identify, contact or bring legal action against anyone damaging, injuring, or interfering (intentionally or unintentionally) with our rights or property, users, or anyone else who could be harmed by such activities. Also, we may disclose personal information to regulatory or government bodies when we believe in good faith that the law requires disclosure.</p>
+                    <p>We may engage third parties to provide you with goods or services on our behalf. In that circumstance, we may disclose your personal information to those third parties in order to meet your request for goods or services.</p>
+                    <p>We may disclose personal information to recipients who are located in other countries or jurisdictions depending on the type of services those recipients provide to us (including third-party AI service providers). We will take reasonable steps to ensure the information that is disclosed to the recipient will not be used by the recipient in a manner that is inconsistent with the Australian Privacy Principles.</p>
+
+                    <h3>Security</h3>
+                    <p>We strive to ensure the security, integrity and privacy of personal information submitted to our sites and services, and we continually review and update our security measures in light of current technologies. Unfortunately, no data transmission over the Internet can be guaranteed to be totally secure. Other than liability that cannot lawfully be excluded, we will not be liable in any way in relation to any breach of security or any unintended loss or disclosure of that information.</p>
+                    <p>However, we will endeavour to take all reasonable steps to protect the personal information you may transmit to us or that is processed through our AI systems. Once we do receive your transmission, we will also make our best efforts to ensure its security on our systems.</p>
+                    <p>Our employees and the contractors who provide services related to our information systems are obliged to respect the confidentiality of any personal information held by us. However, we will not be held responsible for events arising from unauthorised access to your personal information.</p>
+
+                    <h3>AI-specific security measures</h3>
+                    <p>In addition to our general security practices, we implement the following measures in relation to our AI services:</p>
+                    <ul>
+                        <li>Encryption of data transmitted to and from AI systems</li>
+                        <li>Access controls to limit who can access AI-processed data within our organisation</li>
+                        <li>Regular audits and assessments of our AI systems and third-party AI providers to ensure compliance with applicable privacy standards</li>
+                        <li>Data minimisation practices to ensure only necessary data is processed by AI systems</li>
+                        <li>Incident response procedures specific to AI-related data breaches or security events</li>
+                    </ul>
+
+                    <h3>Collecting information from users</h3>
+                    <ul>
+                        <li><strong>IP addresses:</strong> Our web servers gather your IP address to assist with the diagnosis of problems or support issues with our services. Information is gathered in aggregate only and cannot be traced to an individual user.</li>
+                        <li><strong>Cookies and applets:</strong> We use cookies to provide you with a better experience. These cookies allow us to increase your security by storing your session ID and are a way of monitoring single user access. This aggregate, non-personal information is collated and provided to us to assist in analysing the usage of the site. Users have the ability to accept or decline cookies by adjusting the web browser settings.</li>
+                        <li><strong>AI interaction data:</strong> When you use our AI-powered features, we may collect metadata about your interactions, such as timestamps, session duration, and the nature of your queries. This data is used to improve AI performance and user experience.</li>
+                    </ul>
+
+                    <h3>Your rights</h3>
+                    <p>Under Australian privacy law and in relation to our AI services, you have the following rights:</p>
+                    <ul>
+                        <li>The right to access personal information we hold about you, including data processed by our AI systems</li>
+                        <li>The right to request correction of any inaccurate or outdated personal information</li>
+                        <li>The right to request deletion of your personal information, including AI interaction data, subject to our legal obligations</li>
+                        <li>The right to request human review of any significant decision made solely by automated means that affects you</li>
+                        <li>The right to opt out of AI-powered profiling and personalisation features</li>
+                        <li>The right to lodge a complaint with the Office of the Australian Information Commissioner (OAIC) if you believe your privacy has been breached</li>
+                    </ul>
+
+                    <h3>Access to information</h3>
+                    <p>We will endeavour to take all reasonable steps to keep secure any information which we hold about you, and to keep this information accurate and up to date. If, at any time, you discover that information held about you is incorrect, you may contact us to have the information corrected.</p>
+                    <p>In addition, our employees and the contractors who provide services related to our information systems are obliged to respect the confidentiality of any personal information held by us.</p>
+
+                    <h3>Links to other sites</h3>
+                    <p>We provide links to third party websites for your convenience. We do not make any representations about third party websites that may be linked to this website. These linked sites are not under our control or operation, and we cannot accept responsibility for the conduct and security practices of those websites. Before disclosing your personal information on any other website, we advise you to examine the terms and conditions of using that website and its privacy statement and policies.</p>
+
+                    <h3>Changes to this Privacy Policy</h3>
+                    <p>Airoam reserves the right to update or modify this Privacy Policy at any time. Any changes will be effective immediately upon publication on our website or platform. We encourage you to review this Privacy Policy periodically to stay informed about how we are protecting your personal information, including in relation to our AI-powered services.</p>
+
+                    <h3>Problems or questions</h3>
+                    <p>If we become aware of any ongoing concerns or problems with our websites, AI services, or if you believe your privacy has been breached, we will take these issues seriously and work to address these concerns. If you have any further queries relating to our Privacy Policy, or you have a problem or complaint, please contact us at:</p>
+                    <p><a href="mailto:accounts@airoam.com.au">accounts@airoam.com.au</a></p>
+                    <p>This Privacy Policy is governed by the laws of the Commonwealth of Australia, including the Privacy Act 1988 (Cth) and the Australian Privacy Principles.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">
+                    <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo logo-white">
+                </div>
+                <p class="footer-tagline">AI-powered Airbnb management</p>
+            </div>
+            <div>
+                <div class="footer-links">
+                    <a href="index.html#pricing">Pricing</a>
+                    <a href="index.html#testimonials">Testimonials</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                    <a href="terms-and-conditions.html">Terms and Conditions</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <div><a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Airoam. All rights reserved. ABN 41 668 564 716. <a href="terms-and-conditions.html">Terms and Conditions</a> · <a href="privacy-policy.html">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            var nav = document.getElementById('main-nav');
+            var hamburger = document.getElementById('nav-hamburger');
+            var mobileMenu = document.getElementById('nav-mobile-menu');
+            if (!nav) return;
+            function handleScroll() {
+                nav.classList.toggle('scrolled', window.scrollY > 50);
+            }
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll();
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    mobileMenu.classList.toggle('open');
+                    mobileMenu.setAttribute('aria-hidden', mobileMenu.classList.contains('open') ? 'false' : 'true');
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
