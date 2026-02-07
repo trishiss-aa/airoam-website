@@ -467,6 +467,21 @@
             visibility: hidden;
         }
 
+        .blog-infinite-status {
+            grid-column: span 12;
+            text-align: center;
+            padding: 24px 0 40px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: rgba(0, 0, 0, 0.5);
+            min-height: 24px;
+        }
+
+        .blog-infinite-status.is-loading {
+            color: var(--color-black);
+        }
+
         /* ============================================
            BLOG GRID - MOBILE (<768px: single column)
            ============================================ */
@@ -501,7 +516,8 @@
             .blog-grid.is-filtered .blog-card.span-full {
                 grid-column: span 1 !important;
             }
-            .blog-infinite-sentinel { grid-column: span 1; }
+            .blog-infinite-sentinel,
+            .blog-infinite-status { grid-column: span 1; }
         }
 
         /* Footer */
@@ -901,6 +917,7 @@
                     </a>
                     <!-- Infinite scroll sentinel (observed to load next 6 posts) -->
                     <div class="blog-infinite-sentinel" id="blog-infinite-sentinel" aria-hidden="true"></div>
+                    <div class="blog-infinite-status" id="blog-infinite-status" aria-live="polite"></div>
                 </div>
                 </div>
                 </section>
@@ -1062,6 +1079,7 @@
             var filterBtns = document.querySelectorAll('.blog-hero-filters .blog-filter-btn');
             var cards = document.querySelectorAll('.blog-card[data-category]');
             var sentinel = document.getElementById('blog-infinite-sentinel');
+            var statusEl = document.getElementById('blog-infinite-status');
             var staggerMs = 90;
 
             if (!grid || !cards.length) return;
@@ -1123,19 +1141,31 @@
                 if (sentinel) {
                     sentinel.classList.toggle('blog-infinite-sentinel--done', visibleCards.length <= BATCH_SIZE);
                 }
+                if (statusEl) {
+                    statusEl.textContent = visibleCards.length <= BATCH_SIZE ? "You've reached the end." : "";
+                    statusEl.classList.remove('is-loading');
+                }
             }
 
             function loadNextBatch() {
                 var hidden = getHiddenBatch();
                 if (hidden.length === 0) return;
+                if (statusEl) {
+                    statusEl.textContent = "Loading more posts...";
+                    statusEl.classList.add('is-loading');
+                }
                 var toShow = hidden.slice(0, BATCH_SIZE);
                 toShow.forEach(function(card) {
                     card.classList.remove('infinite-hidden');
                 });
                 animateCards(toShow);
+                var remaining = getHiddenBatch();
                 if (sentinel) {
-                    var remaining = getHiddenBatch();
                     sentinel.classList.toggle('blog-infinite-sentinel--done', remaining.length === 0);
+                }
+                if (statusEl) {
+                    statusEl.classList.remove('is-loading');
+                    statusEl.textContent = remaining.length === 0 ? "You've reached the end." : "";
                 }
             }
 
