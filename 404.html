@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page not found | Airoam</title>
+    <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #fff;
+            color: #202020;
+            padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            z-index: 1000;
+        }
+        .nav-logo { text-decoration: none; }
+        .nav-logo .logo { width: 160px; height: auto; display: block; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: #202020; text-decoration: none; font-size: 14px; letter-spacing: 0.05em; }
+        .nav-links a:hover { opacity: 0.7; }
+        .nav-btn {
+            padding: 10px 24px;
+            border: 3px solid #202020;
+            background: transparent;
+            color: #202020;
+            font-size: 14px; font-weight: 500;
+            font-family: inherit;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        .nav-btn:hover { background: #202020; color: #fff; }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+            text-align: center;
+        }
+        .error-code {
+            font-size: clamp(80px, 15vw, 140px);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            color: #202020;
+            margin-bottom: 16px;
+        }
+        .error-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #202020;
+        }
+        .error-text {
+            font-size: 16px;
+            color: rgba(0,0,0,0.6);
+            max-width: 400px;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        .error-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+        .error-links a {
+            display: inline-block;
+            padding: 14px 28px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .error-links a.primary {
+            background: #202020;
+            color: #fff;
+        }
+        .error-links a.primary:hover { opacity: 0.9; }
+        .error-links a.secondary {
+            border: 3px solid #202020;
+            color: #202020;
+        }
+        .error-links a.secondary:hover { opacity: 0.8; }
+        footer {
+            padding: 40px 60px 24px;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            text-align: center;
+            font-size: 13px;
+            color: rgba(0,0,0,0.5);
+        }
+        footer a { color: #202020; text-decoration: none; }
+        @media (max-width: 768px) {
+            nav { padding: 0 24px; }
+            .nav-links { display: none; }
+            .nav-logo .logo { width: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-logo">
+            <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo">
+        </a>
+        <div class="nav-links">
+            <a href="index.html#about">About</a>
+            <a href="index.html#pricing">Pricing</a>
+            <a href="blog.html">Blog</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+        <a href="index.html#contact" class="nav-btn">Get Started</a>
+    </nav>
+
+    <main>
+        <p class="error-code" aria-hidden="true">404</p>
+        <h1 class="error-title">Page not found</h1>
+        <p class="error-text">The page you’re looking for doesn’t exist or has been moved. Head back to the homepage or browse our blog.</p>
+        <div class="error-links">
+            <a href="index.html" class="primary">Back to home</a>
+            <a href="blog.html" class="secondary">View blog</a>
+        </div>
+    </main>
+
+    <footer>
+        © 2026 Airoam. All rights reserved. &nbsp;·&nbsp; <a href="index.html">Home</a> &nbsp;·&nbsp; <a href="blog.html">Blog</a> &nbsp;·&nbsp; <a href="index.html#contact">Contact</a>
+    </footer>
+</body>
+</html>

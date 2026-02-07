@@ -1,0 +1,7 @@
+# Cloudflare Workers – static site (no Worker script)
+# Deploys the repo root as static assets (HTML, Images, blog, etc.)
+name = "airoam-website"
+compatibility_date = "2026-02-07"
+
+[assets]
+directory = "."
