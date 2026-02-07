@@ -446,32 +446,25 @@
         }
 
         /* ============================================
-           LOAD MORE BUTTON
+           INFINITE SCROLL
            ============================================ */
 
-        .blog-load-more {
+        .blog-card.infinite-hidden {
+            display: none !important;
+        }
+
+        .blog-infinite-sentinel {
             grid-column: span 12;
-            text-align: center;
-            padding: 40px 0 20px;
+            min-height: 80px;
+            height: 1px;
+            pointer-events: none;
         }
 
-        .blog-load-more-btn {
-            display: inline-block;
-            padding: 16px 40px;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            border: 3px solid var(--color-black);
-            background: transparent;
-            color: var(--color-black);
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .blog-load-more-btn:hover {
-            background-color: var(--color-black);
-            color: var(--color-white);
+        .blog-infinite-sentinel--done {
+            min-height: 0;
+            height: 0;
+            overflow: hidden;
+            visibility: hidden;
         }
 
         /* ============================================
@@ -508,7 +501,7 @@
             .blog-grid.is-filtered .blog-card.span-full {
                 grid-column: span 1 !important;
             }
-            .blog-load-more { grid-column: span 1; }
+            .blog-infinite-sentinel { grid-column: span 1; }
         }
 
         /* Footer */
@@ -890,7 +883,7 @@
                     <!-- Small Cards | Category: Success Stories -->
                     <a href="blog/fired-perth-property-manager.html" class="blog-card card-small" data-category="success-stories">
                         <div class="blog-card-image">
-                            <img src="Images/perth-cbd-skyline-airbnb-property-management.jpg" alt="Scenic Perth CBD skyline - Airbnb property management for Perth and Melbourne short-term rentals">
+                            <img src="Images/perth-airbnb-hosts-property-manager-talking.jpg" alt="Two Perth Airbnb hosts talking – property management and short-term rental advice for Melbourne and Perth">
                         </div>
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Success Stories</div>
@@ -906,10 +899,8 @@
                             <h2 class="blog-card-title">How AI Answered 89% of My Guest Messages While I Was on Holiday in Bali</h2>
                         </div>
                     </a>
-                    <!-- Load More Button -->
-                    <div class="blog-load-more">
-                        <button type="button" class="blog-load-more-btn">Load more posts</button>
-                    </div>
+                    <!-- Infinite scroll sentinel (observed to load next 6 posts) -->
+                    <div class="blog-infinite-sentinel" id="blog-infinite-sentinel" aria-hidden="true"></div>
                 </div>
                 </div>
                 </section>
@@ -1063,15 +1054,15 @@
         })();
 
         // ============================================
-        // BLOG CATEGORY FILTER (in-place, no reload + replaceState)
+        // BLOG CATEGORY FILTER + INFINITE SCROLL (6 per batch)
         // ============================================
         (function() {
+            var BATCH_SIZE = 6;
             var grid = document.querySelector('.blog-grid');
             var filterBtns = document.querySelectorAll('.blog-hero-filters .blog-filter-btn');
             var cards = document.querySelectorAll('.blog-card[data-category]');
-            var loadMore = document.querySelector('.blog-load-more');
+            var sentinel = document.getElementById('blog-infinite-sentinel');
             var staggerMs = 90;
-            var ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
             if (!grid || !cards.length) return;
 
@@ -1088,17 +1079,64 @@
                 history.replaceState({ category: category || 'all' }, '', url);
             }
 
-            function animateVisibleCards(visibleCards) {
-                visibleCards.forEach(function(card) {
+            function getVisibleCards() {
+                var list = [];
+                cards.forEach(function(card) {
+                    if (!card.classList.contains('is-hidden')) list.push(card);
+                });
+                return list;
+            }
+
+            function getHiddenBatch() {
+                var list = [];
+                cards.forEach(function(card) {
+                    if (!card.classList.contains('is-hidden') && card.classList.contains('infinite-hidden')) {
+                        list.push(card);
+                    }
+                });
+                return list;
+            }
+
+            function animateCards(cardsToAnimate) {
+                cardsToAnimate.forEach(function(card) {
                     card.classList.remove('is-visible');
                     card.style.transitionDelay = '';
                 });
                 requestAnimationFrame(function() {
-                    visibleCards.forEach(function(card, i) {
+                    cardsToAnimate.forEach(function(card, i) {
                         card.style.transitionDelay = (i * staggerMs) + 'ms';
                         card.classList.add('is-visible');
                     });
                 });
+            }
+
+            function applyInfiniteState(visibleCards) {
+                visibleCards.forEach(function(card, index) {
+                    if (index < BATCH_SIZE) {
+                        card.classList.remove('infinite-hidden');
+                    } else {
+                        card.classList.add('infinite-hidden');
+                        card.classList.remove('is-visible');
+                    }
+                });
+                animateCards(visibleCards.slice(0, BATCH_SIZE));
+                if (sentinel) {
+                    sentinel.classList.toggle('blog-infinite-sentinel--done', visibleCards.length <= BATCH_SIZE);
+                }
+            }
+
+            function loadNextBatch() {
+                var hidden = getHiddenBatch();
+                if (hidden.length === 0) return;
+                var toShow = hidden.slice(0, BATCH_SIZE);
+                toShow.forEach(function(card) {
+                    card.classList.remove('infinite-hidden');
+                });
+                animateCards(toShow);
+                if (sentinel) {
+                    var remaining = getHiddenBatch();
+                    sentinel.classList.toggle('blog-infinite-sentinel--done', remaining.length === 0);
+                }
             }
 
             function applyFilter(category) {
@@ -1127,6 +1165,7 @@
                     } else {
                         card.classList.add('is-hidden');
                         card.classList.remove('is-visible');
+                        card.classList.remove('infinite-hidden');
                     }
                 });
 
@@ -1134,11 +1173,7 @@
                     visibleCards[visibleCards.length - 1].classList.add('span-full');
                 }
 
-                animateVisibleCards(visibleCards);
-
-                if (loadMore) {
-                    loadMore.style.display = visibleCards.length > 0 ? '' : 'none';
-                }
+                applyInfiniteState(visibleCards);
             }
 
             filterBtns.forEach(function(btn) {
@@ -1156,6 +1191,15 @@
             var current = getCategoryFromUrl();
             setUrl(current);
             applyFilter(current);
+
+            if (sentinel) {
+                var observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) loadNextBatch();
+                    });
+                }, { rootMargin: '120px 0px', threshold: 0 });
+                observer.observe(sentinel);
+            }
         })();
 
         // ============================================
