@@ -721,6 +721,33 @@
             .voice-widget-icon { width: 18px; height: 18px; }
             .voice-modal-overlay { padding: 16px; padding-bottom: 90px; }
         }
+
+        /* Inline text links - body content */
+        .post-body a,
+        .post-lead a,
+        .post-article a:not(.post-cta-btn):not(.post-share-btn):not(.post-tag),
+        .contact-subtitle a,
+        p a:not([class]) {
+            color: #202020;
+            text-decoration: underline;
+            text-decoration-color: rgba(0, 0, 0, 0.3);
+            text-underline-offset: 3px;
+            font-weight: 500;
+            padding: 2px 0;
+            background: linear-gradient(to right, #FAF0DD 50%, transparent 50%);
+            background-size: 200% 100%;
+            background-position: right;
+            transition: background-position 0.3s ease, text-decoration-color 0.3s ease;
+        }
+
+        .post-body a:hover,
+        .post-lead a:hover,
+        .post-article a:not(.post-cta-btn):not(.post-share-btn):not(.post-tag):hover,
+        .contact-subtitle a:hover,
+        p a:not([class]):hover {
+            background-position: left;
+            text-decoration-color: transparent;
+        }
     </style>
 </head>
 <body>
@@ -837,6 +864,27 @@
                             <div class="blog-card-category">Revenue Optimisation</div>
                             <h2 class="blog-card-title">Melbourne Airbnb Owners: Why Your Property Is Underperforming (And the 30% Uplift You're Missing)</h2>
                             <p class="blog-card-date">February 2025</p>
+                        </div>
+                    </a>
+                    <!-- Small Card | Category: Guides -->
+                    <a href="blog/mornington-peninsula-holiday-rental-guide-2025.html" class="blog-card card-small" data-category="guides">
+                        <div class="blog-card-image">
+                            <img src="Images/mornington-peninsula-beach-house-holiday-rental.jpg" alt="Mornington Peninsula beach house – holiday rental and Airbnb property management for Sorrento, Portsea and Rye">
+                        </div>
+                        <div class="blog-card-text-box">
+                            <div class="blog-card-category">Revenue Optimisation</div>
+                            <h2 class="blog-card-title">Mornington Peninsula Holiday Rental: The Complete Guide to Managing Your Beach House in 2025</h2>
+                            <p class="blog-card-date">May 2025</p>
+                        </div>
+                    </a>
+                    <a href="blog/melbourne-event-calendar-2025-airbnb-revenue.html" class="blog-card card-small" data-category="guides">
+                        <div class="blog-card-image">
+                            <img src="Images/melbourne-mcg-events-airbnb-revenue-2025.jpg" alt="Melbourne MCG and major events – Australian Open, F1 and Melbourne Cup Airbnb property management for Melbourne hosts">
+                        </div>
+                        <div class="blog-card-text-box">
+                            <div class="blog-card-category">Revenue Optimisation</div>
+                            <h2 class="blog-card-title">Melbourne Event Calendar 2025: How Smart Hosts 3x Their Airbnb Revenue During Australian Open, F1, and Melbourne Cup</h2>
+                            <p class="blog-card-date">May 2025</p>
                         </div>
                     </a>
                     <!-- Small Cards | Category: Success Stories -->

@@ -1296,6 +1296,33 @@
             .voice-widget { padding: 12px 18px; font-size: 13px; }
             .voice-modal-overlay { padding: 16px; padding-bottom: 90px; }
         }
+
+        /* Inline text links - body content */
+        .post-body a,
+        .post-lead a,
+        .post-article a:not(.post-cta-btn):not(.post-share-btn):not(.post-tag),
+        .contact-subtitle a,
+        p a:not([class]) {
+            color: #202020;
+            text-decoration: underline;
+            text-decoration-color: rgba(0, 0, 0, 0.3);
+            text-underline-offset: 3px;
+            font-weight: 500;
+            padding: 2px 0;
+            background: linear-gradient(to right, #FAF0DD 50%, transparent 50%);
+            background-size: 200% 100%;
+            background-position: right;
+            transition: background-position 0.3s ease, text-decoration-color 0.3s ease;
+        }
+
+        .post-body a:hover,
+        .post-lead a:hover,
+        .post-article a:not(.post-cta-btn):not(.post-share-btn):not(.post-tag):hover,
+        .contact-subtitle a:hover,
+        p a:not([class]):hover {
+            background-position: left;
+            text-decoration-color: transparent;
+        }
     </style>
 </head>
 <body>
