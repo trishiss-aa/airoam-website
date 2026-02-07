@@ -427,9 +427,23 @@
         }
 
         .post-tip-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 6px;
+            color: var(--color-black);
+        }
+        .post-tip-icon-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .post-tip-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
             color: var(--color-black);
         }
 
@@ -604,13 +618,16 @@
         }
 
         .related-posts-track {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            display: flex;
+            flex-wrap: nowrap;
             gap: 24px;
             transition: transform 0.4s ease;
         }
 
         .related-post-card {
+            flex: 0 0 280px;
+            width: 280px;
+            min-width: 280px;
             background: var(--color-white);
             text-decoration: none;
             color: var(--color-black);
@@ -649,9 +666,12 @@
             font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: rgba(0, 0, 0, 0.4);
+            color: var(--color-black);
+            background-color: #FAF0DD;
+            padding: 6px 12px;
+            border-radius: 4px;
             margin-bottom: 8px;
-            display: block;
+            display: inline-block;
         }
 
         .related-post-card-title {
@@ -839,12 +859,10 @@
 
         /* MOBILE RESPONSIVE */
         @media (max-width: 1200px) {
-            .related-posts-track {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .related-post-card:nth-child(4) {
-                display: none;
+            .related-post-card {
+                flex: 0 0 280px;
+                width: 280px;
+                min-width: 280px;
             }
         }
 
@@ -860,13 +878,10 @@
         }
 
         @media (max-width: 900px) {
-            .related-posts-track {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .related-post-card:nth-child(3),
-            .related-post-card:nth-child(4) {
-                display: none;
+            .related-post-card {
+                flex: 0 0 280px;
+                width: 280px;
+                min-width: 280px;
             }
         }
 
@@ -1335,7 +1350,16 @@
                     <p>If you're using a management partner like Airoam, they can handle messaging and operations so you can focus on the property itself.</p>
 
                     <div class="post-tip-box">
-                        <p class="post-tip-title">💡 Pro Tip</p>
+                        <p class="post-tip-title">
+                            <span class="post-tip-icon-wrap">
+                                <svg class="post-tip-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M9 18h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M10 22h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            Pro Tip
+                        </p>
                         <p>Create a digital welcome guide that guests can access on their phone. Include WiFi password, checkout instructions, and your top 5 local recommendations.</p>
                     </div>
 
@@ -1360,9 +1384,9 @@
                 <!-- Share -->
                 <div class="post-share">
                     <span class="post-share-label">Share</span>
-                    <a href="#" class="post-share-btn" aria-label="Share on X">X</a>
-                    <a href="#" class="post-share-btn" aria-label="Share on LinkedIn">in</a>
-                    <a href="#" class="post-share-btn" aria-label="Share on Facebook">f</a>
+                    <a href="#" class="post-share-btn post-share-x" aria-label="Share on X">X</a>
+                    <a href="#" class="post-share-btn post-share-linkedin" aria-label="Share on LinkedIn">in</a>
+                    <a href="#" class="post-share-btn post-share-facebook" aria-label="Share on Facebook">f</a>
                 </div>
 
                 <!-- CTA Box -->
@@ -1431,7 +1455,7 @@
                             </div>
                             <div class="related-post-card-content">
                                 <span class="related-post-card-category">Success Stories</span>
-                                <h3 class="related-post-card-title">From Drowning in Messages to 4.74-Star Average: How 3,500+ Australian Hosts Reclaimed Their Weekends</h3>
+                                <h3 class="related-post-card-title">From Drowning in Messages to 4.74-Star Average: How 100+ Australian Hosts Reclaimed Their Weekends</h3>
                                 <span class="related-post-card-date">April 2025</span>
                             </div>
                         </a>
@@ -1448,7 +1472,7 @@
                 <div class="footer-logo">
                     <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo">
                 </div>
-                <p class="footer-tagline">Airbnb management. Reinvented.</p>
+                <p class="footer-tagline">AI-powered Airbnb management</p>
             </div>
             <div>
                 <div class="footer-links">
@@ -1460,11 +1484,10 @@
             </div>
             <div class="footer-contact">
                 <div><a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a></div>
-                <div>1300 XXX XXX</div>
             </div>
         </div>
         <div class="footer-bottom">
-            © 2026 Airoam. All rights reserved. <a href="#terms">Terms</a> · <a href="#privacy">Privacy</a>
+            © 2026 Airoam. All rights reserved. ABN 41 668 564 716. <a href="#terms">Terms</a> · <a href="#privacy">Privacy</a>
         </div>
     </footer>
 
@@ -1643,6 +1666,34 @@
         })();
 
         // ============================================
+        // SOCIAL SHARE BUTTONS
+        // ============================================
+        (function() {
+            var shareWrap = document.querySelector('.post-share');
+            if (!shareWrap) return;
+            var url = encodeURIComponent(window.location.href);
+            var title = encodeURIComponent(document.querySelector('.post-title') ? document.querySelector('.post-title').textContent.trim() : document.title);
+            var xBtn = shareWrap.querySelector('.post-share-x');
+            var liBtn = shareWrap.querySelector('.post-share-linkedin');
+            var fbBtn = shareWrap.querySelector('.post-share-facebook');
+            if (xBtn) {
+                xBtn.href = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + title;
+                xBtn.target = '_blank';
+                xBtn.rel = 'noopener noreferrer';
+            }
+            if (liBtn) {
+                liBtn.href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + url;
+                liBtn.target = '_blank';
+                liBtn.rel = 'noopener noreferrer';
+            }
+            if (fbBtn) {
+                fbBtn.href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+                fbBtn.target = '_blank';
+                fbBtn.rel = 'noopener noreferrer';
+            }
+        })();
+
+        // ============================================
         // RELATED POSTS CAROUSEL NAVIGATION
         // ============================================
         (function() {
@@ -1667,7 +1718,7 @@
 
             function getTotalPages() {
                 var visible = getVisibleCards();
-                return Math.ceil(totalCards / visible);
+                return Math.max(1, Math.ceil(totalCards / visible));
             }
 
             function updateButtons() {
@@ -1685,21 +1736,23 @@
                 var gap = 24;
                 var offset = page * visible * (cardWidth + gap);
                 track.style.transform = 'translateX(-' + offset + 'px)';
+                currentPage = page;
+                updateButtons();
             }
 
             prevBtn.addEventListener('click', function() {
+                if (prevBtn.disabled) return;
                 if (currentPage > 0) {
                     currentPage--;
                     scrollToPage(currentPage);
-                    updateButtons();
                 }
             });
 
             nextBtn.addEventListener('click', function() {
+                if (nextBtn.disabled) return;
                 if (currentPage < getTotalPages() - 1) {
                     currentPage++;
                     scrollToPage(currentPage);
-                    updateButtons();
                 }
             });
 
@@ -1708,7 +1761,7 @@
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(function() {
                     currentPage = 0;
-                    track.style.transform = 'translateX(0)';
+                    scrollToPage(0);
                     updateButtons();
                 }, 100);
             }, { passive: true });
