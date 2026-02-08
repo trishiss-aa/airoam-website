@@ -1580,46 +1580,7 @@
                 </div>
                 <div class="related-posts-carousel">
                     <div class="related-posts-track">
-                        <a href="Getting-your-listing-ready.html" class="related-post-card">
-                            <div class="related-post-card-image">
-                                <img src="../Images/apartment-interior-airbnb-listing-ready-melbourne-perth.jpg" alt="Apartment interior - Airbnb listing ready for guests with property management in Melbourne and Perth">
-                            </div>
-                            <div class="related-post-card-content">
-                                <span class="related-post-card-category">Tips</span>
-                                <h3 class="related-post-card-title">Getting your first listing ready for guests</h3>
-                                <span class="related-post-card-date">August 2025</span>
-                            </div>
-                        </a>
-                        <a href="3am-plumbing-emergency-airbnb-perth.html" class="related-post-card">
-                            <div class="related-post-card-image">
-                                <img src="../Images/perth-airbnb-plumbing-water-pipe.jpg" alt="Perth Airbnb water pipe - proactive plumbing maintenance for short-term rental property management">
-                            </div>
-                            <div class="related-post-card-content">
-                                <span class="related-post-card-category">Automation &amp; AI</span>
-                                <h3 class="related-post-card-title">The 3am Plumbing Emergency That Cost Me a 1-Star Review (And How Perth Hosts Can Avoid It)</h3>
-                                <span class="related-post-card-date">October 2025</span>
-                            </div>
-                        </a>
-                        <a href="airbnb-melbourne-fees-9-percent.html" class="related-post-card">
-                            <div class="related-post-card-image">
-                                <img src="../Images/melbourne-cbd-skyline-airbnb-property-management.jpg" alt="Melbourne CBD skyline - Airbnb property management and 9% fees for short-term rental in Melbourne and Perth">
-                            </div>
-                            <div class="related-post-card-content">
-                                <span class="related-post-card-category">Pricing &amp; Fees</span>
-                                <h3 class="related-post-card-title">Paying 15% Management Fees in Melbourne? Here's Why Smart Hosts Are Switching to 9%</h3>
-                                <span class="related-post-card-date">December 2025</span>
-                            </div>
-                        </a>
-                        <a href="drowning-in-guest-messages.html" class="related-post-card">
-                            <div class="related-post-card-image">
-                                <img src="../Images/frustrated-airbnb-host-phone-guest-messages.jpg" alt="Frustrated Airbnb host on phone - Melbourne and Perth property management relieves guest message overload">
-                            </div>
-                            <div class="related-post-card-content">
-                                <span class="related-post-card-category">Success Stories</span>
-                                <h3 class="related-post-card-title">From Drowning in Messages to 4.74-Star Average: How 100+ Australian Hosts Reclaimed Their Weekends</h3>
-                                <span class="related-post-card-date">April 2025</span>
-                            </div>
-                        </a>
+                        <!-- Cards populated dynamically by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -2032,65 +1993,111 @@
         })();
 
         // ============================================
-        // RELATED POSTS CAROUSEL NAVIGATION
+        // RELATED POSTS CAROUSEL - DYNAMIC + WORKING ARROWS
         // ============================================
         (function() {
+            // === BLOG POSTS DATABASE ===
+            // When adding a new post: add an object with slug, category, categoryDisplay, title, date, image, alt.
+            // IMPORTANT: Update this allPosts array in ALL blog post files (each file has its own copy).
+            var allPosts = [
+                { slug: 'drowning-in-guest-messages.html', category: 'success-stories', categoryDisplay: 'Success Stories', title: 'From Drowning in Messages to 4.74-Star Average: How 100+ Australian Hosts Reclaimed Their Weekends', date: 'April 2025', image: '../Images/frustrated-airbnb-host-phone-guest-messages.jpg', alt: 'Frustrated Airbnb host on phone' },
+                { slug: 'airbnb-melbourne-fees-9-percent.html', category: 'pricing', categoryDisplay: 'Pricing & Fees', title: 'Paying 15% Management Fees in Melbourne? Here\'s Why Smart Hosts Are Switching to 9%', date: 'December 2025', image: '../Images/melbourne-cbd-skyline-airbnb-property-management.jpg', alt: 'Melbourne CBD skyline' },
+                { slug: '3am-plumbing-emergency-airbnb-perth.html', category: 'automation', categoryDisplay: 'Automation & AI', title: 'The 3am Plumbing Emergency That Cost Me a 1-Star Review (And How Perth Hosts Can Avoid It)', date: 'October 2025', image: '../Images/perth-airbnb-plumbing-water-pipe.jpg', alt: 'Perth Airbnb plumbing' },
+                { slug: 'Getting-your-listing-ready.html', category: 'tips', categoryDisplay: 'Tips', title: 'Getting Your First Listing Ready for Guests', date: 'August 2025', image: '../Images/apartment-interior-airbnb-listing-ready-melbourne-perth.jpg', alt: 'Apartment interior' },
+                { slug: 'perth-short-term-rental-regulations-2026.html', category: 'guides', categoryDisplay: 'Regulations & Compliance', title: 'Perth Short-Term Rental Regulations: What Every Airbnb Host Needs to Know in 2026', date: 'January 2026', image: '../Images/perth-cbd-short-term-rental-regulations-2025.jpg', alt: 'Perth CBD skyline' },
+                { slug: 'melbourne-property-underperforming.html', category: 'guides', categoryDisplay: 'Revenue Optimisation', title: 'Melbourne Airbnb Owners: Why Your Property Is Underperforming (And the 30% Uplift You\'re Missing)', date: 'February 2025', image: '../Images/melbourne-apartment-interior-airbnb-property-management.jpg', alt: 'Melbourne apartment interior' },
+                { slug: 'mornington-peninsula-holiday-rental-guide-2026.html', category: 'guides', categoryDisplay: 'Revenue Optimisation', title: 'Mornington Peninsula Holiday Rental: The Complete Guide to Managing Your Beach House in 2026', date: 'May 2025', image: '../Images/mornington-peninsula-beach-house-holiday-rental.jpg', alt: 'Mornington Peninsula beach house' },
+                { slug: 'melbourne-event-calendar-2026-airbnb-revenue.html', category: 'guides', categoryDisplay: 'Revenue Optimisation', title: 'Melbourne Event Calendar 2026: How Smart Hosts 3x Their Airbnb Revenue During Australian Open, F1, and Melbourne Cup', date: 'January 2026', image: '../Images/melbourne-mcg-events-airbnb-revenue-2025.jpg', alt: 'Melbourne MCG and events' },
+                { slug: 'fired-perth-property-manager.html', category: 'success-stories', categoryDisplay: 'Success Stories', title: 'Fired My Perth Property Manager After 6 Months. Here\'s What I Learned.', date: 'June 2025', image: '../Images/perth-cbd-skyline-airbnb-property-management.jpg', alt: 'Perth CBD skyline' },
+                { slug: 'ai-guest-messages-holiday-bali.html', category: 'automation', categoryDisplay: 'Automation & AI', title: 'How AI Answered 89% of My Guest Messages While I Was on Holiday in Bali', date: 'July 2025', image: '../Images/bali-beach-holiday-airbnb-host.jpg', alt: 'Bali beach holiday' }
+            ];
+
             var track = document.querySelector('.related-posts-track');
             var prevBtn = document.querySelector('.related-posts-prev');
             var nextBtn = document.querySelector('.related-posts-next');
 
             if (!track || !prevBtn || !nextBtn) return;
 
-            function isMobile() {
-                return window.innerWidth <= 768;
-            }
+            var currentSlug = window.location.pathname.split('/').pop();
+            var currentPost = allPosts.find(function(p) { return p.slug === currentSlug; });
+            var currentCategory = currentPost ? currentPost.category : '';
 
-            var currentPage = 0;
-            var totalCards = track.querySelectorAll('.related-post-card').length;
+            var sameCategoryPosts = allPosts.filter(function(p) {
+                return p.category === currentCategory && p.slug !== currentSlug;
+            });
+            var otherPosts = allPosts.filter(function(p) {
+                return p.category !== currentCategory && p.slug !== currentSlug;
+            });
+
+            function shuffle(array) {
+                for (var i = array.length - 1; i > 0; i--) {
+                    var j = Math.floor(Math.random() * (i + 1));
+                    var temp = array[i];
+                    array[i] = array[j];
+                    array[j] = temp;
+                }
+                return array;
+            }
+            otherPosts = shuffle(otherPosts);
+
+            var relatedPosts = sameCategoryPosts.concat(otherPosts).slice(0, 8);
+
+            track.innerHTML = '';
+            relatedPosts.forEach(function(post) {
+                var card = document.createElement('a');
+                card.href = post.slug;
+                card.className = 'related-post-card';
+                card.innerHTML =
+                    '<div class="related-post-card-image">' +
+                        '<img src="' + post.image + '" alt="' + post.alt + '" loading="lazy">' +
+                    '</div>' +
+                    '<div class="related-post-card-content">' +
+                        '<span class="related-post-card-category">' + post.categoryDisplay + '</span>' +
+                        '<h3 class="related-post-card-title">' + post.title + '</h3>' +
+                        '<span class="related-post-card-date">' + post.date + '</span>' +
+                    '</div>';
+                track.appendChild(card);
+            });
+
+            var currentIndex = 0;
+            var totalCards = relatedPosts.length;
 
             function getVisibleCards() {
                 if (window.innerWidth > 1200) return 4;
                 if (window.innerWidth > 900) return 3;
-                return 2;
+                if (window.innerWidth > 600) return 2;
+                return 1;
             }
 
-            function getTotalPages() {
-                var visible = getVisibleCards();
-                return Math.max(1, Math.ceil(totalCards / visible));
+            function getMaxIndex() {
+                return Math.max(0, totalCards - getVisibleCards());
             }
 
             function updateButtons() {
-                if (isMobile()) return;
-                prevBtn.disabled = currentPage === 0;
-                nextBtn.disabled = currentPage >= getTotalPages() - 1;
+                prevBtn.disabled = currentIndex <= 0;
+                nextBtn.disabled = currentIndex >= getMaxIndex();
             }
 
-            function scrollToPage(page) {
-                if (isMobile()) return;
-                var visible = getVisibleCards();
+            function scrollToIndex(index) {
                 var card = track.querySelector('.related-post-card');
                 if (!card) return;
                 var cardWidth = card.offsetWidth;
                 var gap = 24;
-                var offset = page * visible * (cardWidth + gap);
+                var offset = index * (cardWidth + gap);
                 track.style.transform = 'translateX(-' + offset + 'px)';
-                currentPage = page;
+                currentIndex = index;
                 updateButtons();
             }
 
             prevBtn.addEventListener('click', function() {
-                if (prevBtn.disabled) return;
-                if (currentPage > 0) {
-                    currentPage--;
-                    scrollToPage(currentPage);
+                if (currentIndex > 0) {
+                    scrollToIndex(currentIndex - 1);
                 }
             });
 
             nextBtn.addEventListener('click', function() {
-                if (nextBtn.disabled) return;
-                if (currentPage < getTotalPages() - 1) {
-                    currentPage++;
-                    scrollToPage(currentPage);
+                if (currentIndex < getMaxIndex()) {
+                    scrollToIndex(currentIndex + 1);
                 }
             });
 
@@ -2098,9 +2105,10 @@
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(function() {
-                    currentPage = 0;
-                    scrollToPage(0);
-                    updateButtons();
+                    if (currentIndex > getMaxIndex()) {
+                        currentIndex = getMaxIndex();
+                    }
+                    scrollToIndex(currentIndex);
                 }, 100);
             }, { passive: true });
 
