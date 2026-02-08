@@ -2673,31 +2673,8 @@
         </div>
     </div>
 
-    <!-- Navigation -->
-    <nav id="main-nav">
-        <a href="index.html" class="nav-logo" id="nav-logo">
-            <img src="Images/airoam-logo-black.svg" alt="Airoam - Airbnb property management Australia" class="logo">
-        </a>
-        <div class="nav-center">
-            <a href="#about">About</a>
-            <a href="#pricing">Pricing</a>
-            <a href="blog.html">Blog</a>
-            <a href="#contact">Contact</a>
-        </div>
-        <a href="#contact" class="nav-button">Get Started</a>
-        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </nav>
-    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
-        <a href="#about">About</a>
-        <a href="#pricing">Pricing</a>
-        <a href="blog.html">Blog</a>
-        <a href="#contact">Contact</a>
-        <a href="#contact">Get Started</a>
-    </div>
+    <!-- Navigation (loaded from partials/nav.html) -->
+    <div id="nav-container"></div>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -3151,33 +3128,8 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-grid">
-            <div>
-                <div class="footer-logo">
-                    <img src="Images/airoam-logo-black.svg" alt="Airoam - Airbnb property management Australia" class="logo logo-white">
-                </div>
-                <p class="footer-tagline">AI-powered Airbnb management</p>
-            </div>
-            <div>
-                <div class="footer-links">
-                    <a href="#pricing">Pricing</a>
-                    <a href="#testimonials">Testimonials</a>
-                    <a href="blog.html">Blog</a>
-                    <a href="#contact">Contact</a>
-                    <a href="terms-and-conditions.html">Terms and Conditions</a>
-                    <a href="privacy-policy.html">Privacy Policy</a>
-                </div>
-            </div>
-            <div class="footer-contact">
-                <div><a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a></div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            © 2026 Airoam. All rights reserved. ABN 41 668 564 716.
-        </div>
-    </footer>
+    <!-- Footer (loaded from partials/footer.html) -->
+    <div id="footer-container"></div>
 
     <script>
         // ============================================
@@ -4801,53 +4753,8 @@
     </script>
     </div><!-- End main-content -->
 
-    <!-- Voice Widget -->
-    <div class="voice-widget-wrap" id="voice-widget-wrap">
-        <!-- Hidden button for Key Ninja to bind to -->
-        <button id="start-call-btn" style="display: none !important;">Start Call</button>
-        
-        <button type="button" class="voice-widget" id="voice-widget" aria-label="Voice call">
-            <span class="voice-widget-icon-wrap">
-        <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-            </span>
-            <span class="voice-widget-text" id="voice-widget-text">Voice call</span>
-    </button>
-        <span class="voice-widget-powered">Powered by Heya</span>
-    </div>
-
-    <!-- Terms & Conditions modal -->
-    <div class="voice-modal-overlay" id="voice-terms-overlay" aria-hidden="true">
-        <div class="voice-modal" role="dialog" aria-labelledby="voice-terms-title">
-            <h2 class="voice-modal-title" id="voice-terms-title">Terms and conditions</h2>
-            <p>By clicking 'Agree' and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy. If you do not wish to have your conversations recorded, please refrain from using this service.</p>
-            <div class="voice-modal-actions">
-                <button type="button" class="voice-modal-btn" id="voice-terms-cancel">Cancel</button>
-                <button type="button" class="voice-modal-btn primary" id="voice-terms-agree">Agree</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Feedback modal -->
-    <div class="voice-modal-overlay" id="voice-feedback-overlay" aria-hidden="true">
-        <div class="voice-modal" role="dialog" aria-labelledby="voice-feedback-title">
-            <h2 class="voice-modal-title" id="voice-feedback-title">Was the call helpful?</h2>
-            <div class="voice-feedback-buttons">
-                <button type="button" class="voice-feedback-btn" id="voice-feedback-down" aria-label="No">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 22V11M2 13V20C2 21.1046 2.89543 22 4 22H17.4262C18.907 22 20.1662 20.9197 20.3914 19.4562L21.4683 12.4562C21.7479 10.6389 20.3418 9 18.5032 9H15C14.4477 9 14 8.55228 14 8V4.46584C14 3.10399 12.896 2 11.5342 2C11.2093 2 10.915 2.1913 10.7831 2.48812L7.26394 10.4061C7.10344 10.7673 6.74532 11 6.35013 11H4C2.89543 11 2 11.8954 2 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <button type="button" class="voice-feedback-btn" id="voice-feedback-up" aria-label="Yes">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 22V11M2 13V20C2 21.1046 2.89543 22 4 22H17.4262C18.907 22 20.1662 20.9197 20.3914 19.4562L21.4683 12.4562C21.7479 10.6389 20.3418 9 18.5032 9H15C14.4477 9 14 8.55228 14 8V4.46584C14 3.10399 12.896 2 11.5342 2C11.2093 2 10.915 2.1913 10.7831 2.48812L7.26394 10.4061C7.10344 10.7673 6.74532 11 6.35013 11H4C2.89543 11 2 11.8954 2 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
+    <!-- Voice Widget (loaded from partials/voice-widget.html) -->
+    <div id="voice-widget-container"></div>
 
     <script>
         // ============================================
@@ -4888,239 +4795,12 @@
         })();
     </script>
 
-    <script>
-        // ============================================
-        // VOICE WIDGET WITH KEY NINJA INTEGRATION
-        // ============================================
-        (function() {
-            const wrap = document.getElementById('voice-widget-wrap');
-            const btn = document.getElementById('voice-widget');
-            const textEl = document.getElementById('voice-widget-text');
-            const termsOverlay = document.getElementById('voice-terms-overlay');
-            const termsCancel = document.getElementById('voice-terms-cancel');
-            const termsAgree = document.getElementById('voice-terms-agree');
-            const feedbackOverlay = document.getElementById('voice-feedback-overlay');
-            const feedbackUp = document.getElementById('voice-feedback-up');
-            const feedbackDown = document.getElementById('voice-feedback-down');
-            const keyNinjaBtn = document.getElementById('start-call-btn');
-
-            let state = 'idle'; // idle | connecting | call
-            let isInCall = false;
-            let micPermissionGranted = false;
-            let keyNinjaInitialized = false;
-            
-            const originalConsoleLog = console.log;
-            
-            // Monitor console for Key Ninja state changes
-            console.log = function() {
-                originalConsoleLog.apply(console, arguments);
-                
-                for (let i = 0; i < arguments.length; i++) {
-                    const arg = arguments[i];
-                    
-                    if (typeof arg === 'string') {
-                        // Detect call ended
-                        if (arg.includes('Call status changed: Inactive') || 
-                            arg.includes('Call ended') || 
-                            arg.includes('Call stopped successfully')) {
-                            originalConsoleLog('📞 Call ended detected');
-                            isInCall = false;
-                            setButtonState('idle');
-                            openFeedback();
-                        }
-                        // Detect call started successfully
-                        else if (arg.includes('Call started successfully')) {
-                            originalConsoleLog('✅ Call connected');
-                            isInCall = true;
-                            setButtonState('call');
-                        }
-                    }
-                }
-            };
-
-            function showWrap() {
-                wrap.classList.add('visible');
-            }
-
-            function setButtonState(s) {
-                state = s;
-                btn.disabled = (s === 'connecting');
-                btn.classList.remove('state-connecting', 'state-call');
-                if (s === 'connecting') {
-                    btn.classList.add('state-connecting');
-                    textEl.textContent = 'Connecting';
-                } else if (s === 'call') {
-                    btn.classList.add('state-call');
-                    textEl.textContent = 'End call';
-                } else {
-                    textEl.textContent = 'Voice call';
-                }
-            }
-
-            function openTerms() {
-                termsOverlay.classList.add('open');
-                termsOverlay.setAttribute('aria-hidden', 'false');
-            }
-
-            function closeTerms() {
-                termsOverlay.classList.remove('open');
-                termsOverlay.setAttribute('aria-hidden', 'true');
-            }
-
-            function openFeedback() {
-                feedbackOverlay.classList.add('open');
-                feedbackOverlay.setAttribute('aria-hidden', 'false');
-            }
-
-            function closeFeedback() {
-                feedbackOverlay.classList.remove('open');
-                feedbackOverlay.setAttribute('aria-hidden', 'true');
-            }
-
-            function submitFeedback(isPositive) {
-                fetch('https://formspree.io/f/xqedznlr', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        feedback: isPositive ? 'positive' : 'negative',
-                        page: window.location.pathname,
-                        timestamp: new Date().toISOString()
-                    })
-                }).then(function() { closeFeedback(); }).catch(function() { closeFeedback(); });
-            }
-            
-            function requestMicrophonePermission() {
-                return new Promise(function(resolve, reject) {
-                    if (micPermissionGranted) {
-                        resolve();
-                        return;
-                    }
-                    
-                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                        navigator.mediaDevices.getUserMedia({ audio: true })
-                            .then(function(stream) {
-                                micPermissionGranted = true;
-                                stream.getTracks().forEach(track => track.stop());
-                                resolve();
-                            })
-                            .catch(function(err) {
-                                alert('Microphone access is required for voice calls.');
-                                reject(err);
-                            });
-                    } else {
-                        resolve();
-                    }
-                });
-            }
-            
-            function startCall() {
-                requestMicrophonePermission()
-                    .then(function() {
-                        setButtonState('connecting');
-                        
-                        // Trigger Key Ninja call
-                        if (keyNinjaBtn) {
-                            keyNinjaBtn.click();
-                        }
-                        
-                        // Fallback: if call doesn't connect within 15 seconds, reset
-                        setTimeout(function() {
-                            if (state === 'connecting') {
-                                originalConsoleLog('⚠️ Connection timeout');
-                                setButtonState('idle');
-                                alert('Connection timed out. Please try again.');
-                            }
-                        }, 15000);
-                    })
-                    .catch(function(err) {
-                        originalConsoleLog('❌ Microphone error:', err);
-                        setButtonState('idle');
-                    });
-            }
-            
-            function endCall() {
-                originalConsoleLog('📞 Ending call');
-                if (keyNinjaBtn) {
-                    keyNinjaBtn.click();
-                }
-                
-                // Force end after 500ms if Key Ninja doesn't respond
-                setTimeout(function() {
-                    if (isInCall || state === 'call') {
-                        isInCall = false;
-                        setButtonState('idle');
-                        openFeedback();
-                    }
-                }, 500);
-            }
-
-            btn.addEventListener('click', function() {
-                if (state === 'idle') {
-                    openTerms();
-                    return;
-                }
-                if (state === 'call') {
-                    endCall();
-                    return;
-                }
-            });
-
-            termsCancel.addEventListener('click', closeTerms);
-            
-            termsAgree.addEventListener('click', function() {
-                closeTerms();
-                startCall();
-            });
-
-            feedbackUp.addEventListener('click', function() { submitFeedback(true); });
-            feedbackDown.addEventListener('click', function() { submitFeedback(false); });
-
-            termsOverlay.addEventListener('click', function(e) {
-                if (e.target === termsOverlay) closeTerms();
-            });
-            feedbackOverlay.addEventListener('click', function(e) {
-                if (e.target === feedbackOverlay) closeFeedback();
-            });
-
-            // Wait for Key Ninja to be ready before showing widget
-            function initWidget() {
-                if (window.keyNinjaReady || keyNinjaInitialized) {
-                    // Wait for Key Ninja to bind to the hidden button
-                    let attempts = 0;
-                    const checkInterval = setInterval(function() {
-                        attempts++;
-                        if (keyNinjaBtn.onclick !== null || attempts >= 50) {
-                            clearInterval(checkInterval);
-                            keyNinjaInitialized = true;
-                            showWrap();
-                            originalConsoleLog('✅ Voice widget ready');
-                        }
-                    }, 100);
-                }
-            }
-            
-            // Listen for Key Ninja ready event
-            document.addEventListener('keyNinjaReady', initWidget);
-            
-            // If already ready, init immediately
-            if (window.keyNinjaReady) {
-                initWidget();
-            }
-            
-            // Fallback: show widget after 8 seconds even if Key Ninja fails
-            setTimeout(function() {
-                if (!wrap.classList.contains('visible')) {
-                    showWrap();
-                    originalConsoleLog('⚠️ Widget shown (fallback)');
-                }
-            }, 8000);
-        })();
-    </script>
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"Organization","name":"Airoam","description":"AI powered Airbnb property management across Australia","url":"https://airoam.com.au","logo":"https://airoam.com.au/images/logo.png","contactPoint":{"@type":"ContactPoint","contactType":"customer service","areaServed":["Melbourne","Perth","Mornington Peninsula"],"availableLanguage":"English"},"areaServed":[{"@type":"City","name":"Melbourne"},{"@type":"City","name":"Perth"},{"@type":"Place","name":"Mornington Peninsula"}]}
     </script>
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"LocalBusiness","name":"Airoam Property Management","@id":"https://airoam.com.au","url":"https://airoam.com.au","priceRange":"9% management fee","aggregateRating":{"@type":"AggregateRating","ratingValue":"4.74","reviewCount":"3500"}}
     </script>
+    <script src="partials/includes.js"></script>
 </body>
 </html>
