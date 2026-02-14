@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Onboarding Form | Airoam</title>
+    <meta name="description" content="Complete your client onboarding form to get your property set up with Airoam's AI-powered Airbnb management.">
+    <link rel="canonical" href="https://airoam.com.au/onboarding">
+    <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-black: #202020;
+            --color-white: #FFFFFF;
+            --color-cream: #FAF0DD;
+            --color-cream-hover: rgba(250, 240, 221, 0.4);
+            --color-text-grey: rgba(0, 0, 0, 0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            padding-top: 80px;
+        }
+
+        #main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 80px;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10000;
+            background-color: var(--color-white);
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #main-nav.scrolled {
+            border-bottom-color: var(--color-black);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+        .nav-logo { display: flex; align-items: center; text-decoration: none; cursor: pointer; }
+        .nav-logo .logo { width: 180px; height: auto; display: block; }
+        .nav-center { display: flex; gap: 40px; align-items: center; }
+        .nav-center a { font-size: 14px; letter-spacing: 0.05em; color: var(--color-black); text-decoration: none; transition: opacity 0.3s ease; }
+        .nav-center a:hover { opacity: 0.6; }
+        .nav-button {
+            padding: 10px 24px;
+            border: 3px solid var(--color-black);
+            background-color: transparent;
+            color: var(--color-black);
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+        .nav-button::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background-color: var(--color-black); transition: left 0.4s ease; z-index: -1; }
+        .nav-button:hover { color: var(--color-white); }
+        .nav-button:hover::before { left: 0; }
+        .nav-hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            position: relative;
+            z-index: 10001;
+        }
+        .nav-hamburger span { width: 100%; height: 2px; background-color: var(--color-black); display: block; transition: transform 0.3s ease, opacity 0.3s ease; }
+        .nav-hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        .nav-mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: var(--color-white);
+            border-bottom: 3px solid var(--color-black);
+            padding: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .nav-mobile-menu.open { transform: translateY(0); opacity: 1; visibility: visible; pointer-events: auto; }
+        .nav-mobile-menu a { font-size: 16px; color: var(--color-black); text-decoration: none; padding: 16px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1); transition: opacity 0.2s ease, padding-left 0.2s ease; }
+        .nav-mobile-menu a:last-child { border-bottom: none; }
+        .nav-mobile-menu a:hover { opacity: 0.6; padding-left: 8px; }
+        @media (max-width: 768px) {
+            #main-nav { padding: 0 24px; }
+            .nav-logo .logo { width: 140px; }
+            .nav-center { display: none; }
+            .nav-button { display: none; }
+            .nav-hamburger { display: flex; }
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 60px; width: 100%; }
+
+        .legal-hero {
+            background-color: var(--color-cream);
+            padding: 48px 60px 40px;
+        }
+        .legal-hero .container { max-width: 800px; padding: 0; }
+        .legal-breadcrumb {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 24px;
+        }
+        .legal-breadcrumb a { color: var(--color-black); text-decoration: none; }
+        .legal-breadcrumb a:hover { opacity: 0.8; }
+        .legal-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .legal-hero .subtitle {
+            font-size: 16px;
+            color: var(--color-text-grey);
+            margin-top: 16px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            background: var(--color-white);
+            padding: 16px 60px 24px;
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+        }
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .progress-step {
+            flex: 1;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            transition: background 0.3s ease;
+        }
+        .progress-step.active {
+            background: var(--color-black);
+        }
+        .progress-step.completed {
+            background: var(--color-cream);
+        }
+        @media (max-width: 768px) {
+            .progress-bar { padding: 12px 24px 20px; }
+        }
+
+        .form-content {
+            padding: 0;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 0 80px;
+        }
+
+        .form-section {
+            padding: 48px 60px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .form-section:nth-child(odd) { background: var(--color-white); }
+        .form-section:nth-child(even) { background: #FAFAFA; }
+        .form-section:last-child { border-bottom: none; }
+        .form-section-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: 50%;
+            background: var(--color-black);
+            color: var(--color-white);
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .form-section-subtitle {
+            font-size: 14px;
+            color: var(--color-text-grey);
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-black);
+            margin-bottom: 10px;
+            display: block;
+        }
+        .form-label .required { color: #c00; }
+        .form-hint {
+            font-size: 12px;
+            color: var(--color-text-grey);
+            margin-top: 6px;
+        }
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            color: var(--color-black);
+            transition: background 0.2s ease;
+        }
+        .form-input:hover,
+        .form-select:hover,
+        .form-textarea:hover {
+            background: var(--color-cream-hover);
+        }
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--color-black);
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        /* Radio button options - button style */
+        .form-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .form-option {
+            position: relative;
+        }
+        .form-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .form-option-label {
+            display: inline-block;
+            padding: 12px 20px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .form-option-label:hover {
+            background: var(--color-cream-hover);
+        }
+        .form-option input[type="radio"]:checked + .form-option-label {
+            border-color: var(--color-black);
+            background-color: var(--color-black);
+            color: var(--color-white);
+        }
+        .form-option input[type="radio"]:checked + .form-option-label:hover {
+            background-color: var(--color-black);
+        }
+        .form-option input[type="radio"]:focus + .form-option-label {
+            border-color: var(--color-black);
+        }
+
+        /* Checkbox option - button style (like Property Type) */
+        .form-checkbox-option {
+            position: relative;
+        }
+        .form-checkbox-option input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .form-checkbox-option-label {
+            display: inline-block;
+            padding: 12px 20px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .form-checkbox-option-label:hover {
+            background: var(--color-cream-hover);
+        }
+        .form-checkbox-option input[type="checkbox"]:checked + .form-checkbox-option-label {
+            border-color: var(--color-black);
+            background-color: var(--color-black);
+            color: var(--color-white);
+        }
+        .form-checkbox-option input[type="checkbox"]:checked + .form-checkbox-option-label:hover {
+            background-color: var(--color-black);
+        }
+
+        /* Radio button options - vertical list style (for bedding setup question) */
+        .form-radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .form-radio-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+        .form-radio-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .form-radio-item input[type="radio"]:checked {
+            border-color: var(--color-black);
+        }
+        .form-radio-item input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 8px;
+            height: 8px;
+            background: var(--color-black);
+            border-radius: 50%;
+        }
+        .form-radio-item label {
+            font-size: 15px;
+            font-weight: 400;
+            cursor: pointer;
+        }
+        .form-radio-item:hover label {
+            color: var(--color-black);
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px 24px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            cursor: pointer;
+        }
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            appearance: none;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .checkbox-item input[type="checkbox"]:checked {
+            background-color: var(--color-black);
+            border-color: var(--color-black);
+        }
+        .checkbox-item input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-sizing: border-box;
+        }
+
+        .select-all-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--color-black);
+            color: var(--color-white);
+            border: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        .select-all-btn:hover { opacity: 0.8; }
+
+        .conditional-field {
+            display: none;
+            margin-top: 16px;
+            padding: 16px;
+            background: #FDF9F3;
+            border-left: 3px solid var(--color-cream);
+        }
+        .conditional-field.visible { display: block; }
+
+        .bed-config {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 32px;
+        }
+        .bed-config-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .bed-config-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .bed-config-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #FAFAFA;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .bed-config-btn:hover { background: var(--color-cream-hover); }
+        .bed-config-value {
+            min-width: 24px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .submit-area {
+            text-align: center;
+            padding: 48px 0 80px;
+        }
+        .submit-note {
+            font-size: 13px;
+            color: var(--color-text-grey);
+            margin-bottom: 24px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .submit-note a { color: var(--color-black); text-decoration: underline; text-underline-offset: 3px; }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 16px 32px;
+            background: var(--color-black);
+            color: var(--color-white);
+            border: none;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+        }
+        .submit-btn:hover { opacity: 0.9; }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 80px 60px 40px;
+            border-top: 3px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+        .footer-logo { margin-bottom: 20px; }
+        .footer-logo .logo { width: 100px; height: auto; display: block; }
+        .logo-white { filter: brightness(0) invert(1); }
+        .footer-tagline { font-size: 14px; font-weight: 300; opacity: 0.6; margin-top: 10px; }
+        .footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .footer-links a:nth-child(1) { grid-column: 1; grid-row: 1; }
+        .footer-links a:nth-child(2) { grid-column: 1; grid-row: 2; }
+        .footer-links a:nth-child(3) { grid-column: 1; grid-row: 3; }
+        .footer-links a:nth-child(4) { grid-column: 1; grid-row: 4; }
+        .footer-links a:nth-child(5) { grid-column: 2; grid-row: 1; }
+        .footer-links a:nth-child(6) { grid-column: 2; grid-row: 2; }
+        .footer-links a:nth-child(7) { grid-column: 2; grid-row: 3; }
+        .footer-links a { color: var(--color-white); text-decoration: none; font-size: 14px; font-weight: 400; transition: opacity 0.3s ease; }
+        .footer-links a:hover { opacity: 0.6; }
+        .footer-contact { text-align: right; }
+        .footer-contact div { font-size: 14px; font-weight: 300; margin-bottom: 8px; }
+        .footer-contact a { color: var(--color-white); text-decoration: none; }
+        .footer-bottom { text-align: center; padding-top: 40px; border-top: 3px solid rgba(255, 255, 255, 0.1); font-size: 13px; font-weight: 300; opacity: 0.5; }
+        .footer-bottom a { color: var(--color-white); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 24px; }
+            .legal-hero { padding: 40px 24px 32px; }
+            .legal-hero h1 { font-size: 36px; }
+            .form-container { padding: 0 0 60px; }
+            .form-section { padding: 32px 24px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .checkbox-grid { grid-template-columns: repeat(2, 1fr); }
+            .bed-config { grid-template-columns: 1fr; }
+            .input-row { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: left; }
+            .footer-contact { text-align: left; }
+        }
+        @media (max-width: 480px) {
+            .checkbox-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav id="main-nav" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo" id="nav-logo">
+            <img src="Images/airoam-logo-black.svg" alt="Airoam - Airbnb property management Australia" class="logo">
+        </a>
+        <div class="nav-center">
+            <a href="index.html#about">About</a>
+            <a href="index.html#pricing">Pricing</a>
+            <a href="blog.html">Blog</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+        <a href="index.html#contact" class="nav-button">Get Started</a>
+        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+        <a href="index.html#about">About</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="index.html#contact">Get Started</a>
+    </div>
+
+    <main>
+        <header class="legal-hero">
+            <div class="container">
+                <p class="legal-breadcrumb" aria-label="Breadcrumb">
+                    <a href="index.html">Home</a>
+                    <span> / </span>
+                    <span>Client Onboarding</span>
+                </p>
+                <h1>Client Onboarding Form</h1>
+                <p class="subtitle">Welcome aboard! Please complete this form to get your property set up with Airoam.</p>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-steps">
+                <div class="progress-step active" data-section="1"></div>
+                <div class="progress-step" data-section="2"></div>
+                <div class="progress-step" data-section="3"></div>
+                <div class="progress-step" data-section="4"></div>
+                <div class="progress-step" data-section="5"></div>
+                <div class="progress-step" data-section="6"></div>
+                <div class="progress-step" data-section="7"></div>
+                <div class="progress-step" data-section="8"></div>
+            </div>
+        </div>
+
+        <div class="form-content">
+            <form id="onboarding-form" class="form-container">
+                <!-- SECTION 1: About You -->
+                <section class="form-section" data-section="1">
+                    <h2 class="form-section-title"><span class="section-num">1</span> About You</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="firstName">First Name <span class="required">*</span></label>
+                            <input type="text" id="firstName" name="firstName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="lastName">Last Name <span class="required">*</span></label>
+                            <input type="text" id="lastName" name="lastName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="dob">Date of Birth</label>
+                            <input type="date" id="dob" name="dob" class="form-input">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label" for="mailingAddress">Mailing Address <span class="required">*</span></label>
+                            <input type="text" id="mailingAddress" name="mailingAddress" class="form-input" placeholder="Street Address" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="streetAddress">Street Address</label>
+                            <input type="text" id="streetAddress" name="streetAddress" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="city">City</label>
+                            <input type="text" id="city" name="city" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="state">State/Territory</label>
+                            <select id="state" name="state" class="form-select">
+                                <option value="">Select</option>
+                                <option value="VIC">VIC</option>
+                                <option value="NSW">NSW</option>
+                                <option value="QLD">QLD</option>
+                                <option value="WA">WA</option>
+                                <option value="SA">SA</option>
+                                <option value="TAS">TAS</option>
+                                <option value="ACT">ACT</option>
+                                <option value="NT">NT</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="postcode">Postcode</label>
+                            <input type="text" id="postcode" name="postcode" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="country">Country</label>
+                            <input type="text" id="country" name="country" class="form-input" value="Australia">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label" for="idUpload">ID Upload (Driver's License or Passport) <span class="required">*</span></label>
+                            <input type="file" id="idUpload" name="idUpload" class="form-input" accept="image/*,.pdf" required>
+                            <p class="form-hint">Please upload a READABLE scan of ID (Driver or Passport). We collect this for verification purposes only.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 2: Bank Account -->
+                <section class="form-section" data-section="2">
+                    <h2 class="form-section-title"><span class="section-num">2</span> Bank Account</h2>
+                    <p class="form-section-subtitle">This will be where we transfer your rental income to (we cannot transfer to a 3rd party account)</p>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="bankName">Bank Name <span class="required">*</span></label>
+                            <input type="text" id="bankName" name="bankName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="accountName">Name of Account <span class="required">*</span></label>
+                            <input type="text" id="accountName" name="accountName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bsb">BSB <span class="required">*</span></label>
+                            <input type="text" id="bsb" name="bsb" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="accountNumber">Account Number <span class="required">*</span></label>
+                            <input type="text" id="accountNumber" name="accountNumber" class="form-input" required>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 3: About Your Listing -->
+                <section class="form-section" data-section="3">
+                    <h2 class="form-section-title"><span class="section-num">3</span> About Your Listing</h2>
+                    <p class="form-section-subtitle">Tell us about the property you would like to add to your portfolio</p>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="buildingName">Name of Building</label>
+                            <input type="text" id="buildingName" name="buildingName" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="buildingManagerEmail">Building Manager's Email</label>
+                            <input type="email" id="buildingManagerEmail" name="buildingManagerEmail" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="unitNumber">Unit Number</label>
+                            <input type="text" id="unitNumber" name="unitNumber" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="propertyAddress">Address of Property <span class="required">*</span></label>
+                            <input type="text" id="propertyAddress" name="propertyAddress" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="propStreet">Street Address</label>
+                            <input type="text" id="propStreet" name="propStreet" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="propCity">City</label>
+                            <input type="text" id="propCity" name="propCity" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="propState">State/Territory</label>
+                            <select id="propState" name="propState" class="form-select">
+                                <option value="">Select</option>
+                                <option value="VIC">VIC</option>
+                                <option value="NSW">NSW</option>
+                                <option value="QLD">QLD</option>
+                                <option value="WA">WA</option>
+                                <option value="SA">SA</option>
+                                <option value="TAS">TAS</option>
+                                <option value="ACT">ACT</option>
+                                <option value="NT">NT</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="propPostcode">Postcode</label>
+                            <input type="text" id="propPostcode" name="propPostcode" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="propCountry">Country</label>
+                            <input type="text" id="propCountry" name="propCountry" class="form-input" value="Australia">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Property Type</label>
+                            <div class="form-options">
+                                <div class="form-option">
+                                    <input type="radio" name="propertyType" id="type-apartment" value="Apartment">
+                                    <label for="type-apartment" class="form-option-label">Apartment</label>
+                                </div>
+                                <div class="form-option">
+                                    <input type="radio" name="propertyType" id="type-townhouse" value="Townhouse">
+                                    <label for="type-townhouse" class="form-option-label">Townhouse</label>
+                                </div>
+                                <div class="form-option">
+                                    <input type="radio" name="propertyType" id="type-house" value="House">
+                                    <label for="type-house" class="form-option-label">House</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Is there a Concierge/Doorman?</label>
+                            <div class="form-options">
+                                <div class="form-option">
+                                    <input type="radio" name="hasConcierge" id="concierge-yes" value="Yes">
+                                    <label for="concierge-yes" class="form-option-label">Yes</label>
+                                </div>
+                                <div class="form-option">
+                                    <input type="radio" name="hasConcierge" id="concierge-no" value="No">
+                                    <label for="concierge-no" class="form-option-label">No</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="totalGuests">Total Guests</label>
+                            <input type="number" id="totalGuests" name="totalGuests" class="form-input" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bedrooms">No. of Bedrooms <span class="required">*</span></label>
+                            <input type="number" id="bedrooms" name="bedrooms" class="form-input" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="bathrooms">No. of Bathrooms</label>
+                            <input type="number" id="bathrooms" name="bathrooms" class="form-input" min="0">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Bed Details</label>
+                            <div class="bed-config">
+                                <div class="bed-config-item">
+                                    <span>King beds</span>
+                                    <div class="bed-config-controls">
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, -1)">−</button>
+                                        <span class="bed-config-value">0</span>
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, 1)">+</button>
+                                        <input type="hidden" name="kingBeds" value="0">
+                                    </div>
+                                </div>
+                                <div class="bed-config-item">
+                                    <span>Queen beds</span>
+                                    <div class="bed-config-controls">
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, -1)">−</button>
+                                        <span class="bed-config-value">0</span>
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, 1)">+</button>
+                                        <input type="hidden" name="queenBeds" value="0">
+                                    </div>
+                                </div>
+                                <div class="bed-config-item">
+                                    <span>King Single</span>
+                                    <div class="bed-config-controls">
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, -1)">−</button>
+                                        <span class="bed-config-value">0</span>
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, 1)">+</button>
+                                        <input type="hidden" name="kingSingleBeds" value="0">
+                                    </div>
+                                </div>
+                                <div class="bed-config-item">
+                                    <span>Double beds</span>
+                                    <div class="bed-config-controls">
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, -1)">−</button>
+                                        <span class="bed-config-value">0</span>
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, 1)">+</button>
+                                        <input type="hidden" name="doubleBeds" value="0">
+                                    </div>
+                                </div>
+                                <div class="bed-config-item">
+                                    <span>Single beds</span>
+                                    <div class="bed-config-controls">
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, -1)">−</button>
+                                        <span class="bed-config-value">0</span>
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, 1)">+</button>
+                                        <input type="hidden" name="singleBeds" value="0">
+                                    </div>
+                                </div>
+                                <div class="bed-config-item">
+                                    <span>Bunk beds</span>
+                                    <div class="bed-config-controls">
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, -1)">−</button>
+                                        <span class="bed-config-value">0</span>
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, 1)">+</button>
+                                        <input type="hidden" name="bunkBeds" value="0">
+                                    </div>
+                                </div>
+                                <div class="bed-config-item">
+                                    <span>Sofa beds</span>
+                                    <div class="bed-config-controls">
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, -1)">−</button>
+                                        <span class="bed-config-value">0</span>
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, 1)">+</button>
+                                        <input type="hidden" name="sofaBeds" value="0">
+                                    </div>
+                                </div>
+                                <div class="bed-config-item">
+                                    <span>Floor mattress</span>
+                                    <div class="bed-config-controls">
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, -1)">−</button>
+                                        <span class="bed-config-value">0</span>
+                                        <button type="button" class="bed-config-btn" onclick="adjustBed(this, 1)">+</button>
+                                        <input type="hidden" name="floorMattress" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Do you have all the items for a proper bedding setup? <span class="required">*</span></label>
+                            <div class="form-radio-group">
+                                <div class="form-radio-item">
+                                    <input type="radio" name="beddingSetup" id="bedding-yes" value="Yes, I have all the items ready." required>
+                                    <label for="bedding-yes">Yes, I have all the items ready.</label>
+                                </div>
+                                <div class="form-radio-item">
+                                    <input type="radio" name="beddingSetup" id="bedding-willsupply" value="Not yet, but I will supply them myself.">
+                                    <label for="bedding-willsupply">Not yet, but I will supply them myself.</label>
+                                </div>
+                                <div class="form-radio-item">
+                                    <input type="radio" name="beddingSetup" id="bedding-organise" value="No, please organise them for me.">
+                                    <label for="bedding-organise">No, please organise them for me.</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 4: Basic Requirements -->
+                <section class="form-section" data-section="4">
+                    <h2 class="form-section-title"><span class="section-num">4</span> Basic Requirements</h2>
+                    <p class="form-section-subtitle">What basic items and appliances does your property have?</p>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-ac" value="Air conditioning">
+                            <label for="br-ac">Air conditioning</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-heating" value="Heating">
+                            <label for="br-heating">Heating</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-washer" value="Washer">
+                            <label for="br-washer">Washer</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-dryer" value="Dryer">
+                            <label for="br-dryer">Dryer</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-microwave" value="Microwave">
+                            <label for="br-microwave">Microwave</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-refrigerator" value="Refrigerator">
+                            <label for="br-refrigerator">Refrigerator</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-dishwasher" value="Dishwasher">
+                            <label for="br-dishwasher">Dishwasher</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-plates" value="Plates/Bowls/Utensils">
+                            <label for="br-plates">Plates/Bowls/Utensils</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-cooking" value="Cooking basics">
+                            <label for="br-cooking">Cooking basics</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-oven" value="Oven">
+                            <label for="br-oven">Oven</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-gas" value="Gas Stove">
+                            <label for="br-gas">Gas Stove</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-induction" value="Induction Stove">
+                            <label for="br-induction">Induction Stove</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-tv" value="TV">
+                            <label for="br-tv">TV</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-elevator" value="Elevator">
+                            <label for="br-elevator">Elevator</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-smoke" value="Smoke Detector">
+                            <label for="br-smoke">Smoke Detector</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-hairdryer" value="Hair Dryer">
+                            <label for="br-hairdryer">Hair Dryer</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-hangers" value="Hangers">
+                            <label for="br-hangers">Hangers</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-iron" value="Iron">
+                            <label for="br-iron">Iron</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-kettle" value="Kettle">
+                            <label for="br-kettle">Kettle</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-coffee" value="Coffee machine">
+                            <label for="br-coffee">Coffee machine</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-mop" value="Mop">
+                            <label for="br-mop">Mop</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-vacuum" value="Vacuum Cleaner">
+                            <label for="br-vacuum">Vacuum Cleaner</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="basicRequirements" id="br-co" value="Carbon Monoxide detector">
+                            <label for="br-co">Carbon Monoxide detector</label>
+                        </div>
+                    </div>
+                    <button type="button" class="select-all-btn" onclick="toggleSelectAll('basicRequirements', this)">Select All</button>
+                </section>
+
+                <!-- SECTION 5: Amenities -->
+                <section class="form-section" data-section="5">
+                    <h2 class="form-section-title"><span class="section-num">5</span> Amenities</h2>
+                    <p class="form-section-subtitle">What additional amenities does your property offer?</p>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="amenities" id="am-pool" value="Pool">
+                            <label for="am-pool">Pool</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="amenities" id="am-gym" value="Gym">
+                            <label for="am-gym">Gym</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="amenities" id="am-bbq" value="BBQ Grill">
+                            <label for="am-bbq">BBQ Grill</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="amenities" id="am-hottub" value="Hot Tub">
+                            <label for="am-hottub">Hot Tub</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="amenities" id="am-rooftop" value="Rooftop">
+                            <label for="am-rooftop">Rooftop</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="amenities" id="am-wheelchair" value="Wheelchair Access">
+                            <label for="am-wheelchair">Wheelchair Access</label>
+                        </div>
+                    </div>
+                    <button type="button" class="select-all-btn" onclick="toggleSelectAll('amenities', this)">Select All</button>
+                    <div class="form-group" style="margin-top: 24px;">
+                        <label class="form-label" for="rubbishDisposal">Rubbish Disposal</label>
+                        <textarea id="rubbishDisposal" name="rubbishDisposal" class="form-textarea" placeholder="Please advise where the bin/bin room is, access and bin day if applicable"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="amenitiesInfo">Amenities Info</label>
+                        <textarea id="amenitiesInfo" name="amenitiesInfo" class="form-textarea" placeholder="What floor is it on and any restrictions to Airbnb guests?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Utilities that are already set up</label>
+                        <div class="form-options" style="flex-wrap: wrap;">
+                            <div class="form-checkbox-option">
+                                <input type="checkbox" name="utilities" id="util-electricity" value="Electricity">
+                                <label for="util-electricity" class="form-checkbox-option-label">Electricity</label>
+                            </div>
+                            <div class="form-checkbox-option">
+                                <input type="checkbox" name="utilities" id="util-water" value="Water">
+                                <label for="util-water" class="form-checkbox-option-label">Water</label>
+                            </div>
+                            <div class="form-checkbox-option">
+                                <input type="checkbox" name="utilities" id="util-internet" value="Internet">
+                                <label for="util-internet" class="form-checkbox-option-label">Internet</label>
+                            </div>
+                            <div class="form-checkbox-option">
+                                <input type="checkbox" name="utilities" id="util-gas" value="Gas">
+                                <label for="util-gas" class="form-checkbox-option-label">Gas</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="conditional-wifi" class="conditional-field">
+                        <label class="form-label">WiFi Details</label>
+                        <div class="input-row">
+                            <input type="text" name="wifiName" class="form-input" placeholder="WiFi Name (SSID)">
+                            <input type="text" name="wifiPassword" class="form-input" placeholder="WiFi Password">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 6: Access & Keys -->
+                <section class="form-section" data-section="6">
+                    <h2 class="form-section-title"><span class="section-num">6</span> Access & Keys</h2>
+                    <p class="form-section-subtitle">Key and access information for your property</p>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label">Do you have a smart lock?</label>
+                            <div class="form-options">
+                                <div class="form-option">
+                                    <input type="radio" name="hasSmartLock" id="smartlock-yes" value="Yes">
+                                    <label for="smartlock-yes" class="form-option-label">Yes</label>
+                                </div>
+                                <div class="form-option">
+                                    <input type="radio" name="hasSmartLock" id="smartlock-no" value="No">
+                                    <label for="smartlock-no" class="form-option-label">No</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="conditional-smartlock" class="conditional-field full-width" style="grid-column: 1 / -1;">
+                            <label class="form-label" for="smartLockCode">Smart Lock Code</label>
+                            <input type="text" id="smartLockCode" name="smartLockCode" class="form-input" placeholder="Enter smart lock code">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="numKeys">No. of Keys</label>
+                            <select id="numKeys" name="numKeys" class="form-select">
+                                <option value="">Select</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5+">5+</option>
+                            </select>
+                            <p class="form-hint">How many sets will you be providing?</p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="keysHandoverDate">Keys Handover Date</label>
+                            <input type="date" id="keysHandoverDate" name="keysHandoverDate" class="form-input">
+                            <p class="form-hint">Pick a day that suits you</p>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label" for="keyHandoverDetails">Key Handover Details</label>
+                            <textarea id="keyHandoverDetails" name="keyHandoverDetails" class="form-textarea"></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 7: Booking and Listing Specifications -->
+                <section class="form-section" data-section="7">
+                    <h2 class="form-section-title"><span class="section-num">7</span> Booking and Listing Specifications</h2>
+                    <p class="form-section-subtitle">Your preferences for how the property is listed</p>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="maxGuests">Maximum Guests</label>
+                            <input type="number" id="maxGuests" name="maxGuests" class="form-input" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="minNights">Minimum Nights</label>
+                            <input type="number" id="minNights" name="minNights" class="form-input" min="0" value="2">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="maxNights">Maximum Nights</label>
+                            <input type="number" id="maxNights" name="maxNights" class="form-input" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="nightlyRate">Current Nightly Rate $</label>
+                            <input type="number" id="nightlyRate" name="nightlyRate" class="form-input" min="0" step="0.01">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Pets Allowed?</label>
+                            <div class="form-options">
+                                <div class="form-option">
+                                    <input type="radio" name="petsAllowed" id="pets-yes" value="Yes">
+                                    <label for="pets-yes" class="form-option-label">Yes</label>
+                                </div>
+                                <div class="form-option">
+                                    <input type="radio" name="petsAllowed" id="pets-no" value="No">
+                                    <label for="pets-no" class="form-option-label">No</label>
+                                </div>
+                                <div class="form-option">
+                                    <input type="radio" name="petsAllowed" id="pets-negotiable" value="Negotiable">
+                                    <label for="pets-negotiable" class="form-option-label">Negotiable</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="totalMinRate">Total Minimum Rate $</label>
+                            <input type="number" id="totalMinRate" name="totalMinRate" class="form-input" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="nightlyMinRate">Nightly Minimum Rate $</label>
+                            <input type="number" id="nightlyMinRate" name="nightlyMinRate" class="form-input" min="0" step="0.01">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 8: Additional Information -->
+                <section class="form-section" data-section="8">
+                    <h2 class="form-section-title"><span class="section-num">8</span> Additional Information</h2>
+                    <p class="form-section-subtitle">Anything else we should know?</p>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label" for="otherInfo">Any Other Information</label>
+                            <textarea id="otherInfo" name="otherInfo" class="form-textarea"></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label" for="otherDocs">Other Helpful Documents</label>
+                            <input type="file" id="otherDocs" name="otherDocs" class="form-input" multiple>
+                            <p class="form-hint">Please upload any relevant documents such as lease agreements, strata by-laws, or building rules.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="submit-area">
+                    <p class="submit-note">By submitting this form, you agree to our <a href="terms-and-conditions.html">terms of service</a> and <a href="privacy-policy.html">privacy policy</a>.</p>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">
+                    <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo logo-white">
+                </div>
+                <p class="footer-tagline">AI-powered Airbnb management</p>
+            </div>
+            <div>
+                <div class="footer-links">
+                    <a href="index.html#pricing">Pricing</a>
+                    <a href="index.html#testimonials">Testimonials</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                    <a href="onboarding.html">Client Onboarding</a>
+                    <a href="terms-and-conditions.html">Terms and Conditions</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <div><a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Airoam. All rights reserved. ABN 41 668 564 716. <a href="terms-and-conditions.html">Terms and Conditions</a> · <a href="privacy-policy.html">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script>
+        function adjustBed(btn, delta) {
+            var controls = btn.closest('.bed-config-controls');
+            var valueEl = controls.querySelector('.bed-config-value');
+            var input = controls.querySelector('input[type="hidden"]');
+            var value = parseInt(valueEl.textContent, 10) + delta;
+            if (value < 0) value = 0;
+            valueEl.textContent = value;
+            input.value = value;
+        }
+
+        function toggleSelectAll(inputName, btn) {
+            var checkboxes = document.querySelectorAll('input[name="' + inputName + '"]');
+            var allChecked = Array.from(checkboxes).every(function(cb) { return cb.checked; });
+            checkboxes.forEach(function(cb) {
+                cb.checked = !allChecked;
+            });
+            btn.textContent = allChecked ? 'Select All' : 'Deselect All';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Internet/WiFi conditional
+            var internetCheckbox = document.getElementById('util-internet');
+            var wifiField = document.getElementById('conditional-wifi');
+            if (internetCheckbox && wifiField) {
+                internetCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        wifiField.classList.add('visible');
+                    } else {
+                        wifiField.classList.remove('visible');
+                        wifiField.querySelectorAll('input').forEach(function(input) { input.value = ''; });
+                    }
+                });
+            }
+            // Smart Lock conditional
+            var smartLockYes = document.getElementById('smartlock-yes');
+            var smartLockNo = document.getElementById('smartlock-no');
+            var smartLockField = document.getElementById('conditional-smartlock');
+            if (smartLockYes && smartLockField) {
+                smartLockYes.addEventListener('change', function() {
+                    if (this.checked) {
+                        smartLockField.classList.add('visible');
+                    }
+                });
+            }
+            if (smartLockNo && smartLockField) {
+                smartLockNo.addEventListener('change', function() {
+                    if (this.checked) {
+                        smartLockField.classList.remove('visible');
+                        smartLockField.querySelectorAll('input').forEach(function(input) { input.value = ''; });
+                    }
+                });
+            }
+        });
+
+        document.getElementById('onboarding-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var submitBtn = this.querySelector('.submit-btn');
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+            var formData = new FormData(this);
+            var data = {};
+            formData.forEach(function(value, key) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            });
+            for (var key in data) {
+                if (Array.isArray(data[key])) {
+                    data[key] = data[key].join(', ');
+                }
+            }
+            console.log('Form data:', data);
+            var formEl = this;
+            setTimeout(function() {
+                formEl.innerHTML = '<div style="text-align: center; padding: 80px 20px;"><div style="width: 64px; height: 64px; background: #202020; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg></div><h2 style="font-size: 32px; font-weight: 600; margin-bottom: 16px;">Thank you!</h2><p style="font-size: 16px; color: rgba(0,0,0,0.6); margin-bottom: 32px;">Your onboarding form has been submitted successfully.<br>We\'ll be in touch within 24 hours.</p><a href="index.html" style="display: inline-block; padding: 16px 32px; background: #202020; color: white; text-decoration: none; font-weight: 500;">Back to Home</a></div>';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1500);
+        });
+
+        // Progress bar update on scroll
+        var sections = document.querySelectorAll('.form-section[data-section]');
+        var progressSteps = document.querySelectorAll('.progress-step');
+
+        function updateProgress() {
+            var scrollPos = window.scrollY + 200;
+            sections.forEach(function(section, index) {
+                var sectionTop = section.offsetTop;
+                var sectionHeight = section.offsetHeight;
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    progressSteps.forEach(function(step, i) {
+                        step.classList.remove('active');
+                        if (i < index) {
+                            step.classList.add('completed');
+                        } else {
+                            step.classList.remove('completed');
+                        }
+                        if (i === index) {
+                            step.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateProgress, { passive: true });
+        updateProgress();
+    </script>
+</body>
+</html>

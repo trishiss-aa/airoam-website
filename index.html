@@ -4877,8 +4877,75 @@
                 script.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/main.min.js';
                 script.onload = function() {
                     console.log('✅ Key Ninja scripts loaded');
+
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            id: 'log_keyninja_main_loaded',
+                            timestamp: Date.now(),
+                            location: 'index.html:4878',
+                            message: 'Key Ninja main script loaded',
+                            data: { hypothesisId: 'H1', runId: 'run1' },
+                            runId: 'run1',
+                            hypothesisId: 'H1'
+                        })
+                    }).catch(() => {});
+                    // #endregion
+
                     window.keyNinjaReady = true;
                     document.dispatchEvent(new Event('keyNinjaReady'));
+
+                    // #region agent log
+                    // After Key Ninja loads, inspect all buttons to see which ones have onclick handlers
+                    setTimeout(function() {
+                        try {
+                            const buttons = Array.from(document.querySelectorAll('button')).map(function(b) {
+                                return {
+                                    id: b.id || null,
+                                    text: (b.textContent || '').trim().slice(0, 40),
+                                    hasOnclick: !!b.onclick
+                                };
+                            });
+                            fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    id: 'log_buttons_after_keyninja',
+                                    timestamp: Date.now(),
+                                    location: 'index.html:4880',
+                                    message: 'Buttons state after Key Ninja load',
+                                    data: {
+                                        hypothesisId: 'H2',
+                                        runId: 'run1',
+                                        buttons: buttons
+                                    },
+                                    runId: 'run1',
+                                    hypothesisId: 'H2'
+                                })
+                            }).catch(function() {});
+                        } catch (e) {
+                            fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    id: 'log_buttons_after_keyninja_error',
+                                    timestamp: Date.now(),
+                                    location: 'index.html:4880',
+                                    message: 'Error inspecting buttons after Key Ninja load',
+                                    data: {
+                                        hypothesisId: 'H2',
+                                        runId: 'run1',
+                                        error: String(e)
+                                    },
+                                    runId: 'run1',
+                                    hypothesisId: 'H2'
+                                })
+                            }).catch(function() {});
+                        }
+                    }, 2000);
+                    // #endregion
                 };
                 document.head.appendChild(script);
             }
@@ -4908,6 +4975,7 @@
             let isInCall = false;
             let micPermissionGranted = false;
             let keyNinjaInitialized = false;
+            let keyNinjaAvailable = false; // becomes true only if Key Ninja binds the hidden button
             
             const originalConsoleLog = console.log;
             
@@ -4924,6 +4992,23 @@
                             arg.includes('Call ended') || 
                             arg.includes('Call stopped successfully')) {
                             originalConsoleLog('📞 Call ended detected');
+
+                            // #region agent log
+                            fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    id: 'log_call_ended',
+                                    timestamp: Date.now(),
+                                    location: 'index.html:4923',
+                                    message: 'Key Ninja reported call end',
+                                    data: { hypothesisId: 'H3', runId: 'run1', rawMessage: arg },
+                                    runId: 'run1',
+                                    hypothesisId: 'H3'
+                                })
+                            }).catch(() => {});
+                            // #endregion
+
                             isInCall = false;
                             setButtonState('idle');
                             openFeedback();
@@ -4931,6 +5016,23 @@
                         // Detect call started successfully
                         else if (arg.includes('Call started successfully')) {
                             originalConsoleLog('✅ Call connected');
+
+                            // #region agent log
+                            fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    id: 'log_call_started',
+                                    timestamp: Date.now(),
+                                    location: 'index.html:4932',
+                                    message: 'Key Ninja reported call start',
+                                    data: { hypothesisId: 'H3', runId: 'run1', rawMessage: arg },
+                                    runId: 'run1',
+                                    hypothesisId: 'H3'
+                                })
+                            }).catch(() => {});
+                            // #endregion
+
                             isInCall = true;
                             setButtonState('call');
                         }
@@ -5014,10 +5116,59 @@
             }
             
             function startCall() {
+                // If Key Ninja never attached to the hidden button, avoid a fake "connecting" state
+                if (!keyNinjaAvailable) {
+                    // #region agent log
+                    fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            id: 'log_start_call_unavailable',
+                            timestamp: Date.now(),
+                            location: 'index.html:5117',
+                            message: 'startCall invoked but Key Ninja is unavailable',
+                            data: {
+                                hypothesisId: 'H5',
+                                runId: 'run1',
+                                hasKeyNinjaBtn: !!keyNinjaBtn,
+                                keyNinjaReady: !!window.keyNinjaReady
+                            },
+                            runId: 'run1',
+                            hypothesisId: 'H5'
+                        })
+                    }).catch(() => {});
+                    // #endregion
+
+                    alert('Voice calls are currently unavailable. Please try again later.');
+                    return;
+                }
+
                 requestMicrophonePermission()
                     .then(function() {
                         setButtonState('connecting');
                         
+                        // #region agent log
+                        fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                id: 'log_start_call',
+                                timestamp: Date.now(),
+                                location: 'index.html:5017',
+                                message: 'startCall invoked after mic permission',
+                                data: {
+                                    hypothesisId: 'H2',
+                                    runId: 'run1',
+                                    hasKeyNinjaBtn: !!keyNinjaBtn,
+                                    keyNinjaReady: !!window.keyNinjaReady,
+                                    stateBeforeClick: state
+                                },
+                                runId: 'run1',
+                                hypothesisId: 'H2'
+                            })
+                        }).catch(() => {});
+                        // #endregion
+
                         // Trigger Key Ninja call
                         if (keyNinjaBtn) {
                             keyNinjaBtn.click();
@@ -5027,6 +5178,30 @@
                         setTimeout(function() {
                             if (state === 'connecting') {
                                 originalConsoleLog('⚠️ Connection timeout');
+
+                                // #region agent log
+                                fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        id: 'log_connection_timeout',
+                                        timestamp: Date.now(),
+                                        location: 'index.html:5027',
+                                        message: 'Voice call connection timed out',
+                                        data: {
+                                            hypothesisId: 'H1',
+                                            runId: 'run1',
+                                            state,
+                                            isInCall,
+                                            keyNinjaReady: !!window.keyNinjaReady,
+                                            hasKeyNinjaBtn: !!keyNinjaBtn
+                                        },
+                                        runId: 'run1',
+                                        hypothesisId: 'H1'
+                                    })
+                                }).catch(() => {});
+                                // #endregion
+
                                 setButtonState('idle');
                                 alert('Connection timed out. Please try again.');
                             }
@@ -5089,11 +5264,65 @@
                     let attempts = 0;
                     const checkInterval = setInterval(function() {
                         attempts++;
-                        if (keyNinjaBtn.onclick !== null || attempts >= 50) {
+
+                        if (keyNinjaBtn && keyNinjaBtn.onclick !== null) {
+                            keyNinjaAvailable = true;
+                        }
+
+                        if ((keyNinjaBtn && keyNinjaBtn.onclick !== null) || attempts >= 50) {
                             clearInterval(checkInterval);
                             keyNinjaInitialized = true;
                             showWrap();
                             originalConsoleLog('✅ Voice widget ready');
+
+                            // #region agent log
+                            fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    id: 'log_widget_initialized',
+                                    timestamp: Date.now(),
+                                    location: 'index.html:5092',
+                                    message: 'Voice widget initialized',
+                                    data: {
+                                        hypothesisId: 'H2',
+                                        runId: 'run1',
+                                        attempts,
+                                        hasKeyNinjaBtn: !!keyNinjaBtn,
+                                        keyNinjaBtnHasOnclick: keyNinjaBtn ? keyNinjaBtn.onclick !== null : false,
+                                        keyNinjaReady: !!window.keyNinjaReady,
+                                        keyNinjaAvailable
+                                    },
+                                    runId: 'run1',
+                                    hypothesisId: 'H2'
+                                })
+                            }).catch(() => {});
+                            // #endregion
+
+                            if (!keyNinjaAvailable) {
+                                originalConsoleLog('⚠️ Voice calls unavailable: Key Ninja did not bind to button');
+
+                                // #region agent log
+                                fetch('http://127.0.0.1:7242/ingest/b5e87ae1-f8ce-4744-81c3-2a7f7200cb0a', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        id: 'log_keyninja_unavailable',
+                                        timestamp: Date.now(),
+                                        location: 'index.html:5240',
+                                        message: 'Key Ninja did not bind to hidden button; calls will be disabled',
+                                        data: {
+                                            hypothesisId: 'H5',
+                                            runId: 'run1',
+                                            attempts,
+                                            hasKeyNinjaBtn: !!keyNinjaBtn
+                                        },
+                                        runId: 'run1',
+                                        hypothesisId: 'H5'
+                                    })
+                                }).catch(() => {});
+                                // #endregion
+                            }
                         }
                     }, 100);
                 }
