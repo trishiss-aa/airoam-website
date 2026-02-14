@@ -621,7 +621,7 @@
         </div>
 
         <div class="form-content">
-            <form id="onboarding-form" class="form-container">
+            <form id="onboarding-form" class="form-container" action="https://formspree.io/f/mwvnopop" method="POST">
                 <!-- SECTION 1: About You -->
                 <section class="form-section" data-section="1">
                     <h2 class="form-section-title"><span class="section-num">1</span> About You</h2>
@@ -1277,33 +1277,30 @@
 
         document.getElementById('onboarding-form').addEventListener('submit', function(e) {
             e.preventDefault();
+            var formEl = this;
             var submitBtn = this.querySelector('.submit-btn');
             submitBtn.textContent = 'Submitting...';
             submitBtn.disabled = true;
             var formData = new FormData(this);
-            var data = {};
-            formData.forEach(function(value, key) {
-                if (data[key]) {
-                    if (Array.isArray(data[key])) {
-                        data[key].push(value);
-                    } else {
-                        data[key] = [data[key], value];
-                    }
+            var successHtml = '<div style="text-align: center; padding: 80px 20px;"><div style="width: 64px; height: 64px; background: #202020; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg></div><h2 style="font-size: 32px; font-weight: 600; margin-bottom: 16px;">Thank you!</h2><p style="font-size: 16px; color: rgba(0,0,0,0.6); margin-bottom: 32px;">Your onboarding form has been submitted successfully.<br>We\'ll be in touch within 24 hours.</p><a href="index.html" style="display: inline-block; padding: 16px 32px; background: #202020; color: white; text-decoration: none; font-weight: 500;">Back to Home</a></div>';
+            fetch('https://formspree.io/f/mwvnopop', {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            }).then(function(response) {
+                if (response.ok) {
+                    formEl.innerHTML = successHtml;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
-                    data[key] = value;
+                    submitBtn.textContent = 'Submit';
+                    submitBtn.disabled = false;
+                    alert('Something went wrong. Please try again.');
                 }
+            }).catch(function() {
+                submitBtn.textContent = 'Submit';
+                submitBtn.disabled = false;
+                alert('Something went wrong. Please try again.');
             });
-            for (var key in data) {
-                if (Array.isArray(data[key])) {
-                    data[key] = data[key].join(', ');
-                }
-            }
-            console.log('Form data:', data);
-            var formEl = this;
-            setTimeout(function() {
-                formEl.innerHTML = '<div style="text-align: center; padding: 80px 20px;"><div style="width: 64px; height: 64px; background: #202020; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg></div><h2 style="font-size: 32px; font-weight: 600; margin-bottom: 16px;">Thank you!</h2><p style="font-size: 16px; color: rgba(0,0,0,0.6); margin-bottom: 32px;">Your onboarding form has been submitted successfully.<br>We\'ll be in touch within 24 hours.</p><a href="index.html" style="display: inline-block; padding: 16px 32px; background: #202020; color: white; text-decoration: none; font-weight: 500;">Back to Home</a></div>';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 1500);
         });
 
         // Progress bar update on scroll
