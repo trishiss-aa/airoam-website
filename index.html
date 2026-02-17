@@ -5064,7 +5064,28 @@
             let keyNinjaAvailable = false; // becomes true only if Key Ninja binds the hidden button
             
             const originalConsoleLog = console.log;
-            
+
+            // Check if Key Ninja is available (multiple detection methods)
+            function checkKeyNinjaAvailable() {
+                if (keyNinjaAvailable) return true;
+
+                // Method 1: Check if HeyaClient exists and keyNinjaReady is true
+                if (window.HeyaClient && window.keyNinjaReady) {
+                    keyNinjaAvailable = true;
+                    originalConsoleLog('✅ Key Ninja available (HeyaClient + keyNinjaReady)');
+                    return true;
+                }
+
+                // Method 2: Check if HEYA_CONFIG exists with a configId
+                if (window.HEYA_CONFIG && window.HEYA_CONFIG.configId) {
+                    keyNinjaAvailable = true;
+                    originalConsoleLog('✅ Key Ninja available (HEYA_CONFIG)');
+                    return true;
+                }
+
+                return false;
+            }
+
             // Monitor console for Key Ninja state changes
             console.log = function() {
                 originalConsoleLog.apply(console, arguments);
@@ -5244,16 +5265,12 @@
             // Wait for Key Ninja to be ready before showing widget
             function initWidget() {
                 if (window.keyNinjaReady || keyNinjaInitialized) {
-                    // Wait for Key Ninja to bind to the hidden button
                     let attempts = 0;
                     const checkInterval = setInterval(function() {
                         attempts++;
+                        checkKeyNinjaAvailable();
 
-                        if (keyNinjaBtn && keyNinjaBtn.onclick !== null) {
-                            keyNinjaAvailable = true;
-                        }
-
-                        if ((keyNinjaBtn && keyNinjaBtn.onclick !== null) || attempts >= 50) {
+                        if (keyNinjaAvailable || attempts >= 50) {
                             clearInterval(checkInterval);
                             keyNinjaInitialized = true;
                             showWrap();
