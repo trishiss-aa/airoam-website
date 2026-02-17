@@ -1697,76 +1697,138 @@
 
         /* Blog Magazine - tablet */
         @media (max-width: 1024px) {
+            .blog-magazine-container {
+                max-width: 100%;
+                padding: 0 40px;
+            }
+
             .blog-magazine-grid {
                 grid-template-columns: 1fr 1fr;
+                gap: 16px;
             }
 
             .blog-card-featured {
                 grid-column: span 2;
                 grid-row: span 1;
-                min-height: 350px;
+                min-height: 300px;
+                aspect-ratio: 21 / 9;
+            }
+
+            .blog-card-featured .blog-card-title {
+                font-size: 24px;
             }
 
             .blog-card-medium {
                 grid-column: span 2;
+                aspect-ratio: 3 / 1;
+            }
+
+            .blog-card-medium .blog-card-title {
+                font-size: 18px;
             }
 
             .blog-card-small {
                 grid-column: span 1;
+                aspect-ratio: 4 / 3;
+            }
+
+            .blog-card-small .blog-card-title {
+                font-size: 16px;
+            }
+
+            .blog-card-small .blog-card-content {
+                padding: 20px;
             }
         }
 
         /* Blog Magazine - mobile */
         @media (max-width: 768px) {
             .blog-magazine-section {
-                padding: 80px 0 100px;
+                padding: 60px 0 80px;
             }
 
             .blog-magazine-container {
-                padding: 0 24px;
+                max-width: 100%;
+                width: 100%;
+                padding: 0 20px;
             }
 
             .blog-magazine-header {
-                margin-bottom: 40px;
+                margin-bottom: 24px;
             }
 
             .blog-magazine-title {
-                font-size: 2em;
+                font-size: 28px;
             }
 
             .blog-magazine-grid {
-                grid-template-columns: 1fr;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
                 gap: 16px;
+                max-width: 100%;
+                width: 100%;
             }
 
+            /* Force all cards to full width */
+            .blog-magazine-section .blog-card,
             .blog-card-featured,
             .blog-card-medium,
             .blog-card-small {
-                grid-column: span 1;
-                grid-row: span 1;
-                aspect-ratio: 4 / 3;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 100% !important;
+                grid-column: unset;
+                grid-row: unset;
+            }
+
+            /* Featured card - larger */
+            .blog-card-featured {
+                aspect-ratio: 16 / 10;
                 min-height: auto;
             }
 
-            .blog-card-featured .blog-card-content,
-            .blog-card-medium .blog-card-content,
-            .blog-card-small .blog-card-content {
-                padding: 24px;
+            .blog-card-featured .blog-card-content {
+                padding: 20px;
             }
 
-            .blog-card-featured .blog-card-title,
+            .blog-card-featured .blog-card-title {
+                font-size: 20px;
+                max-width: none;
+            }
+
+            /* Medium and small cards - shorter */
+            .blog-card-medium,
+            .blog-card-small {
+                aspect-ratio: 2.5 / 1;
+                min-height: auto;
+            }
+
+            .blog-card-medium .blog-card-content,
+            .blog-card-small .blog-card-content {
+                padding: 20px;
+            }
+
             .blog-card-medium .blog-card-title,
             .blog-card-small .blog-card-title {
-                font-size: 18px;
+                font-size: 15px;
+            }
+
+            .blog-card-medium .blog-card-category,
+            .blog-card-small .blog-card-category {
+                font-size: 10px;
+                padding: 5px 10px;
+                margin-bottom: 8px;
             }
 
             .blog-magazine-footer {
-                margin-top: 40px;
+                margin-top: 24px;
+                width: 100%;
             }
 
             .blog-see-all-btn {
                 width: 100%;
-                padding: 18px 32px;
+                padding: 16px 24px;
             }
         }
 
