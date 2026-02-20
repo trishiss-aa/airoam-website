@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Earnings Calculator | Airoam</title>
+    <meta name="description" content="Compare long-term vs short-term rental earnings for Melbourne, Perth, and Mornington Peninsula. See your potential income with Airoam's 9% management fee.">
+    <link rel="canonical" href="https://airoam.com.au/calculator">
+    <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-black: #202020;
+            --color-white: #FFFFFF;
+            --color-cream: #FAF0DD;
+            --color-cream-hover: rgba(250, 240, 221, 0.4);
+            --color-text-grey: rgba(0, 0, 0, 0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            padding-top: 80px;
+        }
+
+        #main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 80px;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10000;
+            background-color: var(--color-white);
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #main-nav.scrolled {
+            border-bottom-color: var(--color-black);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+        .nav-logo { display: flex; align-items: center; text-decoration: none; cursor: pointer; }
+        .nav-logo .logo { width: 180px; height: auto; display: block; }
+        .nav-center { display: flex; gap: 40px; align-items: center; }
+        .nav-center a { font-size: 14px; letter-spacing: 0.05em; color: var(--color-black); text-decoration: none; transition: opacity 0.3s ease; }
+        .nav-center a:hover { opacity: 0.6; }
+        .nav-button {
+            padding: 10px 24px;
+            border: 3px solid var(--color-black);
+            background-color: transparent;
+            color: var(--color-black);
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+        .nav-button::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background-color: var(--color-black); transition: left 0.4s ease; z-index: -1; }
+        .nav-button:hover { color: var(--color-white); }
+        .nav-button:hover::before { left: 0; }
+        .nav-hamburger {
+            display: none;
+            width: 30px;
+            height: 20px;
+            flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            position: relative;
+            z-index: 10001;
+        }
+        .nav-hamburger span { width: 100%; height: 2px; background-color: var(--color-black); display: block; transition: transform 0.3s ease, opacity 0.3s ease; }
+        .nav-hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+        .nav-mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: var(--color-white);
+            border-bottom: 3px solid var(--color-black);
+            padding: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .nav-mobile-menu.open { transform: translateY(0); opacity: 1; visibility: visible; pointer-events: auto; }
+        .nav-mobile-menu a { font-size: 16px; color: var(--color-black); text-decoration: none; padding: 16px 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1); transition: opacity 0.2s ease, padding-left 0.2s ease; }
+        .nav-mobile-menu a:last-child { border-bottom: none; }
+        .nav-mobile-menu a:hover { opacity: 0.6; padding-left: 8px; }
+        @media (max-width: 768px) {
+            #main-nav { padding: 0 24px; }
+            .nav-logo .logo { width: 140px; }
+            .nav-center { display: none; }
+            .nav-button { display: none; }
+            .nav-hamburger { display: flex; }
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 60px; width: 100%; }
+
+        .legal-hero {
+            background-color: var(--color-cream);
+            padding: 48px 0 40px;
+            text-align: left;
+        }
+        .legal-hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px;
+        }
+        .legal-breadcrumb {
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 24px;
+        }
+        .legal-breadcrumb a { color: var(--color-black); text-decoration: none; }
+        .legal-breadcrumb a:hover { opacity: 0.8; }
+        .legal-hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .legal-hero .subtitle {
+            font-size: 16px;
+            color: var(--color-text-grey);
+            margin-top: 16px;
+        }
+
+        /* Calculator Inputs */
+        .calc-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px;
+        }
+
+        .calc-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-text-grey);
+        }
+
+        .input-group select {
+            padding: 16px 20px;
+            border: 3px solid var(--color-black);
+            border-radius: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-black);
+            background: var(--color-white);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23202020' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 20px;
+            padding-right: 48px;
+        }
+
+        .input-group select:hover {
+            background-color: var(--color-cream-hover);
+        }
+
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--color-black);
+            background-color: rgba(250, 240, 221, 0.2);
+        }
+
+        /* Results Cards */
+        .calc-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+
+        .result-card {
+            border: 3px solid var(--color-black);
+            padding: 32px;
+            position: relative;
+        }
+
+        .result-card.featured {
+            background: var(--color-cream);
+        }
+
+        .result-card-tag {
+            position: absolute;
+            top: -14px;
+            left: 24px;
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 6px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .result-card.featured .result-card-tag {
+            background: var(--color-cream);
+            color: var(--color-black);
+            border: 2px solid var(--color-black);
+        }
+
+        .result-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--color-text-grey);
+            margin-bottom: 8px;
+            margin-top: 16px;
+        }
+
+        .result-amount {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .result-amount span {
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--color-text-grey);
+        }
+
+        .result-breakdown {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .breakdown-row .label {
+            color: var(--color-text-grey);
+            font-weight: 300;
+        }
+
+        .breakdown-row .value {
+            font-weight: 600;
+        }
+
+        /* Seasonal Cards */
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .seasonal-section {
+            margin-bottom: 60px;
+        }
+
+        .seasonal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .seasonal-card {
+            border: 3px solid rgba(0,0,0,0.1);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .seasonal-card.peak {
+            border-color: var(--color-black);
+            background: var(--color-cream);
+        }
+
+        .seasonal-card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-text-grey);
+            margin-bottom: 4px;
+        }
+
+        .seasonal-card .months {
+            font-size: 12px;
+            color: var(--color-text-grey);
+            margin-bottom: 12px;
+        }
+
+        .seasonal-card .rate {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .seasonal-card .occupancy {
+            font-size: 13px;
+            color: var(--color-text-grey);
+            margin-top: 4px;
+        }
+
+        /* Fee Comparison Table */
+        .fee-section {
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 48px;
+            margin-bottom: 60px;
+        }
+
+        .fee-section .section-title {
+            color: var(--color-white);
+            margin-bottom: 32px;
+        }
+
+        .fee-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .fee-table th,
+        .fee-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .fee-table th {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .fee-table td {
+            font-size: 15px;
+        }
+
+        .fee-table .fee-rate {
+            font-weight: 600;
+        }
+
+        .fee-table .highlight-row {
+            background: rgba(250, 240, 221, 0.1);
+        }
+
+        .fee-table .highlight-row td {
+            color: var(--color-cream);
+        }
+
+        .fee-table .airoam-badge {
+            display: inline-block;
+            background: var(--color-cream);
+            color: var(--color-black);
+            padding: 4px 10px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-left: 8px;
+        }
+
+        .fee-table .savings {
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        /* Savings Callout */
+        .savings-callout {
+            background: var(--color-cream);
+            border: 3px solid var(--color-black);
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .savings-callout h3 {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-text-grey);
+            margin-bottom: 8px;
+        }
+
+        .savings-callout .amount {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .savings-callout p {
+            font-size: 15px;
+            color: var(--color-text-grey);
+            margin-top: 8px;
+            font-weight: 300;
+        }
+
+        /* CTA Section */
+        .calc-cta {
+            text-align: center;
+            padding: 60px 24px;
+            background: rgba(250, 240, 221, 0.3);
+            border-top: 3px solid var(--color-black);
+        }
+
+        .calc-cta h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .calc-cta p {
+            font-size: 15px;
+            color: var(--color-text-grey);
+            margin-bottom: 32px;
+            font-weight: 300;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px;
+            background: var(--color-black);
+            color: var(--color-white);
+            border: 3px solid var(--color-black);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cta-btn:hover {
+            background: transparent;
+            color: var(--color-black);
+        }
+
+        /* Data Source Note */
+        .data-source {
+            background: #f8f8f8;
+            border-left: 3px solid var(--color-black);
+            padding: 24px;
+            margin: 40px 0;
+            font-size: 13px;
+            color: var(--color-text-grey);
+        }
+
+        .data-source strong {
+            color: var(--color-black);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            padding: 32px 24px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--color-text-grey);
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer { background-color: var(--color-black); color: var(--color-white); }
+        .footer-main { padding: 80px 60px 60px; max-width: 1320px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+        .footer-logo { margin-bottom: 16px; }
+        .footer-logo .logo { width: 120px; height: auto; }
+        .logo-white { filter: brightness(0) invert(1); }
+        .footer-tagline { font-size: 14px; font-weight: 300; color: rgba(255, 255, 255, 0.6); margin-bottom: 32px; line-height: 1.5; }
+        .footer-stats { display: flex; gap: 32px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .footer-stat { display: flex; flex-direction: column; }
+        .footer-stat-value { font-size: 24px; font-weight: 600; color: #FAF0DD; letter-spacing: -0.02em; }
+        .footer-stat-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+        .footer-column h4 { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.4); margin-bottom: 20px; }
+        .footer-column ul { list-style: none; }
+        .footer-column li { margin-bottom: 12px; }
+        .footer-column a { color: var(--color-white); text-decoration: none; font-size: 14px; font-weight: 400; transition: all 0.2s ease; display: inline-block; }
+        .footer-column a:hover { color: #FAF0DD; transform: translateX(4px); }
+        .footer-newsletter { background: rgba(255, 255, 255, 0.03); padding: 24px; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .footer-newsletter h4 { font-size: 14px; font-weight: 600; color: var(--color-white); margin-bottom: 8px; }
+        .footer-newsletter p { font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-bottom: 16px; line-height: 1.5; }
+        .footer-newsletter-form { display: flex; gap: 8px; }
+        .footer-newsletter-form input { flex: 1; min-width: 0; padding: 12px 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 0; background: transparent; color: var(--color-white); outline: none; transition: border-color 0.2s ease; }
+        .footer-newsletter-form input::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .footer-newsletter-form input:focus { border-color: #FAF0DD; }
+        .footer-newsletter-form button { padding: 12px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; background: var(--color-white); color: var(--color-black); border: none; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+        .footer-newsletter-form button:hover { background: #FAF0DD; }
+        .footer-newsletter-message { margin-top: 8px; padding: 8px 12px; font-size: 12px; opacity: 0; transition: opacity 0.3s ease; }
+        .footer-newsletter-message.show { opacity: 1; }
+        .footer-newsletter-message.success { color: #FAF0DD; }
+        .footer-newsletter-message.error { color: rgba(255, 255, 255, 0.7); }
+        .footer-bottom { padding: 32px 60px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+        .footer-bottom-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+        .footer-copyright { font-size: 13px; color: rgba(255, 255, 255, 0.4); font-weight: 300; }
+        .footer-legal { display: flex; gap: 24px; }
+        .footer-legal a { font-size: 13px; color: rgba(255, 255, 255, 0.4); text-decoration: none; transition: color 0.2s ease; }
+        .footer-legal a:hover { color: var(--color-white); }
+        .footer-social { display: flex; gap: 16px; }
+        .footer-social a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.15); color: var(--color-white); transition: all 0.2s ease; }
+        .footer-social a:hover { background: #FAF0DD; border-color: #FAF0DD; color: var(--color-black); }
+        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; } .footer-brand { grid-column: 1 / -1; } .footer-stats { justify-content: flex-start; } }
+        @media (max-width: 768px) {
+            .footer-main { padding: 60px 24px 40px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-stats { gap: 24px; }
+            .footer-newsletter-form { flex-direction: column; }
+            .footer-bottom { padding: 24px; }
+            .footer-bottom-inner { flex-direction: column; text-align: center; }
+            .footer-legal { flex-wrap: wrap; justify-content: center; }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .calc-container {
+                padding: 40px 24px;
+            }
+
+            .calc-results {
+                grid-template-columns: 1fr;
+            }
+
+            .seasonal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fee-section {
+                padding: 32px 20px;
+                overflow-x: auto;
+            }
+
+            .fee-table {
+                min-width: 500px;
+            }
+
+            .result-amount {
+                font-size: 32px;
+            }
+
+            .savings-callout .amount {
+                font-size: 36px;
+            }
+
+            .legal-hero {
+                padding: 32px 0;
+            }
+
+            .legal-hero .container {
+                padding: 0 24px;
+            }
+
+            .legal-hero h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="main-nav" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo" id="nav-logo">
+            <img src="Images/airoam-logo-black.svg" alt="Airoam - Airbnb property management Australia" class="logo">
+        </a>
+        <div class="nav-center">
+            <a href="index.html#about">About</a>
+            <a href="index.html#pricing">Pricing</a>
+            <a href="blog.html">Blog</a>
+            <a href="index.html#contact">Contact</a>
+        </div>
+        <a href="index.html#contact" class="nav-button">Get Started</a>
+        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+        <a href="index.html#about">About</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="index.html#contact">Get Started</a>
+    </div>
+
+    <header class="legal-hero">
+        <div class="container">
+            <p class="legal-breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html">Home</a>
+                <span> / </span>
+                <span>Calculator</span>
+            </p>
+            <h1>Property Earnings Calculator</h1>
+            <p class="subtitle">Compare your potential earnings between long-term and short-term rental, and see how much you could save with Airoam's 9% management fee.</p>
+        </div>
+    </header>
+
+    <main class="calc-container">
+        <div class="calc-inputs">
+            <div class="input-group">
+                <label>Location</label>
+                <select id="location">
+                    <option value="melbourne-cbd">Melbourne CBD</option>
+                    <option value="melbourne-inner">Melbourne Inner Suburbs</option>
+                    <option value="melbourne-south">Melbourne South (St Kilda, Brighton)</option>
+                    <option value="mornington-sorrento">Mornington Peninsula - Sorrento/Portsea</option>
+                    <option value="mornington-rye">Mornington Peninsula - Rye/Blairgowrie</option>
+                    <option value="mornington-mornington">Mornington Peninsula - Mornington/Mt Martha</option>
+                    <option value="perth-cbd">Perth CBD</option>
+                    <option value="perth-beach">Perth Coastal (Scarborough, Cottesloe)</option>
+                    <option value="perth-fremantle">Fremantle</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Property Type</label>
+                <select id="property-type">
+                    <option value="1bed">1 Bedroom Apartment</option>
+                    <option value="2bed" selected>2 Bedroom Apartment</option>
+                    <option value="3bed">3 Bedroom House/Apartment</option>
+                    <option value="4bed">4+ Bedroom House</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Bathrooms</label>
+                <select id="bathrooms">
+                    <option value="1">1 Bathroom</option>
+                    <option value="2" selected>2 Bathrooms</option>
+                    <option value="3">3+ Bathrooms</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="calc-results">
+            <div class="result-card">
+                <span class="result-card-tag">Long-Term Rental</span>
+                <h3>Annual Income</h3>
+                <div class="result-amount" id="ltr-annual">$41,600 <span>/year</span></div>
+                <div class="result-breakdown">
+                    <div class="breakdown-row">
+                        <span class="label">Weekly rent</span>
+                        <span class="value" id="ltr-weekly">$800</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span class="label">Occupancy rate</span>
+                        <span class="value">~95%</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span class="label">Typical management fee</span>
+                        <span class="value">5-8%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="result-card featured">
+                <span class="result-card-tag">Short-Term Rental</span>
+                <h3>Annual Income (Gross)</h3>
+                <div class="result-amount" id="str-annual">$62,400 <span>/year</span></div>
+                <div class="result-breakdown">
+                    <div class="breakdown-row">
+                        <span class="label">Average nightly rate</span>
+                        <span class="value" id="str-nightly">$220</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span class="label">Average occupancy</span>
+                        <span class="value" id="str-occupancy">72%</span>
+                    </div>
+                    <div class="breakdown-row">
+                        <span class="label">Booked nights/year</span>
+                        <span class="value" id="str-nights">263</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="seasonal-section">
+            <h2 class="section-title">Seasonal Breakdown</h2>
+            <div class="seasonal-grid">
+                <div class="seasonal-card peak">
+                    <h4>Peak Season</h4>
+                    <p class="months" id="peak-months">Dec - Feb</p>
+                    <div class="rate" id="peak-rate">$320</div>
+                    <p class="occupancy" id="peak-occupancy">85% occupancy</p>
+                </div>
+                <div class="seasonal-card">
+                    <h4>Shoulder Season</h4>
+                    <p class="months" id="shoulder-months">Mar - May, Sep - Nov</p>
+                    <div class="rate" id="shoulder-rate">$200</div>
+                    <p class="occupancy" id="shoulder-occupancy">70% occupancy</p>
+                </div>
+                <div class="seasonal-card">
+                    <h4>Off-Peak</h4>
+                    <p class="months" id="offpeak-months">Jun - Aug</p>
+                    <div class="rate" id="offpeak-rate">$150</div>
+                    <p class="occupancy" id="offpeak-occupancy">55% occupancy</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="fee-section">
+            <h2 class="section-title">Management Fee Comparison</h2>
+            <table class="fee-table">
+                <thead>
+                    <tr>
+                        <th>Management Fee</th>
+                        <th>Annual Fee</th>
+                        <th>Your Take-Home</th>
+                        <th>vs Airoam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td class="fee-rate">9% <span class="airoam-badge">AIROAM</span></td>
+                        <td id="fee-9">$5,616</td>
+                        <td id="takehome-9">$56,784</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td class="fee-rate">15%</td>
+                        <td id="fee-15">$9,360</td>
+                        <td id="takehome-15">$53,040</td>
+                        <td class="savings" id="savings-15">+$3,744</td>
+                    </tr>
+                    <tr>
+                        <td class="fee-rate">20%</td>
+                        <td id="fee-20">$12,480</td>
+                        <td id="takehome-20">$49,920</td>
+                        <td class="savings" id="savings-20">+$6,864</td>
+                    </tr>
+                    <tr>
+                        <td class="fee-rate">25%</td>
+                        <td id="fee-25">$15,600</td>
+                        <td id="takehome-25">$46,800</td>
+                        <td class="savings" id="savings-25">+$9,984</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="savings-callout">
+            <h3>Your Annual Savings with Airoam</h3>
+            <div class="amount" id="total-savings">$3,744</div>
+            <p>compared to a typical 15% property manager</p>
+        </div>
+
+        <div class="data-source">
+            <strong>Data Sources:</strong> Estimates based on aggregated market data from Domain, CoreLogic, SQM Research, and Airoam's internal booking data across 3,500+ properties. Figures are indicative and actual results may vary based on property condition, amenities, and market conditions. Last updated: February 2026.
+        </div>
+    </main>
+
+    <section class="calc-cta">
+        <h2>Ready to maximise your rental income?</h2>
+        <p>Get a personalised estimate for your specific property.</p>
+        <a href="onboarding.html" class="cta-btn">
+            Get Started
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </a>
+    </section>
+
+    <p class="disclaimer">
+        These estimates are for illustrative purposes only and do not constitute a guarantee of earnings. Actual rental income depends on many factors including property location, condition, amenities, seasonality, local events, and market conditions. Short-term rental regulations vary by council area. Please consult with Airoam for a detailed property assessment.
+    </p>
+
+    <footer>
+        <div class="footer-main">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo logo-white">
+                    </div>
+                    <p class="footer-tagline">Australia's smartest short-term rental manager. AI-powered property management with just 9% fees.</p>
+                    <div class="footer-stats">
+                        <div class="footer-stat"><span class="footer-stat-value">4.74★</span><span class="footer-stat-label">Guest Rating</span></div>
+                        <div class="footer-stat"><span class="footer-stat-value">1M+</span><span class="footer-stat-label">Nights Hosted</span></div>
+                        <div class="footer-stat"><span class="footer-stat-value">9%</span><span class="footer-stat-label">Management Fee</span></div>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#pricing">Pricing</a></li>
+                        <li><a href="index.html#testimonials">Testimonials</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="onboarding.html">Client Onboarding</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Markets</h4>
+                    <ul>
+                        <li><a href="blog/melbourne-event-calendar-2026-airbnb-revenue.html" title="Melbourne event calendar 2026 – Airbnb revenue guide">Melbourne</a></li>
+                        <li><a href="blog/mornington-peninsula-holiday-rental-guide-2026.html" title="Mornington Peninsula holiday rental guide 2026">Mornington Peninsula</a></li>
+                        <li><a href="blog/perth-short-term-rental-regulations-2026.html" title="Perth short-term rental regulations 2026">Perth</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <div class="footer-newsletter">
+                        <h4>Stay Updated</h4>
+                        <p>Get hosting tips and industry insights delivered weekly.</p>
+                        <form class="footer-newsletter-form" id="footer-newsletter-form" action="https://formspree.io/f/mdalnbdv" method="POST">
+                            <input type="text" name="_gotcha" style="display:none">
+                            <input type="hidden" name="_subject" value="New Newsletter Subscriber">
+                            <input type="email" name="email" placeholder="Your email" required>
+                            <button type="submit">Subscribe</button>
+                        </form>
+                        <div class="footer-newsletter-message" id="footer-newsletter-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-inner">
+                <p class="footer-copyright">© 2026 Airoam. All rights reserved. ABN 41 668 564 716</p>
+                <div class="footer-legal">
+                    <a href="terms-and-conditions.html">Terms & Conditions</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/airoam?igsh=MjIybzI4cGw5cmx1" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                    <a href="https://www.facebook.com/people/Airoam-Australia-Short-Term-Rental-Management/61587859886582/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 10) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        const hamburger = document.getElementById('nav-hamburger');
+        const mobileMenu = document.getElementById('nav-mobile-menu');
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('open');
+        });
+
+        const marketData = {
+            'melbourne-cbd': {
+                name: 'Melbourne CBD',
+                ltr: { '1bed': 550, '2bed': 750, '3bed': 1100, '4bed': 1500 },
+                str: {
+                    '1bed': { peak: 220, shoulder: 160, offpeak: 120, peakOcc: 85, shoulderOcc: 75, offpeakOcc: 65 },
+                    '2bed': { peak: 320, shoulder: 220, offpeak: 160, peakOcc: 85, shoulderOcc: 72, offpeakOcc: 60 },
+                    '3bed': { peak: 450, shoulder: 320, offpeak: 240, peakOcc: 80, shoulderOcc: 68, offpeakOcc: 55 },
+                    '4bed': { peak: 600, shoulder: 420, offpeak: 300, peakOcc: 75, shoulderOcc: 65, offpeakOcc: 50 }
+                },
+                peakMonths: 'Dec - Feb, Events',
+                shoulderMonths: 'Mar - May, Sep - Nov',
+                offpeakMonths: 'Jun - Aug'
+            },
+            'melbourne-inner': {
+                name: 'Melbourne Inner Suburbs',
+                ltr: { '1bed': 480, '2bed': 650, '3bed': 950, '4bed': 1300 },
+                str: {
+                    '1bed': { peak: 200, shoulder: 150, offpeak: 110, peakOcc: 82, shoulderOcc: 70, offpeakOcc: 58 },
+                    '2bed': { peak: 280, shoulder: 200, offpeak: 150, peakOcc: 82, shoulderOcc: 70, offpeakOcc: 58 },
+                    '3bed': { peak: 380, shoulder: 280, offpeak: 200, peakOcc: 78, shoulderOcc: 65, offpeakOcc: 52 },
+                    '4bed': { peak: 520, shoulder: 380, offpeak: 280, peakOcc: 72, shoulderOcc: 60, offpeakOcc: 48 }
+                },
+                peakMonths: 'Dec - Feb, Events',
+                shoulderMonths: 'Mar - May, Sep - Nov',
+                offpeakMonths: 'Jun - Aug'
+            },
+            'melbourne-south': {
+                name: 'Melbourne South',
+                ltr: { '1bed': 520, '2bed': 720, '3bed': 1050, '4bed': 1450 },
+                str: {
+                    '1bed': { peak: 240, shoulder: 170, offpeak: 130, peakOcc: 88, shoulderOcc: 72, offpeakOcc: 55 },
+                    '2bed': { peak: 340, shoulder: 240, offpeak: 170, peakOcc: 88, shoulderOcc: 72, offpeakOcc: 55 },
+                    '3bed': { peak: 480, shoulder: 340, offpeak: 250, peakOcc: 85, shoulderOcc: 68, offpeakOcc: 50 },
+                    '4bed': { peak: 650, shoulder: 450, offpeak: 320, peakOcc: 80, shoulderOcc: 65, offpeakOcc: 48 }
+                },
+                peakMonths: 'Dec - Mar (Summer)',
+                shoulderMonths: 'Apr - May, Sep - Nov',
+                offpeakMonths: 'Jun - Aug'
+            },
+            'mornington-sorrento': {
+                name: 'Sorrento / Portsea',
+                ltr: { '1bed': 400, '2bed': 550, '3bed': 800, '4bed': 1200 },
+                str: {
+                    '1bed': { peak: 350, shoulder: 180, offpeak: 120, peakOcc: 92, shoulderOcc: 60, offpeakOcc: 35 },
+                    '2bed': { peak: 500, shoulder: 280, offpeak: 160, peakOcc: 95, shoulderOcc: 65, offpeakOcc: 38 },
+                    '3bed': { peak: 700, shoulder: 400, offpeak: 220, peakOcc: 95, shoulderOcc: 62, offpeakOcc: 35 },
+                    '4bed': { peak: 1000, shoulder: 550, offpeak: 300, peakOcc: 98, shoulderOcc: 60, offpeakOcc: 32 }
+                },
+                peakMonths: 'Dec - Jan (School Hols)',
+                shoulderMonths: 'Feb - Apr, Oct - Nov',
+                offpeakMonths: 'May - Sep'
+            },
+            'mornington-rye': {
+                name: 'Rye / Blairgowrie',
+                ltr: { '1bed': 350, '2bed': 480, '3bed': 680, '4bed': 950 },
+                str: {
+                    '1bed': { peak: 280, shoulder: 150, offpeak: 100, peakOcc: 90, shoulderOcc: 55, offpeakOcc: 30 },
+                    '2bed': { peak: 400, shoulder: 220, offpeak: 130, peakOcc: 92, shoulderOcc: 58, offpeakOcc: 32 },
+                    '3bed': { peak: 550, shoulder: 300, offpeak: 180, peakOcc: 92, shoulderOcc: 55, offpeakOcc: 30 },
+                    '4bed': { peak: 750, shoulder: 400, offpeak: 240, peakOcc: 95, shoulderOcc: 55, offpeakOcc: 28 }
+                },
+                peakMonths: 'Dec - Jan (School Hols)',
+                shoulderMonths: 'Feb - Apr, Oct - Nov',
+                offpeakMonths: 'May - Sep'
+            },
+            'mornington-mornington': {
+                name: 'Mornington / Mt Martha',
+                ltr: { '1bed': 380, '2bed': 520, '3bed': 750, '4bed': 1050 },
+                str: {
+                    '1bed': { peak: 250, shoulder: 160, offpeak: 110, peakOcc: 85, shoulderOcc: 60, offpeakOcc: 40 },
+                    '2bed': { peak: 350, shoulder: 220, offpeak: 140, peakOcc: 88, shoulderOcc: 62, offpeakOcc: 42 },
+                    '3bed': { peak: 480, shoulder: 300, offpeak: 190, peakOcc: 85, shoulderOcc: 58, offpeakOcc: 38 },
+                    '4bed': { peak: 650, shoulder: 400, offpeak: 250, peakOcc: 88, shoulderOcc: 58, offpeakOcc: 35 }
+                },
+                peakMonths: 'Dec - Jan (School Hols)',
+                shoulderMonths: 'Feb - Apr, Oct - Nov',
+                offpeakMonths: 'May - Sep'
+            },
+            'perth-cbd': {
+                name: 'Perth CBD',
+                ltr: { '1bed': 520, '2bed': 680, '3bed': 950, '4bed': 1300 },
+                str: {
+                    '1bed': { peak: 200, shoulder: 150, offpeak: 120, peakOcc: 80, shoulderOcc: 68, offpeakOcc: 55 },
+                    '2bed': { peak: 280, shoulder: 200, offpeak: 160, peakOcc: 78, shoulderOcc: 65, offpeakOcc: 52 },
+                    '3bed': { peak: 380, shoulder: 270, offpeak: 200, peakOcc: 75, shoulderOcc: 62, offpeakOcc: 50 },
+                    '4bed': { peak: 500, shoulder: 350, offpeak: 260, peakOcc: 70, shoulderOcc: 58, offpeakOcc: 45 }
+                },
+                peakMonths: 'Sep - Nov (Spring)',
+                shoulderMonths: 'Mar - May, Dec - Feb',
+                offpeakMonths: 'Jun - Aug'
+            },
+            'perth-beach': {
+                name: 'Scarborough / Cottesloe',
+                ltr: { '1bed': 550, '2bed': 720, '3bed': 1000, '4bed': 1400 },
+                str: {
+                    '1bed': { peak: 250, shoulder: 170, offpeak: 130, peakOcc: 85, shoulderOcc: 70, offpeakOcc: 50 },
+                    '2bed': { peak: 350, shoulder: 240, offpeak: 170, peakOcc: 85, shoulderOcc: 70, offpeakOcc: 50 },
+                    '3bed': { peak: 480, shoulder: 320, offpeak: 220, peakOcc: 82, shoulderOcc: 65, offpeakOcc: 45 },
+                    '4bed': { peak: 650, shoulder: 420, offpeak: 300, peakOcc: 80, shoulderOcc: 62, offpeakOcc: 42 }
+                },
+                peakMonths: 'Dec - Feb (Summer)',
+                shoulderMonths: 'Mar - May, Sep - Nov',
+                offpeakMonths: 'Jun - Aug'
+            },
+            'perth-fremantle': {
+                name: 'Fremantle',
+                ltr: { '1bed': 500, '2bed': 680, '3bed': 950, '4bed': 1350 },
+                str: {
+                    '1bed': { peak: 230, shoulder: 160, offpeak: 120, peakOcc: 82, shoulderOcc: 68, offpeakOcc: 52 },
+                    '2bed': { peak: 320, shoulder: 220, offpeak: 160, peakOcc: 82, shoulderOcc: 68, offpeakOcc: 52 },
+                    '3bed': { peak: 440, shoulder: 300, offpeak: 210, peakOcc: 80, shoulderOcc: 65, offpeakOcc: 48 },
+                    '4bed': { peak: 600, shoulder: 400, offpeak: 280, peakOcc: 78, shoulderOcc: 62, offpeakOcc: 45 }
+                },
+                peakMonths: 'Dec - Feb (Summer)',
+                shoulderMonths: 'Mar - May, Sep - Nov',
+                offpeakMonths: 'Jun - Aug'
+            }
+        };
+
+        const bathroomMultiplier = { '1': 1, '2': 1.08, '3': 1.15 };
+        const seasonWeeks = { peak: 10, shoulder: 26, offpeak: 16 };
+
+        function formatCurrency(amount) {
+            return '$' + Math.round(amount).toLocaleString('en-AU');
+        }
+
+        function calculate() {
+            const location = document.getElementById('location').value;
+            const propertyType = document.getElementById('property-type').value;
+            const bathrooms = document.getElementById('bathrooms').value;
+
+            const data = marketData[location];
+            const bathMult = bathroomMultiplier[bathrooms];
+
+            const weeklyRent = Math.round(data.ltr[propertyType] * bathMult);
+            const ltrAnnual = Math.round(weeklyRent * 52 * 0.95);
+
+            const strData = data.str[propertyType];
+            const peakRate = Math.round(strData.peak * bathMult);
+            const shoulderRate = Math.round(strData.shoulder * bathMult);
+            const offpeakRate = Math.round(strData.offpeak * bathMult);
+
+            const peakNights = Math.round(seasonWeeks.peak * 7 * (strData.peakOcc / 100));
+            const shoulderNights = Math.round(seasonWeeks.shoulder * 7 * (strData.shoulderOcc / 100));
+            const offpeakNights = Math.round(seasonWeeks.offpeak * 7 * (strData.offpeakOcc / 100));
+
+            const strAnnual = (peakNights * peakRate) + (shoulderNights * shoulderRate) + (offpeakNights * offpeakRate);
+            const totalNights = peakNights + shoulderNights + offpeakNights;
+            const avgOccupancy = Math.round((totalNights / 365) * 100);
+            const avgNightly = Math.round(strAnnual / totalNights);
+
+            document.getElementById('ltr-weekly').textContent = formatCurrency(weeklyRent);
+            document.getElementById('ltr-annual').innerHTML = formatCurrency(ltrAnnual) + ' <span>/year</span>';
+
+            document.getElementById('str-nightly').textContent = formatCurrency(avgNightly);
+            document.getElementById('str-occupancy').textContent = avgOccupancy + '%';
+            document.getElementById('str-nights').textContent = totalNights;
+            document.getElementById('str-annual').innerHTML = formatCurrency(strAnnual) + ' <span>/year</span>';
+
+            document.getElementById('peak-rate').textContent = formatCurrency(peakRate);
+            document.getElementById('peak-occupancy').textContent = strData.peakOcc + '% occupancy';
+            document.getElementById('peak-months').textContent = data.peakMonths;
+
+            document.getElementById('shoulder-rate').textContent = formatCurrency(shoulderRate);
+            document.getElementById('shoulder-occupancy').textContent = strData.shoulderOcc + '% occupancy';
+            document.getElementById('shoulder-months').textContent = data.shoulderMonths;
+
+            document.getElementById('offpeak-rate').textContent = formatCurrency(offpeakRate);
+            document.getElementById('offpeak-occupancy').textContent = strData.offpeakOcc + '% occupancy';
+            document.getElementById('offpeak-months').textContent = data.offpeakMonths;
+
+            const fees = [9, 15, 20, 25];
+            const airoamTakeHome = strAnnual * 0.91;
+
+            fees.forEach(fee => {
+                const feeAmount = strAnnual * (fee / 100);
+                const takeHome = strAnnual - feeAmount;
+                const savings = airoamTakeHome - takeHome;
+
+                document.getElementById(`fee-${fee}`).textContent = formatCurrency(feeAmount);
+                document.getElementById(`takehome-${fee}`).textContent = formatCurrency(takeHome);
+
+                if (fee > 9) {
+                    document.getElementById(`savings-${fee}`).textContent = '+' + formatCurrency(savings);
+                }
+            });
+
+            const savingsVs15 = airoamTakeHome - (strAnnual * 0.85);
+            document.getElementById('total-savings').textContent = formatCurrency(savingsVs15);
+        }
+
+        document.getElementById('location').addEventListener('change', calculate);
+        document.getElementById('property-type').addEventListener('change', calculate);
+        document.getElementById('bathrooms').addEventListener('change', calculate);
+
+        calculate();
+
+        (function() {
+            var form = document.getElementById('footer-newsletter-form');
+            if (!form) return;
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                var btn = form.querySelector('button');
+                var msg = document.getElementById('footer-newsletter-message');
+                var orig = btn.textContent;
+                btn.textContent = 'Sending...';
+                btn.disabled = true;
+                fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
+                    .then(function(r) { if (r.ok) { msg.textContent = 'Thanks for subscribing!'; msg.className = 'footer-newsletter-message show success'; form.reset(); } else { throw new Error(); } })
+                    .catch(function() { msg.textContent = 'Something went wrong. Please try again.'; msg.className = 'footer-newsletter-message show error'; })
+                    .finally(function() { btn.textContent = orig; btn.disabled = false; setTimeout(function() { msg.classList.remove('show'); }, 4000); });
+            });
+        })();
+    </script>
+</body>
+</html>
