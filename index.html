@@ -3678,14 +3678,14 @@
                 });
             });
 
-            // Update pricing
+            // Update pricing - numbers start from 0 each toggle, animate in half the time
             function updatePricing(period) {
                 currentPeriod = period;
                 const data = pricingData[period];
                 
-                animateValue(savingsAmount, parseCurrency(savingsAmount.textContent), data.savings, 800);
-                animateValue(airoamValue, parseCurrency(airoamValue.textContent), data.airoam, 600);
-                animateValue(industryValue, parseCurrency(industryValue.textContent), data.industry, 600);
+                animateValue(savingsAmount, 0, data.savings, 400);
+                animateValue(airoamValue, 0, data.airoam, 300);
+                animateValue(industryValue, 0, data.industry, 300);
                 
                 createBars(data.airoam, data.industry);
                 animateGreenFill();
