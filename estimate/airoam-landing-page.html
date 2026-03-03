@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Could Your Property Earn? | Airoam</title>
+  <meta name="description" content="Free earnings estimate for your Melbourne, Perth or Mornington Peninsula short-term rental. AI-powered management at 9% fees.">
+  <!--
+    AIROAM LEADS LANDING PAGE
+    ==========================
+    INTEGRATION:
+    1. Set WEBHOOK_URL below to your GHL inbound webhook URL
+    2. Facebook Pixel fires 'Lead' event on form submit
+    3. Form also works as standard POST if JS fails
+    
+    FACEBOOK PIXEL:
+    Already installed via Cloudflare Zaraz — no extra code needed.
+    The fbq('track','Lead') call below fires the conversion event.
+    If Zaraz is not set up, uncomment the Pixel base code in the 
+    script section at the bottom.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #202020;
+      --white: #FFFFFF;
+      --cream: #FAF0DD;
+      --cream-mid: #FDF9F3;
+      --cream-light: #FEFCF9;
+      --grey: #606060;
+      --grey-light: rgba(0,0,0,0.06);
+      --grey-text: rgba(0,0,0,0.6);
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--black);
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ============================================
+       NAV
+       ============================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      background: var(--white);
+      z-index: 100;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+
+    .nav.scrolled {
+      border-bottom-color: var(--black);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-logo-img {
+      height: 36px;
+      width: auto;
+    }
+
+    .nav-cta {
+      padding: 10px 24px;
+      border: 3px solid var(--black);
+      background: transparent;
+      color: var(--black);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.4s ease;
+      border-radius: 0;
+    }
+
+    .nav-cta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--black);
+      transition: left 0.4s ease;
+      z-index: -1;
+    }
+
+    .nav-cta:hover { color: var(--white); }
+    .nav-cta:hover::before { left: 0; }
+
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero {
+      padding: 160px 60px 80px;
+      background: linear-gradient(to bottom,
+        #ffffff 0%, #ffffff 28%, #FEFCF9 45%, #FDF9F3 65%, #FAF0DD 100%
+      );
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .hero-content { padding-top: 20px; }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--black);
+      margin-bottom: 24px;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--grey);
+      max-width: 480px;
+      margin-bottom: 32px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 3px solid rgba(0,0,0,0.06);
+    }
+
+    .hero-stat-num {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--grey);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    /* ============================================
+       FORM CARD
+       ============================================ */
+    .form-card {
+      background: var(--white);
+      border: 3px solid var(--black);
+      padding: 48px 40px;
+      border-radius: 0;
+    }
+
+    .form-title {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+    }
+
+    .form-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--grey);
+      margin-bottom: 32px;
+      line-height: 1.5;
+    }
+
+    .field { margin-bottom: 20px; }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.45);
+      margin-bottom: 8px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 3px solid rgba(0,0,0,0.06);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--black);
+      background: var(--white);
+      border-radius: 0;
+      transition: border-color 0.3s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .field select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23202020' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      outline: none;
+      border-color: var(--black);
+    }
+
+    .field input::placeholder {
+      color: rgba(0,0,0,0.25);
+      font-weight: 300;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 20px 40px;
+      background: var(--black);
+      color: var(--white);
+      border: 3px solid var(--black);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      border-radius: 0;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      margin-top: 8px;
+    }
+
+    .btn-submit:hover {
+      background: transparent;
+      color: var(--black);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-submit.loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .form-fine {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(0,0,0,0.35);
+      text-align: center;
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+
+    /* ============================================
+       TRUST BAR
+       ============================================ */
+    .trust {
+      background: var(--cream);
+      padding: 32px 60px;
+      border-top: 3px solid rgba(0,0,0,0.06);
+      border-bottom: 3px solid rgba(0,0,0,0.06);
+    }
+
+    .trust-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .trust-item {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--black);
+      letter-spacing: -0.01em;
+    }
+
+    .trust-item strong {
+      font-weight: 700;
+    }
+
+    .trust-dot {
+      color: rgba(0,0,0,0.2);
+    }
+
+    /* ============================================
+       HOW IT WORKS
+       ============================================ */
+    .how {
+      padding: 120px 60px;
+      background: var(--white);
+    }
+
+    .how-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 42px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 64px;
+      max-width: 600px;
+    }
+
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+
+    .how-card {
+      padding: 48px 36px;
+      border: 3px solid var(--black);
+      border-radius: 0;
+      position: relative;
+      transition: transform 0.4s ease;
+    }
+
+    .how-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .how-num {
+      font-size: 64px;
+      font-weight: 200;
+      color: rgba(0,0,0,0.08);
+      line-height: 1;
+      margin-bottom: 24px;
+    }
+
+    .how-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 14px;
+    }
+
+    .how-card p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--grey);
+    }
+
+    /* ============================================
+       COMPARISON
+       ============================================ */
+    .compare {
+      padding: 120px 60px;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .compare-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .compare .section-eyebrow { color: rgba(255,255,255,0.4); }
+    .compare .section-title { color: var(--white); }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .compare-col {
+      padding: 48px 40px;
+    }
+
+    .compare-col:first-child {
+      border-right: 3px solid rgba(255,255,255,0.1);
+    }
+
+    .compare-label {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 32px;
+    }
+
+    .compare-col.highlight .compare-label {
+      color: var(--cream);
+    }
+
+    .compare-row {
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .compare-row:last-child { border-bottom: none; }
+
+    .compare-key {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .compare-val {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .compare-col.highlight .compare-key {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .compare-col.highlight .compare-val {
+      color: var(--cream);
+      font-weight: 600;
+    }
+
+    .compare-big {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 3px solid rgba(255,255,255,0.1);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease-out 0.6s, transform 0.6s ease-out 0.6s;
+    }
+
+    .compare-big-num {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.25);
+      line-height: 1;
+    }
+
+    .compare-col.highlight .compare-big-num {
+      color: var(--cream);
+    }
+
+    .compare-big-label {
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.35);
+      margin-top: 8px;
+    }
+
+    .compare-col.highlight .compare-big-label {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .compare-logo {
+      height: 24px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+
+    .compare.visible .compare-row {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .compare.visible .compare-row:nth-child(2) { transition-delay: 0.1s; }
+    .compare.visible .compare-row:nth-child(3) { transition-delay: 0.2s; }
+    .compare.visible .compare-row:nth-child(4) { transition-delay: 0.3s; }
+    .compare.visible .compare-row:nth-child(5) { transition-delay: 0.4s; }
+    .compare.visible .compare-row:nth-child(6) { transition-delay: 0.5s; }
+
+    .compare.visible .compare-big {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       SOCIAL PROOF
+       ============================================ */
+    .proof {
+      padding: 120px 60px;
+      background: linear-gradient(to bottom, #FAF0DD 0%, #FDF9F3 60%, #ffffff 100%);
+    }
+
+    .proof-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 64px;
+    }
+
+    .proof-card {
+      padding: 40px 32px;
+      background: var(--white);
+      border: 3px solid var(--black);
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .proof-quote {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--black);
+      flex: 1;
+      margin-bottom: 28px;
+    }
+
+    .proof-attr {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--grey);
+      padding-top: 20px;
+      border-top: 3px solid rgba(0,0,0,0.06);
+    }
+
+    .proof-loc {
+      font-weight: 300;
+      color: rgba(0,0,0,0.35);
+    }
+
+    /* ============================================
+       FAQ
+       ============================================ */
+    .faq {
+      padding: 120px 60px;
+      background: var(--white);
+    }
+
+    .faq-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 3px solid rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+
+    .faq-item:first-child {
+      border-top: 3px solid rgba(0,0,0,0.06);
+    }
+
+    .faq-q {
+      padding: 28px 0;
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-q span {
+      flex: 1;
+    }
+
+    .faq-arrow {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-left: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.open .faq-arrow {
+      transform: rotate(45deg);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+
+    .faq-item.open .faq-a {
+      max-height: 300px;
+      padding-bottom: 28px;
+    }
+
+    .faq-a p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--grey);
+    }
+
+    /* ============================================
+       FINAL CTA
+       ============================================ */
+    .final-cta {
+      padding: 120px 60px;
+      background: var(--black);
+      text-align: center;
+    }
+
+    .final-cta h2 {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .final-cta p {
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 40px;
+    }
+
+    .btn-final {
+      display: inline-block;
+      padding: 20px 48px;
+      background: var(--cream);
+      color: var(--black);
+      border: 3px solid var(--cream);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 0;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .btn-final:hover {
+      background: transparent;
+      color: var(--cream);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      padding: 36px 60px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--grey);
+      border-top: 3px solid rgba(0,0,0,0.06);
+    }
+
+    .footer a {
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(60px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero h1 { font-size: 42px; }
+      .hero-stats { gap: 32px; }
+      .how-grid { grid-template-columns: 1fr; gap: 24px; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .compare-col:first-child { border-right: none; border-bottom: 3px solid rgba(255,255,255,0.1); }
+      .proof-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav { padding: 0 24px; }
+      .nav-cta { display: none; }
+      .hero { padding: 120px 24px 60px; }
+      .hero h1 { font-size: 34px; }
+      .hero-sub { font-size: 15px; }
+      .hero-stats { flex-direction: column; gap: 24px; }
+      .hero-stat-num { font-size: 28px; }
+      .form-card { padding: 36px 24px; }
+      .field-row { grid-template-columns: 1fr; }
+      .trust { padding: 24px; }
+      .trust-inner { flex-direction: column; gap: 12px; align-items: center; }
+      .how, .proof, .faq { padding: 80px 24px; }
+      .section-title { font-size: 32px; margin-bottom: 48px; }
+      .compare { padding: 80px 24px; }
+      .compare-col { padding: 36px 0; }
+      .compare-big-num { font-size: 36px; }
+      .final-cta { padding: 80px 24px; }
+      .final-cta h2 { font-size: 32px; }
+      .footer { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <a href="https://airoam.com.au" class="nav-logo"><img src="https://airoam.com.au/Images/airoam-logo-black.svg" alt="Airoam" class="nav-logo-img"></a>
+    <a href="#form" class="nav-cta" onclick="scrollToForm(); return false;">Get Estimate</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow">Free earnings estimate</div>
+        <h1>What Could Your Property Earn With Airoam?</h1>
+        <p class="hero-sub">Get a personalised earnings estimate for your short-term rental in 60 seconds. No obligation. No sales calls — unless you want one.</p>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-num">30%</div>
+            <div class="hero-stat-label">higher revenue<br>than market average</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">9%</div>
+            <div class="hero-stat-label">management fees<br>not 15–20%</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">4.74</div>
+            <div class="hero-stat-label">average guest rating<br>across 1M+ nights</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div class="form-card" id="form">
+        <div class="form-title">Get Your Free Estimate</div>
+        <div class="form-sub">Takes 60 seconds. We'll send your personalised earnings breakdown.</div>
+
+        <div class="field">
+          <label for="fname">Your name</label>
+          <input type="text" id="fname" placeholder="e.g. Sarah Johnson" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" placeholder="e.g. sarah@email.com" required>
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" placeholder="e.g. 0412 345 678" required>
+        </div>
+
+        <div class="field">
+          <label for="suburb">Property suburb</label>
+          <input type="text" id="suburb" placeholder="e.g. Richmond, St Kilda, Sorrento">
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="ptype">Property type</label>
+            <select id="ptype">
+              <option value="" disabled selected>Select</option>
+              <option value="Apartment">Apartment</option>
+              <option value="House">House</option>
+              <option value="Townhouse">Townhouse</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="beds">Bedrooms</label>
+            <select id="beds">
+              <option value="" disabled selected>Select</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4+">4+</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+          Get My Free Estimate
+        </button>
+
+        <p class="form-fine">No lock-in contracts. Your data stays private.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust">
+    <div class="trust-inner">
+      <div class="trust-item"><strong>1,500+</strong> properties</div>
+      <div class="trust-item trust-dot">·</div>
+      <div class="trust-item"><strong>1M+</strong> nights hosted</div>
+      <div class="trust-item trust-dot">·</div>
+      <div class="trust-item"><strong>4.74★</strong> average rating</div>
+      <div class="trust-item trust-dot">·</div>
+      <div class="trust-item"><strong>9%</strong> management fees</div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="how reveal">
+    <div class="how-inner">
+      <div class="section-eyebrow">How it works</div>
+      <h2 class="section-title">AI-Powered Management That Actually Delivers</h2>
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="how-num">01</div>
+          <h3>AI-Powered Pricing</h3>
+          <p>Dynamic pricing adjusts multiple times daily based on events, demand, and competitor rates. Australian Open, F1, Melbourne Cup — captured automatically.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num">02</div>
+          <h3>24/7 Guest Communication</h3>
+          <p>Our AI handles 89% of guest messages instantly. Wi-Fi passwords, check-in instructions, local recommendations — answered in seconds, not hours.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num">03</div>
+          <h3>9% Management Fee</h3>
+          <p>Half what traditional managers charge. No hidden fees, no admin charges, no markups on cleaning. Just 9% of your rental income.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="compare reveal">
+    <div class="compare-inner">
+      <div class="section-eyebrow">The maths</div>
+      <h2 class="section-title">See the Difference on a $60K Property</h2>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <div class="compare-label">Traditional Manager</div>
+          <div class="compare-row">
+            <span class="compare-key">Management fee</span>
+            <span class="compare-val">15–20%</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-key">Guest response time</span>
+            <span class="compare-val">4–6 hours</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-key">Pricing adjustments</span>
+            <span class="compare-val">Monthly</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-key">Maintenance detection</span>
+            <span class="compare-val">After complaints</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-key">Your involvement</span>
+            <span class="compare-val">15+ hrs/week</span>
+          </div>
+          <div class="compare-big">
+            <div class="compare-big-num">$51,000</div>
+            <div class="compare-big-label">You keep after 15% fees</div>
+          </div>
+        </div>
+        <div class="compare-col highlight">
+          <div class="compare-label"><img src="https://airoam.com.au/Images/airoam-logo-black.svg" alt="Airoam" class="compare-logo"></div>
+          <div class="compare-row">
+            <span class="compare-key">Management fee</span>
+            <span class="compare-val">9%</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-key">Guest response time</span>
+            <span class="compare-val">Instant (AI)</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-key">Pricing adjustments</span>
+            <span class="compare-val">Multiple daily</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-key">Maintenance detection</span>
+            <span class="compare-val">Before guests notice</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-key">Your involvement</span>
+            <span class="compare-val">~2 hrs/month</span>
+          </div>
+          <div class="compare-big">
+            <div class="compare-big-num">$71,000</div>
+            <div class="compare-big-label">You keep with 30% uplift + 9% fees</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section class="proof reveal">
+    <div class="proof-inner">
+      <div class="section-eyebrow">Real results</div>
+      <h2 class="section-title">What Property Owners Are Saying</h2>
+      <div class="proof-grid">
+        <div class="proof-card">
+          <p class="proof-quote">28% more revenue in my first quarter. 9% fees instead of 18%. And I haven't answered a single guest message since.</p>
+          <div class="proof-attr">Property owner <span class="proof-loc">· Scarborough, Perth</span></div>
+        </div>
+        <div class="proof-card">
+          <p class="proof-quote">34 messages while I was in Bali. 31 handled by AI. 3 by the team. Messages I needed to respond to: zero.</p>
+          <div class="proof-attr">Property owner <span class="proof-loc">· Melbourne, 2 properties</span></div>
+        </div>
+        <div class="proof-card">
+          <p class="proof-quote">For the first time, I actually trust that things are being handled properly. I check the dashboard because I'm interested, not because I'm worried.</p>
+          <div class="proof-attr">Property owner <span class="proof-loc">· Sydney</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq reveal">
+    <div class="faq-inner">
+      <div class="section-eyebrow">Common questions</div>
+      <h2 class="section-title">Everything You Need to Know</h2>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span>What does the 9% fee include?</span>
+          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>Everything. Listing optimisation, professional photography, dynamic pricing, 24/7 AI guest communication, cleaning coordination, maintenance management, and real-time owner reporting. No admin fees, no hidden charges, no markups.</p></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span>How is this different from a traditional property manager?</span>
+          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>Traditional managers juggle dozens of properties with limited staff. Our AI systems handle routine tasks instantly — pricing, guest messages, maintenance detection — while our team focuses on complex problems and quality oversight. Better service, lower cost.</p></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span>What if I already have a property manager?</span>
+          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>We handle the transition. Most property management agreements have a 30-day notice period. We'll coordinate the handover so there's zero gap in service — your property stays listed and earning throughout.</p></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span>Is there a lock-in contract?</span>
+          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>No. We offer flexible agreements because we believe our results speak for themselves. If you're not happy, you can leave — but our properties consistently outperform, so most owners stay.</p></div>
+      </div>
+
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">
+          <span>Which areas do you cover?</span>
+          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="faq-a"><p>Melbourne CBD and suburbs, Mornington Peninsula (Sorrento, Portsea, Rye, Rosebud, Mount Martha), and Perth metro and surrounds. If your property is in one of these areas, we can help.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <h2>Ready to See the Numbers?</h2>
+    <p>Free estimate. No obligation. Takes 60 seconds.</p>
+    <a href="#form" class="btn-final" onclick="scrollToForm(); return false;">Get My Free Estimate</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    Powered by <a href="https://airoam.com.au">Airoam</a> · Australia's smartest AI-powered short-term rental manager
+  </footer>
+
+
+<script>
+// ============================================================
+// CONFIG — UPDATE THESE
+// ============================================================
+const WEBHOOK_URL = null; // GHL inbound webhook URL, e.g. 'https://services.leadconnectorhq.com/hooks/xxx/xxx'
+const FALLBACK_EMAIL = 'hello@airoam.com.au'; // Receives a mailto: link if webhook fails
+
+// ============================================================
+// FORM SUBMISSION
+// ============================================================
+function submitForm() {
+  const btn = document.getElementById('submitBtn');
+  const data = {
+    name: document.getElementById('fname').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    suburb: document.getElementById('suburb').value.trim(),
+    property_type: document.getElementById('ptype').value,
+    bedrooms: document.getElementById('beds').value,
+    source: 'facebook-ad-landing',
+    submitted: new Date().toISOString()
+  };
+
+  // Validate required fields
+  if (!data.name || !data.email || !data.phone) {
+    // Highlight empty required fields
+    ['fname','email','phone'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) el.style.borderColor = '#202020';
+    });
+    return;
+  }
+
+  // Disable button
+  btn.classList.add('loading');
+  btn.textContent = 'Sending...';
+
+  // Fire Facebook Pixel Lead event
+  if (typeof fbq === 'function') {
+    fbq('track', 'Lead', {
+      content_name: data.suburb + ' ' + data.property_type,
+      content_category: 'Property Estimate',
+      value: 0,
+      currency: 'AUD'
+    });
+  }
+
+  // Send to GHL webhook
+  if (WEBHOOK_URL) {
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(() => showThankYou())
+    .catch(() => showThankYou()); // Show thank you even if webhook fails — follow up manually
+  } else {
+    // No webhook configured — log and show thank you
+    console.log('[Airoam Landing] Form data:', data);
+    console.log('[Airoam Landing] Set WEBHOOK_URL to send to GHL');
+    showThankYou();
+  }
+}
+
+function showThankYou() {
+  window.location.href = '/estimate/thankyou';
+}
+
+// ============================================================
+// SCROLL TO FORM
+// ============================================================
+function scrollToForm() {
+  document.getElementById('form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Focus first empty field after scroll
+  setTimeout(() => {
+    const first = document.getElementById('fname');
+    if (!first.value) first.focus();
+  }, 600);
+}
+
+// ============================================================
+// NAV SCROLL STATE
+// ============================================================
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ============================================================
+// FAQ TOGGLE
+// ============================================================
+function toggleFaq(el) {
+  // Close all others
+  document.querySelectorAll('.faq-item').forEach(item => {
+    if (item !== el) item.classList.remove('open');
+  });
+  el.classList.toggle('open');
+}
+
+// ============================================================
+// SCROLL REVEAL
+// ============================================================
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ============================================================
+// ENTER KEY SUBMITS FORM
+// ============================================================
+document.querySelectorAll('#form input').forEach(input => {
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitForm();
+  });
+});
+</script>
+
+</body>
+</html>

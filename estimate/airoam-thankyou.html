@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>We're Building Your Estimate | Airoam</title>
+  <meta name="description" content="Thanks for requesting your free earnings estimate. We'll have your personalised breakdown ready soon.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #202020;
+      --white: #FFFFFF;
+      --cream: #FAF0DD;
+      --cream-mid: #FDF9F3;
+      --cream-light: #FEFCF9;
+      --grey: #606060;
+      --grey-light: rgba(0,0,0,0.06);
+      --grey-text: rgba(0,0,0,0.6);
+      --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--black);
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ============================================
+       NAV
+       ============================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      background: var(--white);
+      z-index: 100;
+      border-bottom: 3px solid var(--black);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-logo-img {
+      height: 36px;
+      width: auto;
+    }
+
+    .nav-cta {
+      padding: 10px 24px;
+      border: 3px solid var(--black);
+      background: transparent;
+      color: var(--black);
+      font-family: var(--font);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.4s ease;
+      border-radius: 0;
+    }
+
+    .nav-cta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--black);
+      transition: left 0.4s ease;
+      z-index: -1;
+    }
+
+    .nav-cta:hover { color: var(--white); }
+    .nav-cta:hover::before { left: 0; }
+
+    /* ============================================
+       HERO / CONFIRMATION
+       ============================================ */
+    .hero {
+      padding: 160px 60px 80px;
+      background: linear-gradient(to bottom,
+        #ffffff 0%, #ffffff 28%, #FEFCF9 45%, #FDF9F3 65%, #FAF0DD 100%
+      );
+      text-align: center;
+    }
+
+    .hero-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .confirm-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 36px;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+    }
+
+    .confirm-icon svg {
+      stroke: var(--cream);
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--black);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease-out 0.4s forwards;
+    }
+
+    .hero-body {
+      font-size: 17px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--grey);
+      margin-bottom: 12px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease-out 0.55s forwards;
+    }
+
+    .hero-checklist {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      margin-top: 32px;
+      padding: 32px 40px;
+      border: 3px solid rgba(0,0,0,0.06);
+      background: var(--white);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease-out 0.7s forwards;
+    }
+
+    .hero-check {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--black);
+    }
+
+    .hero-check svg {
+      flex-shrink: 0;
+    }
+
+    /* ============================================
+       BLOG SECTION - MAGAZINE GRID
+       (Matching airoam.com.au homepage)
+       ============================================ */
+    .blog-magazine-section {
+      background-color: #FAF0DD;
+      padding: 100px 0 120px;
+      border-top: none;
+    }
+
+    .blog-magazine-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 60px;
+    }
+
+    .blog-magazine-header {
+      margin-bottom: 50px;
+    }
+
+    .blog-magazine-title {
+      color: #202020;
+      letter-spacing: -0.03em;
+      font-size: clamp(2em, 5vw, 3.5em);
+      font-weight: 600;
+      line-height: 0.914634;
+    }
+
+    .blog-magazine-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+
+    .blog-magazine-section .blog-card {
+      position: relative;
+      overflow: hidden;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .blog-magazine-section .blog-card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      transition: transform 0.7s ease;
+    }
+
+    .blog-magazine-section .blog-card:hover .blog-card-image {
+      transform: scale(1.05);
+    }
+
+    .blog-magazine-section .blog-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+      transition: background 0.3s ease;
+    }
+
+    .blog-magazine-section .blog-card:hover .blog-card-overlay {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 50%, transparent 100%);
+    }
+
+    .blog-magazine-section .blog-card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 30px;
+      z-index: 2;
+    }
+
+    .blog-magazine-section .blog-card-category {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--black);
+      background-color: #FAF0DD;
+      padding: 6px 12px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .blog-magazine-section .blog-card-title {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .blog-magazine-section .blog-card-date {
+      display: block;
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 12px;
+    }
+
+    .blog-card-featured {
+      grid-column: span 2;
+      grid-row: span 2;
+      min-height: 500px;
+    }
+
+    .blog-card-featured .blog-card-content {
+      padding: 40px;
+    }
+
+    .blog-card-featured .blog-card-title {
+      font-size: 28px;
+      max-width: 400px;
+    }
+
+    .blog-card-medium {
+      grid-column: span 2;
+      aspect-ratio: 2 / 1;
+    }
+
+    .blog-card-medium .blog-card-content {
+      padding: 24px;
+    }
+
+    .blog-card-medium .blog-card-title {
+      font-size: 20px;
+    }
+
+    .blog-card-small {
+      aspect-ratio: 4 / 3;
+    }
+
+    .blog-card-small .blog-card-content {
+      padding: 20px;
+    }
+
+    .blog-card-small .blog-card-title {
+      font-size: 16px;
+    }
+
+    .blog-magazine-footer {
+      display: flex;
+      justify-content: center;
+      margin-top: 60px;
+    }
+
+    .blog-see-all-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px 48px;
+      border: 3px solid #202020;
+      background-color: transparent;
+      color: #202020;
+      font-size: 15px;
+      font-weight: 500;
+      font-family: var(--font);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-radius: 0;
+    }
+
+    .blog-see-all-btn:hover {
+      background-color: #202020;
+      color: #ffffff;
+    }
+
+    .blog-see-all-btn .btn-arrow {
+      font-size: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    .blog-see-all-btn:hover .btn-arrow {
+      transform: translateX(6px);
+    }
+
+    /* ============================================
+       BOTTOM CTA
+       ============================================ */
+    .bottom-cta {
+      padding: 100px 60px;
+      background: var(--black);
+      text-align: center;
+    }
+
+    .bottom-cta h2 {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .bottom-cta p {
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    .bottom-cta-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .btn-social {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 32px;
+      border: 3px solid rgba(255,255,255,0.15);
+      background: transparent;
+      color: var(--white);
+      font-family: var(--font);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      border-radius: 0;
+      transition: all 0.4s ease;
+    }
+
+    .btn-social:hover {
+      border-color: var(--cream);
+      color: var(--cream);
+      transform: translateY(-3px);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      padding: 36px 60px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--grey);
+      border-top: 3px solid rgba(0,0,0,0.06);
+    }
+
+    .footer a {
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================
+       RESPONSIVE - TABLET
+       ============================================ */
+    @media (max-width: 1024px) {
+      .blog-magazine-container {
+        max-width: 100%;
+        padding: 0 40px;
+      }
+
+      .blog-magazine-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .blog-card-featured {
+        grid-column: span 2;
+        grid-row: span 1;
+        min-height: 300px;
+        aspect-ratio: 21 / 9;
+      }
+
+      .blog-card-featured .blog-card-title { font-size: 24px; }
+
+      .blog-card-medium {
+        grid-column: span 2;
+        aspect-ratio: 3 / 1;
+      }
+
+      .blog-card-medium .blog-card-title { font-size: 18px; }
+
+      .blog-card-small {
+        grid-column: span 1;
+        aspect-ratio: 4 / 3;
+      }
+
+      .blog-card-small .blog-card-title { font-size: 16px; }
+      .blog-card-small .blog-card-content { padding: 20px; }
+    }
+
+    /* ============================================
+       RESPONSIVE - MOBILE
+       ============================================ */
+    @media (max-width: 768px) {
+      .nav { padding: 0 24px; }
+      .nav-cta { display: none; }
+      .hero { padding: 120px 24px 60px; }
+      .hero h1 { font-size: 32px; }
+      .hero-body { font-size: 15px; }
+      .hero-checklist { padding: 24px; }
+      .bottom-cta { padding: 80px 24px; }
+      .bottom-cta h2 { font-size: 28px; }
+      .bottom-cta-links { flex-direction: column; align-items: center; }
+      .footer { padding: 36px 24px; }
+
+      .blog-magazine-section { padding: 60px 0 80px; }
+
+      .blog-magazine-container {
+        max-width: 100%;
+        width: 100%;
+        padding: 0 20px;
+      }
+
+      .blog-magazine-header { margin-bottom: 24px; }
+      .blog-magazine-title { font-size: 28px; }
+
+      .blog-magazine-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .blog-magazine-section .blog-card,
+      .blog-card-featured,
+      .blog-card-medium,
+      .blog-card-small {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        grid-column: unset;
+        grid-row: unset;
+      }
+
+      .blog-card-featured {
+        aspect-ratio: 16 / 10;
+        min-height: auto;
+      }
+
+      .blog-card-featured .blog-card-content { padding: 20px; }
+      .blog-card-featured .blog-card-title { font-size: 20px; max-width: none; }
+
+      .blog-card-medium,
+      .blog-card-small {
+        aspect-ratio: 2.5 / 1;
+        min-height: auto;
+      }
+
+      .blog-card-medium .blog-card-content,
+      .blog-card-small .blog-card-content { padding: 20px; }
+
+      .blog-card-medium .blog-card-title,
+      .blog-card-small .blog-card-title { font-size: 15px; }
+
+      .blog-card-medium .blog-card-category,
+      .blog-card-small .blog-card-category {
+        font-size: 10px;
+        padding: 5px 10px;
+        margin-bottom: 8px;
+      }
+
+      .blog-magazine-footer { margin-top: 24px; width: 100%; }
+      .blog-see-all-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="https://airoam.com.au" class="nav-logo"><img src="https://airoam.com.au/Images/airoam-logo-black.svg" alt="Airoam" class="nav-logo-img"></a>
+    <a href="https://airoam.com.au" class="nav-cta">Back to Airoam</a>
+  </nav>
+
+  <!-- HERO / CONFIRMATION -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="confirm-icon">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h1>We're Building Your Estimate</h1>
+      <p class="hero-body">Thanks for requesting your personalised earnings breakdown. We'll have it in your inbox within a few hours.</p>
+      <p class="hero-body">Here's what happens next:</p>
+
+      <div class="hero-checklist">
+        <div class="hero-check">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="#202020" stroke-width="2" stroke-linecap="round"><polyline points="16 5 7.5 14 4 10"/></svg>
+          We analyse your suburb, property type, and bedroom count
+        </div>
+        <div class="hero-check">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="#202020" stroke-width="2" stroke-linecap="round"><polyline points="16 5 7.5 14 4 10"/></svg>
+          Compare against similar properties in your area
+        </div>
+        <div class="hero-check">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="#202020" stroke-width="2" stroke-linecap="round"><polyline points="16 5 7.5 14 4 10"/></svg>
+          Send your personalised earnings estimate via email
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG SECTION - MAGAZINE GRID (matching homepage) -->
+  <section class="blog-magazine-section">
+    <div class="blog-magazine-container">
+      <div class="blog-magazine-header">
+        <h2 class="blog-magazine-title">Latest posts</h2>
+      </div>
+
+      <div class="blog-magazine-grid">
+        <!-- Large Featured - spans 2 cols and 2 rows -->
+        <a href="https://www.airoam.com.au/blog/airbnb-melbourne-fees-9-percent" class="blog-card blog-card-featured">
+          <img src="https://airoam.com.au/Images/melbourne-cbd-skyline-airbnb-property-management.jpg" alt="Melbourne CBD skyline - Airbnb property management and 9% fees" class="blog-card-image" loading="lazy">
+          <div class="blog-card-overlay"></div>
+          <div class="blog-card-content">
+            <span class="blog-card-category">Pricing &amp; Fees</span>
+            <h3 class="blog-card-title">Paying 15% Management Fees in Melbourne? Here's Why Smart Hosts Are Switching to 9%</h3>
+            <span class="blog-card-date">December 2024</span>
+          </div>
+        </a>
+
+        <!-- Top Right - Medium -->
+        <a href="https://www.airoam.com.au/blog/fired-perth-property-manager" class="blog-card blog-card-medium">
+          <img src="https://airoam.com.au/Images/perth-airbnb-hosts-property-manager-talking.jpg" alt="Perth Airbnb hosts discussing property management" class="blog-card-image" loading="lazy">
+          <div class="blog-card-overlay"></div>
+          <div class="blog-card-content">
+            <span class="blog-card-category">Success Stories</span>
+            <h3 class="blog-card-title">Fired My Perth Property Manager After 6 Months. Here's What I Learned.</h3>
+          </div>
+        </a>
+
+        <!-- Bottom Right - Two Small -->
+        <a href="https://www.airoam.com.au/blog/mornington-peninsula-holiday-rental-guide-2026" class="blog-card blog-card-small">
+          <img src="https://airoam.com.au/Images/mornington-peninsula-beach-house-holiday-rental.jpg" alt="Mornington Peninsula beach house holiday rental" class="blog-card-image" loading="lazy">
+          <div class="blog-card-overlay"></div>
+          <div class="blog-card-content">
+            <span class="blog-card-category">Revenue Optimisation</span>
+            <h3 class="blog-card-title">Mornington Peninsula Holiday Rental: Complete 2026 Guide</h3>
+          </div>
+        </a>
+
+        <a href="https://www.airoam.com.au/blog/melbourne-event-calendar-2026-airbnb-revenue" class="blog-card blog-card-small">
+          <img src="https://airoam.com.au/Images/melbourne-mcg-events-airbnb-revenue-2025.jpg" alt="Melbourne MCG events for Airbnb revenue" class="blog-card-image" loading="lazy">
+          <div class="blog-card-overlay"></div>
+          <div class="blog-card-content">
+            <span class="blog-card-category">Revenue Optimisation</span>
+            <h3 class="blog-card-title">Melbourne Event Calendar 2026: How to 3x Your Airbnb Revenue</h3>
+          </div>
+        </a>
+      </div>
+
+      <div class="blog-magazine-footer">
+        <a href="https://www.airoam.com.au/blog" class="blog-see-all-btn">
+          <span>See all posts</span>
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="bottom-cta">
+    <h2>Follow Us for Hosting Tips and Market Insights</h2>
+    <p>We share pricing strategies, industry updates, and real results from Australian hosts.</p>
+    <div class="bottom-cta-links">
+      <a href="https://www.instagram.com/airoam.au" class="btn-social" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Instagram
+      </a>
+      <a href="https://www.facebook.com/airoam.au" class="btn-social" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        Facebook
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    Powered by <a href="https://airoam.com.au">Airoam</a> · Australia's smartest AI-powered short-term rental manager
+  </footer>
+
+</body>
+</html>
