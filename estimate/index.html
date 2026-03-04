@@ -1062,8 +1062,11 @@ const FALLBACK_EMAIL = 'hello@airoam.com.au'; // Receives a mailto: link if webh
 // ============================================================
 function submitForm() {
   const btn = document.getElementById('submitBtn');
+  const fullName = document.getElementById('fname').value.trim();
+  const nameParts = fullName.split(' ');
   const data = {
-    name: document.getElementById('fname').value.trim(),
+    first_name: nameParts[0] || '',
+    last_name: nameParts.slice(1).join(' ') || '',
     email: document.getElementById('email').value.trim(),
     phone: document.getElementById('phone').value.trim(),
     suburb: document.getElementById('suburb').value.trim(),
@@ -1074,7 +1077,7 @@ function submitForm() {
   };
 
   // Validate required fields
-  if (!data.name || !data.email || !data.phone) {
+  if (!fullName || !data.email || !data.phone) {
     // Highlight empty required fields
     ['fname','email','phone'].forEach(id => {
       const el = document.getElementById(id);
