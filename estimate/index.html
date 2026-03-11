@@ -257,7 +257,7 @@
 
     .field-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 16px;
     }
 
@@ -871,6 +871,16 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
               <option value="4+">4+</option>
             </select>
           </div>
+          <div class="field">
+            <label for="baths">Bathrooms</label>
+            <select id="baths">
+              <option value="" disabled selected>Select</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4+">4+</option>
+            </select>
+          </div>
         </div>
 
         <button class="btn-submit" id="submitBtn" onclick="submitForm()">
@@ -1089,6 +1099,7 @@ function submitForm() {
     suburb: document.getElementById('suburb').value.trim(),
     property_type: document.getElementById('ptype').value,
     bedrooms: document.getElementById('beds').value,
+    bathrooms: document.getElementById('baths').value,
     source: 'facebook-ad-landing',
     submitted: new Date().toISOString()
   };
