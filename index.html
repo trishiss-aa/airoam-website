@@ -671,452 +671,692 @@
         }
 
         /* ============================================
-           SERVICES SECTION
+           SECTION 2.5: INTERACTIVE PRICING SPLIT
            ============================================ */
-        .services {
-            background: var(--color-white);
-            padding: 120px 60px;
+        .pricing-split {
+            min-height: 100vh;
+            background-color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
             overflow: hidden;
+            padding: 120px 0;
         }
 
-        .services .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateX(-100px);
-            transition: all 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .services .container.visible {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Bold statement header */
-        .services-statement {
-            font-size: clamp(28px, 5vw, 48px);
-            font-weight: 600;
-            line-height: 1.3;
-            letter-spacing: -0.02em;
-            margin-bottom: 80px;
-            max-width: 800px;
-        }
-
-        .services-statement .highlight {
-            background: #202020;
-            color: #FAF0DD;
-            padding: 0 12px;
-        }
-
-        /* Two-column list layout */
-        .services-grid {
+        /* Grid layout */
+        .pricing-split-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0;
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            perspective: 2000px;
         }
 
-        .services-column {
+        /* Individual panels */
+        .pricing-panel {
+            position: relative;
+            height: 500px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .pricing-panel.entered {
+                transform: translateY(0);
+            }
+
+        /* Hover states - must come after .entered rules for proper override */
+        .pricing-panel:hover {
+            transform: rotateY(180deg) !important;
+        }
+
+        .pricing-panel.entered:hover {
+            transform: rotateY(180deg) !important;
+        }
+
+        /* Front and back faces */
+        .panel-front,
+        .panel-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border: 3px solid #202020;
             display: flex;
             flex-direction: column;
-        }
-
-        .services-column:first-child {
-            border-right: 1px solid rgba(0,0,0,0.1);
-            padding-right: 60px;
-        }
-
-        .services-column:last-child {
-            padding-left: 60px;
-        }
-
-        .service-item {
-            display: flex;
-            gap: 20px;
-            padding: 28px 16px;
-            margin: 0 -16px;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-
-        .service-item:last-child {
-            border-bottom: none;
-        }
-
-        .service-item:hover .service-icon {
-            transform: scale(1.1);
-        }
-
-        .service-item:hover .service-content h3 {
-            transform: translateX(6px);
-        }
-
-        /* Line icons */
-        .service-icon {
-            width: 32px;
-            height: 32px;
-            flex-shrink: 0;
-            stroke: #202020;
-            stroke-width: 1.5;
-            fill: none;
-            transition: transform 0.3s ease;
-            margin-top: 2px;
-        }
-
-        .service-content h3 {
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            letter-spacing: -0.01em;
-            transition: transform 0.3s ease;
-        }
-
-        .service-content p {
-            font-size: 14px;
-            font-weight: 300;
-            color: #606060;
-            line-height: 1.5;
-        }
-
-        /* Services mobile */
-        @media (max-width: 1024px) {
-            .services-column:first-child {
-                padding-right: 40px;
-            }
-
-            .services-column:last-child {
-                padding-left: 40px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .services {
-                padding: 80px 24px;
-            }
-
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .services-column:first-child {
-                border-right: none;
-                padding-right: 0;
-                border-bottom: 1px solid rgba(0,0,0,0.1);
-                padding-bottom: 8px;
-                margin-bottom: 8px;
-            }
-
-            .services-column:last-child {
-                padding-left: 0;
-            }
-        }
-
-        /* ============================================
-           EARNINGS SECTION - CREAM BACKGROUND
-           ============================================ */
-        .earnings {
-            padding: 100px 60px;
-            background: #FAF0DD;
-        }
-
-        .earnings .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .earnings-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
             align-items: center;
-        }
-
-        .earnings-left h2 {
-            font-size: 42px;
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 20px;
-        }
-
-        .earnings-left p {
-            font-size: 17px;
-            font-weight: 300;
-            color: #606060;
-            line-height: 1.7;
-            margin-bottom: 32px;
-        }
-
-        .earnings-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 18px 36px;
-            background: #202020;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            border: 3px solid #202020;
-            transition: all 0.4s ease;
-        }
-
-        .earnings-cta:hover {
-            background: transparent;
-            color: #202020;
-        }
-
-        /* Savings Card */
-        .savings-card {
-            padding: 48px 40px;
-            border: 3px solid #202020;
-            background: #ffffff;
-            color: #202020;
-        }
-
-        .revenue-context {
-            text-align: center;
-            margin-bottom: 24px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-        }
-
-        .revenue-context span {
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #606060;
-        }
-
-        .earnings .toggle-wrapper {
-            display: flex;
             justify-content: center;
-            margin-bottom: 32px;
-        }
-
-        .toggle-inner {
-            display: inline-flex;
-            padding: 4px;
-            gap: 4px;
-            border: 2px solid #202020;
-            background: #FDF9F3;
-        }
-
-        .earnings .toggle-btn {
-            padding: 10px 36px;
-            background: transparent;
-            border: none;
-            font-size: 14px;
-            font-weight: 500;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            cursor: pointer;
+            padding: 60px 40px;
+            background-color: var(--color-white);
             transition: all 0.3s ease;
-            color: rgba(0,0,0,0.4);
         }
 
-        .earnings .toggle-btn.active {
-            background: #202020;
-            color: #ffffff;
+        .panel-back {
+            transform: rotateY(180deg);
+            background-color: #202020;
+            color: var(--color-white);
         }
 
-        .savings-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .savings-label {
+        /* Panel content */
+        .panel-label {
             font-size: 13px;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            margin-bottom: 8px;
-            color: #606060;
+            opacity: 0.5;
+            margin-bottom: 30px;
         }
 
-        .savings-amount {
-            font-size: 64px;
+        .panel-number {
+            font-size: 120px;
             font-weight: 700;
             line-height: 1;
-            margin-bottom: 6px;
-            letter-spacing: -0.02em;
-            color: #202020;
+            margin-bottom: 20px;
         }
 
-        .savings-subtitle {
-            font-size: 14px;
+        .panel-number .percent {
+            font-size: 0.5em;
+            opacity: 0.7;
+        }
+
+        .panel-word {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .panel-subtitle {
+            font-size: 16px;
             font-weight: 300;
-            color: #606060;
+            opacity: 0.6;
         }
 
-        .comparison-layout {
+        /* Back panel details */
+        .panel-detail {
+            text-align: center;
+        }
+
+        .panel-detail p {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .panel-icon {
+            font-size: 80px;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+
+        .included-list-mini {
             display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 32px;
-        }
-
-        .label-side {
-            min-width: 100px;
-        }
-
-        .label-left {
-            text-align: right;
-        }
-
-        .label-right {
+            flex-direction: column;
+            gap: 16px;
+            font-size: 16px;
+            font-weight: 300;
             text-align: left;
         }
 
-        .column-label {
-            font-size: 12px;
+        .included-list-mini div {
+            padding-left: 8px;
+        }
+
+        /* Hover effects for panels */
+        .pricing-panel:hover .panel-front {
+            border-color: #000000;
+        }
+
+        /* ============================================
+           SECTION 3: SAVINGS CALCULATOR - VERTICAL BARS
+           ============================================ */
+        .calculator {
+            background-color: #202020;
+            padding: 120px 0 0 0;
+        }
+
+        /* Toggle Buttons */
+        .pricing-comparison-vertical .toggle-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .pricing-comparison-vertical .toggle-wrapper {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            display: inline-flex;
+            padding: 6px;
+            gap: 6px;
+        }
+
+        .pricing-comparison-vertical .toggle-btn {
+            padding: 14px 60px;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            border: none;
+            font-size: 15px;
             font-weight: 500;
-            letter-spacing: 0.05em;
-            margin-bottom: 6px;
-            color: #606060;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .column-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            letter-spacing: -0.02em;
-        }
-
-        .label-left .column-value {
+        .pricing-comparison-vertical .toggle-btn.active {
+            background-color: #FAF0DD;
             color: #202020;
         }
 
-        .label-right .column-value {
-            color: #999;
+        /* Savings Header */
+        .pricing-comparison-vertical .savings-header {
+            text-align: center;
+            margin-bottom: 60px;
         }
 
-        .column-description {
-            font-size: 12px;
+        .pricing-comparison-vertical .savings-label {
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.5;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+            color: #ffffff;
+        }
+
+        .pricing-comparison-vertical .savings-amount {
+            font-size: 70px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 6px;
+            color: #FAF0DD;
+        }
+
+        .pricing-comparison-vertical .savings-subtitle {
+            font-size: 15px;
             font-weight: 300;
-            color: #606060;
+            opacity: 0.5;
+            color: #ffffff;
         }
 
-        .bars-wrapper {
+        /* Main Comparison Layout - Labels on sides */
+        .pricing-comparison-vertical .comparison-layout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Left Label (Airoam) */
+        .pricing-comparison-vertical .label-left {
+            text-align: right;
+            min-width: 120px;
+        }
+
+        /* Right Label (Industry) */
+        .pricing-comparison-vertical .label-right {
+            text-align: left;
+            min-width: 120px;
+        }
+
+        .pricing-comparison-vertical .column-label {
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.6;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .pricing-comparison-vertical .column-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #ffffff;
+        }
+
+        .pricing-comparison-vertical .label-left .column-value {
+            color: #FAF0DD;
+        }
+
+        .pricing-comparison-vertical .label-right .column-value {
+            color: #888888;
+        }
+
+        .pricing-comparison-vertical .column-description {
+            font-size: 13px;
+            font-weight: 300;
+            opacity: 0.5;
+            color: #ffffff;
+        }
+
+        /* Two Columns (Bars Only) - Closer together */
+        .pricing-comparison-vertical .two-columns {
             display: flex;
             gap: 20px;
-            align-items: flex-end;
         }
 
-        .bar-column {
+        /* Each Bar Column */
+        .pricing-comparison-vertical .bar-column {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        .bar-label {
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            margin-bottom: 10px;
-            color: #606060;
-        }
-
-        .vertical-stack {
+        /* Vertical Stacked Bars - Half height */
+        .pricing-comparison-vertical .vertical-stack {
             display: flex;
             flex-direction: column-reverse;
             gap: 4px;
+            height: 140px;
             justify-content: flex-start;
         }
 
-        .stack-bar {
+        .pricing-comparison-vertical .stack-bar {
             width: 60px;
             height: 10px;
             border-radius: 3px;
-            transition: background-color 0.8s ease-out;
+            transition: background-color 1.5s ease;
         }
 
-        .bar-column.airoam .stack-bar {
-            background-color: rgba(0,0,0,0.08);
+        /* Airoam bars - start dark gray, fill with green */
+        .pricing-comparison-vertical .bar-column.airoam .stack-bar {
+            background-color: #2a2a2a;
         }
 
-        .bar-column.airoam .stack-bar.filled {
-            background-color: #202020;
+        .pricing-comparison-vertical .bar-column.airoam .stack-bar.filled {
+            background-color: #FAF0DD;
         }
 
-        .bar-column.industry .stack-bar {
-            background-color: rgba(0,0,0,0.08);
+        /* Industry bars - all light gray */
+        .pricing-comparison-vertical .bar-column.industry .stack-bar {
+            background-color: #666666;
         }
 
-        .bar-column.industry .stack-bar.filled {
-            background-color: #999;
+        /* Animation on scroll */
+        .pricing-comparison-vertical .bar-column.airoam.animate .stack-bar.filled {
+            animation: fillUpGreen 1.5s ease-out forwards;
         }
 
-        .card-cta {
-            text-align: center;
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(0,0,0,0.08);
+        @keyframes fillUpGreen {
+            from {
+                background-color: #2a2a2a;
+            }
+            to {
+                background-color: #FAF0DD;
+            }
         }
 
-        .card-cta a {
+
+        /* ============================================
+           HOW IT WORKS - LARGE NUMBERS (OBYS STYLE)
+           ============================================ */
+        .how-it-works-container {
+            margin-top: 120px;
+            padding-bottom: 100px;
+        }
+
+        /* Section Header */
+        .how-it-works-header {
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .how-it-works-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .how-it-works-title {
+            font-size: 42px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .how-it-works-subtitle {
+            font-size: 16px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Steps Grid */
+        .steps-grid {
+            display: flex;
+            position: relative;
+        }
+
+        /* Individual Step */
+        .step-item {
+            flex: 1;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Vertical Divider - draws from top */
+        .step-divider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            width: 1px;
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .step-item:last-child .step-divider {
+            display: none;
+        }
+
+        .step-item.visible .step-divider {
+            transform: scaleY(1);
+        }
+
+        /* Step Content */
+        .step-content {
+            padding: 40px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .step-item.visible .step-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger delays */
+        .step-item[data-step="0"] .step-content { transition-delay: 0.1s; }
+        .step-item[data-step="0"] .step-divider { transition-delay: 0.3s; }
+        .step-item[data-step="1"] .step-content { transition-delay: 0.25s; }
+        .step-item[data-step="1"] .step-divider { transition-delay: 0.45s; }
+        .step-item[data-step="2"] .step-content { transition-delay: 0.4s; }
+
+        /* Large Number */
+        .step-number-wrapper {
+            height: 160px;
+            margin-bottom: 24px;
+            overflow: visible;
+        }
+
+        .step-number {
+            display: block;
+            font-size: 140px;
+            font-weight: 700;
+            line-height: 1.1;
+            color: rgba(250, 240, 221, 0.08);
+            transform: translateY(100%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        color 0.4s ease;
+        }
+
+        .step-item.visible .step-number {
+            transform: translateY(0);
+        }
+
+        /* Number animation delays */
+        .step-item[data-step="0"] .step-number { transition-delay: 0.2s, 0s; }
+        .step-item[data-step="1"] .step-number { transition-delay: 0.35s, 0s; }
+        .step-item[data-step="2"] .step-number { transition-delay: 0.5s, 0s; }
+
+        /* Hover - number brightens (cream) */
+        .step-item:hover .step-number {
+            color: rgba(250, 240, 221, 0.25);
+        }
+
+        /* Step Title */
+        .step-item .step-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+            transition: transform 0.4s ease;
+        }
+
+        .step-item:hover .step-title {
+            transform: translateX(8px);
+        }
+
+        /* Step Description */
+        .step-item .step-description {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.5);
+            transition: color 0.3s ease;
+        }
+
+        .step-item:hover .step-description {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Hover CTA */
+        .step-hover-cta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
             font-size: 14px;
             font-weight: 500;
-            text-decoration: underline;
-            text-decoration-color: rgba(0, 0, 0, 0.3);
-            text-underline-offset: 3px;
-            color: #202020;
-            padding: 2px 4px;
-            background: linear-gradient(to right, #FAF0DD 50%, transparent 50%);
-            background-size: 200% 100%;
-            background-position: right;
-            transition: background-position 0.3s ease, text-decoration-color 0.3s ease;
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transform: translateX(-16px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        .card-cta a:hover {
-            background-position: left;
-            text-decoration-color: transparent;
+        .step-item:hover .step-hover-cta {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        /* Earnings mobile */
+        .step-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .step-item:hover .step-arrow {
+            transform: translateX(6px);
+        }
+
+        /* Bottom Border - draws on hover */
+        .step-bottom-border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 0;
+            background-color: #ffffff;
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .step-item:hover .step-bottom-border {
+            width: 100%;
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 1024px) {
-            .earnings-grid {
-                grid-template-columns: 1fr;
-                gap: 48px;
+            .how-it-works-container {
+                margin-top: 80px;
+                padding-bottom: 60px;
+            }
+
+            .step-content {
+                padding: 30px;
+            }
+
+            .step-number {
+                font-size: 100px;
+            }
+
+            .step-number-wrapper {
+                height: 120px;
             }
         }
 
         @media (max-width: 768px) {
-            .earnings {
-                padding: 80px 24px;
+            .how-it-works-container {
+                margin-top: 60px;
+                padding: 0 24px 60px;
             }
 
-            .savings-card {
-                padding: 32px 24px;
+            .how-it-works-header {
+                margin-bottom: 40px;
             }
 
-            .savings-amount {
-                font-size: 48px;
-            }
-
-            .comparison-layout {
-                flex-direction: column;
-                align-items: center;
-                gap: 24px;
-            }
-
-            .label-left,
-            .label-right {
-                text-align: center;
-            }
-
-            .bars-wrapper {
-                order: -1;
-            }
-
-            .column-value {
-                font-size: 24px;
-            }
-
-            .earnings-left h2 {
+            .how-it-works-title {
                 font-size: 32px;
             }
+
+            .steps-grid {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .step-item {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .step-item:last-child {
+                border-bottom: none;
+            }
+
+            .step-divider {
+                display: none;
+            }
+
+            .step-content {
+                padding: 40px 0;
+            }
+
+            .step-number {
+                font-size: 80px;
+            }
+
+            .step-number-wrapper {
+                height: 96px;
+                margin-bottom: 16px;
+            }
+
+            .step-item .step-title {
+                font-size: 20px;
+            }
+
+            .step-item .step-description {
+                font-size: 14px;
+            }
+
+            /* Show CTA on mobile by default */
+            .step-hover-cta {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
+
+        /* ============================================
+           SECTION 3: HORIZONTAL SCROLLING FEATURES
+           COMMENTED OUT FOR NOW - WILL REVISIT LATER
+           ============================================ */
+        /*
+        .features-section {
+            height: 100vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            position: relative;
+            background-color: var(--color-white);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .features-section::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .features-section::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .features-section::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .features-section::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .features-container {
+            position: static;
+            display: flex;
+            gap: 120px;
+            height: 100%;
+            align-items: center;
+            padding: 0 60px;
+            width: max-content;
+        }
+
+        .feature-card {
+            min-width: 380px;
+            flex: 1;
+            max-width: 420px;
+            background-color: #202020;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 0;
+            padding: 80px 60px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.4s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .feature-card.hero-card {
+            background-color: #202020;
+        }
+
+        .feature-icon {
+            font-size: 60px;
+            margin-bottom: 30px;
+            font-weight: 200;
+            color: #ffffff;
+        }
+
+        .feature-number {
+            font-size: 140px;
+            font-weight: 200;
+            line-height: 1;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .feature-title {
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            opacity: 0.7;
+            color: #ffffff;
+        }
+        */
 
         /* ============================================
            SECTION 5: TESTIMONIALS - MINIMAL TEXT FOCUS
@@ -1124,7 +1364,7 @@
         .testimonials-minimal {
             position: relative;
             overflow: hidden;
-            background-color: #202020;
+            background-color: var(--color-white);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -1171,7 +1411,7 @@
             font-weight: 300;
             line-height: 1.2;
             letter-spacing: -0.02em;
-            color: #ffffff;
+            color: var(--color-black);
             margin: 0;
         }
 
@@ -1203,14 +1443,13 @@
         .indicator-line {
             width: 32px;
             height: 2px;
-            background-color: #ffffff;
+            background-color: var(--color-black);
             margin-bottom: 12px;
             transition: width 0.5s ease, background-color 0.3s ease;
         }
 
         .testimonial-indicator.active .indicator-line {
             width: 64px;
-            background-color: #FAF0DD;
         }
 
         .indicator-number {
@@ -1218,7 +1457,7 @@
             font-size: 12px;
             font-family: 'Plus Jakarta Sans', monospace;
             letter-spacing: 0.05em;
-            color: #ffffff;
+            color: var(--color-black);
             margin-bottom: 8px;
         }
 
@@ -1231,13 +1470,13 @@
         .indicator-name {
             font-size: 16px;
             font-weight: 600;
-            color: #ffffff;
+            color: var(--color-black);
         }
 
         .indicator-location {
             font-size: 13px;
             font-weight: 400;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--color-text-grey);
         }
 
         /* Testimonials minimal - mobile */
@@ -1353,8 +1592,8 @@
             font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: #FAF0DD;
-            background-color: #202020;
+            color: var(--color-black);
+            background-color: #FAF0DD;
             padding: 6px 12px;
             border-radius: 4px;
             margin-bottom: 12px;
@@ -2259,6 +2498,37 @@
                 font-size: 120px;
             }
 
+            /* Pricing Split Mobile */
+            .pricing-split {
+                padding: 80px 0;
+            }
+
+            .pricing-split-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                padding: 0 24px;
+            }
+
+            .pricing-panel {
+                height: 400px;
+            }
+
+
+            .panel-number {
+                font-size: 90px;
+                font-weight: 700;
+            }
+
+
+            .panel-word {
+                font-size: 48px;
+                font-weight: 700;
+            }
+
+            .calculator {
+                padding: 80px 0;
+            }
+
             /* Contact Form Mobile */
             .contact-form {
                 padding: 80px 0;
@@ -2289,6 +2559,71 @@
 
             .btn-submit {
                 padding: 20px 32px;
+            }
+
+
+            /* Workflow Timeline Mobile */
+            .pricing-comparison-vertical .workflow-container {
+                margin-top: 60px;
+            }
+
+            .workflow-container {
+                flex-direction: column;
+                gap: 60px;
+                padding: 0 0 60px 0;
+                max-width: 100%;
+            }
+
+            .workflow-step {
+                min-width: 100%;
+                max-width: 100%;
+            }
+
+            .step-card {
+                padding: 60px 40px;
+                min-height: auto;
+            }
+
+            /* Calculator Vertical Bars Mobile */
+            .pricing-comparison-vertical {
+                padding: 80px 0 60px 0;
+            }
+
+            .pricing-comparison-vertical .toggle-btn {
+                padding: 12px 40px;
+                font-size: 14px;
+            }
+
+            .pricing-comparison-vertical .savings-amount {
+                font-size: 56px;
+            }
+
+            .pricing-comparison-vertical .comparison-layout {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .pricing-comparison-vertical .label-left,
+            .pricing-comparison-vertical .label-right {
+                text-align: center;
+                min-width: auto;
+            }
+
+            .pricing-comparison-vertical .two-columns {
+                gap: 15px;
+            }
+
+            .pricing-comparison-vertical .column-value {
+                font-size: 28px;
+            }
+
+            .pricing-comparison-vertical .vertical-stack {
+                height: 110px;
+            }
+
+            .pricing-comparison-vertical .stack-bar {
+                width: 50px;
+                height: 8px;
             }
 
             .calculator-card {
@@ -2416,7 +2751,30 @@
     </div>
 
     <!-- Navigation -->
-    <div id="nav-container"></div>
+    <nav id="main-nav">
+        <a href="index.html" class="nav-logo" id="nav-logo">
+            <img src="Images/airoam-logo-black.svg" alt="Airoam - Airbnb property management Australia" class="logo">
+        </a>
+        <div class="nav-center">
+            <a href="#about">About</a>
+            <a href="#pricing">Pricing</a>
+            <a href="blog.html">Blog</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <a href="#contact" class="nav-button">Get Started</a>
+        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
+        <a href="#about">About</a>
+        <a href="#pricing">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact">Get Started</a>
+    </div>
 
     <!-- Main Content -->
     <div class="main-content">
@@ -2445,152 +2803,209 @@
         </div>
     </section>
 
-    <!-- Section: Services -->
-    <section class="services" id="services">
+    <!-- Section 2.5: Interactive Pricing Split -->
+    <section class="pricing-split" id="pricing-split">
         <div class="container">
-            <!-- Bold statement -->
-            <p class="services-statement">
-                You pay <span class="highlight">9%</span> of rental income. We handle everything else.
-            </p>
-
-            <!-- Two-column list -->
-            <div class="services-grid">
-                <div class="services-column">
-                    <div class="service-item">
-                        <svg class="service-icon" viewBox="0 0 48 48">
-                            <path d="M8 12h32M8 24h24M8 36h28" stroke-linecap="round"/>
-                            <circle cx="40" cy="36" r="4"/>
-                        </svg>
-                        <div class="service-content">
-                            <h3>AI Guest Communication</h3>
-                            <p>Instant responses 24/7. Check-ins, questions, local tips — handled before you see the message.</p>
-                        </div>
+            <div class="pricing-split-grid">
+                <!-- Panel 1: What You Pay -->
+                <div class="pricing-panel" data-panel="pay">
+                    <div class="panel-front">
+                        <div class="panel-label">What you pay</div>
+                        <div class="panel-number">9<span class="percent">%</span></div>
+                        <div class="panel-subtitle">of rental income</div>
                     </div>
-
-                    <div class="service-item">
-                        <svg class="service-icon" viewBox="0 0 48 48">
-                            <circle cx="24" cy="14" r="6"/>
-                            <path d="M12 40v-4a12 12 0 0 1 24 0v4" stroke-linecap="round"/>
-                        </svg>
-                        <div class="service-content">
-                            <h3>Cleaning & Turnovers</h3>
-                            <p>Scheduled automatically after every checkout. Quality verified. Always guest-ready.</p>
-                        </div>
-                    </div>
-
-                    <div class="service-item">
-                        <svg class="service-icon" viewBox="0 0 48 48">
-                            <path d="M24 8v8M24 32v8M8 24h8M32 24h8" stroke-linecap="round"/>
-                            <circle cx="24" cy="24" r="8"/>
-                        </svg>
-                        <div class="service-content">
-                            <h3>Maintenance</h3>
-                            <p>Issues reported, dispatched, resolved. Trusted local contractors, coordinated by us.</p>
+                    <div class="panel-back">
+                        <div class="panel-detail">
+                            <p>Industry standard: <br/>15-25%</p>
+                            <p>You save: 6-16%</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="services-column">
-                    <div class="service-item">
-                        <svg class="service-icon" viewBox="0 0 48 48">
-                            <path d="M8 36l8-16 8 10 8-18 8 12" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M8 40h32" stroke-linecap="round"/>
-                        </svg>
-                        <div class="service-content">
-                            <h3>Dynamic Pricing</h3>
-                            <p>Rates that move with demand. Events, seasons, market shifts — captured automatically.</p>
-                        </div>
+                <!-- Panel 2: What's Included -->
+                <div class="pricing-panel" data-panel="included">
+                    <div class="panel-front">
+                        <div class="panel-label">What's included</div>
+                        <div class="panel-word">Everything</div>
+                        <div class="panel-subtitle">No hidden fees</div>
                     </div>
-
-                    <div class="service-item">
-                        <svg class="service-icon" viewBox="0 0 48 48">
-                            <rect x="8" y="14" width="32" height="22" rx="2"/>
-                            <path d="M8 22h32" stroke-linecap="round"/>
-                            <path d="M16 30h8" stroke-linecap="round"/>
-                        </svg>
-                        <div class="service-content">
-                            <h3>Instant Payouts</h3>
-                            <p>Paid after each check-in. No waiting until end of month. Your money, when you earn it.</p>
-                        </div>
-                    </div>
-
-                    <div class="service-item">
-                        <svg class="service-icon" viewBox="0 0 48 48">
-                            <rect x="10" y="10" width="28" height="28" rx="2"/>
-                            <path d="M18 24l4 4 8-8" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <div class="service-content">
-                            <h3>No Lock-ins</h3>
-                            <p>Flexible agreements. Leave when you want. Our results speak for themselves.</p>
+                    <div class="panel-back">
+                        <div class="panel-detail">
+                            <div class="included-list-mini">
+                                <div>24/7 AI guest communication</div>
+                                <div>Cleaning coordination</div>
+                                <div>Maintenance dispatch</div>
+                                <div>Check-in management</div>
+                                <div>Dynamic pricing</div>
+                                <div>Weekly reports</div>
+                                <div>Instant payouts</div>
+                                <div>Direct deposits</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
-    <!-- Earnings Section - Cream background -->
-    <section class="earnings" id="earnings">
+    <!-- Section: Pricing Comparison - 2 Vertical Columns -->
+    <section class="calculator pricing-comparison-vertical" id="pricing">
         <div class="container">
-            <div class="earnings-grid">
-                <div class="earnings-left">
-                    <h2>How much could you save?</h2>
-                    <p>Most property managers charge 20%+. Airoam charges 9%. On a typical Melbourne 2 bedroom, that's thousands back in your pocket every year.</p>
-                    <a href="calculator.html" class="earnings-cta">
-                        <span>See your savings</span>
-                        <span class="arrow">→</span>
-                    </a>
+            <!-- Toggle: Month / Year -->
+            <div class="toggle-container">
+                <div class="toggle-wrapper">
+                    <button class="toggle-btn active" data-period="month">Month</button>
+                    <button class="toggle-btn" data-period="year">Year</button>
                 </div>
-                <div class="savings-card" id="savings-card">
-                    <div class="revenue-context">
-                        <span>2 Bedroom Melbourne · $60K Annual Revenue</span>
-                    </div>
-                    
-                    <div class="toggle-wrapper">
-                        <div class="toggle-inner">
-                            <button class="toggle-btn" data-period="month">Month</button>
-                            <button class="toggle-btn active" data-period="year">Year</button>
+            </div>
+
+            <!-- Savings Display -->
+            <div class="savings-header">
+                <div class="savings-label">Estimated Savings</div>
+                <div class="savings-amount" id="pricing-savings-amount">$625</div>
+                <div class="savings-subtitle">Saved</div>
+            </div>
+
+            <!-- Comparison Layout: Labels on sides, bars in center -->
+            <div class="comparison-layout">
+                <!-- Left: Airoam Label -->
+                <div class="label-left">
+                    <div class="column-label">Airoam</div>
+                    <div class="column-value" id="pricing-airoam-value">$511</div>
+                    <div class="column-description">9% of gross income</div>
+                </div>
+
+                <!-- Center: Two Bar Columns -->
+                <div class="two-columns">
+                    <!-- Airoam Bars -->
+                    <div class="bar-column airoam" id="airoam-column">
+                        <div class="vertical-stack" id="airoam-stack">
+                            <!-- Bars generated by JavaScript -->
                         </div>
                     </div>
 
-                    <div class="savings-header">
-                        <div class="savings-label">You Save</div>
-                        <div class="savings-amount" id="savings-amount">$0</div>
-                        <div class="savings-subtitle" id="savings-subtitle">per year with Airoam</div>
-                    </div>
-
-                    <div class="comparison-layout">
-                        <div class="label-side label-left">
-                            <div class="column-label">Airoam 9%</div>
-                            <div class="column-value" id="airoam-value">$0</div>
-                            <div class="column-description">You pay</div>
+                    <!-- Industry Bars -->
+                    <div class="bar-column industry" id="industry-column">
+                        <div class="vertical-stack" id="industry-stack">
+                            <!-- Bars generated by JavaScript -->
                         </div>
+                    </div>
+                </div>
 
-                        <div class="bars-wrapper">
-                            <div class="bar-column airoam" id="airoam-column">
-                                <div class="bar-label">9%</div>
-                                <div class="vertical-stack" id="airoam-stack"></div>
+                <!-- Right: Industry Label -->
+                <div class="label-right">
+                    <div class="column-label">Industry</div>
+                    <div class="column-value" id="pricing-industry-value">$1,136</div>
+                    <div class="column-description">22% of gross income</div>
+                </div>
+            </div>
+
+            <!-- How It Works - Large Numbers -->
+            <div class="how-it-works-container" id="how-it-works">
+                <!-- Section Header -->
+                <div class="how-it-works-header">
+                    <h2 class="how-it-works-title">How it works</h2>
+                    <p class="how-it-works-subtitle">Three simple steps to hands-free management</p>
+                </div>
+
+                <!-- Steps Grid -->
+                <div class="steps-grid">
+                    <!-- Step 1 -->
+                    <div class="step-item" data-step="0">
+                        <div class="step-divider"></div>
+                        <div class="step-content">
+                            <div class="step-number-wrapper">
+                                <span class="step-number" data-target="01">00</span>
                             </div>
-                            <div class="bar-column industry" id="industry-column">
-                                <div class="bar-label">22%</div>
-                                <div class="vertical-stack" id="industry-stack"></div>
+                            <h3 class="step-title">AI handles both guest and voice communication</h3>
+                            <p class="step-description">Questions, check-ins, requests - answered instantly, any time.</p>
+                            <div class="step-hover-cta">
+                                <span>Learn more</span>
+                                <span class="step-arrow">→</span>
                             </div>
                         </div>
+                        <div class="step-bottom-border"></div>
+                    </div>
 
-                        <div class="label-side label-right">
-                            <div class="column-label">At 22% fees</div>
-                            <div class="column-value" id="industry-value">$0</div>
-                            <div class="column-description">You pay</div>
+                    <!-- Step 2 -->
+                    <div class="step-item" data-step="1">
+                        <div class="step-divider"></div>
+                        <div class="step-content">
+                            <div class="step-number-wrapper">
+                                <span class="step-number" data-target="02">00</span>
+                            </div>
+                            <h3 class="step-title">AI will call and schedule maintenance services</h3>
+                            <p class="step-description">Cleaning, maintenance, check-ins. One dashboard, all connected.</p>
+                            <div class="step-hover-cta">
+                                <span>Learn more</span>
+                                <span class="step-arrow">→</span>
+                            </div>
                         </div>
+                        <div class="step-bottom-border"></div>
                     </div>
 
-                    <div class="card-cta">
-                        <a href="calculator.html">Calculate yours →</a>
+                    <!-- Step 3 -->
+                    <div class="step-item" data-step="2">
+                        <div class="step-content">
+                            <div class="step-number-wrapper">
+                                <span class="step-number" data-target="03">00</span>
+                            </div>
+                            <h3 class="step-title">Owners get paid instantly</h3>
+                            <p class="step-description">Get paid directly after each check-in, no need to wait for end of month payments.</p>
+                            <div class="step-hover-cta">
+                                <span>Learn more</span>
+                                <span class="step-arrow">→</span>
+                            </div>
+                        </div>
+                        <div class="step-bottom-border"></div>
                     </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Section 3: Horizontal Scrolling Features - COMMENTED OUT FOR NOW -->
+    <!--
+    <section class="features-section" id="features">
+        <div class="features-container" id="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <div>
+                    <h3 class="feature-title">24/7 guest communication</h3>
+                    <p class="feature-description">Instant responses, any time of day</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <div>
+                    <h3 class="feature-title">Cleaning & maintenance coordination</h3>
+                    <p class="feature-description">Seamlessly through KeyNinja</p>
+                </div>
+            </div>
+            <div class="feature-card hero-card">
+                <div class="feature-number">9%</div>
+                <div>
+                    <p class="feature-description">of rental income</p>
+                    <p class="feature-description" style="margin-top: 10px;">Keep 91% of your earnings</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-number">1M+</div>
+                <div>
+                    <h3 class="feature-title">nights managed</h3>
+                    <p class="feature-description">A decade of expertise</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <div>
+                    <h3 class="feature-title">Continuously learning</h3>
+                    <p class="feature-description">Gets smarter with every booking</p>
                 </div>
             </div>
         </div>
     </section>
+    -->
 
     <!-- Section 5: Testimonials - Minimal Text Focus -->
     <section class="testimonials-minimal" id="testimonials">
@@ -2825,7 +3240,97 @@
         </div>
     </div>
 
-    <div id="footer-container"></div>
+    <footer>
+        <!-- Main Footer -->
+        <div class="footer-main">
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo logo-white">
+                    </div>
+                    <p class="footer-tagline">Australia's smartest short-term rental manager. AI-powered property management with just 9% fees.</p>
+                    <div class="footer-stats">
+                        <div class="footer-stat">
+                            <span class="footer-stat-value">4.74★</span>
+                            <span class="footer-stat-label">Guest Rating</span>
+                        </div>
+                        <div class="footer-stat">
+                            <span class="footer-stat-value">1M+</span>
+                            <span class="footer-stat-label">Nights Hosted</span>
+                        </div>
+                        <div class="footer-stat">
+                            <span class="footer-stat-value">9%</span>
+                            <span class="footer-stat-label">Management Fee</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Company Links -->
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Markets -->
+                <div class="footer-column">
+                    <h4>Markets</h4>
+                    <ul>
+                        <li><a href="blog/melbourne-event-calendar-2026-airbnb-revenue.html" title="Melbourne event calendar 2026 – Airbnb revenue guide for Australian Open, F1 & Melbourne Cup">Melbourne</a></li>
+                        <li><a href="blog/mornington-peninsula-holiday-rental-guide-2026.html" title="Mornington Peninsula holiday rental guide 2026 – beach house management for Sorrento, Portsea & Rye">Mornington Peninsula</a></li>
+                        <li><a href="blog/perth-short-term-rental-regulations-2026.html" title="Perth short-term rental regulations 2026 – what every Airbnb host needs to know">Perth</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="footer-column">
+                    <div class="footer-newsletter">
+                        <h4>Stay Updated</h4>
+                        <p>Get hosting tips and industry insights delivered weekly.</p>
+                        <form class="footer-newsletter-form" id="footer-newsletter-form" action="https://formspree.io/f/mdalnbdv" method="POST">
+                            <input type="text" name="_gotcha" style="display:none">
+                            <input type="hidden" name="_subject" value="New Newsletter Subscriber">
+                            <input type="email" name="email" placeholder="Your email" required>
+                            <button type="submit">Subscribe</button>
+                        </form>
+                        <div class="footer-newsletter-message" id="footer-newsletter-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-inner">
+                <p class="footer-copyright">© 2026 Airoam. All rights reserved. ABN 41 668 564 716</p>
+                <div class="footer-legal">
+                    <a href="terms-and-conditions.html">Terms & Conditions</a>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="/cdn-cgi/l/email-protection#a6cec3cacac9e6c7cfd4c9c7cb88c5c9cb88c7d3"><span class="__cf_email__" data-cfemail="e68e838a8a89a6878f9489878bc885898bc88793">[email&#160;protected]</span></a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/airoam?igsh=MjIybzI4cGw5cmx1" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/people/Airoam-Australia-Short-Term-Rental-Management/61587859886582/" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // ============================================
@@ -3087,57 +3592,110 @@
         // ============================================
         // ============================================
         // ============================================
-        // SERVICES SECTION - SCROLL ANIMATION
+        // PRICING COMPARISON - 2 VERTICAL COLUMNS
         // ============================================
         (function() {
-            const servicesContainer = document.querySelector('.services .container');
-            if (!servicesContainer) return;
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2 });
-
-            observer.observe(servicesContainer);
-        })();
-
-        // ============================================
-        // EARNINGS SECTION - BAR CHART ANIMATION
-        // ============================================
-        (function() {
-            const ANNUAL_REVENUE = 60000;
-            const AIROAM_RATE = 0.09;
-            const INDUSTRY_RATE = 0.22;
-            const TOTAL_BARS = 12;
-
             const pricingData = {
-                year: {
-                    airoamFees: ANNUAL_REVENUE * AIROAM_RATE,
-                    industryFees: ANNUAL_REVENUE * INDUSTRY_RATE,
-                    savings: ANNUAL_REVENUE * (INDUSTRY_RATE - AIROAM_RATE)
-                },
                 month: {
-                    airoamFees: (ANNUAL_REVENUE * AIROAM_RATE) / 12,
-                    industryFees: (ANNUAL_REVENUE * INDUSTRY_RATE) / 12,
-                    savings: (ANNUAL_REVENUE * (INDUSTRY_RATE - AIROAM_RATE)) / 12
+                    savings: 625,
+                    airoam: 511,
+                    industry: 1136
+                },
+                year: {
+                    savings: 7495,
+                    airoam: 6132,
+                    industry: 13628
                 }
             };
 
-            let currentPeriod = 'year';
-            let earningsHasAnimated = false;
-
-            const savingsAmount = document.getElementById('savings-amount');
-            const savingsSubtitle = document.getElementById('savings-subtitle');
-            const airoamValue = document.getElementById('airoam-value');
-            const industryValue = document.getElementById('industry-value');
+            const toggleBtns = document.querySelectorAll('.pricing-comparison-vertical .toggle-btn');
+            const savingsAmount = document.getElementById('pricing-savings-amount');
+            const airoamValue = document.getElementById('pricing-airoam-value');
+            const industryValue = document.getElementById('pricing-industry-value');
+            const airoamColumn = document.getElementById('airoam-column');
             const airoamStack = document.getElementById('airoam-stack');
             const industryStack = document.getElementById('industry-stack');
 
-            if (!airoamStack || !industryStack) return;
+            if (!airoamStack) return;
+
+            let currentPeriod = 'month';
+            const totalBars = 12;
+
+            // Create bars
+            function createBars(airoamAmount, industryAmount) {
+                const maxValue = Math.max(airoamAmount, industryAmount);
+                const greenBars = Math.round((airoamAmount / maxValue) * totalBars);
+                
+                airoamStack.innerHTML = '';
+                industryStack.innerHTML = '';
+                
+                // Airoam bars (green + dark gray)
+                for (let i = 0; i < totalBars; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'stack-bar';
+                    if (i < greenBars) {
+                        bar.classList.add('filled');
+                    }
+                    airoamStack.appendChild(bar);
+                }
+                
+                // Industry bars (all light gray)
+                for (let i = 0; i < totalBars; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'stack-bar';
+                    industryStack.appendChild(bar);
+                }
+            }
+
+            // Animate green fill - bars load one by one
+            function animateGreenFill() {
+                airoamColumn.classList.remove('animate');
+                const filledBars = airoamStack.querySelectorAll('.stack-bar.filled');
+                
+                // Reset all bars to dark gray
+                filledBars.forEach(bar => {
+                    bar.style.backgroundColor = '#2a2a2a';
+                });
+                
+                // Animate bars one by one
+                filledBars.forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.transition = 'background-color 1.5s ease-out';
+                        bar.style.backgroundColor = '#FAF0DD';
+                    }, index * 200); // 200ms delay between each bar
+                });
+            }
+
+            // Toggle functionality
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const period = this.getAttribute('data-period');
+                    if (period === currentPeriod) return;
+                    
+                    toggleBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    updatePricing(period);
+                });
+            });
+
+            // Update pricing - numbers start from 0 each toggle, animate in half the time
+            function updatePricing(period) {
+                currentPeriod = period;
+                const data = pricingData[period];
+                
+                animateValue(savingsAmount, 0, data.savings, 400);
+                animateValue(airoamValue, 0, data.airoam, 300);
+                animateValue(industryValue, 0, data.industry, 300);
+                
+                createBars(data.airoam, data.industry);
+                animateGreenFill();
+            }
+
+            // Helper functions
+            function parseCurrency(text) {
+                return parseFloat(text.replace(/[^0-9]/g, '')) || 0;
+            }
 
             function formatCurrency(num) {
                 return '$' + Math.round(num).toLocaleString('en-US');
@@ -3158,96 +3716,141 @@
                 }, 16);
             }
 
-            function createBars() {
-                airoamStack.innerHTML = '';
-                industryStack.innerHTML = '';
-                
-                const airoamBars = Math.round((AIROAM_RATE / INDUSTRY_RATE) * TOTAL_BARS);
-                const industryBars = TOTAL_BARS;
-                
-                for (let i = 0; i < airoamBars; i++) {
-                    const bar = document.createElement('div');
-                    bar.className = 'stack-bar';
-                    airoamStack.appendChild(bar);
-                }
-                
-                for (let i = 0; i < industryBars; i++) {
-                    const bar = document.createElement('div');
-                    bar.className = 'stack-bar';
-                    industryStack.appendChild(bar);
-                }
-            }
-
-            function animateBars() {
-                const airoamBars = airoamStack.querySelectorAll('.stack-bar');
-                const industryBars = industryStack.querySelectorAll('.stack-bar');
-                
-                airoamBars.forEach(bar => bar.classList.remove('filled'));
-                industryBars.forEach(bar => bar.classList.remove('filled'));
-                
-                airoamBars.forEach((bar, index) => {
-                    setTimeout(() => bar.classList.add('filled'), index * 150);
-                });
-                
-                industryBars.forEach((bar, index) => {
-                    setTimeout(() => bar.classList.add('filled'), index * 100);
-                });
-            }
-
-            function updateEarningsDisplay(period, animate = true) {
-                currentPeriod = period;
-                const data = pricingData[period];
-                const periodLabel = period === 'year' ? 'per year' : 'per month';
-                
-                if (savingsSubtitle) savingsSubtitle.textContent = periodLabel + ' with Airoam';
-                
-                if (animate) {
-                    if (savingsAmount) animateValue(savingsAmount, 0, data.savings, 600);
-                    if (airoamValue) animateValue(airoamValue, 0, data.airoamFees, 400);
-                    if (industryValue) animateValue(industryValue, 0, data.industryFees, 400);
-                    animateBars();
-                } else {
-                    if (savingsAmount) savingsAmount.textContent = formatCurrency(data.savings);
-                    if (airoamValue) airoamValue.textContent = formatCurrency(data.airoamFees);
-                    if (industryValue) industryValue.textContent = formatCurrency(data.industryFees);
-                }
-            }
-
-            // Toggle buttons
-            document.querySelectorAll('.earnings .toggle-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const period = btn.dataset.period;
-                    if (period === currentPeriod) return;
-                    
-                    document.querySelectorAll('.earnings .toggle-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    
-                    updateEarningsDisplay(period, true);
-                });
-            });
-
-            // Initialize bars
-            createBars();
-
-            // Scroll trigger for earnings section
-            const earningsSection = document.getElementById('earnings');
-            if (earningsSection) {
-                const earningsObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting && !earningsHasAnimated) {
-                            if (entry.intersectionRatio >= 0.3) {
-                                updateEarningsDisplay('year', true);
-                                earningsHasAnimated = true;
-                            }
+            // Scroll trigger - start at 3/4 of section height
+            const section = document.querySelector('.pricing-comparison-vertical');
+            let hasAnimated = false;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasAnimated) {
+                        const rect = entry.boundingClientRect;
+                        const viewportHeight = window.innerHeight;
+                        const sectionTop = rect.top;
+                        const sectionHeight = rect.height;
+                        
+                        // Calculate visible portion: when 3/4 of section is visible
+                        // Section is 3/4 visible when: sectionTop <= viewportHeight * 0.25
+                        const visiblePortion = (viewportHeight - sectionTop) / sectionHeight;
+                        
+                        if (visiblePortion >= 0.75) {
+                            animateGreenFill();
+                            hasAnimated = true;
+                            observer.unobserve(entry.target);
                         }
-                    });
-                }, { threshold: [0, 0.1, 0.2, 0.3, 0.5, 0.75, 1] });
+                    }
+                });
+            }, { 
+                threshold: [0, 0.25, 0.5, 0.75, 1],
+                rootMargin: '0px'
+            });
+            
+            // Also check on scroll for more precise control
+            function checkScrollPosition() {
+                if (hasAnimated) return;
                 
-                earningsObserver.observe(earningsSection);
+                const rect = section.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const sectionTop = rect.top;
+                const sectionHeight = rect.height;
+                
+                // Calculate visible portion
+                const visiblePortion = (viewportHeight - sectionTop) / sectionHeight;
+                
+                if (visiblePortion >= 0.75 && sectionTop < viewportHeight) {
+                    animateGreenFill();
+                    hasAnimated = true;
+                    window.removeEventListener('scroll', checkScrollPosition);
+                }
+            }
+            
+            window.addEventListener('scroll', checkScrollPosition, { passive: true });
+
+            // Initial load
+            const data = pricingData.month;
+            createBars(data.airoam, data.industry);
+            if (airoamColumn) {
+                observer.observe(airoamColumn);
             }
         })();
 
-        // Navigation handled by includes.js
+        // ============================================
+        // NAVIGATION - CONSISTENT ACROSS ALL PAGES
+        // ============================================
+        (function() {
+            var nav = document.getElementById('main-nav');
+            var hamburger = document.getElementById('nav-hamburger');
+            var mobileMenu = document.getElementById('nav-mobile-menu');
+            var navLogo = document.getElementById('nav-logo');
+
+            if (!nav) return;
+
+            function handleScroll() {
+                if (window.scrollY > 50) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            }
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            handleScroll();
+
+            if (navLogo) {
+                navLogo.addEventListener('click', function(e) {
+                    var isIndex = window.location.pathname === '/' ||
+                                  window.location.pathname.endsWith('index.html') ||
+                                  window.location.pathname === '';
+                    if (isIndex) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                });
+            }
+
+            if (hamburger && mobileMenu) {
+                function closeMenu() {
+                    mobileMenu.classList.remove('open');
+                    hamburger.classList.remove('active');
+                    mobileMenu.setAttribute('aria-hidden', 'true');
+                    hamburger.setAttribute('aria-label', 'Open menu');
+                    document.body.style.overflow = '';
+                }
+                function openMenu() {
+                    mobileMenu.classList.add('open');
+                    hamburger.classList.add('active');
+                    mobileMenu.setAttribute('aria-hidden', 'false');
+                    hamburger.setAttribute('aria-label', 'Close menu');
+                    document.body.style.overflow = 'hidden';
+                }
+                hamburger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (mobileMenu.classList.contains('open')) {
+                        closeMenu();
+                    } else {
+                        openMenu();
+                    }
+                });
+                mobileMenu.querySelectorAll('a').forEach(function(link) {
+                    link.addEventListener('click', function() { closeMenu(); });
+                });
+                document.addEventListener('click', function(e) {
+                    if (mobileMenu.classList.contains('open') &&
+                        !mobileMenu.contains(e.target) &&
+                        !hamburger.contains(e.target)) {
+                        closeMenu();
+                    }
+                });
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+                        closeMenu();
+                    }
+                });
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768 && mobileMenu.classList.contains('open')) {
+                        closeMenu();
+                    }
+                }, { passive: true });
+            }
+        })();
 
         // ============================================
         // HERO TEXT ANIMATION (same as intro-block)
@@ -3394,6 +3997,65 @@
 
             observer.observe(container);
         })();
+
+        // ============================================
+        // HORIZONTAL SCROLLING FEATURES - AUTO SCROLL WITH HOVER PAUSE
+        // COMMENTED OUT FOR NOW - WILL REVISIT LATER
+        // ============================================
+        /*
+        (function() {
+            const section = document.querySelector('.features-section');
+            const container = document.getElementById('features-container');
+            
+            if (!section || !container || isMobile) return;
+            
+            let scrollInterval = null;
+            let isHovering = false;
+            const scrollSpeed = 0.5; // pixels per frame
+            
+            // Auto-scroll function
+            function startAutoScroll() {
+                if (scrollInterval) return;
+                
+                scrollInterval = setInterval(() => {
+                    if (!isHovering && section.scrollLeft < (container.scrollWidth - section.clientWidth)) {
+                        section.scrollLeft += scrollSpeed;
+                    } else if (section.scrollLeft >= (container.scrollWidth - section.clientWidth)) {
+                        // Reset to start when reaching end
+                        section.scrollLeft = 0;
+                    }
+                }, 16); // ~60fps
+            }
+            
+            // Stop auto-scroll on hover
+            const cards = section.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    isHovering = true;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    isHovering = false;
+                });
+            });
+            
+            // Start auto-scroll when section is visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        startAutoScroll();
+                    } else {
+                        if (scrollInterval) {
+                            clearInterval(scrollInterval);
+                            scrollInterval = null;
+                        }
+                    }
+                });
+            }, { threshold: 0.3 });
+            
+            observer.observe(section);
+        })();
+        */
 
 
         // ============================================
@@ -4006,6 +4668,45 @@
             }
         })();
 
+        // ============================================
+        // PRICING SPLIT PANELS INTERACTION
+        // ============================================
+        (function() {
+            const panels = document.querySelectorAll('.pricing-panel');
+            
+            if (!panels.length) return;
+
+            // Intersection observer for scroll reveal
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // Get the panel index for stagger
+                        const panel = entry.target;
+                        const allPanels = Array.from(panels);
+                        const index = allPanels.indexOf(panel);
+                        
+                        // Stagger the panel entrance
+                        setTimeout(() => {
+                            panel.style.opacity = '1';
+                            panel.classList.add('entered');
+                            // Remove inline transform after animation so CSS hover works
+                            setTimeout(() => {
+                                panel.style.transform = '';
+                            }, 800);
+                        }, index * 150);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            // Set initial state and observe
+            panels.forEach((panel) => {
+                panel.style.opacity = '0';
+                panel.style.transform = 'translateY(50px)';
+                panel.style.transition = 'opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                observer.observe(panel);
+            });
+
+        })();
     </script>
     </div><!-- End main-content -->
 
@@ -4014,6 +4715,3 @@
     </script>
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"LocalBusiness","name":"Airoam Property Management","@id":"https://airoam.com.a
-    <script src="partials/includes.js"></script>
-</body>
-</html>
