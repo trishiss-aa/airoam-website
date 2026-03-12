@@ -2424,28 +2424,77 @@
 
         /* ============================================
            ALIGNMENT & SIZING OVERRIDES
-           Consistent left alignment, unified heading sizes
+           Only for newer sections (services, earnings, blog, contact)
            ============================================ */
         
-        /* Reduce intro block text size */
+        /* Make intro block 72px to match other sections */
         .intro-block {
-            font-size: clamp(32px, 6vw, 48px);
-            margin-bottom: 40px;
+            font-size: 72px !important;
         }
         
-        /* Consistent section title sizes */
+        /* Section separator - line above services */
+        .services {
+            border-top: 3px solid #202020;
+            margin-top: 60px;
+        }
+        
+        /* Match all container max-widths for alignment */
+        .intro .container,
+        .services .container,
+        .earnings .container,
+        .blog-magazine-section .blog-magazine-container,
+        .contact-form .contact-container {
+            max-width: 1200px;
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+        
+        /* Consistent section title sizes for newer sections - 72px */
         .services-statement,
         .earnings-left h2,
         .blog-magazine-title,
         .contact-title {
-            font-size: clamp(32px, 5vw, 42px);
+            font-size: 72px;
             font-weight: 600;
             letter-spacing: -0.02em;
-            text-align: left;
+            text-align: left !important;
+            line-height: 1.1;
+        }
+        
+        /* Ensure services statement is left-aligned and full width */
+        .services .container .services-statement {
+            max-width: 100%;
+            text-align: left !important;
+        }
+        
+        /* Responsive: scale down on smaller screens */
+        @media (max-width: 768px) {
+            .intro-block {
+                font-size: 42px !important;
+            }
+            
+            .services-statement,
+            .earnings-left h2,
+            .blog-magazine-title,
+            .contact-title {
+                font-size: 42px;
+            }
+            
+            .services {
+                margin-top: 40px;
+            }
+            
+            .intro .container,
+            .services .container,
+            .earnings .container,
+            .blog-magazine-section .blog-magazine-container,
+            .contact-form .contact-container {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
         }
         
         /* Ensure all main containers have consistent max-width and alignment */
-        .intro .container,
         .services .container,
         .earnings .container,
         .blog-magazine-section .blog-magazine-container,
