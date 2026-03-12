@@ -446,40 +446,32 @@
         }
 
         /* ============================================
-           INFINITE SCROLL
+           LOAD MORE BUTTON
            ============================================ */
 
-        .blog-card.infinite-hidden {
-            display: none !important;
-        }
-
-        .blog-infinite-sentinel {
-            grid-column: span 12;
-            min-height: 80px;
-            height: 1px;
-            pointer-events: none;
-        }
-
-        .blog-infinite-sentinel--done {
-            min-height: 0;
-            height: 0;
-            overflow: hidden;
-            visibility: hidden;
-        }
-
-        .blog-infinite-status {
+        .blog-load-more {
             grid-column: span 12;
             text-align: center;
-            padding: 24px 0 40px;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            color: rgba(0, 0, 0, 0.5);
-            min-height: 24px;
+            padding: 40px 0 20px;
         }
 
-        .blog-infinite-status.is-loading {
+        .blog-load-more-btn {
+            display: inline-block;
+            padding: 16px 40px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border: 3px solid var(--color-black);
+            background: transparent;
             color: var(--color-black);
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .blog-load-more-btn:hover {
+            background-color: var(--color-black);
+            color: var(--color-white);
         }
 
         /* ============================================
@@ -509,77 +501,204 @@
             .blog-grid > a.blog-card:nth-of-type(8n+3) { min-height: 320px; }
             .blog-grid > a.blog-card:nth-of-type(8n+3) .blog-card-text-box { padding: 24px; }
             .blog-grid > a.blog-card .blog-card-title {
-                font-size: 14px;
-                line-height: 1.35;
+                font-size: 18px;
                 max-width: none;
             }
             .blog-grid.is-filtered .blog-card,
             .blog-grid.is-filtered .blog-card.span-full {
                 grid-column: span 1 !important;
             }
-            .blog-infinite-sentinel,
-            .blog-infinite-status { grid-column: span 1; }
+            .blog-load-more { grid-column: span 1; }
         }
 
-        /* Footer - improved */
-        .footer-cta { background: #FAF0DD; padding: 48px 60px; }
-        .footer-cta-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
-        .footer-cta-content h3 { font-size: 28px; font-weight: 600; color: var(--color-black); letter-spacing: -0.02em; margin-bottom: 8px; }
-        .footer-cta-content p { font-size: 15px; color: rgba(32, 32, 32, 0.7); font-weight: 300; }
-        .footer-cta-btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 32px; background: var(--color-black); color: var(--color-white); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.03em; border: 3px solid var(--color-black); transition: all 0.3s ease; white-space: nowrap; }
-        .footer-cta-btn:hover { background: transparent; color: var(--color-black); }
-        .footer-cta-btn svg { transition: transform 0.3s ease; }
-        .footer-cta-btn:hover svg { transform: translateX(4px); }
-        footer { background-color: var(--color-black); color: var(--color-white); }
-        .footer-main { padding: 80px 60px 60px; max-width: 1320px; margin: 0 auto; }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
-        .footer-logo { margin-bottom: 16px; }
-        .footer-logo .logo { width: 120px; height: auto; }
-        .logo-white { filter: brightness(0) invert(1); }
-        .footer-tagline { font-size: 14px; font-weight: 300; color: rgba(255, 255, 255, 0.6); margin-bottom: 32px; line-height: 1.5; }
-        .footer-stats { display: flex; gap: 32px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .footer-stat { display: flex; flex-direction: column; }
-        .footer-stat-value { font-size: 24px; font-weight: 600; color: #FAF0DD; letter-spacing: -0.02em; }
-        .footer-stat-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
-        .footer-column h4 { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.4); margin-bottom: 20px; }
-        .footer-column ul { list-style: none; }
-        .footer-column li { margin-bottom: 12px; }
-        .footer-column a { color: var(--color-white); text-decoration: none; font-size: 14px; font-weight: 400; transition: all 0.2s ease; display: inline-block; }
-        .footer-column a:hover { color: #FAF0DD; transform: translateX(4px); }
-        .footer-newsletter { background: rgba(255, 255, 255, 0.03); padding: 24px; border: 1px solid rgba(255, 255, 255, 0.08); }
-        .footer-newsletter h4 { font-size: 14px; font-weight: 600; color: var(--color-white); margin-bottom: 8px; }
-        .footer-newsletter p { font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-bottom: 16px; line-height: 1.5; }
-        .footer-newsletter-form { display: flex; gap: 8px; }
-        .footer-newsletter-form input { flex: 1; min-width: 0; padding: 12px 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 0; background: transparent; color: var(--color-white); outline: none; transition: border-color 0.2s ease; }
-        .footer-newsletter-form input::placeholder { color: rgba(255, 255, 255, 0.4); }
-        .footer-newsletter-form input:focus { border-color: #FAF0DD; }
-        .footer-newsletter-form button { padding: 12px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; background: var(--color-white); color: var(--color-black); border: none; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
-        .footer-newsletter-form button:hover { background: #FAF0DD; }
-        .footer-newsletter-message { margin-top: 8px; padding: 8px 12px; font-size: 12px; opacity: 0; transition: opacity 0.3s ease; }
-        .footer-newsletter-message.show { opacity: 1; }
-        .footer-newsletter-message.success { color: #FAF0DD; }
-        .footer-newsletter-message.error { color: rgba(255, 255, 255, 0.7); }
-        .footer-bottom { padding: 32px 60px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
-        .footer-bottom-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-        .footer-copyright { font-size: 13px; color: rgba(255, 255, 255, 0.4); font-weight: 300; }
-        .footer-legal { display: flex; gap: 24px; }
-        .footer-legal a { font-size: 13px; color: rgba(255, 255, 255, 0.4); text-decoration: none; transition: color 0.2s ease; }
-        .footer-legal a:hover { color: var(--color-white); }
-        .footer-social { display: flex; gap: 16px; }
-        .footer-social a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.15); color: var(--color-white); transition: all 0.2s ease; }
-        .footer-social a:hover { background: #FAF0DD; border-color: #FAF0DD; color: var(--color-black); }
-        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; } .footer-brand { grid-column: 1 / -1; } .footer-stats { justify-content: flex-start; } }
-        @media (max-width: 768px) {
-            .footer-cta { padding: 40px 24px; }
-            .footer-cta-inner { flex-direction: column; text-align: center; }
-            .footer-cta-content h3 { font-size: 24px; }
-            .footer-main { padding: 60px 24px 40px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-            .footer-stats { gap: 24px; }
-            .footer-newsletter-form { flex-direction: column; }
-            .footer-bottom { padding: 24px; }
-            .footer-bottom-inner { flex-direction: column; text-align: center; }
-            .footer-legal { flex-wrap: wrap; justify-content: center; }
+        /* Footer */
+        footer {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            padding: 80px 60px 40px;
+            border-top: 3px solid rgba(255, 255, 255, 0.1);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+        .footer-logo .logo { width: 100px; height: auto; display: block; filter: brightness(0) invert(1); }
+        .footer-tagline { font-size: 14px; font-weight: 300; opacity: 0.6; margin-top: 10px; }
+        .footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .footer-links a { color: var(--color-white); text-decoration: none; font-size: 14px; transition: opacity 0.3s ease; }
+        .footer-links a:hover { opacity: 0.6; }
+        .footer-contact { text-align: right; }
+        .footer-contact div { font-size: 14px; font-weight: 300; margin-bottom: 8px; }
+        .footer-contact a { color: var(--color-white); text-decoration: none; }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 3px solid rgba(255, 255, 255, 0.1);
+            font-size: 13px;
+            font-weight: 300;
+            opacity: 0.5;
+        }
+        .footer-bottom a { color: var(--color-white); text-decoration: none; }
+
+        /* Voice widget – same as main site */
+        .voice-widget-wrap {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9998;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .voice-widget-wrap.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .voice-widget {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 22px;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            border: 3px solid var(--color-black);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .voice-widget:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .voice-widget:active:not(:disabled) { transform: translateY(0); }
+        .voice-widget:disabled { cursor: not-allowed; opacity: 0.7; }
+        .voice-widget-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .voice-widget-text { white-space: nowrap; }
+        .voice-widget.state-connecting {
+            background-color: #e8e8e8;
+            color: #606060;
+            border-color: #a0a0a0;
+        }
+        .voice-widget-icon-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .voice-widget.state-call .voice-widget-icon { color: #202020; }
+        .voice-widget.state-call .voice-widget-icon-wrap::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 28px;
+            height: 2px;
+            background: #202020;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            pointer-events: none;
+        }
+        .voice-widget-powered {
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: rgba(0, 0, 0, 0.4);
+        }
+        .voice-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: transparent;
+            z-index: 10002;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 24px;
+            padding-bottom: 100px;
+            padding-right: 24px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .voice-modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .voice-modal-overlay.open .voice-modal { pointer-events: auto; }
+        .voice-modal {
+            background: var(--color-white);
+            border: 3px solid var(--color-black);
+            max-width: 220px;
+            width: 100%;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        .voice-modal-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+        .voice-modal p {
+            font-size: 11px;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--color-text-grey);
+            margin-bottom: 14px;
+        }
+        .voice-modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+        .voice-modal-btn {
+            padding: 8px 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            border: 2px solid var(--color-black);
+            background: var(--color-white);
+            color: var(--color-black);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .voice-modal-btn:hover { background: var(--color-black); color: var(--color-white); }
+        .voice-modal-btn.primary { background: var(--color-black); color: var(--color-white); }
+        .voice-modal-btn.primary:hover { background: #404040; }
+        .voice-feedback-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 12px; }
+        .voice-feedback-btn {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--color-black);
+            background: var(--color-white);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .voice-feedback-btn:hover { background: #f0f0f0; transform: scale(1.05); }
+        .voice-feedback-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
         }
 
         @media (max-width: 1024px) {
@@ -595,62 +714,18 @@
             .blog-hero-filters { gap: 10px; }
             .blog-filter-btn { padding: 10px 18px; font-size: 13px; }
             .blog-content-wrapper { padding: 32px 24px 60px; }
-        }
-
-        /* Inline text links - body content */
-        .post-body a,
-        .post-lead a,
-        .post-article a:not(.post-cta-btn):not(.post-share-btn):not(.post-tag),
-        .contact-subtitle a,
-        p a:not([class]) {
-            color: #202020;
-            text-decoration: underline;
-            text-decoration-color: rgba(0, 0, 0, 0.3);
-            text-underline-offset: 3px;
-            font-weight: 500;
-            padding: 2px 0;
-            background: linear-gradient(to right, #FAF0DD 50%, transparent 50%);
-            background-size: 200% 100%;
-            background-position: right;
-            transition: background-position 0.3s ease, text-decoration-color 0.3s ease;
-        }
-
-        .post-body a:hover,
-        .post-lead a:hover,
-        .post-article a:not(.post-cta-btn):not(.post-share-btn):not(.post-tag):hover,
-        .contact-subtitle a:hover,
-        p a:not([class]):hover {
-            background-position: left;
-            text-decoration-color: transparent;
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; text-align: left; }
+            .footer-contact { text-align: left; }
+            .voice-widget-wrap { bottom: 20px; right: 20px; }
+            .voice-widget { padding: 12px 18px; font-size: 13px; }
+            .voice-widget-icon { width: 18px; height: 18px; }
+            .voice-modal-overlay { padding: 16px; padding-bottom: 90px; }
         }
     </style>
 </head>
 <body>
     <!-- Sticky main menu (fixed at top) -->
-    <nav id="main-nav" aria-label="Main navigation">
-        <a href="index.html" class="nav-logo" id="nav-logo">
-            <img src="Images/airoam-logo-black.svg" alt="Airoam - Airbnb property management Australia" class="logo">
-        </a>
-        <div class="nav-center">
-            <a href="index.html#about">About</a>
-            <a href="index.html#pricing">Pricing</a>
-            <a href="blog.html">Blog</a>
-            <a href="index.html#contact">Contact</a>
-        </div>
-        <a href="index.html#contact" class="nav-button">Get Started</a>
-        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </nav>
-    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
-        <a href="index.html#about">About</a>
-        <a href="index.html#pricing">Pricing</a>
-        <a href="blog.html">Blog</a>
-        <a href="index.html#contact">Contact</a>
-        <a href="index.html#contact">Get Started</a>
-    </div>
+    <div id="nav-container"></div>
 
     <main>
         <!-- Page header section: cream background, title, subtitle, then category filters -->
@@ -698,7 +773,7 @@
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Pricing &amp; Fees</div>
                             <h2 class="blog-card-title">Paying 15% Management Fees in Melbourne? Here's Why Smart Hosts Are Switching to 9%</h2>
-                            <p class="blog-card-date">December 2025</p>
+                            <p class="blog-card-date">December 2024</p>
                         </div>
                     </a>
                     <a href="blog/3am-plumbing-emergency-airbnb-perth.html" class="blog-card card-medium" data-category="automation">
@@ -708,7 +783,7 @@
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Automation &amp; AI</div>
                             <h2 class="blog-card-title">The 3am Plumbing Emergency That Cost Me a 1-Star Review (And How Perth Hosts Can Avoid It)</h2>
-                            <p class="blog-card-date">October 2025</p>
+                            <p class="blog-card-date">October 2024</p>
                         </div>
                     </a>
                     <!-- Small Cards | Category: Tips -->
@@ -719,17 +794,15 @@
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Tips</div>
                             <h2 class="blog-card-title">Getting your first listing ready for guests</h2>
-                            <p class="blog-card-date">August 2025</p>
                         </div>
                     </a>
-                    <a href="blog/perth-short-term-rental-regulations-2026.html" class="blog-card card-small" data-category="guides">
+                    <a href="blog/perth-short-term-rental-regulations-2025.html" class="blog-card card-small" data-category="guides">
                         <div class="blog-card-image">
                             <img src="Images/perth-cbd-short-term-rental-regulations-2025.jpg" alt="Perth CBD skyline - short-term rental regulations 2025 and Airbnb property management for Perth and Melbourne">
                         </div>
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Regulations &amp; Compliance</div>
-                            <h2 class="blog-card-title">Perth Short-Term Rental Regulations: What Every Airbnb Host Needs to Know in 2026</h2>
-                            <p class="blog-card-date">January 2026</p>
+                            <h2 class="blog-card-title">Perth Short-Term Rental Regulations: What Every Airbnb Host Needs to Know in 2025</h2>
                         </div>
                     </a>
                     <!-- Wide Card (spans 2 columns) | Category: Guides -->
@@ -740,34 +813,34 @@
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Revenue Optimisation</div>
                             <h2 class="blog-card-title">Melbourne Airbnb Owners: Why Your Property Is Underperforming (And the 30% Uplift You're Missing)</h2>
-                            <p class="blog-card-date">February 2026</p>
+                            <p class="blog-card-date">February 2025</p>
                         </div>
                     </a>
                     <!-- Small Card | Category: Guides -->
-                    <a href="blog/mornington-peninsula-holiday-rental-guide-2026.html" class="blog-card card-small" data-category="guides">
+                    <a href="blog/mornington-peninsula-holiday-rental-guide-2025.html" class="blog-card card-small" data-category="guides">
                         <div class="blog-card-image">
                             <img src="Images/mornington-peninsula-beach-house-holiday-rental.jpg" alt="Mornington Peninsula beach house – holiday rental and Airbnb property management for Sorrento, Portsea and Rye">
                         </div>
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Revenue Optimisation</div>
-                            <h2 class="blog-card-title">Mornington Peninsula Holiday Rental: The Complete Guide to Managing Your Beach House in 2026</h2>
-                            <p class="blog-card-date">January 2026</p>
+                            <h2 class="blog-card-title">Mornington Peninsula Holiday Rental: The Complete Guide to Managing Your Beach House in 2025</h2>
+                            <p class="blog-card-date">May 2025</p>
                         </div>
                     </a>
-                    <a href="blog/melbourne-event-calendar-2026-airbnb-revenue.html" class="blog-card card-small" data-category="guides">
+                    <a href="blog/melbourne-event-calendar-2025-airbnb-revenue.html" class="blog-card card-small" data-category="guides">
                         <div class="blog-card-image">
                             <img src="Images/melbourne-mcg-events-airbnb-revenue-2025.jpg" alt="Melbourne MCG and major events – Australian Open, F1 and Melbourne Cup Airbnb property management for Melbourne hosts">
                         </div>
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Revenue Optimisation</div>
-                            <h2 class="blog-card-title">Melbourne Event Calendar 2026: How Smart Hosts 3x Their Airbnb Revenue During Australian Open, F1, and Melbourne Cup</h2>
-                            <p class="blog-card-date">February 2026</p>
+                            <h2 class="blog-card-title">Melbourne Event Calendar 2025: How Smart Hosts 3x Their Airbnb Revenue During Australian Open, F1, and Melbourne Cup</h2>
+                            <p class="blog-card-date">May 2025</p>
                         </div>
                     </a>
                     <!-- Small Cards | Category: Success Stories -->
                     <a href="blog/fired-perth-property-manager.html" class="blog-card card-small" data-category="success-stories">
                         <div class="blog-card-image">
-                            <img src="Images/perth-airbnb-hosts-property-manager-talking.jpg" alt="Two Perth Airbnb hosts talking – property management and short-term rental advice for Melbourne and Perth">
+                            <img src="Images/perth-cbd-skyline-airbnb-property-management.jpg" alt="Scenic Perth CBD skyline - Airbnb property management for Perth and Melbourne short-term rentals">
                         </div>
                         <div class="blog-card-text-box">
                             <div class="blog-card-category">Success Stories</div>
@@ -783,9 +856,10 @@
                             <h2 class="blog-card-title">How AI Answered 89% of My Guest Messages While I Was on Holiday in Bali</h2>
                         </div>
                     </a>
-                    <!-- Infinite scroll sentinel (observed to load next 6 posts) -->
-                    <div class="blog-infinite-sentinel" id="blog-infinite-sentinel" aria-hidden="true"></div>
-                    <div class="blog-infinite-status" id="blog-infinite-status" aria-live="polite"></div>
+                    <!-- Load More Button -->
+                    <div class="blog-load-more">
+                        <button type="button" class="blog-load-more-btn">Load more posts</button>
+                    </div>
                 </div>
                 </div>
                 </section>
@@ -793,177 +867,61 @@
         </div>
     </main>
 
-    <!-- Footer CTA -->
-    <div class="footer-cta">
-        <div class="footer-cta-inner">
-            <div class="footer-cta-content">
-                <h3>Ready to maximise your rental income?</h3>
-                <p>Get a free property estimate.</p>
-            </div>
-            <a href="index.html#contact" class="footer-cta-btn">
-                Get Started
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
+    <div id="footer-container"></div>
+
+    <!-- Voice widget (same as main site) -->
+    <div class="voice-widget-wrap visible" id="voice-widget-wrap">
+        <!-- Hidden button for Key Ninja to bind to -->
+        <button id="start-call-btn" style="display: none !important;">Start Call</button>
+        
+        <button type="button" class="voice-widget" id="voice-widget" aria-label="Voice call">
+            <span class="voice-widget-icon-wrap">
+                <svg class="voice-widget-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-            </a>
+            </span>
+            <span class="voice-widget-text" id="voice-widget-text">Voice call</span>
+        </button>
+        <span class="voice-widget-powered">Powered by Heya</span>
+    </div>
+    <div class="voice-modal-overlay" id="voice-terms-overlay" aria-hidden="true">
+        <div class="voice-modal" role="dialog" aria-labelledby="voice-terms-title">
+            <h2 class="voice-modal-title" id="voice-terms-title">Terms and conditions</h2>
+            <p>By clicking 'Agree' and each time I interact with this AI agent, I consent to the recording, storage, and sharing of my communications with third-party service providers, and as described in the Privacy Policy. If you do not wish to have your conversations recorded, please refrain from using this service.</p>
+            <div class="voice-modal-actions">
+                <button type="button" class="voice-modal-btn" id="voice-terms-cancel">Cancel</button>
+                <button type="button" class="voice-modal-btn primary" id="voice-terms-agree">Agree</button>
+            </div>
+        </div>
+    </div>
+    <div class="voice-modal-overlay" id="voice-feedback-overlay" aria-hidden="true">
+        <div class="voice-modal" role="dialog" aria-labelledby="voice-feedback-title">
+            <h2 class="voice-modal-title" id="voice-feedback-title">Was the call helpful?</h2>
+            <div class="voice-feedback-buttons">
+                <button type="button" class="voice-feedback-btn" id="voice-feedback-down" aria-label="No">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button type="button" class="voice-feedback-btn" id="voice-feedback-up" aria-label="Yes">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
         </div>
     </div>
 
-    <footer>
-        <div class="footer-main">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo logo-white">
-                    </div>
-                    <p class="footer-tagline">Australia's smartest short-term rental manager. AI-powered property management with just 9% fees.</p>
-                    <div class="footer-stats">
-                        <div class="footer-stat"><span class="footer-stat-value">4.74★</span><span class="footer-stat-label">Guest Rating</span></div>
-                        <div class="footer-stat"><span class="footer-stat-value">1M+</span><span class="footer-stat-label">Nights Hosted</span></div>
-                        <div class="footer-stat"><span class="footer-stat-value">9%</span><span class="footer-stat-label">Management Fee</span></div>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="index.html#about">About</a></li>
-                        <li><a href="index.html#pricing">Pricing</a></li>
-                        <li><a href="index.html#testimonials">Testimonials</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Markets</h4>
-                    <ul>
-                        <li><a href="blog/melbourne-event-calendar-2026-airbnb-revenue.html" title="Melbourne event calendar 2026 – Airbnb revenue guide for Australian Open, F1 & Melbourne Cup">Melbourne</a></li>
-                        <li><a href="blog/mornington-peninsula-holiday-rental-guide-2026.html" title="Mornington Peninsula holiday rental guide 2026 – beach house management for Sorrento, Portsea & Rye">Mornington Peninsula</a></li>
-                        <li><a href="blog/perth-short-term-rental-regulations-2026.html" title="Perth short-term rental regulations 2026 – what every Airbnb host needs to know">Perth</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <div class="footer-newsletter">
-                        <h4>Stay Updated</h4>
-                        <p>Get hosting tips and industry insights delivered weekly.</p>
-                        <form class="footer-newsletter-form" id="footer-newsletter-form" action="https://formspree.io/f/mdalnbdv" method="POST">
-                            <input type="text" name="_gotcha" style="display:none">
-                            <input type="hidden" name="_subject" value="New Newsletter Subscriber">
-                            <input type="email" name="email" placeholder="Your email" required>
-                            <button type="submit">Subscribe</button>
-                        </form>
-                        <div class="footer-newsletter-message" id="footer-newsletter-message"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-bottom-inner">
-                <p class="footer-copyright">© 2026 Airoam. All rights reserved. ABN 41 668 564 716</p>
-                <div class="footer-legal">
-                    <a href="terms-and-conditions.html">Terms & Conditions</a>
-                    <a href="privacy-policy.html">Privacy Policy</a>
-                    <a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a>
-                </div>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/airoam?igsh=MjIybzI4cGw5cmx1" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                    <a href="https://www.facebook.com/people/Airoam-Australia-Short-Term-Rental-Management/61587859886582/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Navigation handled by includes.js
 
-    <script>
         // ============================================
-        // NAVIGATION - CONSISTENT ACROSS ALL PAGES
+        // BLOG CATEGORY FILTER (in-place, no reload + replaceState)
         // ============================================
         (function() {
-            var nav = document.getElementById('main-nav');
-            var hamburger = document.getElementById('nav-hamburger');
-            var mobileMenu = document.getElementById('nav-mobile-menu');
-            var navLogo = document.getElementById('nav-logo');
-
-            if (!nav) return;
-
-            function handleScroll() {
-                if (window.scrollY > 50) {
-                    nav.classList.add('scrolled');
-                } else {
-                    nav.classList.remove('scrolled');
-                }
-            }
-            window.addEventListener('scroll', handleScroll, { passive: true });
-            handleScroll();
-
-            if (navLogo) {
-                navLogo.addEventListener('click', function(e) {
-                    var isIndex = window.location.pathname === '/' ||
-                                  window.location.pathname.endsWith('index.html') ||
-                                  window.location.pathname === '';
-                    if (isIndex) {
-                        e.preventDefault();
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                });
-            }
-
-            if (hamburger && mobileMenu) {
-                function closeMenu() {
-                    mobileMenu.classList.remove('open');
-                    hamburger.classList.remove('active');
-                    mobileMenu.setAttribute('aria-hidden', 'true');
-                    hamburger.setAttribute('aria-label', 'Open menu');
-                    document.body.style.overflow = '';
-                }
-                function openMenu() {
-                    mobileMenu.classList.add('open');
-                    hamburger.classList.add('active');
-                    mobileMenu.setAttribute('aria-hidden', 'false');
-                    hamburger.setAttribute('aria-label', 'Close menu');
-                    document.body.style.overflow = 'hidden';
-                }
-                hamburger.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    if (mobileMenu.classList.contains('open')) {
-                        closeMenu();
-                    } else {
-                        openMenu();
-                    }
-                });
-                mobileMenu.querySelectorAll('a').forEach(function(link) {
-                    link.addEventListener('click', function() { closeMenu(); });
-                });
-                document.addEventListener('click', function(e) {
-                    if (mobileMenu.classList.contains('open') &&
-                        !mobileMenu.contains(e.target) &&
-                        !hamburger.contains(e.target)) {
-                        closeMenu();
-                    }
-                });
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
-                        closeMenu();
-                    }
-                });
-                window.addEventListener('resize', function() {
-                    if (window.innerWidth > 768 && mobileMenu.classList.contains('open')) {
-                        closeMenu();
-                    }
-                }, { passive: true });
-            }
-        })();
-
-        // ============================================
-        // BLOG CATEGORY FILTER + INFINITE SCROLL (6 per batch)
-        // ============================================
-        (function() {
-            var BATCH_SIZE = 6;
             var grid = document.querySelector('.blog-grid');
             var filterBtns = document.querySelectorAll('.blog-hero-filters .blog-filter-btn');
             var cards = document.querySelectorAll('.blog-card[data-category]');
-            var sentinel = document.getElementById('blog-infinite-sentinel');
-            var statusEl = document.getElementById('blog-infinite-status');
+            var loadMore = document.querySelector('.blog-load-more');
             var staggerMs = 90;
+            var ease = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
             if (!grid || !cards.length) return;
 
@@ -980,76 +938,17 @@
                 history.replaceState({ category: category || 'all' }, '', url);
             }
 
-            function getVisibleCards() {
-                var list = [];
-                cards.forEach(function(card) {
-                    if (!card.classList.contains('is-hidden')) list.push(card);
-                });
-                return list;
-            }
-
-            function getHiddenBatch() {
-                var list = [];
-                cards.forEach(function(card) {
-                    if (!card.classList.contains('is-hidden') && card.classList.contains('infinite-hidden')) {
-                        list.push(card);
-                    }
-                });
-                return list;
-            }
-
-            function animateCards(cardsToAnimate) {
-                cardsToAnimate.forEach(function(card) {
+            function animateVisibleCards(visibleCards) {
+                visibleCards.forEach(function(card) {
                     card.classList.remove('is-visible');
                     card.style.transitionDelay = '';
                 });
                 requestAnimationFrame(function() {
-                    cardsToAnimate.forEach(function(card, i) {
+                    visibleCards.forEach(function(card, i) {
                         card.style.transitionDelay = (i * staggerMs) + 'ms';
                         card.classList.add('is-visible');
                     });
                 });
-            }
-
-            function applyInfiniteState(visibleCards) {
-                visibleCards.forEach(function(card, index) {
-                    if (index < BATCH_SIZE) {
-                        card.classList.remove('infinite-hidden');
-                    } else {
-                        card.classList.add('infinite-hidden');
-                        card.classList.remove('is-visible');
-                    }
-                });
-                animateCards(visibleCards.slice(0, BATCH_SIZE));
-                if (sentinel) {
-                    sentinel.classList.toggle('blog-infinite-sentinel--done', visibleCards.length <= BATCH_SIZE);
-                }
-                if (statusEl) {
-                    statusEl.textContent = visibleCards.length <= BATCH_SIZE ? "You've reached the end." : "";
-                    statusEl.classList.remove('is-loading');
-                }
-            }
-
-            function loadNextBatch() {
-                var hidden = getHiddenBatch();
-                if (hidden.length === 0) return;
-                if (statusEl) {
-                    statusEl.textContent = "Loading more posts...";
-                    statusEl.classList.add('is-loading');
-                }
-                var toShow = hidden.slice(0, BATCH_SIZE);
-                toShow.forEach(function(card) {
-                    card.classList.remove('infinite-hidden');
-                });
-                animateCards(toShow);
-                var remaining = getHiddenBatch();
-                if (sentinel) {
-                    sentinel.classList.toggle('blog-infinite-sentinel--done', remaining.length === 0);
-                }
-                if (statusEl) {
-                    statusEl.classList.remove('is-loading');
-                    statusEl.textContent = remaining.length === 0 ? "You've reached the end." : "";
-                }
             }
 
             function applyFilter(category) {
@@ -1078,7 +977,6 @@
                     } else {
                         card.classList.add('is-hidden');
                         card.classList.remove('is-visible');
-                        card.classList.remove('infinite-hidden');
                     }
                 });
 
@@ -1086,7 +984,11 @@
                     visibleCards[visibleCards.length - 1].classList.add('span-full');
                 }
 
-                applyInfiniteState(visibleCards);
+                animateVisibleCards(visibleCards);
+
+                if (loadMore) {
+                    loadMore.style.display = visibleCards.length > 0 ? '' : 'none';
+                }
             }
 
             filterBtns.forEach(function(btn) {
@@ -1104,52 +1006,265 @@
             var current = getCategoryFromUrl();
             setUrl(current);
             applyFilter(current);
-
-            if (sentinel) {
-                var observer = new IntersectionObserver(function(entries) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) loadNextBatch();
-                    });
-                }, { rootMargin: '120px 0px', threshold: 0 });
-                observer.observe(sentinel);
-            }
         })();
 
-        // Footer Newsletter Form
+        // ============================================
+        // KEY NINJA SCRIPT LOADER
+        // ============================================
         (function() {
-            var form = document.getElementById('footer-newsletter-form');
-            if (!form) return;
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                var btn = form.querySelector('button');
-                var msg = document.getElementById('footer-newsletter-message');
-                var orig = btn.textContent;
-                btn.textContent = 'Sending...';
-                btn.disabled = true;
-                fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
-                    .then(function(r) {
-                        if (r.ok) {
-                            msg.textContent = 'Thanks for subscribing!';
-                            msg.className = 'footer-newsletter-message show success';
-                            form.reset();
-                        } else { throw new Error(); }
+            function loadHeyGenScript() {
+                const script = document.createElement('script');
+                script.src = 'https://unpkg.com/@heygen/streaming-avatar@1.0.3/dist/StreamingAvatar.umd.js';
+                script.crossOrigin = 'anonymous';
+                script.onload = loadRequireJS;
+                script.onerror = loadRequireJS;
+                document.head.appendChild(script);
+            }
+            
+            function loadRequireJS() {
+                const script = document.createElement('script');
+                script.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/require.js';
+                script.onload = function() {
+                    setTimeout(loadKeyNinjaMain, 200);
+                };
+                document.head.appendChild(script);
+            }
+            
+            function loadKeyNinjaMain() {
+                const script = document.createElement('script');
+                script.src = 'https://d37l6q420x6tx8.cloudfront.net/key-ninja/scripts/main.min.js';
+                script.onload = function() {
+                    console.log('✅ Key Ninja scripts loaded');
+                    window.keyNinjaReady = true;
+                    document.dispatchEvent(new Event('keyNinjaReady'));
+                };
+                document.head.appendChild(script);
+            }
+            
+            // Start loading
+            loadHeyGenScript();
+        })();
+
+        // Voice widget with Key Ninja integration
+        (function() {
+            const wrap = document.getElementById('voice-widget-wrap');
+            const btn = document.getElementById('voice-widget');
+            const textEl = document.getElementById('voice-widget-text');
+            const termsOverlay = document.getElementById('voice-terms-overlay');
+            const termsCancel = document.getElementById('voice-terms-cancel');
+            const termsAgree = document.getElementById('voice-terms-agree');
+            const feedbackOverlay = document.getElementById('voice-feedback-overlay');
+            const feedbackUp = document.getElementById('voice-feedback-up');
+            const feedbackDown = document.getElementById('voice-feedback-down');
+            const keyNinjaBtn = document.getElementById('start-call-btn');
+
+            let state = 'idle'; // idle | connecting | call
+            let isInCall = false;
+            let micPermissionGranted = false;
+            let keyNinjaInitialized = false;
+            
+            const originalConsoleLog = console.log;
+            
+            // Monitor console for Key Ninja state changes
+            console.log = function() {
+                originalConsoleLog.apply(console, arguments);
+                
+                for (let i = 0; i < arguments.length; i++) {
+                    const arg = arguments[i];
+                    
+                    if (typeof arg === 'string') {
+                        // Detect call ended
+                        if (arg.includes('Call status changed: Inactive') || 
+                            arg.includes('Call ended') || 
+                            arg.includes('Call stopped successfully')) {
+                            originalConsoleLog('📞 Call ended detected');
+                            isInCall = false;
+                            setButtonState('idle');
+                            openFeedback();
+                        }
+                        // Detect call started successfully
+                        else if (arg.includes('Call started successfully')) {
+                            originalConsoleLog('✅ Call connected');
+                            isInCall = true;
+                            setButtonState('call');
+                        }
+                    }
+                }
+            };
+
+            function setButtonState(s) {
+                state = s;
+                btn.disabled = (s === 'connecting');
+                btn.classList.remove('state-connecting', 'state-call');
+                if (s === 'connecting') {
+                    btn.classList.add('state-connecting');
+                    textEl.textContent = 'Connecting';
+                } else if (s === 'call') {
+                    btn.classList.add('state-call');
+                    textEl.textContent = 'End call';
+                } else {
+                    textEl.textContent = 'Voice call';
+                }
+            }
+
+            function openTerms() {
+                termsOverlay.classList.add('open');
+                termsOverlay.setAttribute('aria-hidden', 'false');
+            }
+            function closeTerms() {
+                termsOverlay.classList.remove('open');
+                termsOverlay.setAttribute('aria-hidden', 'true');
+            }
+            function openFeedback() {
+                feedbackOverlay.classList.add('open');
+                feedbackOverlay.setAttribute('aria-hidden', 'false');
+            }
+            function closeFeedback() {
+                feedbackOverlay.classList.remove('open');
+                feedbackOverlay.setAttribute('aria-hidden', 'true');
+            }
+
+            function submitFeedback(isPositive) {
+                fetch('https://formspree.io/f/xqedznlr', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        feedback: isPositive ? 'positive' : 'negative',
+                        page: window.location.pathname,
+                        timestamp: new Date().toISOString()
                     })
-                    .catch(function() {
-                        msg.textContent = 'Something went wrong. Please try again.';
-                        msg.className = 'footer-newsletter-message show error';
+                }).then(function() { closeFeedback(); }).catch(function() { closeFeedback(); });
+            }
+            
+            function requestMicrophonePermission() {
+                return new Promise(function(resolve, reject) {
+                    if (micPermissionGranted) {
+                        resolve();
+                        return;
+                    }
+                    
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        navigator.mediaDevices.getUserMedia({ audio: true })
+                            .then(function(stream) {
+                                micPermissionGranted = true;
+                                stream.getTracks().forEach(track => track.stop());
+                                resolve();
+                            })
+                            .catch(function(err) {
+                                alert('Microphone access is required for voice calls.');
+                                reject(err);
+                            });
+                    } else {
+                        resolve();
+                    }
+                });
+            }
+            
+            function startCall() {
+                requestMicrophonePermission()
+                    .then(function() {
+                        setButtonState('connecting');
+                        
+                        // Trigger Key Ninja call
+                        if (keyNinjaBtn) {
+                            keyNinjaBtn.click();
+                        }
+                        
+                        // Fallback: if call doesn't connect within 15 seconds, reset
+                        setTimeout(function() {
+                            if (state === 'connecting') {
+                                originalConsoleLog('⚠️ Connection timeout');
+                                setButtonState('idle');
+                                alert('Connection timed out. Please try again.');
+                            }
+                        }, 15000);
                     })
-                    .finally(function() {
-                        btn.textContent = orig;
-                        btn.disabled = false;
-                        setTimeout(function() { msg.classList.remove('show'); }, 4000);
+                    .catch(function(err) {
+                        originalConsoleLog('❌ Microphone error:', err);
+                        setButtonState('idle');
                     });
+            }
+            
+            function endCall() {
+                originalConsoleLog('📞 Ending call');
+                if (keyNinjaBtn) {
+                    keyNinjaBtn.click();
+                }
+                
+                // Force end after 500ms if Key Ninja doesn't respond
+                setTimeout(function() {
+                    if (isInCall || state === 'call') {
+                        isInCall = false;
+                        setButtonState('idle');
+                        openFeedback();
+                    }
+                }, 500);
+            }
+
+            btn.addEventListener('click', function() {
+                if (state === 'idle') {
+                    openTerms();
+                    return;
+                }
+                if (state === 'call') {
+                    endCall();
+                    return;
+                }
             });
+
+            termsCancel.addEventListener('click', closeTerms);
+            
+            termsAgree.addEventListener('click', function() {
+                closeTerms();
+                startCall();
+            });
+
+            feedbackUp.addEventListener('click', function() { submitFeedback(true); });
+            feedbackDown.addEventListener('click', function() { submitFeedback(false); });
+
+            termsOverlay.addEventListener('click', function(e) {
+                if (e.target === termsOverlay) closeTerms();
+            });
+            feedbackOverlay.addEventListener('click', function(e) {
+                if (e.target === feedbackOverlay) closeFeedback();
+            });
+
+            // Wait for Key Ninja to be ready before showing widget
+            function initWidget() {
+                if (window.keyNinjaReady || keyNinjaInitialized) {
+                    // Wait for Key Ninja to bind to the hidden button
+                    let attempts = 0;
+                    const checkInterval = setInterval(function() {
+                        attempts++;
+                        if (keyNinjaBtn.onclick !== null || attempts >= 50) {
+                            clearInterval(checkInterval);
+                            keyNinjaInitialized = true;
+                            wrap.classList.add('visible');
+                            originalConsoleLog('✅ Voice widget ready');
+                        }
+                    }, 100);
+                }
+            }
+            
+            // Listen for Key Ninja ready event
+            document.addEventListener('keyNinjaReady', initWidget);
+            
+            // If already ready, init immediately
+            if (window.keyNinjaReady) {
+                initWidget();
+            }
+            
+            // Fallback: show widget after 8 seconds even if Key Ninja fails
+            setTimeout(function() {
+                if (!wrap.classList.contains('visible')) {
+                    wrap.classList.add('visible');
+                    originalConsoleLog('⚠️ Widget shown (fallback)');
+                }
+            }, 8000);
         })();
     </script>
     <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"Blog","name":"Airoam Blog","description":"Expert Airbnb hosting tips and property management guides for Australian hosts","url":"https://airoam.com.au/blog","publisher":{"@type":"Organization","name":"Airoam","logo":{"@type":"ImageObject","url":"https://airoam.com.au/images/logo.png"}}}
-    </script>
-    <!-- Heya Voice Widget -->
-    <script src="https://widget.heya.au/loader.js" data-pk="pk_heya_c92731291ee2d0e0ee5b51e7a767fd5f" data-config="ef0f0f1a-3545-44e1-bb90-a0144d8c43bf"></script>
+    {"@context":"https://schema.org","@type":"Blog","name":"Airoam Blog","description":"Expert Airbnb hosting tips and pr
+    <script src="partials/includes.js"></script>
 </body>
 </html>
