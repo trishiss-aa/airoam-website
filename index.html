@@ -2430,23 +2430,89 @@
         /* Make intro block 72px to match other sections */
         .intro-block {
             font-size: 72px !important;
+            line-height: 1.1 !important;
         }
         
-        /* Section separator - line above services */
+        /* Animated section separator */
+        .section-divider {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 60px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .divider-line {
+            flex: 1;
+            height: 3px;
+            background: #202020;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .divider-line.animate {
+            transform: scaleX(1);
+        }
+        
+        .divider-arrow {
+            width: 60px;
+            height: 60px;
+            opacity: 0;
+            transform: rotate(-90deg) scale(0.5);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition-delay: 0.6s;
+        }
+        
+        .divider-arrow.animate {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+        
+        .divider-arrow svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .section-divider {
+                padding: 60px 24px;
+                gap: 20px;
+            }
+            
+            .divider-arrow {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        
+        /* Reset services section to match intro pattern */
         .services {
-            border-top: 3px solid #202020;
-            margin-top: 60px;
+            border-top: none;
+            margin-top: 0;
+            padding: 120px 0 !important; /* Remove side padding from section */
         }
         
-        /* Match all container max-widths for alignment */
+        /* Match all container max-widths and padding for perfect alignment */
         .intro .container,
-        .services .container,
+        .services .container {
+            max-width: 1200px !important;
+            padding-left: 60px !important;
+            padding-right: 60px !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+        
         .earnings .container,
         .blog-magazine-section .blog-magazine-container,
         .contact-form .contact-container {
             max-width: 1200px;
             padding-left: 60px;
             padding-right: 60px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         /* Consistent section title sizes for newer sections - 72px */
@@ -2456,14 +2522,14 @@
         .contact-title {
             font-size: 72px;
             font-weight: 600;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
             text-align: left !important;
             line-height: 1.1;
         }
         
         /* Ensure services statement is left-aligned and full width */
         .services .container .services-statement {
-            max-width: 100%;
+            max-width: 100% !important;
             text-align: left !important;
         }
         
@@ -2481,7 +2547,7 @@
             }
             
             .services {
-                margin-top: 40px;
+                padding: 80px 0 !important;
             }
             
             .intro .container,
@@ -2489,8 +2555,8 @@
             .earnings .container,
             .blog-magazine-section .blog-magazine-container,
             .contact-form .contact-container {
-                padding-left: 24px;
-                padding-right: 24px;
+                padding-left: 24px !important;
+                padding-right: 24px !important;
             }
         }
         
@@ -2578,6 +2644,17 @@
             </div>
         </div>
     </section>
+
+    <!-- Animated Section Divider -->
+    <div class="section-divider" id="section-divider-1">
+        <div class="divider-line"></div>
+        <div class="divider-arrow">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M30 5 L30 55 M15 40 L30 55 L45 40" stroke="#202020" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="divider-line"></div>
+    </div>
 
     <!-- Section: Services -->
     <section class="services" id="services">
@@ -3667,6 +3744,30 @@
                 }, { threshold: 0.3 });
 
             observer.observe(section);
+        })();
+
+
+        // ============================================
+        // ANIMATED DIVIDER
+        // ============================================
+        (function() {
+            const dividers = document.querySelectorAll('.section-divider');
+            
+            const dividerObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const lines = entry.target.querySelectorAll('.divider-line');
+                        const arrow = entry.target.querySelector('.divider-arrow');
+                        
+                        lines.forEach(line => line.classList.add('animate'));
+                        if (arrow) arrow.classList.add('animate');
+                        
+                        dividerObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            dividers.forEach(divider => dividerObserver.observe(divider));
         })();
 
 
