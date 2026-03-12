@@ -2,6 +2,7 @@
  * Airoam Partials Loader
  * Loads nav and footer from /partials/ folder
  * Handles relative paths for root vs /blog/ pages
+ * Includes smooth scroll for same-page anchor links
  */
 (function() {
     // Determine base path based on current page location
@@ -12,6 +13,12 @@
     if (path.includes('/blog/')) {
         basePath = '../';
     }
+    
+    // Check if we're on the homepage
+    var isHomepage = path === '/' || 
+                     path === '/index.html' || 
+                     path.endsWith('/index.html') ||
+                     path === '';
     
     // Load a partial HTML file and insert it
     function loadPartial(elementId, partialPath, callback) {
@@ -28,6 +35,11 @@
                 html = html.replace(/\{\{BASE_PATH\}\}/g, basePath);
                 element.innerHTML = html;
                 
+                // Fix same-page anchor links on homepage
+                if (isHomepage) {
+                    fixHomepageAnchorLinks(element);
+                }
+                
                 // Run callback if provided
                 if (callback) callback();
                 
@@ -37,6 +49,26 @@
             .catch(function(err) {
                 console.error(err);
             });
+    }
+    
+    // Fix anchor links on homepage to use smooth scroll instead of page reload
+    function fixHomepageAnchorLinks(container) {
+        var links = container.querySelectorAll('a[href*="index.html#"]');
+        links.forEach(function(link) {
+            var href = link.getAttribute('href');
+            var hash = href.split('#')[1];
+            if (hash) {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var target = document.getElementById(hash);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // Update URL hash without scrolling
+                        history.pushState(null, null, '#' + hash);
+                    }
+                });
+            }
+        });
     }
     
     // Initialize mobile nav toggle

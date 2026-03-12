@@ -47,6 +47,26 @@
             box-sizing: border-box;
         }
 
+        /* ============================================
+           NAV PLACEHOLDER (prevents layout jump)
+           ============================================ */
+        #nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: var(--color-white);
+            z-index: 1000;
+        }
+        
+        #nav-container:empty::before {
+            content: '';
+            display: block;
+            height: 80px;
+            background: var(--color-white);
+        }
+
         html {
             overflow-x: hidden;
             background-color: #202020;  /* Dark gray background initially */
@@ -2400,6 +2420,64 @@
         p a:not([class]):hover {
             background-position: left;
             text-decoration-color: transparent;
+        }
+
+        /* ============================================
+           ALIGNMENT & SIZING OVERRIDES
+           Consistent left alignment, unified heading sizes
+           ============================================ */
+        
+        /* Reduce intro block text size */
+        .intro-block {
+            font-size: clamp(32px, 6vw, 48px);
+            margin-bottom: 40px;
+        }
+        
+        /* Consistent section title sizes */
+        .services-statement,
+        .earnings-left h2,
+        .blog-magazine-title,
+        .contact-title {
+            font-size: clamp(32px, 5vw, 42px);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            text-align: left;
+        }
+        
+        /* Ensure all main containers have consistent max-width and alignment */
+        .intro .container,
+        .services .container,
+        .earnings .container,
+        .blog-magazine-section .blog-magazine-container,
+        .contact-form .contact-container {
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Contact section left align */
+        .contact-form .contact-container {
+            text-align: left;
+        }
+        
+        .contact-form .contact-header {
+            text-align: left;
+            margin-bottom: 40px;
+        }
+        
+        .contact-subtitle {
+            text-align: left;
+        }
+        
+        /* Blog section alignment */
+        .blog-magazine-header {
+            text-align: left;
+            margin-bottom: 40px;
+        }
+        
+        /* Make earnings grid left-aligned content */
+        .earnings-left {
+            text-align: left;
         }
 
     </style>
