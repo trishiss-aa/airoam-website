@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Property Earnings Calculator | Airoam</title>
-    <meta name="description" content="Compare long-term vs short-term rental earnings for Melbourne, Perth, and Mornington Peninsula. See your potential income with Airoam's 9% management fee.">
+    <meta name="description" content="Compare long-term vs short-term rental earnings across Australia. See your potential income with Airoam's 9% management fee in Melbourne, Sydney, Brisbane, Perth, Gold Coast, and Mornington Peninsula.">
     <link rel="canonical" href="https://airoam.com.au/calculator">
     <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +17,7 @@
             --color-cream: #FAF0DD;
             --color-cream-hover: rgba(250, 240, 221, 0.4);
             --color-text-grey: rgba(0, 0, 0, 0.6);
+            --color-border: rgba(0, 0, 0, 0.06);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -26,6 +27,7 @@
             padding-top: 80px;
         }
 
+        /* Navigation */
         #main-nav {
             position: fixed;
             top: 0;
@@ -118,6 +120,7 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 60px; width: 100%; }
 
+        /* Hero */
         .legal-hero {
             background-color: var(--color-cream);
             padding: 48px 0 40px;
@@ -148,54 +151,50 @@
             font-size: 16px;
             color: var(--color-text-grey);
             margin-top: 16px;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 600px;
         }
 
-        /* Calculator Inputs */
+        /* Calculator Container */
         .calc-container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 60px;
+            padding: 60px 24px;
         }
 
+        /* Inputs */
         .calc-inputs {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
-            margin-bottom: 60px;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
         }
 
         .input-group label {
+            display: block;
             font-size: 12px;
             font-weight: 600;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--color-text-grey);
+            margin-bottom: 8px;
         }
 
         .input-group select {
-            padding: 16px 20px;
-            border: 3px solid var(--color-black);
-            border-radius: 0;
+            width: 100%;
+            padding: 14px 16px;
+            border: 3px solid var(--color-border);
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 15px;
-            font-weight: 500;
-            color: var(--color-black);
-            background: var(--color-white);
+            font-weight: 400;
+            background-color: var(--color-white);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             appearance: none;
-            -webkit-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23202020' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23202020' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 16px center;
-            background-size: 20px;
-            padding-right: 48px;
         }
 
         .input-group select:hover {
@@ -208,18 +207,72 @@
             background-color: rgba(250, 240, 221, 0.2);
         }
 
-        /* Results Cards */
+        /* Calculate Button */
+        .calc-button-wrapper {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .calc-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 48px;
+            background: var(--color-black);
+            color: var(--color-white);
+            border: 3px solid var(--color-black);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .calc-button:hover {
+            background: transparent;
+            color: var(--color-black);
+        }
+
+        .calc-button .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .calc-button:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        /* Results Section - Initially Hidden */
+        .calc-results-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .calc-results-section.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Results Cards - FREE (always visible after calculate) */
         .calc-results {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            margin-bottom: 60px;
+            gap: 24px;
+            margin-bottom: 48px;
         }
 
         .result-card {
             border: 3px solid var(--color-black);
             padding: 32px;
             position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
         }
 
         .result-card.featured {
@@ -268,29 +321,229 @@
             color: var(--color-text-grey);
         }
 
-        .result-breakdown {
-            margin-top: 24px;
-            padding-top: 24px;
+        .result-basic-info {
+            margin-top: 16px;
+            padding-top: 16px;
             border-top: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .breakdown-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
             font-size: 14px;
-        }
-
-        .breakdown-row .label {
             color: var(--color-text-grey);
             font-weight: 300;
         }
 
-        .breakdown-row .value {
+        /* Difference Callout */
+        .difference-callout {
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .difference-callout .label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 8px;
+        }
+
+        .difference-callout .amount {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--color-cream);
+            letter-spacing: -0.02em;
+        }
+
+        .difference-callout .note {
+            font-size: 15px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 8px;
+            font-weight: 300;
+        }
+
+        /* ============================================
+           GATED SECTION - Email form to unlock
+           ============================================ */
+        .gated-section {
+            position: relative;
+            margin-bottom: 48px;
+        }
+
+        /* Blurred preview of what's behind the gate */
+        .gated-preview {
+            opacity: 0.4;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .gated-preview.unlocked {
+            opacity: 1;
+            pointer-events: auto;
+            user-select: auto;
+        }
+
+        /* The overlay form */
+        .gate-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .gate-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .gate-form-container {
+            background: var(--color-white);
+            border: 3px solid var(--color-black);
+            padding: 48px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .gate-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--color-cream);
+            border: 3px solid var(--color-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .gate-icon svg {
+            stroke: var(--color-black);
+        }
+
+        .gate-form-container h3 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .gate-form-container p {
+            font-size: 15px;
+            color: var(--color-text-grey);
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .gate-form-container ul {
+            text-align: left;
+            list-style: none;
+            margin-bottom: 32px;
+            padding: 0;
+        }
+
+        .gate-form-container ul li {
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .gate-form-container ul li:last-child {
+            border-bottom: none;
+        }
+
+        .gate-form-container ul li::before {
+            content: '→';
+            color: var(--color-black);
             font-weight: 600;
         }
 
-        /* Seasonal Cards */
+        .gate-form .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .gate-form .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-text-grey);
+            margin-bottom: 6px;
+        }
+
+        .gate-form .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 3px solid var(--color-border);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 400;
+            transition: border-color 0.3s ease;
+        }
+
+        .gate-form .form-group input:focus {
+            outline: none;
+            border-color: var(--color-black);
+        }
+
+        .gate-form .form-group input::placeholder {
+            color: rgba(0,0,0,0.3);
+        }
+
+        .gate-form .form-group.optional label::after {
+            content: ' (optional)';
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .gate-submit {
+            width: 100%;
+            padding: 16px 32px;
+            background: var(--color-black);
+            color: var(--color-white);
+            border: 3px solid var(--color-black);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 8px;
+        }
+
+        .gate-submit:hover {
+            background: transparent;
+            color: var(--color-black);
+        }
+
+        .gate-privacy {
+            font-size: 12px;
+            color: var(--color-text-grey);
+            margin-top: 16px;
+            font-weight: 300;
+        }
+
+        .gate-privacy a {
+            color: var(--color-black);
+            text-decoration: underline;
+        }
+
+        /* ============================================
+           UNLOCKED CONTENT (Seasonal + Fees)
+           ============================================ */
         .section-title {
             font-size: 24px;
             font-weight: 600;
@@ -299,7 +552,7 @@
         }
 
         .seasonal-section {
-            margin-bottom: 60px;
+            margin-bottom: 48px;
         }
 
         .seasonal-grid {
@@ -312,6 +565,11 @@
             border: 3px solid rgba(0,0,0,0.1);
             padding: 24px;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .seasonal-card:hover {
+            border-color: var(--color-black);
         }
 
         .seasonal-card.peak {
@@ -350,7 +608,7 @@
             background: var(--color-black);
             color: var(--color-white);
             padding: 48px;
-            margin-bottom: 60px;
+            margin-bottom: 48px;
         }
 
         .fee-section .section-title {
@@ -410,13 +668,13 @@
             font-weight: 600;
         }
 
-        /* Savings Callout */
+        /* Final Savings Callout */
         .savings-callout {
             background: var(--color-cream);
             border: 3px solid var(--color-black);
-            padding: 32px;
+            padding: 40px;
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 48px;
         }
 
         .savings-callout h3 {
@@ -429,16 +687,23 @@
         }
 
         .savings-callout .amount {
-            font-size: 48px;
+            font-size: 56px;
             font-weight: 700;
             letter-spacing: -0.02em;
         }
 
         .savings-callout p {
-            font-size: 15px;
+            font-size: 16px;
             color: var(--color-text-grey);
             margin-top: 8px;
             font-weight: 300;
+        }
+
+        .savings-callout .personalized {
+            font-size: 18px;
+            color: var(--color-black);
+            font-weight: 500;
+            margin-top: 16px;
         }
 
         /* CTA Section */
@@ -450,14 +715,14 @@
         }
 
         .calc-cta h2 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 600;
             margin-bottom: 16px;
             letter-spacing: -0.02em;
         }
 
         .calc-cta p {
-            font-size: 15px;
+            font-size: 16px;
             color: var(--color-text-grey);
             margin-bottom: 32px;
             font-weight: 300;
@@ -498,18 +763,6 @@
             color: var(--color-black);
         }
 
-        /* Disclaimer */
-        .disclaimer {
-            padding: 32px 24px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--color-text-grey);
-            max-width: 800px;
-            margin: 0 auto;
-            font-weight: 300;
-            line-height: 1.7;
-        }
-
         /* Footer */
         footer { background-color: var(--color-black); color: var(--color-white); }
         .footer-main { padding: 80px 60px 60px; max-width: 1320px; margin: 0 auto; }
@@ -527,19 +780,6 @@
         .footer-column li { margin-bottom: 12px; }
         .footer-column a { color: var(--color-white); text-decoration: none; font-size: 14px; font-weight: 400; transition: all 0.2s ease; display: inline-block; }
         .footer-column a:hover { color: #FAF0DD; transform: translateX(4px); }
-        .footer-newsletter { background: rgba(255, 255, 255, 0.03); padding: 24px; border: 1px solid rgba(255, 255, 255, 0.08); }
-        .footer-newsletter h4 { font-size: 14px; font-weight: 600; color: var(--color-white); margin-bottom: 8px; }
-        .footer-newsletter p { font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-bottom: 16px; line-height: 1.5; }
-        .footer-newsletter-form { display: flex; gap: 8px; }
-        .footer-newsletter-form input { flex: 1; min-width: 0; padding: 12px 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 0; background: transparent; color: var(--color-white); outline: none; transition: border-color 0.2s ease; }
-        .footer-newsletter-form input::placeholder { color: rgba(255, 255, 255, 0.4); }
-        .footer-newsletter-form input:focus { border-color: #FAF0DD; }
-        .footer-newsletter-form button { padding: 12px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; background: var(--color-white); color: var(--color-black); border: none; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
-        .footer-newsletter-form button:hover { background: #FAF0DD; }
-        .footer-newsletter-message { margin-top: 8px; padding: 8px 12px; font-size: 12px; opacity: 0; transition: opacity 0.3s ease; }
-        .footer-newsletter-message.show { opacity: 1; }
-        .footer-newsletter-message.success { color: #FAF0DD; }
-        .footer-newsletter-message.error { color: rgba(255, 255, 255, 0.7); }
         .footer-bottom { padding: 32px 60px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
         .footer-bottom-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
         .footer-copyright { font-size: 13px; color: rgba(255, 255, 255, 0.4); font-weight: 300; }
@@ -549,21 +789,20 @@
         .footer-social { display: flex; gap: 16px; }
         .footer-social a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.15); color: var(--color-white); transition: all 0.2s ease; }
         .footer-social a:hover { background: #FAF0DD; border-color: #FAF0DD; color: var(--color-black); }
-        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; } .footer-brand { grid-column: 1 / -1; } .footer-stats { justify-content: flex-start; } }
-        @media (max-width: 768px) {
-            .footer-main { padding: 60px 24px 40px; }
-            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-            .footer-stats { gap: 24px; }
-            .footer-newsletter-form { flex-direction: column; }
-            .footer-bottom { padding: 24px; }
-            .footer-bottom-inner { flex-direction: column; text-align: center; }
-            .footer-legal { flex-wrap: wrap; justify-content: center; }
+        
+        @media (max-width: 1024px) { 
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; } 
+            .footer-brand { grid-column: 1 / -1; } 
         }
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .calc-container {
                 padding: 40px 24px;
+            }
+
+            .calc-inputs {
+                grid-template-columns: 1fr;
             }
 
             .calc-results {
@@ -587,8 +826,12 @@
                 font-size: 32px;
             }
 
-            .savings-callout .amount {
+            .difference-callout .amount {
                 font-size: 36px;
+            }
+
+            .savings-callout .amount {
+                font-size: 40px;
             }
 
             .legal-hero {
@@ -602,32 +845,21 @@
             .legal-hero h1 {
                 font-size: 32px;
             }
+
+            .gate-form-container {
+                padding: 32px 24px;
+            }
+
+            .footer-main { padding: 60px 24px 40px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { padding: 24px; }
+            .footer-bottom-inner { flex-direction: column; text-align: center; }
+            .footer-legal { flex-wrap: wrap; justify-content: center; }
         }
     </style>
 </head>
 <body>
-    <nav id="main-nav" aria-label="Main navigation">
-        <a href="index.html" class="nav-logo" id="nav-logo">
-            <img src="Images/airoam-logo-black.svg" alt="Airoam - Airbnb property management Australia" class="logo">
-        </a>
-        <div class="nav-center">
-            <a href="index.html#about">About</a>
-            <a href="index.html#pricing">Pricing</a>
-            <a href="blog.html">Blog</a>
-            <a href="index.html#contact">Contact</a>
-        </div>
-        <a href="index.html#contact" class="nav-button">Get Started</a>
-        <button type="button" class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
-            <span></span><span></span><span></span>
-        </button>
-    </nav>
-    <div class="nav-mobile-menu" id="nav-mobile-menu" aria-hidden="true">
-        <a href="index.html#about">About</a>
-        <a href="index.html#pricing">Pricing</a>
-        <a href="blog.html">Blog</a>
-        <a href="index.html#contact">Contact</a>
-        <a href="index.html#contact">Get Started</a>
-    </div>
+    <div id="nav-container"></div>
 
     <header class="legal-hero">
         <div class="container">
@@ -637,24 +869,25 @@
                 <span>Calculator</span>
             </p>
             <h1>Property Earnings Calculator</h1>
-            <p class="subtitle">Compare your potential earnings between long-term and short-term rental, and see how much you could save with Airoam's 9% management fee.</p>
+            <p class="subtitle">Compare your potential earnings between long-term and short-term rental. See how much more you could earn with Airoam.</p>
         </div>
     </header>
 
     <main class="calc-container">
+        <!-- Step 1: Inputs (Free) -->
         <div class="calc-inputs">
             <div class="input-group">
                 <label>Location</label>
                 <select id="location">
                     <option value="melbourne-cbd">Melbourne CBD</option>
                     <option value="melbourne-inner">Melbourne Inner Suburbs</option>
-                    <option value="melbourne-south">Melbourne South (St Kilda, Brighton)</option>
-                    <option value="mornington-sorrento">Mornington Peninsula - Sorrento/Portsea</option>
-                    <option value="mornington-rye">Mornington Peninsula - Rye/Blairgowrie</option>
-                    <option value="mornington-mornington">Mornington Peninsula - Mornington/Mt Martha</option>
+                    <option value="melbourne-south">Melbourne South</option>
+                    <option value="mornington">Mornington Peninsula</option>
                     <option value="perth-cbd">Perth CBD</option>
-                    <option value="perth-beach">Perth Coastal (Scarborough, Cottesloe)</option>
-                    <option value="perth-fremantle">Fremantle</option>
+                    <option value="perth-coastal">Perth Coastal</option>
+                    <option value="sydney">Sydney</option>
+                    <option value="brisbane">Brisbane</option>
+                    <option value="gold-coast">Gold Coast</option>
                 </select>
             </div>
             <div class="input-group">
@@ -676,203 +909,192 @@
             </div>
         </div>
 
-        <div class="calc-results">
-            <div class="result-card">
-                <span class="result-card-tag">Long-Term Rental</span>
-                <h3>Annual Income</h3>
-                <div class="result-amount" id="ltr-annual">$41,600 <span>/year</span></div>
-                <div class="result-breakdown">
-                    <div class="breakdown-row">
-                        <span class="label">Weekly rent</span>
-                        <span class="value" id="ltr-weekly">$800</span>
-                    </div>
-                    <div class="breakdown-row">
-                        <span class="label">Occupancy rate</span>
-                        <span class="value">~95%</span>
-                    </div>
-                    <div class="breakdown-row">
-                        <span class="label">Typical management fee</span>
-                        <span class="value">5-8%</span>
-                    </div>
-                </div>
-            </div>
-            <div class="result-card featured">
-                <span class="result-card-tag">Short-Term Rental</span>
-                <h3>Annual Income (Gross)</h3>
-                <div class="result-amount" id="str-annual">$62,400 <span>/year</span></div>
-                <div class="result-breakdown">
-                    <div class="breakdown-row">
-                        <span class="label">Average nightly rate</span>
-                        <span class="value" id="str-nightly">$220</span>
-                    </div>
-                    <div class="breakdown-row">
-                        <span class="label">Average occupancy</span>
-                        <span class="value" id="str-occupancy">72%</span>
-                    </div>
-                    <div class="breakdown-row">
-                        <span class="label">Booked nights/year</span>
-                        <span class="value" id="str-nights">263</span>
-                    </div>
-                </div>
-            </div>
+        <div class="calc-button-wrapper">
+            <button class="calc-button" id="calculate-btn">
+                <span>Calculate Earnings</span>
+                <span class="arrow">→</span>
+            </button>
         </div>
 
-        <section class="seasonal-section">
-            <h2 class="section-title">Seasonal Breakdown</h2>
-            <div class="seasonal-grid">
-                <div class="seasonal-card peak">
-                    <h4>Peak Season</h4>
-                    <p class="months" id="peak-months">Dec - Feb</p>
-                    <div class="rate" id="peak-rate">$320</div>
-                    <p class="occupancy" id="peak-occupancy">85% occupancy</p>
+        <!-- Step 2: Results Section (Shows after clicking Calculate) -->
+        <div class="calc-results-section" id="results-section">
+            
+            <!-- FREE: Basic Comparison -->
+            <div class="calc-results">
+                <div class="result-card">
+                    <span class="result-card-tag">Long-Term Rental</span>
+                    <h3>Annual Income</h3>
+                    <div class="result-amount" id="ltr-annual">$41,600 <span>/year</span></div>
+                    <div class="result-basic-info" id="ltr-info">Based on $800/week, ~95% occupancy</div>
                 </div>
-                <div class="seasonal-card">
-                    <h4>Shoulder Season</h4>
-                    <p class="months" id="shoulder-months">Mar - May, Sep - Nov</p>
-                    <div class="rate" id="shoulder-rate">$200</div>
-                    <p class="occupancy" id="shoulder-occupancy">70% occupancy</p>
-                </div>
-                <div class="seasonal-card">
-                    <h4>Off-Peak</h4>
-                    <p class="months" id="offpeak-months">Jun - Aug</p>
-                    <div class="rate" id="offpeak-rate">$150</div>
-                    <p class="occupancy" id="offpeak-occupancy">55% occupancy</p>
+                <div class="result-card featured">
+                    <span class="result-card-tag">Short-Term with Airoam</span>
+                    <h3>Annual Income (after 9% fee)</h3>
+                    <div class="result-amount" id="str-annual">$56,784 <span>/year</span></div>
+                    <div class="result-basic-info" id="str-info">Based on avg $220/night, 72% occupancy</div>
                 </div>
             </div>
-        </section>
 
-        <section class="fee-section">
-            <h2 class="section-title">Management Fee Comparison</h2>
-            <table class="fee-table">
-                <thead>
-                    <tr>
-                        <th>Management Fee</th>
-                        <th>Annual Fee</th>
-                        <th>Your Take-Home</th>
-                        <th>vs Airoam</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="highlight-row">
-                        <td class="fee-rate">9% <span class="airoam-badge">AIROAM</span></td>
-                        <td id="fee-9">$5,616</td>
-                        <td id="takehome-9">$56,784</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td class="fee-rate">15%</td>
-                        <td id="fee-15">$9,360</td>
-                        <td id="takehome-15">$53,040</td>
-                        <td class="savings" id="savings-15">+$3,744</td>
-                    </tr>
-                    <tr>
-                        <td class="fee-rate">20%</td>
-                        <td id="fee-20">$12,480</td>
-                        <td id="takehome-20">$49,920</td>
-                        <td class="savings" id="savings-20">+$6,864</td>
-                    </tr>
-                    <tr>
-                        <td class="fee-rate">25%</td>
-                        <td id="fee-25">$15,600</td>
-                        <td id="takehome-25">$46,800</td>
-                        <td class="savings" id="savings-25">+$9,984</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+            <!-- FREE: Difference Callout -->
+            <div class="difference-callout">
+                <div class="label">Potential Additional Income</div>
+                <div class="amount" id="difference-amount">+$15,184</div>
+                <div class="note">per year with short-term rental</div>
+            </div>
 
-        <div class="savings-callout">
-            <h3>Your Annual Savings with Airoam</h3>
-            <div class="amount" id="total-savings">$3,744</div>
-            <p>compared to a typical 15% property manager</p>
-        </div>
+            <!-- GATED: Detailed Breakdown -->
+            <div class="gated-section" id="gated-section">
+                
+                <!-- The blurred preview content -->
+                <div class="gated-preview" id="gated-content">
+                    
+                    <!-- Seasonal Breakdown -->
+                    <section class="seasonal-section">
+                        <h2 class="section-title">Seasonal Rate Breakdown</h2>
+                        <div class="seasonal-grid">
+                            <div class="seasonal-card peak">
+                                <h4>Peak Season</h4>
+                                <p class="months" id="peak-months">Dec - Feb</p>
+                                <div class="rate" id="peak-rate">$320</div>
+                                <p class="occupancy" id="peak-occupancy">85% occupancy</p>
+                            </div>
+                            <div class="seasonal-card">
+                                <h4>Shoulder Season</h4>
+                                <p class="months" id="shoulder-months">Mar - May, Sep - Nov</p>
+                                <div class="rate" id="shoulder-rate">$200</div>
+                                <p class="occupancy" id="shoulder-occupancy">70% occupancy</p>
+                            </div>
+                            <div class="seasonal-card">
+                                <h4>Off-Peak</h4>
+                                <p class="months" id="offpeak-months">Jun - Aug</p>
+                                <div class="rate" id="offpeak-rate">$150</div>
+                                <p class="occupancy" id="offpeak-occupancy">55% occupancy</p>
+                            </div>
+                        </div>
+                    </section>
 
-        <div class="data-source">
-            <strong>Data Sources:</strong> Estimates based on aggregated market data from Domain, CoreLogic, SQM Research, and Airoam's internal booking data across 3,500+ properties. Figures are indicative and actual results may vary based on property condition, amenities, and market conditions. Last updated: February 2026.
+                    <!-- Fee Comparison -->
+                    <section class="fee-section">
+                        <h2 class="section-title">Management Fee Comparison</h2>
+                        <table class="fee-table">
+                            <thead>
+                                <tr>
+                                    <th>Management Fee</th>
+                                    <th>Annual Fee</th>
+                                    <th>Your Take-Home</th>
+                                    <th>vs Airoam</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="highlight-row">
+                                    <td class="fee-rate">9% <span class="airoam-badge">AIROAM</span></td>
+                                    <td id="fee-9">$5,616</td>
+                                    <td id="takehome-9">$56,784</td>
+                                    <td>—</td>
+                                </tr>
+                                <tr>
+                                    <td class="fee-rate">15%</td>
+                                    <td id="fee-15">$9,360</td>
+                                    <td id="takehome-15">$53,040</td>
+                                    <td class="savings" id="savings-15">+$3,744</td>
+                                </tr>
+                                <tr>
+                                    <td class="fee-rate">20%</td>
+                                    <td id="fee-20">$12,480</td>
+                                    <td id="takehome-20">$49,920</td>
+                                    <td class="savings" id="savings-20">+$6,864</td>
+                                </tr>
+                                <tr>
+                                    <td class="fee-rate">25%</td>
+                                    <td id="fee-25">$15,600</td>
+                                    <td id="takehome-25">$46,800</td>
+                                    <td class="savings" id="savings-25">+$9,984</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- Final Savings -->
+                    <div class="savings-callout">
+                        <h3>Your Annual Savings with Airoam</h3>
+                        <div class="amount" id="total-savings">$3,744</div>
+                        <p>compared to a typical 15% property manager</p>
+                        <p class="personalized" id="personalized-message"></p>
+                    </div>
+
+                </div>
+
+                <!-- The overlay form -->
+                <div class="gate-overlay" id="gate-overlay">
+                    <div class="gate-form-container">
+                        <div class="gate-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 3v18h18"/>
+                                <path d="M18 9l-5 5-4-4-3 3"/>
+                            </svg>
+                        </div>
+                        <h3>Unlock Full Breakdown</h3>
+                        <p>Get the complete analysis including seasonal rates, fee comparisons, and your exact savings.</p>
+                        
+                        <ul>
+                            <li>Seasonal nightly rates for your area</li>
+                            <li>Fee comparison: 9% vs 15% vs 20% vs 25%</li>
+                            <li>Your annual savings with Airoam</li>
+                        </ul>
+
+                        <form class="gate-form" id="gate-form" action="https://formspree.io/f/xzdjrdjp" method="POST">
+                            <input type="hidden" name="_subject" value="Calculator Lead - Full Breakdown Request">
+                            <input type="hidden" name="calculator_location" id="form-location">
+                            <input type="hidden" name="calculator_property" id="form-property">
+                            <input type="hidden" name="calculator_ltr" id="form-ltr">
+                            <input type="hidden" name="calculator_str" id="form-str">
+                            <input type="text" name="_gotcha" style="display:none">
+                            
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" id="gate-name" required placeholder="Your name">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" id="gate-email" required placeholder="your@email.com">
+                            </div>
+                            <div class="form-group optional">
+                                <label>Phone</label>
+                                <input type="tel" name="phone" id="gate-phone" placeholder="04XX XXX XXX">
+                            </div>
+                            
+                            <button type="submit" class="gate-submit">Unlock Full Report →</button>
+                        </form>
+
+                        <p class="gate-privacy">We respect your privacy. See our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Source (always visible) -->
+            <div class="data-source">
+                <strong>Data Sources:</strong> Estimates based on aggregated market data from Domain, CoreLogic, SQM Research, and Airoam's internal booking data across 3,500+ properties. Figures are indicative and actual results may vary based on property condition, amenities, and market conditions. Last updated: February 2026.
+            </div>
+
         </div>
     </main>
 
     <section class="calc-cta">
         <h2>Ready to maximise your rental income?</h2>
         <p>Get a personalised estimate for your specific property.</p>
-        <a href="onboarding.html" class="cta-btn">
+        <a href="index.html#contact" class="cta-btn">
             Get Started
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
+                <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
         </a>
     </section>
 
-    <p class="disclaimer">
-        These estimates are for illustrative purposes only and do not constitute a guarantee of earnings. Actual rental income depends on many factors including property location, condition, amenities, seasonality, local events, and market conditions. Short-term rental regulations vary by council area. Please consult with Airoam for a detailed property assessment.
-    </p>
-
-    <footer>
-        <div class="footer-main">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <img src="Images/airoam-logo-black.svg" alt="Airoam" class="logo logo-white">
-                    </div>
-                    <p class="footer-tagline">Australia's smartest short-term rental manager. AI-powered property management with just 9% fees.</p>
-                    <div class="footer-stats">
-                        <div class="footer-stat"><span class="footer-stat-value">4.74★</span><span class="footer-stat-label">Guest Rating</span></div>
-                        <div class="footer-stat"><span class="footer-stat-value">1M+</span><span class="footer-stat-label">Nights Hosted</span></div>
-                        <div class="footer-stat"><span class="footer-stat-value">9%</span><span class="footer-stat-label">Management Fee</span></div>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="index.html#about">About</a></li>
-                        <li><a href="index.html#pricing">Pricing</a></li>
-                        <li><a href="index.html#testimonials">Testimonials</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="onboarding.html">Client Onboarding</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h4>Markets</h4>
-                    <ul>
-                        <li><a href="blog/melbourne-event-calendar-2026-airbnb-revenue.html" title="Melbourne event calendar 2026 – Airbnb revenue guide">Melbourne</a></li>
-                        <li><a href="blog/mornington-peninsula-holiday-rental-guide-2026.html" title="Mornington Peninsula holiday rental guide 2026">Mornington Peninsula</a></li>
-                        <li><a href="blog/perth-short-term-rental-regulations-2026.html" title="Perth short-term rental regulations 2026">Perth</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <div class="footer-newsletter">
-                        <h4>Stay Updated</h4>
-                        <p>Get hosting tips and industry insights delivered weekly.</p>
-                        <form class="footer-newsletter-form" id="footer-newsletter-form" action="https://formspree.io/f/mdalnbdv" method="POST">
-                            <input type="text" name="_gotcha" style="display:none">
-                            <input type="hidden" name="_subject" value="New Newsletter Subscriber">
-                            <input type="email" name="email" placeholder="Your email" required>
-                            <button type="submit">Subscribe</button>
-                        </form>
-                        <div class="footer-newsletter-message" id="footer-newsletter-message"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="footer-bottom-inner">
-                <p class="footer-copyright">© 2026 Airoam. All rights reserved. ABN 41 668 564 716</p>
-                <div class="footer-legal">
-                    <a href="terms-and-conditions.html">Terms & Conditions</a>
-                    <a href="privacy-policy.html">Privacy Policy</a>
-                    <a href="mailto:hello@airoam.com.au">hello@airoam.com.au</a>
-                </div>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/airoam?igsh=MjIybzI4cGw5cmx1" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                    <a href="https://www.facebook.com/people/Airoam-Australia-Short-Term-Rental-Management/61587859886582/" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer -->
+    <div id="footer-container"></div>
 
     <script>
+        // Navigation scroll effect
         window.addEventListener('scroll', function() {
             const nav = document.getElementById('main-nav');
             if (window.scrollY > 10) {
@@ -882,6 +1104,7 @@
             }
         });
 
+        // Mobile menu
         const hamburger = document.getElementById('nav-hamburger');
         const mobileMenu = document.getElementById('nav-mobile-menu');
         hamburger.addEventListener('click', function() {
@@ -889,6 +1112,7 @@
             mobileMenu.classList.toggle('open');
         });
 
+        // Market Data
         const marketData = {
             'melbourne-cbd': {
                 name: 'Melbourne CBD',
@@ -929,40 +1153,14 @@
                 shoulderMonths: 'Apr - May, Sep - Nov',
                 offpeakMonths: 'Jun - Aug'
             },
-            'mornington-sorrento': {
-                name: 'Sorrento / Portsea',
-                ltr: { '1bed': 400, '2bed': 550, '3bed': 800, '4bed': 1200 },
+            'mornington': {
+                name: 'Mornington Peninsula',
+                ltr: { '1bed': 380, '2bed': 520, '3bed': 750, '4bed': 1100 },
                 str: {
-                    '1bed': { peak: 350, shoulder: 180, offpeak: 120, peakOcc: 92, shoulderOcc: 60, offpeakOcc: 35 },
-                    '2bed': { peak: 500, shoulder: 280, offpeak: 160, peakOcc: 95, shoulderOcc: 65, offpeakOcc: 38 },
-                    '3bed': { peak: 700, shoulder: 400, offpeak: 220, peakOcc: 95, shoulderOcc: 62, offpeakOcc: 35 },
-                    '4bed': { peak: 1000, shoulder: 550, offpeak: 300, peakOcc: 98, shoulderOcc: 60, offpeakOcc: 32 }
-                },
-                peakMonths: 'Dec - Jan (School Hols)',
-                shoulderMonths: 'Feb - Apr, Oct - Nov',
-                offpeakMonths: 'May - Sep'
-            },
-            'mornington-rye': {
-                name: 'Rye / Blairgowrie',
-                ltr: { '1bed': 350, '2bed': 480, '3bed': 680, '4bed': 950 },
-                str: {
-                    '1bed': { peak: 280, shoulder: 150, offpeak: 100, peakOcc: 90, shoulderOcc: 55, offpeakOcc: 30 },
-                    '2bed': { peak: 400, shoulder: 220, offpeak: 130, peakOcc: 92, shoulderOcc: 58, offpeakOcc: 32 },
-                    '3bed': { peak: 550, shoulder: 300, offpeak: 180, peakOcc: 92, shoulderOcc: 55, offpeakOcc: 30 },
-                    '4bed': { peak: 750, shoulder: 400, offpeak: 240, peakOcc: 95, shoulderOcc: 55, offpeakOcc: 28 }
-                },
-                peakMonths: 'Dec - Jan (School Hols)',
-                shoulderMonths: 'Feb - Apr, Oct - Nov',
-                offpeakMonths: 'May - Sep'
-            },
-            'mornington-mornington': {
-                name: 'Mornington / Mt Martha',
-                ltr: { '1bed': 380, '2bed': 520, '3bed': 750, '4bed': 1050 },
-                str: {
-                    '1bed': { peak: 250, shoulder: 160, offpeak: 110, peakOcc: 85, shoulderOcc: 60, offpeakOcc: 40 },
-                    '2bed': { peak: 350, shoulder: 220, offpeak: 140, peakOcc: 88, shoulderOcc: 62, offpeakOcc: 42 },
-                    '3bed': { peak: 480, shoulder: 300, offpeak: 190, peakOcc: 85, shoulderOcc: 58, offpeakOcc: 38 },
-                    '4bed': { peak: 650, shoulder: 400, offpeak: 250, peakOcc: 88, shoulderOcc: 58, offpeakOcc: 35 }
+                    '1bed': { peak: 300, shoulder: 170, offpeak: 110, peakOcc: 90, shoulderOcc: 58, offpeakOcc: 35 },
+                    '2bed': { peak: 420, shoulder: 250, offpeak: 145, peakOcc: 92, shoulderOcc: 62, offpeakOcc: 38 },
+                    '3bed': { peak: 580, shoulder: 340, offpeak: 200, peakOcc: 92, shoulderOcc: 58, offpeakOcc: 35 },
+                    '4bed': { peak: 800, shoulder: 450, offpeak: 260, peakOcc: 95, shoulderOcc: 58, offpeakOcc: 32 }
                 },
                 peakMonths: 'Dec - Jan (School Hols)',
                 shoulderMonths: 'Feb - Apr, Oct - Nov',
@@ -981,8 +1179,8 @@
                 shoulderMonths: 'Mar - May, Dec - Feb',
                 offpeakMonths: 'Jun - Aug'
             },
-            'perth-beach': {
-                name: 'Scarborough / Cottesloe',
+            'perth-coastal': {
+                name: 'Perth Coastal',
                 ltr: { '1bed': 550, '2bed': 720, '3bed': 1000, '4bed': 1400 },
                 str: {
                     '1bed': { peak: 250, shoulder: 170, offpeak: 130, peakOcc: 85, shoulderOcc: 70, offpeakOcc: 50 },
@@ -994,23 +1192,53 @@
                 shoulderMonths: 'Mar - May, Sep - Nov',
                 offpeakMonths: 'Jun - Aug'
             },
-            'perth-fremantle': {
-                name: 'Fremantle',
-                ltr: { '1bed': 500, '2bed': 680, '3bed': 950, '4bed': 1350 },
+            'sydney': {
+                name: 'Sydney',
+                ltr: { '1bed': 620, '2bed': 850, '3bed': 1200, '4bed': 1650 },
                 str: {
-                    '1bed': { peak: 230, shoulder: 160, offpeak: 120, peakOcc: 82, shoulderOcc: 68, offpeakOcc: 52 },
-                    '2bed': { peak: 320, shoulder: 220, offpeak: 160, peakOcc: 82, shoulderOcc: 68, offpeakOcc: 52 },
-                    '3bed': { peak: 440, shoulder: 300, offpeak: 210, peakOcc: 80, shoulderOcc: 65, offpeakOcc: 48 },
-                    '4bed': { peak: 600, shoulder: 400, offpeak: 280, peakOcc: 78, shoulderOcc: 62, offpeakOcc: 45 }
+                    '1bed': { peak: 260, shoulder: 190, offpeak: 150, peakOcc: 85, shoulderOcc: 75, offpeakOcc: 65 },
+                    '2bed': { peak: 380, shoulder: 270, offpeak: 200, peakOcc: 85, shoulderOcc: 72, offpeakOcc: 62 },
+                    '3bed': { peak: 520, shoulder: 380, offpeak: 280, peakOcc: 82, shoulderOcc: 70, offpeakOcc: 58 },
+                    '4bed': { peak: 700, shoulder: 500, offpeak: 360, peakOcc: 78, shoulderOcc: 65, offpeakOcc: 52 }
                 },
-                peakMonths: 'Dec - Feb (Summer)',
+                peakMonths: 'Dec - Feb, Events',
                 shoulderMonths: 'Mar - May, Sep - Nov',
+                offpeakMonths: 'Jun - Aug'
+            },
+            'brisbane': {
+                name: 'Brisbane',
+                ltr: { '1bed': 480, '2bed': 620, '3bed': 880, '4bed': 1200 },
+                str: {
+                    '1bed': { peak: 200, shoulder: 150, offpeak: 120, peakOcc: 82, shoulderOcc: 70, offpeakOcc: 60 },
+                    '2bed': { peak: 280, shoulder: 200, offpeak: 160, peakOcc: 82, shoulderOcc: 70, offpeakOcc: 60 },
+                    '3bed': { peak: 380, shoulder: 280, offpeak: 210, peakOcc: 78, shoulderOcc: 68, offpeakOcc: 55 },
+                    '4bed': { peak: 500, shoulder: 360, offpeak: 270, peakOcc: 75, shoulderOcc: 62, offpeakOcc: 50 }
+                },
+                peakMonths: 'Jun - Aug (Winter)',
+                shoulderMonths: 'Mar - May, Sep - Nov',
+                offpeakMonths: 'Dec - Feb'
+            },
+            'gold-coast': {
+                name: 'Gold Coast',
+                ltr: { '1bed': 520, '2bed': 680, '3bed': 950, '4bed': 1350 },
+                str: {
+                    '1bed': { peak: 280, shoulder: 180, offpeak: 140, peakOcc: 88, shoulderOcc: 72, offpeakOcc: 58 },
+                    '2bed': { peak: 400, shoulder: 260, offpeak: 180, peakOcc: 90, shoulderOcc: 75, offpeakOcc: 60 },
+                    '3bed': { peak: 550, shoulder: 360, offpeak: 250, peakOcc: 88, shoulderOcc: 72, offpeakOcc: 55 },
+                    '4bed': { peak: 750, shoulder: 480, offpeak: 340, peakOcc: 85, shoulderOcc: 68, offpeakOcc: 50 }
+                },
+                peakMonths: 'Dec - Jan, School Hols',
+                shoulderMonths: 'Feb - May, Sep - Nov',
                 offpeakMonths: 'Jun - Aug'
             }
         };
 
         const bathroomMultiplier = { '1': 1, '2': 1.08, '3': 1.15 };
         const seasonWeeks = { peak: 10, shoulder: 26, offpeak: 16 };
+
+        // State
+        let calculatedData = {};
+        let isUnlocked = false;
 
         function formatCurrency(amount) {
             return '$' + Math.round(amount).toLocaleString('en-AU');
@@ -1024,9 +1252,11 @@
             const data = marketData[location];
             const bathMult = bathroomMultiplier[bathrooms];
 
+            // Long-term rental
             const weeklyRent = Math.round(data.ltr[propertyType] * bathMult);
             const ltrAnnual = Math.round(weeklyRent * 52 * 0.95);
 
+            // Short-term rental
             const strData = data.str[propertyType];
             const peakRate = Math.round(strData.peak * bathMult);
             const shoulderRate = Math.round(strData.shoulder * bathMult);
@@ -1036,19 +1266,44 @@
             const shoulderNights = Math.round(seasonWeeks.shoulder * 7 * (strData.shoulderOcc / 100));
             const offpeakNights = Math.round(seasonWeeks.offpeak * 7 * (strData.offpeakOcc / 100));
 
-            const strAnnual = (peakNights * peakRate) + (shoulderNights * shoulderRate) + (offpeakNights * offpeakRate);
+            const strGross = (peakNights * peakRate) + (shoulderNights * shoulderRate) + (offpeakNights * offpeakRate);
+            const strAnnual = strGross * 0.91; // After 9% fee
             const totalNights = peakNights + shoulderNights + offpeakNights;
             const avgOccupancy = Math.round((totalNights / 365) * 100);
-            const avgNightly = Math.round(strAnnual / totalNights);
+            const avgNightly = Math.round(strGross / totalNights);
 
-            document.getElementById('ltr-weekly').textContent = formatCurrency(weeklyRent);
+            // Store for form submission
+            calculatedData = {
+                location: data.name,
+                propertyType: propertyType,
+                ltrAnnual: ltrAnnual,
+                strAnnual: strAnnual,
+                strGross: strGross,
+                weeklyRent: weeklyRent,
+                avgNightly: avgNightly,
+                avgOccupancy: avgOccupancy,
+                peakRate: peakRate,
+                shoulderRate: shoulderRate,
+                offpeakRate: offpeakRate,
+                peakOcc: strData.peakOcc,
+                shoulderOcc: strData.shoulderOcc,
+                offpeakOcc: strData.offpeakOcc,
+                peakMonths: data.peakMonths,
+                shoulderMonths: data.shoulderMonths,
+                offpeakMonths: data.offpeakMonths
+            };
+
+            // Update FREE section
             document.getElementById('ltr-annual').innerHTML = formatCurrency(ltrAnnual) + ' <span>/year</span>';
+            document.getElementById('ltr-info').textContent = `Based on ${formatCurrency(weeklyRent)}/week, ~95% occupancy`;
 
-            document.getElementById('str-nightly').textContent = formatCurrency(avgNightly);
-            document.getElementById('str-occupancy').textContent = avgOccupancy + '%';
-            document.getElementById('str-nights').textContent = totalNights;
             document.getElementById('str-annual').innerHTML = formatCurrency(strAnnual) + ' <span>/year</span>';
+            document.getElementById('str-info').textContent = `Based on avg ${formatCurrency(avgNightly)}/night, ${avgOccupancy}% occupancy`;
 
+            const difference = strAnnual - ltrAnnual;
+            document.getElementById('difference-amount').textContent = '+' + formatCurrency(difference);
+
+            // Update GATED section (will be revealed after form)
             document.getElementById('peak-rate').textContent = formatCurrency(peakRate);
             document.getElementById('peak-occupancy').textContent = strData.peakOcc + '% occupancy';
             document.getElementById('peak-months').textContent = data.peakMonths;
@@ -1061,12 +1316,13 @@
             document.getElementById('offpeak-occupancy').textContent = strData.offpeakOcc + '% occupancy';
             document.getElementById('offpeak-months').textContent = data.offpeakMonths;
 
+            // Fee comparison
             const fees = [9, 15, 20, 25];
-            const airoamTakeHome = strAnnual * 0.91;
+            const airoamTakeHome = strGross * 0.91;
 
             fees.forEach(fee => {
-                const feeAmount = strAnnual * (fee / 100);
-                const takeHome = strAnnual - feeAmount;
+                const feeAmount = strGross * (fee / 100);
+                const takeHome = strGross - feeAmount;
                 const savings = airoamTakeHome - takeHome;
 
                 document.getElementById(`fee-${fee}`).textContent = formatCurrency(feeAmount);
@@ -1077,32 +1333,104 @@
                 }
             });
 
-            const savingsVs15 = airoamTakeHome - (strAnnual * 0.85);
+            const savingsVs15 = airoamTakeHome - (strGross * 0.85);
             document.getElementById('total-savings').textContent = formatCurrency(savingsVs15);
+
+            // Update hidden form fields
+            document.getElementById('form-location').value = data.name;
+            document.getElementById('form-property').value = propertyType;
+            document.getElementById('form-ltr').value = formatCurrency(ltrAnnual);
+            document.getElementById('form-str').value = formatCurrency(strAnnual);
+
+            // Show results section with animation
+            const resultsSection = document.getElementById('results-section');
+            resultsSection.style.display = 'block';
+            
+            // Trigger reflow for animation
+            void resultsSection.offsetWidth;
+            
+            setTimeout(() => {
+                resultsSection.classList.add('visible');
+            }, 50);
+
+            // Scroll to results
+            setTimeout(() => {
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
 
-        document.getElementById('location').addEventListener('change', calculate);
-        document.getElementById('property-type').addEventListener('change', calculate);
-        document.getElementById('bathrooms').addEventListener('change', calculate);
+        function unlockContent(name) {
+            isUnlocked = true;
+            
+            // Hide the overlay
+            document.getElementById('gate-overlay').classList.add('hidden');
+            
+            // Remove blur from content
+            document.getElementById('gated-content').classList.add('unlocked');
+            
+            // Add personalized message
+            if (name) {
+                document.getElementById('personalized-message').textContent = 
+                    `${name}, switch to Airoam and keep more of your earnings.`;
+            }
+        }
 
-        calculate();
+        // Calculate button click
+        document.getElementById('calculate-btn').addEventListener('click', function() {
+            calculate();
+        });
 
-        (function() {
-            var form = document.getElementById('footer-newsletter-form');
-            if (!form) return;
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                var btn = form.querySelector('button');
-                var msg = document.getElementById('footer-newsletter-message');
-                var orig = btn.textContent;
-                btn.textContent = 'Sending...';
-                btn.disabled = true;
-                fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } })
-                    .then(function(r) { if (r.ok) { msg.textContent = 'Thanks for subscribing!'; msg.className = 'footer-newsletter-message show success'; form.reset(); } else { throw new Error(); } })
-                    .catch(function() { msg.textContent = 'Something went wrong. Please try again.'; msg.className = 'footer-newsletter-message show error'; })
-                    .finally(function() { btn.textContent = orig; btn.disabled = false; setTimeout(function() { msg.classList.remove('show'); }, 4000); });
+        // Gate form submission
+        document.getElementById('gate-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const submitBtn = form.querySelector('.gate-submit');
+            const name = document.getElementById('gate-name').value;
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Unlocking...';
+            submitBtn.disabled = true;
+
+            // Submit to Formspree
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Unlock the content
+                    unlockContent(name);
+                    
+                    // Scroll to the now-visible content
+                    setTimeout(() => {
+                        document.getElementById('gated-content').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }, 300);
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            })
+            .catch(error => {
+                // Still unlock on error (don't punish user for network issues)
+                console.error('Form error:', error);
+                unlockContent(name);
             });
-        })();
+        });
+
+        // Recalculate if inputs change after initial calculation
+        ['location', 'property-type', 'bathrooms'].forEach(id => {
+            document.getElementById(id).addEventListener('change', function() {
+                const resultsSection = document.getElementById('results-section');
+                if (resultsSection.classList.contains('visible')) {
+                    calculate();
+                }
+            });
+        });
     </script>
+    <script src="partials/includes.js"></script>
 </body>
 </html>
