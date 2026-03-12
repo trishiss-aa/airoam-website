@@ -138,6 +138,21 @@
                 });
             });
         }
+        
+        // Load Heya widget
+        loadHeyaWidget();
+    }
+    
+    // Load Heya voice widget
+    function loadHeyaWidget() {
+        // Check if already loaded
+        if (document.querySelector('script[src*="widget.heya.au"]')) return;
+        
+        var script = document.createElement('script');
+        script.src = 'https://widget.heya.au/loader.js';
+        script.setAttribute('data-pk', 'pk_heya_c92731291ee2d0e0ee5b51e7a767fd5f');
+        script.setAttribute('data-config', 'ef0f0f1a-3545-44e1-bb90-a0144d8c43bf');
+        document.body.appendChild(script);
     }
     
     // Load all partials
