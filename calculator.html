@@ -20,6 +20,24 @@
             --color-border: rgba(0, 0, 0, 0.06);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* Nav placeholder to prevent layout jump */
+        #nav-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: var(--color-white);
+            z-index: 1000;
+        }
+        
+        #nav-container:empty::before {
+            content: '';
+            display: block;
+            height: 80px;
+            background: var(--color-white);
+        }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--color-white);
@@ -1104,13 +1122,6 @@
             }
         });
 
-        // Mobile menu
-        const hamburger = document.getElementById('nav-hamburger');
-        const mobileMenu = document.getElementById('nav-mobile-menu');
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            mobileMenu.classList.toggle('open');
-        });
 
         // Market Data
         const marketData = {
