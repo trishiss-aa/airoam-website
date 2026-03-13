@@ -661,6 +661,7 @@
                 #FDF9F3 70%,
                 #ffffff 100%
             );
+            padding: 120px 60px;
         }
 
         .intro-content {
@@ -700,7 +701,7 @@
         }
 
         .services .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             opacity: 0;
             transform: translateX(-100px);
@@ -840,7 +841,7 @@
         }
 
         .earnings .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -1301,7 +1302,7 @@
         }
 
         .blog-magazine-container {
-            max-width: 1400px;
+            max-width: 1200px;
             width: 100%;
             margin: 0 auto;
             padding: 0 60px;
@@ -1952,7 +1953,7 @@
 
         .footer-main {
             padding: 80px 60px 60px;
-            max-width: 1320px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -2518,22 +2519,18 @@
         
         /* Match all container max-widths and padding for perfect alignment */
         .intro .container,
-        .services .container {
+        .services .container,
+        .earnings .container,
+        .blog-magazine-section .blog-magazine-container,
+        .testimonials-minimal .testimonials-minimal-container,
+        .contact-form .container {
             max-width: 1200px !important;
+            width: 100% !important;
             padding-left: 60px !important;
             padding-right: 60px !important;
             margin-left: auto !important;
             margin-right: auto !important;
-        }
-        
-        .earnings .container,
-        .blog-magazine-section .blog-magazine-container,
-        .contact-form .contact-container {
-            max-width: 1200px;
-            padding-left: 60px;
-            padding-right: 60px;
-            margin-left: auto;
-            margin-right: auto;
+            box-sizing: border-box !important;
         }
         
         /* Consistent section title sizes for newer sections - 72px */
@@ -2558,6 +2555,7 @@
         @media (max-width: 768px) {
             .intro-block {
                 font-size: 42px !important;
+                line-height: 1.1 !important;
             }
             
             .services-statement,
@@ -2567,32 +2565,43 @@
                 font-size: 42px;
             }
             
-            .services {
-                padding: 80px 0 !important;
-            }
-            
-            .intro .container,
-            .services .container,
-            .earnings .container,
-            .blog-magazine-section .blog-magazine-container,
-            .contact-form .contact-container {
+            /* Consistent section padding on mobile */
+            .intro,
+            .services,
+            .earnings,
+            .testimonials-minimal,
+            .blog-magazine-section,
+            .contact-form,
+            .footer-cta {
                 padding-left: 24px !important;
                 padding-right: 24px !important;
             }
-        }
-        
-        /* Ensure all main containers have consistent max-width and alignment */
-        .services .container,
-        .earnings .container,
-        .blog-magazine-section .blog-magazine-container,
-        .contact-form .contact-container {
-            max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
+            
+            .services {
+                padding-top: 80px !important;
+                padding-bottom: 80px !important;
+            }
+            
+            .intro {
+                padding-top: 80px !important;
+                padding-bottom: 80px !important;
+            }
+            
+            /* Reset container padding since section has it */
+            .intro .container,
+            .services .container,
+            .earnings .container,
+            .testimonials-minimal .testimonials-minimal-container,
+            .blog-magazine-section .blog-magazine-container,
+            .contact-form .container {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                max-width: 100% !important;
+            }
         }
         
         /* Contact section left align */
-        .contact-form .contact-container {
+        .contact-form .container {
             text-align: left;
         }
         
