@@ -155,7 +155,42 @@
         document.body.appendChild(script);
     }
     
+    // Handle hash navigation on page load (for cross-page anchor links)
+    function handleHashOnLoad() {
+        var hash = window.location.hash;
+        if (hash && hash.length > 1) {
+            // Small delay to ensure page content is rendered
+            setTimeout(function() {
+                var target = document.querySelector(hash);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 300);
+        }
+    }
+    
+    // Also handle hash on full page load (backup for slower connections)
+    window.addEventListener('load', function() {
+        var hash = window.location.hash;
+        if (hash && hash.length > 1) {
+            setTimeout(function() {
+                var target = document.querySelector(hash);
+                if (target) {
+                    var rect = target.getBoundingClientRect();
+                    // Only scroll if not already in view
+                    if (rect.top < 0 || rect.top > window.innerHeight) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            }, 100);
+        }
+    });
+    
     // Load all partials
     loadPartial('nav-container', 'partials/nav.html', initMobileNav);
-    loadPartial('footer-container', 'partials/footer.html', initFooterNewsletter);
+    loadPartial('footer-container', 'partials/footer.html', function() {
+        initFooterNewsletter();
+        // Handle hash after all content is loaded
+        handleHashOnLoad();
+    });
 })();
