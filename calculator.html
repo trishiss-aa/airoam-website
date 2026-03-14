@@ -1062,10 +1062,11 @@
 
                         <form class="gate-form" id="gate-form" action="https://formspree.io/f/xzdjrdjp" method="POST">
                             <input type="hidden" name="_subject" value="Calculator Lead - Full Breakdown Request">
-                            <input type="hidden" name="calculator_location" id="form-location">
-                            <input type="hidden" name="calculator_property" id="form-property">
-                            <input type="hidden" name="calculator_ltr" id="form-ltr">
-                            <input type="hidden" name="calculator_str" id="form-str">
+                            <input type="hidden" name="location" id="form-location">
+                            <input type="hidden" name="property" id="form-property">
+                            <input type="hidden" name="ltr_estimate" id="form-ltr">
+                            <input type="hidden" name="str_estimate" id="form-str">
+                            <input type="hidden" name="time_on_page" id="form-time-spent" value="">
                             <input type="text" name="_gotcha" style="display:none">
                             
                             <div class="form-group">
@@ -1250,6 +1251,7 @@
         // State
         let calculatedData = {};
         let isUnlocked = false;
+        let formVisibleTime = null; // Anti-spam: track when form became visible
 
         function formatCurrency(amount) {
             return '$' + Math.round(amount).toLocaleString('en-AU');
@@ -1362,6 +1364,7 @@
             
             setTimeout(() => {
                 resultsSection.classList.add('visible');
+                formVisibleTime = Date.now(); // Anti-spam: track when form became visible
             }, 50);
 
             // Scroll to results
@@ -1395,6 +1398,15 @@
         document.getElementById('gate-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Anti-spam: require at least 3 seconds before submission
+            const timeSinceVisible = formVisibleTime ? (Date.now() - formVisibleTime) : 0;
+            if (timeSinceVisible < 3000) {
+                // Too fast - likely a bot. Silently unlock without submitting to Formspree
+                const name = document.getElementById('gate-name').value;
+                unlockContent(name);
+                return;
+            }
+            
             const form = this;
             const submitBtn = form.querySelector('.gate-submit');
             const name = document.getElementById('gate-name').value;
@@ -1402,6 +1414,10 @@
             
             submitBtn.textContent = 'Unlocking...';
             submitBtn.disabled = true;
+            
+            // Set time spent on page (helps with spam detection)
+            const secondsOnPage = Math.round(timeSinceVisible / 1000);
+            document.getElementById('form-time-spent').value = secondsOnPage + ' seconds';
 
             // Submit to Formspree
             fetch(form.action, {
