@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Airoam – Airbnb Property Management Australia</title>
+    <meta name="description" content="Get in touch with Airoam. Australia's smartest short-term rental manager. Melbourne, Perth & Mornington Peninsula.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://airoam.com.au/contact">
+    <meta property="og:title" content="Contact Us | Airoam">
+    <meta property="og:description" content="Get in touch with Airoam. Australia's smartest short-term rental manager.">
+    <link rel="canonical" href="https://airoam.com.au/contact">
+    <link rel="icon" type="image/svg+xml" href="Images/airoam-arrow-black.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-black: #202020;
+            --color-white: #FFFFFF;
+            --color-cream: #FAF0DD;
+            --color-cream-mid: #FDF9F3;
+            --color-text-grey: rgba(0, 0, 0, 0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            padding-top: 80px;
+        }
+
+        /* ============================================
+           NAVIGATION
+           ============================================ */
+        #main-nav,
+        nav#main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 80px;
+            padding: 0 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10000;
+            background-color: var(--color-white);
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #main-nav.scrolled,
+        nav#main-nav.scrolled {
+            border-bottom-color: #202020;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .nav-logo .logo {
+            width: 180px;
+            height: auto;
+            display: block;
+        }
+        .nav-center {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        .nav-center a {
+            font-size: 14px;
+            letter-spacing: 0.05em;
+            color: var(--color-black);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .nav-center a:hover {
+            opacity: 0.6;
+        }
+        .nav-button {
+            padding: 10px 24px;
+            border: 3px solid var(--color-black);
+            background-color: transparent;
+            color: var(--color-black);
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s ease;
+        }
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-black);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+        .nav-button:hover {
+            color: var(--color-white);
+        }
+        .nav-button:hover::before {
+            left: 0;
+        }
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: var(--color-black);
+            transition: all 0.3s ease;
+        }
+        .nav-hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        .nav-hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        .nav-mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background-color: var(--color-white);
+            border-bottom: 3px solid var(--color-black);
+            padding: 24px;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 9999;
+        }
+        .nav-mobile-menu.open {
+            display: flex;
+        }
+        .nav-mobile-menu a {
+            font-size: 16px;
+            color: var(--color-black);
+            text-decoration: none;
+            padding: 8px 0;
+        }
+        @media (max-width: 768px) {
+            #main-nav { padding: 0 24px; }
+            .nav-logo .logo { width: 140px; }
+            .nav-center { display: none; }
+            .nav-button { display: none; }
+            .nav-hamburger { display: flex; }
+        }
+
+        /* ============================================
+           CONTACT PAGE - SPLIT LAYOUT
+           ============================================ */
+        .contact-page {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* LEFT PANEL - Dark */
+        .contact-left {
+            background: var(--color-black);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            animation: panelReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes panelReveal {
+            from { 
+                clip-path: inset(0 100% 0 0);
+            }
+            to { 
+                clip-path: inset(0 0% 0 0);
+            }
+        }
+
+        .contact-left::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(250,240,221,0.04) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+            animation-delay: 1.2s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+
+        .headline-wrap {
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 24px;
+            animation: slideReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+        }
+
+        .headline {
+            font-size: clamp(42px, 5vw, 56px);
+            font-weight: 700;
+            color: var(--color-white);
+            line-height: 1.0;
+            letter-spacing: -0.03em;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+
+        .headline-line {
+            display: block;
+            animation: headlineReveal 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .headline-line:nth-child(1) {
+            animation-delay: 0.5s;
+        }
+
+        .headline-line:nth-child(2) {
+            animation-delay: 0.65s;
+        }
+
+        @keyframes headlineReveal {
+            from { 
+                opacity: 0;
+                transform: translateY(100%) rotateX(-80deg);
+                transform-origin: top center;
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) rotateX(0deg);
+            }
+        }
+
+        .headline .cream {
+            color: var(--color-cream);
+        }
+
+        .subhead {
+            font-size: 15px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+            max-width: 320px;
+            animation: slideReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+        }
+
+        @keyframes slideReveal {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        /* Trust Stats */
+        .trust-section {
+            position: relative;
+            z-index: 1;
+            margin-top: 48px;
+        }
+
+        .trust-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 20px;
+            animation: slideReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+        }
+
+        .trust-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-item {
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            animation: statReveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 1.0s; }
+        .stat-item:nth-child(2) { animation-delay: 1.1s; }
+        .stat-item:nth-child(3) { animation-delay: 1.2s; }
+        .stat-item:nth-child(4) { animation-delay: 1.3s; }
+
+        @keyframes statReveal {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.95);
+                border-color: transparent;
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+                border-color: rgba(255,255,255,0.1);
+            }
+        }
+
+        .stat-item:hover {
+            border-color: rgba(250,240,221,0.3);
+            transform: translateY(-2px);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-cream);
+            line-height: 1;
+            margin-bottom: 6px;
+            animation: numberPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+
+        .stat-item:nth-child(1) .stat-number { animation-delay: 1.15s; }
+        .stat-item:nth-child(2) .stat-number { animation-delay: 1.25s; }
+        .stat-item:nth-child(3) .stat-number { animation-delay: 1.35s; }
+        .stat-item:nth-child(4) .stat-number { animation-delay: 1.45s; }
+
+        @keyframes numberPop {
+            from { 
+                opacity: 0; 
+                transform: scale(0.5);
+            }
+            to { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+        }
+
+        .stat-label {
+            font-size: 12px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Contact Details */
+        .contact-details {
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            padding: 14px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            cursor: default;
+            animation: detailReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .detail-row:nth-child(1) { animation-delay: 1.4s; }
+        .detail-row:nth-child(2) { animation-delay: 1.5s; }
+
+        @keyframes detailReveal {
+            from { 
+                opacity: 0; 
+                transform: translateX(-20px);
+                border-top-color: transparent;
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0);
+                border-top-color: rgba(255,255,255,0.1);
+            }
+        }
+
+        .detail-row:hover {
+            padding-left: 12px;
+        }
+
+        .detail-row:hover .detail-value {
+            color: var(--color-cream);
+        }
+
+        .detail-label {
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            min-width: 60px;
+        }
+
+        .detail-value {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--color-white);
+            transition: color 0.3s ease;
+        }
+
+        .detail-value a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .detail-value a:hover {
+            color: var(--color-cream);
+        }
+
+        /* RIGHT PANEL - White Form */
+        .contact-right {
+            background: var(--color-white);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+            animation: rightPanelFade 0.8s ease-out 0.6s both;
+        }
+
+        @keyframes rightPanelFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-intro {
+            margin-bottom: 32px;
+            animation: formSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+        }
+
+        @keyframes formSlideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .form-title {
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--color-black);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            font-size: 14px;
+            font-weight: 300;
+            color: rgba(0,0,0,0.5);
+        }
+
+        .contact-form {
+            animation: formSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.0s both;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 24px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.4);
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .form-group:focus-within label {
+            color: var(--color-black);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            background-color: var(--color-white);
+            color: var(--color-black);
+            font-size: 14px;
+            font-weight: 400;
+            font-family: inherit;
+            transition: border-color 0.3s ease, background 0.2s ease;
+            outline: none;
+            resize: none;
+        }
+
+        .form-group input:hover,
+        .form-group select:hover,
+        .form-group textarea:hover {
+            background: var(--color-cream-mid);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='black' stroke-opacity='0.5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 44px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--color-black);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(0,0,0,0.3);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            grid-column: 1 / -1;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 36px;
+            border: 3px solid var(--color-black);
+            background: var(--color-black);
+            color: var(--color-white);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 24px;
+        }
+
+        .submit-btn:hover {
+            background: transparent;
+            color: var(--color-black);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .submit-btn .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .submit-btn:hover .arrow {
+            transform: translateX(4px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success Message */
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .form-success-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--color-cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .form-success-icon svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--color-black);
+        }
+
+        .form-success h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .form-success p {
+            font-size: 15px;
+            font-weight: 300;
+            color: rgba(0,0,0,0.6);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer { background-color: var(--color-black); padding: 80px 60px 40px; color: var(--color-white); }
+        .footer-container { max-width: 1200px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 60px; margin-bottom: 60px; }
+        .footer-brand .logo { width: 160px; margin-bottom: 20px; filter: brightness(0) invert(1); }
+        .footer-brand p { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.5); line-height: 1.6; max-width: 280px; }
+        .footer-col h4 { font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 12px; }
+        .footer-col ul a { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s ease; }
+        .footer-col ul a:hover { color: var(--color-cream); }
+        .footer-newsletter p { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+        .footer-newsletter-form { display: flex; gap: 0; }
+        .footer-newsletter-form input { flex: 1; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.2); border-right: none; background: transparent; color: var(--color-white); font-family: inherit; font-size: 14px; font-weight: 300; }
+        .footer-newsletter-form input::placeholder { color: rgba(255,255,255,0.3); }
+        .footer-newsletter-form input:focus { outline: none; border-color: rgba(255,255,255,0.4); }
+        .footer-newsletter-form button { padding: 12px 20px; background: var(--color-cream); color: var(--color-black); border: none; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: opacity 0.2s ease; }
+        .footer-newsletter-form button:hover { opacity: 0.9; }
+        .footer-newsletter-message { font-size: 13px; margin-top: 8px; color: var(--color-cream); }
+        .footer-bottom { padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .footer-bottom-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+        .footer-copyright { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.4); }
+        .footer-legal { display: flex; gap: 24px; }
+        .footer-legal a { font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s ease; }
+        .footer-legal a:hover { color: var(--color-white); }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .contact-page {
+                grid-template-columns: 1fr;
+            }
+            .contact-left {
+                padding: 48px 40px;
+                min-height: auto;
+            }
+            .trust-stats {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .contact-right {
+                padding: 48px 40px;
+            }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+
+        @media (max-width: 768px) {
+            .contact-left {
+                padding: 40px 24px;
+            }
+            .headline {
+                font-size: 36px;
+            }
+            .trust-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .stat-item {
+                padding: 16px;
+            }
+            .stat-number {
+                font-size: 24px;
+            }
+            .contact-right {
+                padding: 40px 24px;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+            .footer { padding: 60px 24px 30px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom-inner { flex-direction: column; text-align: center; }
+            .footer-legal { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div id="nav-container"></div>
+
+    <main>
+        <div class="contact-page">
+            <!-- LEFT PANEL -->
+            <div class="contact-left">
+                <div class="headline-wrap">
+                    <div class="eyebrow">Get in touch</div>
+                    <h1 class="headline">
+                        <span class="headline-line">Let's talk</span>
+                        <span class="headline-line"><span class="cream">property.</span></span>
+                    </h1>
+                    <p class="subhead">Whether you're ready to switch or just exploring, we'd love to hear from you.</p>
+                </div>
+
+                <div class="trust-section">
+                    <div class="trust-label">Trusted by property owners</div>
+                    <div class="trust-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">1,500+</div>
+                            <div class="stat-label">Properties managed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1M+</div>
+                            <div class="stat-label">Nights hosted</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">4.74★</div>
+                            <div class="stat-label">Average rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">9%</div>
+                            <div class="stat-label">Management fee</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value"><a href="/cdn-cgi/l/email-protection#761e131a1a1936171f0419171b5815191b581703"><span class="__cf_email__" data-cfemail="68000d0404072809011a070905460b070546091d">[email&#160;protected]</span></a></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Phone</span>
+                        <span class="detail-value"><a href="tel:0361601640">(03) 6160 1640</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL -->
+            <div class="contact-right">
+                <div class="form-intro">
+                    <h2 class="form-title">Send us a message</h2>
+                    <p class="form-subtitle">We'll get back to you within 24 hours.</p>
+                </div>
+
+                <form class="contact-form" id="contact-form" action="https://formspree.io/f/mkovwyzz" method="POST">
+                    <input type="text" name="_gotcha" style="display:none">
+                    <input type="hidden" name="_subject" value="New Contact Form Submission">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" id="name" name="name" placeholder="Your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="04XX XXX XXX">
+                        </div>
+                        <div class="form-group">
+                            <label for="properties">Properties</label>
+                            <select id="properties" name="properties">
+                                <option value="">Select number</option>
+                                <option value="1">1 property</option>
+                                <option value="2-3">2–3 properties</option>
+                                <option value="4-10">4–10 properties</option>
+                                <option value="10+">10+ properties</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full">
+                            <label for="address">Property address</label>
+                            <input type="text" id="address" name="address" placeholder="Property address or suburb">
+                        </div>
+
+                        <div class="form-row-3">
+                            <div class="form-group">
+                                <label for="bedrooms">Bedrooms</label>
+                                <select id="bedrooms" name="bedrooms">
+                                    <option value="">Select</option>
+                                    <option value="1">1 bed</option>
+                                    <option value="2">2 bed</option>
+                                    <option value="3">3 bed</option>
+                                    <option value="4">4 bed</option>
+                                    <option value="5+">5+ bed</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="bathrooms">Bathrooms</label>
+                                <select id="bathrooms" name="bathrooms">
+                                    <option value="">Select</option>
+                                    <option value="1">1 bath</option>
+                                    <option value="2">2 bath</option>
+                                    <option value="3">3 bath</option>
+                                    <option value="4+">4+ bath</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="property-type">Property type</label>
+                                <select id="property-type" name="property_type">
+                                    <option value="">Select</option>
+                                    <option value="apartment">Apartment</option>
+                                    <option value="house">House</option>
+                                    <option value="townhouse">Townhouse</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group full">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="3" placeholder="Tell us about your property or ask us anything..."></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span class="btn-text">Send message</span>
+                        <span class="arrow">→</span>
+                    </button>
+                </form>
+
+                <div class="form-success" id="form-success">
+                    <div class="form-success-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <h3>Message sent!</h3>
+                    <p>Thanks for reaching out. We'll be in touch within 24 hours.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Form submission
+        const form = document.getElementById('contact-form');
+        const formSuccess = document.getElementById('form-success');
+        
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const submitBtn = form.querySelector('.submit-btn');
+                const btnText = submitBtn.querySelector('.btn-text');
+                const originalText = btnText.textContent;
+                
+                btnText.textContent = 'Sending...';
+                submitBtn.disabled = true;
+                
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        form.style.display = 'none';
+                        document.querySelector('.form-intro').style.display = 'none';
+                        formSuccess.classList.add('show');
+                    } else {
+                        throw new Error('Form submission failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    btnText.textContent = originalText;
+                    submitBtn.disabled = false;
+                    alert('Something went wrong. Please try again.');
+                });
+            });
+        }
+    </script>
+
+    <!-- Heya Widget -->
+    <script 
+        src="https://widget.heya.au/loader.js" 
+        data-pk="pk_heya_c92731291ee2d0e0ee5b51e7a767fd5f"
+        data-config="ef0f0f1a-3545-44e1-bb90-a0144d8c43bf"
+        async>
+    </script>
+</body>
+</html>
