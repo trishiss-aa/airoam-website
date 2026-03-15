@@ -595,6 +595,16 @@
             .blog-hero-filters { gap: 10px; }
             .blog-filter-btn { padding: 10px 18px; font-size: 13px; }
             .blog-content-wrapper { padding: 32px 0 60px; }
+
+            /* Normalise ALL card title sizes on mobile */
+            .blog-grid > a.blog-card .blog-card-title,
+            .blog-grid > a.blog-card:nth-of-type(8n+3) .blog-card-title,
+            .blog-grid > a.blog-card:nth-of-type(8n) .blog-card-title,
+            .blog-grid.is-filtered .blog-card .blog-card-title {
+                font-size: 16px;
+                line-height: 1.35;
+                max-width: none;
+            }
         }
 
         /* Inline text links - body content */
