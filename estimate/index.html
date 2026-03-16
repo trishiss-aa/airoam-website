@@ -847,13 +847,13 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
 
         <div class="field">
           <label for="suburb">Property suburb</label>
-          <input type="text" id="suburb" placeholder="e.g. Richmond, St Kilda, Sorrento">
+          <input type="text" id="suburb" placeholder="e.g. Richmond, St Kilda, Sorrento" required>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label for="ptype">Property type</label>
-            <select id="ptype">
+            <select id="ptype" required>
               <option value="" disabled selected>Select</option>
               <option value="Apartment">Apartment</option>
               <option value="House">House</option>
@@ -1105,12 +1105,13 @@ function submitForm() {
   };
 
   // Validate required fields
-  if (!fullName || !data.email || !data.phone) {
+  if (!fullName || !data.email || !data.phone || !data.suburb || !data.property_type) {
     // Highlight empty required fields
-    ['fname','email','phone'].forEach(id => {
+    ['fname','email','phone','suburb'].forEach(id => {
       const el = document.getElementById(id);
       if (!el.value.trim()) el.style.borderColor = '#202020';
     });
+    if (!data.property_type) document.getElementById('ptype').style.borderColor = '#202020';
     return;
   }
 
