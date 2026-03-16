@@ -204,14 +204,17 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             min-height: 380px;
+            max-height: 420px;
+            overflow: hidden;
         }
 
         .post-header-content {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 48px 60px 48px max(60px, calc((100vw - 1400px) / 2 + 60px));
+            padding: 40px 60px 40px max(60px, calc((100vw - 1400px) / 2 + 60px));
             background-color: #FAF0DD;
+            overflow: hidden;
         }
 
         .back-to-blog {
@@ -224,7 +227,7 @@
             text-transform: uppercase;
             color: rgba(0, 0, 0, 0.4);
             text-decoration: none;
-            margin-bottom: 32px;
+            margin-bottom: 20px;
             transition: color 0.2s ease;
             width: fit-content;
         }
@@ -244,24 +247,24 @@
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: rgba(0, 0, 0, 0.5);
-            margin-bottom: 14px;
+            margin-bottom: 10px;
         }
 
         .post-header .post-title {
-            font-size: clamp(26px, 2.8vw, 38px);
+            font-size: clamp(22px, 2.4vw, 32px);
             font-weight: 700;
             line-height: 1.2;
             letter-spacing: -0.02em;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             color: var(--color-black);
         }
 
         .post-subtitle {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 300;
             line-height: 1.5;
             color: rgba(0, 0, 0, 0.5);
-            margin-bottom: 28px;
+            margin-bottom: 10px;
             max-width: 420px;
         }
 
@@ -269,8 +272,8 @@
             font-size: 12px;
             font-style: italic;
             color: rgba(0, 0, 0, 0.5);
-            margin-top: -16px;
-            margin-bottom: 28px;
+            margin-top: 0;
+            margin-bottom: 0;
             max-width: 420px;
         }
 
