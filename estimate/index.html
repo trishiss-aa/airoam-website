@@ -15,7 +15,7 @@
     3. Form also works as standard POST if JS fails
     
     FACEBOOK PIXEL:
-    Already installed via Cloudflare Zaraz — no extra code needed.
+    Already installed via Cloudflare Zaraz - no extra code needed.
     The fbq('track','Lead') call below fires the conversion event.
     If Zaraz is not set up, uncomment the Pixel base code in the 
     script section at the bottom.
@@ -1161,7 +1161,7 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
       <div class="hero-content">
         <div class="hero-eyebrow">Free earnings estimate</div>
         <h1>What Could Your Property Earn With Airoam?</h1>
-        <p class="hero-sub">Get a personalised earnings estimate for your short-term rental in 60 seconds. No obligation. No sales calls — unless you want one.</p>
+        <p class="hero-sub">Get a personalised earnings estimate for your short-term rental in 60 seconds. No obligation. No sales calls - unless you want one.</p>
         <div class="hero-stats">
           <div>
             <div class="hero-stat-num">30%</div>
@@ -1292,7 +1292,7 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
           </div>
           <div class="calc-row">
             <span class="calc-row-key">Revenue uplift</span>
-            <span class="calc-row-val">—</span>
+            <span class="calc-row-val">-</span>
           </div>
           <div class="calc-total">
             <div class="calc-total-label">You keep</div>
@@ -1431,7 +1431,7 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
           <span>How is this different from a traditional property manager?</span>
           <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </div>
-        <div class="faq-a"><p>Traditional managers juggle dozens of properties with limited staff. Our AI systems handle routine tasks instantly — pricing, guest messages, maintenance detection — while our team focuses on complex problems and quality oversight. Better service, lower cost.</p></div>
+        <div class="faq-a"><p>Traditional managers juggle dozens of properties with limited staff. Our AI systems handle routine tasks instantly - pricing, guest messages, maintenance detection - while our team focuses on complex problems and quality oversight. Better service, lower cost.</p></div>
       </div>
 
       <div class="faq-item" onclick="toggleFaq(this)">
@@ -1439,7 +1439,7 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
           <span>What if I already have a property manager?</span>
           <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </div>
-        <div class="faq-a"><p>We handle the transition. Most property management agreements have a 30-day notice period. We'll coordinate the handover so there's zero gap in service — your property stays listed and earning throughout.</p></div>
+        <div class="faq-a"><p>We handle the transition. Most property management agreements have a 30-day notice period. We'll coordinate the handover so there's zero gap in service - your property stays listed and earning throughout.</p></div>
       </div>
 
       <div class="faq-item" onclick="toggleFaq(this)">
@@ -1447,7 +1447,7 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
           <span>Is there a lock-in contract?</span>
           <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </div>
-        <div class="faq-a"><p>No. We offer flexible agreements because we believe our results speak for themselves. If you're not happy, you can leave — but our properties consistently outperform, so most owners stay.</p></div>
+        <div class="faq-a"><p>No. We offer flexible agreements because we believe our results speak for themselves. If you're not happy, you can leave - but our properties consistently outperform, so most owners stay.</p></div>
       </div>
 
     </div>
@@ -1480,7 +1480,7 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
 
 <script>
 // ============================================================
-// CONFIG — UPDATE THESE
+// CONFIG - UPDATE THESE
 // ============================================================
 const WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/xWj95AwSzl8m4MM5ZPNN/webhook-trigger/bc4b0918-9e79-460c-a909-7d6e51a0ecec';
 const FALLBACK_EMAIL = 'hello@airoam.com.au'; // Receives a mailto: link if webhook fails
@@ -1570,9 +1570,9 @@ function submitForm() {
       body: JSON.stringify(data)
     })
     .then(() => showThankYou())
-    .catch(() => showThankYou()); // Show thank you even if webhook fails — follow up manually
+    .catch(() => showThankYou()); // Show thank you even if webhook fails - follow up manually
   } else {
-    // No webhook configured — log and show thank you
+    // No webhook configured - log and show thank you
     console.log('[Airoam Landing] Form data:', data);
     console.log('[Airoam Landing] Set WEBHOOK_URL to send to GHL');
     showThankYou();
