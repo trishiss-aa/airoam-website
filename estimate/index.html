@@ -255,6 +255,24 @@
       font-weight: 300;
     }
 
+    .field.error input,
+    .field.error select {
+      border-color: #c0392b;
+      box-shadow: 0 0 0 1px #c0392b;
+    }
+
+    .field .error-msg {
+      display: none;
+      font-size: 12px;
+      font-weight: 400;
+      color: #c0392b;
+      margin-top: 6px;
+    }
+
+    .field.error .error-msg {
+      display: block;
+    }
+
     .field-row {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -340,18 +358,8 @@
     }
 
     /* ============================================
-       HOW IT WORKS
+       SECTION SHARED
        ============================================ */
-    .how {
-      padding: 120px 60px;
-      background: var(--white);
-    }
-
-    .how-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
     .section-eyebrow {
       font-size: 13px;
       font-weight: 500;
@@ -370,177 +378,289 @@
       max-width: 600px;
     }
 
-    .how-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-    }
-
-    .how-card {
-      padding: 48px 36px;
-      border: 3px solid var(--black);
-      border-radius: 0;
-      position: relative;
-      transition: transform 0.4s ease;
-    }
-
-    .how-card:hover {
-      transform: translateY(-8px);
-    }
-
-    .how-num {
-      font-size: 64px;
-      font-weight: 200;
-      color: rgba(0,0,0,0.08);
-      line-height: 1;
-      margin-bottom: 24px;
-    }
-
-    .how-card h3 {
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      margin-bottom: 14px;
-    }
-
-    .how-card p {
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.65;
-      color: var(--grey);
-    }
-
     /* ============================================
-       COMPARISON
+       SERVICES STRIP
        ============================================ */
-    .compare {
-      padding: 120px 60px;
-      background: var(--black);
-      color: var(--white);
+    .services-strip {
+      padding: 80px 60px;
+      background: var(--white);
     }
 
-    .compare-inner {
+    .services-strip-inner {
       max-width: 1200px;
       margin: 0 auto;
     }
 
-    .compare .section-eyebrow { color: rgba(255,255,255,0.4); }
-    .compare .section-title { color: var(--white); }
+    .services-strip .section-eyebrow {
+      text-align: center;
+    }
 
-    .compare-grid {
+    .services-strip .section-title {
+      text-align: center;
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 48px;
+    }
+
+    .services-grid-compact {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0;
+      border: 3px solid var(--black);
+    }
+
+    .service-cell {
+      padding: 36px 20px;
+      text-align: center;
+      border-right: 3px solid rgba(0,0,0,0.06);
+      transition: background 0.3s ease;
+    }
+
+    .service-cell:last-child {
+      border-right: none;
+    }
+
+    .service-cell:hover {
+      background: var(--cream);
+    }
+
+    .service-cell svg {
+      width: 36px;
+      height: 36px;
+      stroke: var(--black);
+      stroke-width: 1.5;
+      fill: none;
+      margin-bottom: 14px;
+    }
+
+    .service-cell h4 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      margin-bottom: 6px;
+    }
+
+    .service-cell p {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--grey);
+      line-height: 1.4;
+    }
+
+    /* ============================================
+       INTERACTIVE CALCULATOR
+       ============================================ */
+    .calc {
+      padding: 100px 60px;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .calc-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .calc .section-eyebrow { color: rgba(255,255,255,0.4); }
+    .calc .section-title { color: var(--white); margin-bottom: 48px; }
+
+    .calc-slider-wrap {
+      margin-bottom: 48px;
+    }
+
+    .calc-slider-label {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
+    }
+
+    .calc-revenue-display {
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--cream);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .calc-slider {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .calc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 28px;
+      height: 28px;
+      background: var(--cream);
+      border: 3px solid var(--black);
+      cursor: pointer;
+    }
+
+    .calc-slider::-moz-range-thumb {
+      width: 28px;
+      height: 28px;
+      background: var(--cream);
+      border: 3px solid var(--black);
+      cursor: pointer;
+    }
+
+    .calc-range-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.25);
+    }
+
+    .calc-results {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0;
-    }
-
-    .compare-col {
-      padding: 48px 40px;
-    }
-
-    .compare-col:first-child {
-      border-right: 3px solid rgba(255,255,255,0.1);
-    }
-
-    .compare-label {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
       margin-bottom: 32px;
     }
 
-    .compare-col.highlight .compare-label {
+    .calc-col {
+      padding: 40px 36px;
+    }
+
+    .calc-col:first-child {
+      border-right: 3px solid rgba(255,255,255,0.08);
+    }
+
+    .calc-col-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 24px;
+    }
+
+    .calc-col.highlight .calc-col-label {
       color: var(--cream);
     }
 
-    .compare-row {
-      padding: 18px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+    .calc-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    .compare-row:last-child { border-bottom: none; }
+    .calc-row:last-of-type {
+      border-bottom: none;
+    }
 
-    .compare-key {
-      font-size: 15px;
+    .calc-row-key {
+      font-size: 14px;
       font-weight: 300;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.4);
     }
 
-    .compare-val {
-      font-size: 15px;
+    .calc-row-val {
+      font-size: 14px;
       font-weight: 500;
-      color: rgba(255,255,255,0.5);
+      color: rgba(255,255,255,0.4);
     }
 
-    .compare-col.highlight .compare-key {
-      color: rgba(255,255,255,0.7);
+    .calc-col.highlight .calc-row-key {
+      color: rgba(255,255,255,0.65);
     }
 
-    .compare-col.highlight .compare-val {
+    .calc-col.highlight .calc-row-val {
       color: var(--cream);
       font-weight: 600;
     }
 
-    .compare-big {
-      margin-top: 40px;
-      padding-top: 32px;
-      border-top: 3px solid rgba(255,255,255,0.1);
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.6s ease-out 0.6s, transform 0.6s ease-out 0.6s;
+    .calc-total {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 3px solid rgba(255,255,255,0.08);
     }
 
-    .compare-big-num {
-      font-size: 48px;
+    .calc-total-label {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 4px;
+    }
+
+    .calc-col.highlight .calc-total-label {
+      color: rgba(255,255,255,0.5);
+    }
+
+    .calc-total-num {
+      font-size: 42px;
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.2);
       line-height: 1;
     }
 
-    .compare-col.highlight .compare-big-num {
+    .calc-col.highlight .calc-total-num {
       color: var(--cream);
     }
 
-    .compare-big-label {
+    .calc-savings {
+      background: var(--cream);
+      padding: 28px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .calc-savings-text {
       font-size: 14px;
+      font-weight: 400;
+      color: var(--black);
+    }
+
+    .calc-savings-amount {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: -0.02em;
+    }
+
+    .calc-note {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
       font-weight: 300;
-      color: rgba(255,255,255,0.35);
-      margin-top: 8px;
+      color: rgba(255,255,255,0.3);
     }
 
-    .compare-col.highlight .compare-big-label {
-      color: rgba(255,255,255,0.6);
+    .calc-cta {
+      display: block;
+      text-align: center;
+      margin-top: 40px;
+      padding: 18px 40px;
+      border: 3px solid var(--cream);
+      color: var(--cream);
+      font-family: var(--font);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.4s ease;
     }
 
-    .compare-logo {
-      height: 24px;
-      width: auto;
-      filter: brightness(0) invert(1);
-      opacity: 0.9;
-    }
-
-    .compare.visible .compare-row {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .compare.visible .compare-row:nth-child(2) { transition-delay: 0.1s; }
-    .compare.visible .compare-row:nth-child(3) { transition-delay: 0.2s; }
-    .compare.visible .compare-row:nth-child(4) { transition-delay: 0.3s; }
-    .compare.visible .compare-row:nth-child(5) { transition-delay: 0.4s; }
-    .compare.visible .compare-row:nth-child(6) { transition-delay: 0.5s; }
-
-    .compare.visible .compare-big {
-      opacity: 1;
-      transform: translateY(0);
+    .calc-cta:hover {
+      background: var(--cream);
+      color: var(--black);
     }
 
     /* ============================================
@@ -600,7 +720,7 @@
        ============================================ */
     .faq {
       padding: 120px 60px;
-      background: var(--white);
+      background: var(--cream);
     }
 
     .faq-inner {
@@ -733,12 +853,145 @@
     .reveal {
       opacity: 0;
       transform: translateY(60px);
-      transition: opacity 1s ease-out, transform 1s ease-out;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* Staggered children */
+    .reveal .stagger {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible .stagger:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+    .reveal.visible .stagger:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+    .reveal.visible .stagger:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+    .reveal.visible .stagger:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+    .reveal.visible .stagger:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+    .reveal.visible .stagger:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+
+    /* Slide in from left */
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Scale up reveal */
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Counter animation for calculator numbers */
+    .calc-total-num, .calc-savings-amount {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .calc-total-num.bump, .calc-savings-amount.bump {
+      transform: scale(1.05);
+    }
+
+    /* Hero entrance */
+    .hero-content {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+    }
+
+    .form-card {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    }
+
+    @keyframes heroIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Trust bar items */
+    .trust-item {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: trustIn 0.5s ease forwards;
+    }
+
+    .trust-item:nth-child(1) { animation-delay: 0.6s; }
+    .trust-item:nth-child(2) { animation-delay: 0.7s; }
+    .trust-item:nth-child(3) { animation-delay: 0.8s; }
+    .trust-item:nth-child(4) { animation-delay: 0.9s; }
+    .trust-item:nth-child(5) { animation-delay: 1.0s; }
+
+    @keyframes trustIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============================================
+       PROPERTY STRIP
+       ============================================ */
+    .property-strip {
+      padding: 0;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .property-strip-inner {
+      display: flex;
+      gap: 3px;
+    }
+
+    .property-strip-item {
+      flex: 1;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .property-strip-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .property-strip-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .property-strip-item .strip-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 16px 12px;
+      background: linear-gradient(to top, rgba(32,32,32,0.7) 0%, transparent 100%);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
     }
 
     /* ============================================
@@ -748,9 +1001,10 @@
       .hero-inner { grid-template-columns: 1fr; gap: 48px; }
       .hero h1 { font-size: 42px; }
       .hero-stats { gap: 32px; }
-      .how-grid { grid-template-columns: 1fr; gap: 24px; }
-      .compare-grid { grid-template-columns: 1fr; }
-      .compare-col:first-child { border-right: none; border-bottom: 3px solid rgba(255,255,255,0.1); }
+      .services-grid-compact { grid-template-columns: repeat(3, 1fr); }
+      .service-cell:nth-child(3) { border-right: none; }
+      .calc-results { grid-template-columns: 1fr; }
+      .calc-col:first-child { border-right: none; border-bottom: 3px solid rgba(255,255,255,0.08); }
       .proof-grid { grid-template-columns: 1fr; }
     }
 
@@ -764,13 +1018,22 @@
       .hero-stat-num { font-size: 28px; }
       .form-card { padding: 36px 24px; }
       .field-row { grid-template-columns: 1fr; }
-      .trust { padding: 24px; }
-      .trust-inner { flex-direction: column; gap: 12px; align-items: center; }
-      .how, .proof, .faq { padding: 80px 24px; }
+      .trust { padding: 20px 24px; }
+      .trust-inner { flex-direction: row; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap; }
+      .trust-item { font-size: 12px; }
+      .services-strip { padding: 60px 24px; }
+      .services-grid-compact { grid-template-columns: repeat(2, 1fr); border: none; }
+      .service-cell { padding: 24px 16px; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); }
+      .service-cell:nth-last-child(-n+2) { border-bottom: none; }
+      .calc { padding: 80px 24px; }
+      .calc-revenue-display { font-size: 40px; }
+      .calc-col { padding: 28px 0; }
+      .calc-total-num { font-size: 32px; }
+      .calc-savings { flex-direction: column; gap: 8px; text-align: center; padding: 24px; }
+      .calc-savings-amount { font-size: 28px; }
+      .proof { padding: 80px 24px; }
+      .faq { padding: 80px 24px; }
       .section-title { font-size: 32px; margin-bottom: 48px; }
-      .compare { padding: 80px 24px; }
-      .compare-col { padding: 36px 0; }
-      .compare-big-num { font-size: 36px; }
       .final-cta { padding: 80px 24px; }
       .final-cta h2 { font-size: 32px; }
       .footer { padding: 36px 24px; }
@@ -833,21 +1096,25 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
         <div class="field">
           <label for="fname">Your name</label>
           <input type="text" id="fname" placeholder="e.g. Sarah Johnson" required>
+          <span class="error-msg">This field is required</span>
         </div>
 
         <div class="field">
           <label for="email">Email address</label>
           <input type="email" id="email" placeholder="e.g. sarah@email.com" required>
+          <span class="error-msg">This field is required</span>
         </div>
 
         <div class="field">
           <label for="phone">Phone number</label>
           <input type="tel" id="phone" placeholder="e.g. 0412 345 678" required>
+          <span class="error-msg">This field is required</span>
         </div>
 
         <div class="field">
           <label for="suburb">Property suburb</label>
           <input type="text" id="suburb" placeholder="e.g. Richmond, St Kilda, Sorrento" required>
+          <span class="error-msg">This field is required</span>
         </div>
 
         <div class="field-row">
@@ -860,6 +1127,7 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
               <option value="Townhouse">Townhouse</option>
               <option value="Other">Other</option>
             </select>
+            <span class="error-msg">This field is required</span>
           </div>
           <div class="field">
             <label for="beds">Bedrooms</label>
@@ -905,90 +1173,128 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
     </div>
   </div>
 
-  <!-- HOW IT WORKS -->
-  <section class="how reveal">
-    <div class="how-inner">
-      <div class="section-eyebrow">How it works</div>
-      <h2 class="section-title">AI-Powered Management That Actually Delivers</h2>
-      <div class="how-grid">
-        <div class="how-card">
-          <div class="how-num">01</div>
-          <h3>AI-Powered Pricing</h3>
-          <p>Dynamic pricing adjusts multiple times daily based on events, demand, and competitor rates. Australian Open, F1, Melbourne Cup — captured automatically.</p>
-        </div>
-        <div class="how-card">
-          <div class="how-num">02</div>
-          <h3>24/7 Guest Communication</h3>
-          <p>Our AI handles 89% of guest messages instantly. Wi-Fi passwords, check-in instructions, local recommendations — answered in seconds, not hours.</p>
-        </div>
-        <div class="how-card">
-          <div class="how-num">03</div>
-          <h3>9% Management Fee</h3>
-          <p>Half what traditional managers charge. No hidden fees, no admin charges, no markups on cleaning. Just 9% of your rental income.</p>
+  <!-- INTERACTIVE CALCULATOR -->
+  <section class="calc reveal">
+    <div class="calc-inner">
+      <div class="section-eyebrow">Your numbers</div>
+      <h2 class="section-title">See What You'd Actually Keep</h2>
+
+      <div class="calc-slider-wrap">
+        <div class="calc-slider-label">Your estimated annual rental income</div>
+        <div class="calc-revenue-display" id="calcRevenue">$60,000</div>
+        <input type="range" class="calc-slider" id="calcSlider" min="30000" max="200000" step="5000" value="60000">
+        <div class="calc-range-labels">
+          <span>$30K</span>
+          <span>$200K</span>
         </div>
       </div>
+
+      <div class="calc-results">
+        <div class="calc-col">
+          <div class="calc-col-label">Traditional Manager</div>
+          <div class="calc-row">
+            <span class="calc-row-key">Management fee</span>
+            <span class="calc-row-val">15%</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-key">Fee amount</span>
+            <span class="calc-row-val" id="calcTradFee">$9,000</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-key">Revenue uplift</span>
+            <span class="calc-row-val">—</span>
+          </div>
+          <div class="calc-total">
+            <div class="calc-total-label">You keep</div>
+            <div class="calc-total-num" id="calcTradKeep">$51,000</div>
+          </div>
+        </div>
+        <div class="calc-col highlight">
+          <div class="calc-col-label">Airoam</div>
+          <div class="calc-row">
+            <span class="calc-row-key">Management fee</span>
+            <span class="calc-row-val">9%</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-key">Fee amount</span>
+            <span class="calc-row-val" id="calcAiroamFee">$7,020</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-row-key">Revenue uplift</span>
+            <span class="calc-row-val">+30%</span>
+          </div>
+          <div class="calc-total">
+            <div class="calc-total-label">You keep</div>
+            <div class="calc-total-num" id="calcAiroamKeep">$70,980</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-savings">
+        <span class="calc-savings-text">Extra money in your pocket each year</span>
+        <span class="calc-savings-amount" id="calcSavings">+$19,980</span>
+      </div>
+
+      <div class="calc-note">No lock-in contract. Cancel anytime. These numbers are based on average performance across 1,500+ properties.</div>
+
+      <a href="#form" class="calc-cta" onclick="scrollToForm(); return false;">Get Your Personalised Estimate →</a>
     </div>
   </section>
 
-  <!-- COMPARISON -->
-  <section class="compare reveal">
-    <div class="compare-inner">
-      <div class="section-eyebrow">The maths</div>
-      <h2 class="section-title">See the Difference on a $60K Property</h2>
-      <div class="compare-grid">
-        <div class="compare-col">
-          <div class="compare-label">Traditional Manager</div>
-          <div class="compare-row">
-            <span class="compare-key">Management fee</span>
-            <span class="compare-val">15–20%</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-key">Guest response time</span>
-            <span class="compare-val">4–6 hours</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-key">Pricing adjustments</span>
-            <span class="compare-val">Monthly</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-key">Maintenance detection</span>
-            <span class="compare-val">After complaints</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-key">Your involvement</span>
-            <span class="compare-val">15+ hrs/week</span>
-          </div>
-          <div class="compare-big">
-            <div class="compare-big-num">$51,000</div>
-            <div class="compare-big-label">You keep after 15% fees</div>
-          </div>
+  <!-- SERVICES STRIP -->
+  <section class="services-strip reveal">
+    <div class="services-strip-inner">
+      <div class="section-eyebrow">What's included at 9%</div>
+      <h2 class="section-title">Everything. No Hidden Fees.</h2>
+      <div class="services-grid-compact">
+        <div class="service-cell stagger">
+          <svg viewBox="0 0 48 48">
+            <path d="M8 36l8-16 8 10 8-18 8 12" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8 40h32" stroke-linecap="round"/>
+          </svg>
+          <h4>Dynamic Pricing</h4>
+          <p>Adjusts multiple times daily</p>
         </div>
-        <div class="compare-col highlight">
-          <div class="compare-label"><img src="https://airoam.com.au/Images/airoam-logo-black.svg" alt="Airoam" class="compare-logo"></div>
-          <div class="compare-row">
-            <span class="compare-key">Management fee</span>
-            <span class="compare-val">9%</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-key">Guest response time</span>
-            <span class="compare-val">Instant (AI)</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-key">Pricing adjustments</span>
-            <span class="compare-val">Multiple daily</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-key">Maintenance detection</span>
-            <span class="compare-val">Before guests notice</span>
-          </div>
-          <div class="compare-row">
-            <span class="compare-key">Your involvement</span>
-            <span class="compare-val">~2 hrs/month</span>
-          </div>
-          <div class="compare-big">
-            <div class="compare-big-num">$71,000</div>
-            <div class="compare-big-label">You keep with 30% uplift + 9% fees</div>
-          </div>
+        <div class="service-cell stagger">
+          <svg viewBox="0 0 48 48">
+            <path d="M8 12h32M8 24h24M8 36h28" stroke-linecap="round"/>
+            <circle cx="40" cy="36" r="4"/>
+          </svg>
+          <h4>AI Guest Comms</h4>
+          <p>89% handled instantly, 24/7</p>
+        </div>
+        <div class="service-cell stagger">
+          <svg viewBox="0 0 48 48">
+            <circle cx="24" cy="14" r="6"/>
+            <path d="M12 40v-4a12 12 0 0 1 24 0v4" stroke-linecap="round"/>
+          </svg>
+          <h4>Cleaning & Turnovers</h4>
+          <p>Automated scheduling</p>
+        </div>
+        <div class="service-cell stagger">
+          <svg viewBox="0 0 48 48">
+            <path d="M24 8v8M24 32v8M8 24h8M32 24h8" stroke-linecap="round"/>
+            <circle cx="24" cy="24" r="8"/>
+          </svg>
+          <h4>Maintenance</h4>
+          <p>Detected before guests notice</p>
+        </div>
+        <div class="service-cell stagger">
+          <svg viewBox="0 0 48 48">
+            <rect x="8" y="14" width="32" height="22" rx="2"/>
+            <path d="M8 22h32" stroke-linecap="round"/>
+            <path d="M16 30h8" stroke-linecap="round"/>
+          </svg>
+          <h4>Instant Payouts</h4>
+          <p>Paid after each check-in</p>
+        </div>
+        <div class="service-cell stagger">
+          <svg viewBox="0 0 48 48">
+            <rect x="10" y="10" width="28" height="28" rx="2"/>
+            <path d="M18 24l4 4 8-8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h4>No Lock-ins</h4>
+          <p>Leave anytime</p>
         </div>
       </div>
     </div>
@@ -1000,15 +1306,15 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
       <div class="section-eyebrow">Real results</div>
       <h2 class="section-title">What Property Owners Are Saying</h2>
       <div class="proof-grid">
-        <div class="proof-card">
+        <div class="proof-card stagger">
           <p class="proof-quote">28% more revenue in my first quarter. 9% fees instead of 18%. And I haven't answered a single guest message since.</p>
           <div class="proof-attr">Property owner <span class="proof-loc">· Scarborough, Perth</span></div>
         </div>
-        <div class="proof-card">
+        <div class="proof-card stagger">
           <p class="proof-quote">34 messages while I was in Bali. 31 handled by AI. 3 by the team. Messages I needed to respond to: zero.</p>
           <div class="proof-attr">Property owner <span class="proof-loc">· Melbourne, 2 properties</span></div>
         </div>
-        <div class="proof-card">
+        <div class="proof-card stagger">
           <p class="proof-quote">For the first time, I actually trust that things are being handled properly. I check the dashboard because I'm interested, not because I'm worried.</p>
           <div class="proof-attr">Property owner <span class="proof-loc">· Sydney</span></div>
         </div>
@@ -1054,13 +1360,6 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
         <div class="faq-a"><p>No. We offer flexible agreements because we believe our results speak for themselves. If you're not happy, you can leave — but our properties consistently outperform, so most owners stay.</p></div>
       </div>
 
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-q">
-          <span>Which areas do you cover?</span>
-          <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="#202020" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </div>
-        <div class="faq-a"><p>Melbourne CBD and suburbs, Mornington Peninsula (Sorrento, Portsea, Rye, Rosebud, Mount Martha), and Perth metro and surrounds. If your property is in one of these areas, we can help.</p></div>
-      </div>
     </div>
   </section>
 
@@ -1087,6 +1386,18 @@ const FALLBACK_EMAIL = 'hello@airoam.com.au'; // Receives a mailto: link if webh
 // ============================================================
 // FORM SUBMISSION
 // ============================================================
+// Clear error state on input
+['fname','email','phone','suburb','ptype'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    const event = el.tagName === 'SELECT' ? 'change' : 'input';
+    el.addEventListener(event, () => {
+      const field = el.closest('.field');
+      if (field) field.classList.remove('error');
+    });
+  }
+});
+
 function submitForm() {
   const btn = document.getElementById('submitBtn');
   const fullName = document.getElementById('fname').value.trim();
@@ -1104,14 +1415,34 @@ function submitForm() {
     submitted: new Date().toISOString()
   };
 
+  // Clear previous errors
+  document.querySelectorAll('.field.error').forEach(f => f.classList.remove('error'));
+
   // Validate required fields
-  if (!fullName || !data.email || !data.phone || !data.suburb || !data.property_type) {
-    // Highlight empty required fields
-    ['fname','email','phone','suburb'].forEach(id => {
-      const el = document.getElementById(id);
-      if (!el.value.trim()) el.style.borderColor = '#202020';
-    });
-    if (!data.property_type) document.getElementById('ptype').style.borderColor = '#202020';
+  const requiredFields = [
+    { id: 'fname', value: fullName },
+    { id: 'email', value: data.email },
+    { id: 'phone', value: data.phone },
+    { id: 'suburb', value: data.suburb },
+    { id: 'ptype', value: data.property_type }
+  ];
+
+  let firstError = null;
+  let hasError = false;
+
+  requiredFields.forEach(f => {
+    if (!f.value) {
+      const el = document.getElementById(f.id);
+      const field = el.closest('.field');
+      if (field) field.classList.add('error');
+      if (!firstError) firstError = el;
+      hasError = true;
+    }
+  });
+
+  if (hasError) {
+    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    firstError.focus();
     return;
   }
 
@@ -1181,6 +1512,49 @@ function toggleFaq(el) {
 }
 
 // ============================================================
+// INTERACTIVE CALCULATOR
+// ============================================================
+function formatCurrency(num) {
+  return '$' + Math.round(num).toLocaleString('en-AU');
+}
+
+function updateCalculator() {
+  const slider = document.getElementById('calcSlider');
+  const revenue = parseInt(slider.value);
+
+  // Traditional: 15% fee, no uplift
+  const tradFee = revenue * 0.15;
+  const tradKeep = revenue - tradFee;
+
+  // Airoam: 9% fee, 30% revenue uplift
+  const airoamRevenue = revenue * 1.30;
+  const airoamFee = airoamRevenue * 0.09;
+  const airoamKeep = airoamRevenue - airoamFee;
+
+  const savings = airoamKeep - tradKeep;
+
+  document.getElementById('calcRevenue').textContent = formatCurrency(revenue);
+  document.getElementById('calcTradFee').textContent = formatCurrency(tradFee);
+  document.getElementById('calcTradKeep').textContent = formatCurrency(tradKeep);
+  document.getElementById('calcAiroamFee').textContent = formatCurrency(airoamFee);
+  document.getElementById('calcAiroamKeep').textContent = formatCurrency(airoamKeep);
+  document.getElementById('calcSavings').textContent = '+' + formatCurrency(savings);
+
+  // Bump animation on key numbers
+  ['calcAiroamKeep', 'calcSavings'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.add('bump');
+    setTimeout(() => el.classList.remove('bump'), 200);
+  });
+}
+
+const calcSlider = document.getElementById('calcSlider');
+if (calcSlider) {
+  calcSlider.addEventListener('input', updateCalculator);
+  updateCalculator(); // Initialize
+}
+
+// ============================================================
 // SCROLL REVEAL
 // ============================================================
 const observer = new IntersectionObserver((entries) => {
@@ -1190,9 +1564,9 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.12 });
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => observer.observe(el));
 
 // ============================================================
 // ENTER KEY SUBMITS FORM
