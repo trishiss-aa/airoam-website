@@ -1038,6 +1038,96 @@
       .final-cta h2 { font-size: 32px; }
       .footer { padding: 36px 24px; }
     }
+
+    /* ============================================
+       SOCIAL PROOF NOTIFICATIONS
+       ============================================ */
+    .sp-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: var(--white);
+      border: 3px solid var(--black);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 90;
+      max-width: 340px;
+      opacity: 0;
+      transform: translateY(20px) scale(0.97);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    .sp-toast.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .sp-toast-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sp-toast-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--black);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .sp-toast-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.4;
+    }
+
+    .sp-toast-text strong {
+      font-weight: 600;
+    }
+
+    .sp-toast-time {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--grey);
+      margin-top: 2px;
+    }
+
+    .sp-toast-close {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      color: rgba(0,0,0,0.25);
+      cursor: pointer;
+      padding: 2px;
+      line-height: 1;
+    }
+
+    .sp-toast-close:hover {
+      color: var(--black);
+    }
+
+    @media (max-width: 768px) {
+      .sp-toast {
+        bottom: 16px;
+        left: 12px;
+        right: 12px;
+        max-width: none;
+      }
+    }
   </style>
 <!-- Meta Pixel -->
 <script>
@@ -1370,6 +1460,18 @@ src="https://www.facebook.com/tr?id=1229519948838146&ev=PageView&noscript=1"
     <a href="#form" class="btn-final" onclick="scrollToForm(); return false;">Get My Free Estimate</a>
   </section>
 
+  <!-- SOCIAL PROOF TOAST -->
+  <div class="sp-toast" id="spToast">
+    <div class="sp-toast-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <div>
+      <div class="sp-toast-text" id="spToastText"></div>
+      <div class="sp-toast-time" id="spToastTime"></div>
+    </div>
+    <button class="sp-toast-close" onclick="dismissToast()">&times;</button>
+  </div>
+
   <!-- FOOTER -->
   <footer class="footer">
     Powered by <a href="https://airoam.com.au">Airoam</a> · Australia's smartest AI-powered short-term rental manager
@@ -1567,6 +1669,75 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll('.reveal, .reveal-left, .reveal-scale').forEach(el => observer.observe(el));
+
+// ============================================================
+// SOCIAL PROOF NOTIFICATIONS
+// ============================================================
+const spLeads = [
+  { suburb: 'Richmond', type: 'apartment', beds: '2' },
+  { suburb: 'South Yarra', type: 'apartment', beds: '1' },
+  { suburb: 'St Kilda', type: 'apartment', beds: '2' },
+  { suburb: 'Docklands', type: 'apartment', beds: '3' },
+  { suburb: 'Carlton', type: 'house', beds: '3' },
+  { suburb: 'Oakleigh East', type: 'house', beds: '4' },
+  { suburb: 'Fitzroy', type: 'townhouse', beds: '2' },
+  { suburb: 'Prahran', type: 'apartment', beds: '2' },
+  { suburb: 'Brunswick', type: 'house', beds: '3' },
+  { suburb: 'Southbank', type: 'apartment', beds: '1' },
+];
+
+const spTimeLabels = [
+  '2 minutes ago',
+  '8 minutes ago',
+  '14 minutes ago',
+  '23 minutes ago',
+  '38 minutes ago',
+  '1 hour ago',
+  '2 hours ago',
+  '3 hours ago',
+  '5 hours ago',
+  'Earlier today',
+];
+
+let spIndex = 0;
+let spDismissed = false;
+let spTimeout = null;
+
+function showToast() {
+  if (spDismissed) return;
+
+  const lead = spLeads[spIndex];
+  const time = spTimeLabels[Math.min(spIndex, spTimeLabels.length - 1)];
+  const toast = document.getElementById('spToast');
+  const text = document.getElementById('spToastText');
+  const timeEl = document.getElementById('spToastTime');
+
+  text.innerHTML = 'Someone in <strong>' + lead.suburb + '</strong> just requested a ' + lead.beds + '-bed ' + lead.type + ' estimate';
+  timeEl.textContent = time;
+
+  toast.classList.add('show');
+
+  // Hide after 6 seconds
+  clearTimeout(spTimeout);
+  spTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+    spIndex = (spIndex + 1) % spLeads.length;
+  }, 6000);
+}
+
+function dismissToast() {
+  document.getElementById('spToast').classList.remove('show');
+  spDismissed = true;
+  clearTimeout(spTimeout);
+}
+
+// Start after 15 seconds, then every 50-70 seconds (randomised)
+setTimeout(() => {
+  showToast();
+  setInterval(() => {
+    showToast();
+  }, 50000 + Math.random() * 20000);
+}, 15000);
 
 // ============================================================
 // ENTER KEY SUBMITS FORM
