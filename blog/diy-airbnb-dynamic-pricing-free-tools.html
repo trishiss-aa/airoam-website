@@ -1125,6 +1125,67 @@
                 flex: 0 0 85%;
             }
         }
+
+        /* FOOTER CTA & FOOTER */
+        .footer-cta { background: #FAF0DD; padding: 48px 60px; }
+        .footer-cta-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+        .footer-cta-content h3 { font-size: 28px; font-weight: 600; color: var(--color-black); letter-spacing: -0.02em; margin-bottom: 8px; }
+        .footer-cta-content p { font-size: 15px; color: rgba(32, 32, 32, 0.7); font-weight: 300; }
+        .footer-cta-btn { display: inline-flex; align-items: center; gap: 12px; padding: 16px 32px; background: var(--color-black); color: var(--color-white); text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: 0.03em; border: 3px solid var(--color-black); transition: all 0.3s ease; white-space: nowrap; }
+        .footer-cta-btn:hover { background: transparent; color: var(--color-black); }
+        .footer-cta-btn svg { transition: transform 0.3s ease; }
+        .footer-cta-btn:hover svg { transform: translateX(4px); }
+        footer { background-color: var(--color-black); color: var(--color-white); }
+        .footer-main { padding: 80px 60px 60px; max-width: 1320px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+        .footer-logo { margin-bottom: 16px; }
+        .footer-logo .logo { width: 120px; height: auto; }
+        .logo-white { filter: brightness(0) invert(1); }
+        .footer-tagline { font-size: 14px; font-weight: 300; color: rgba(255, 255, 255, 0.6); margin-bottom: 32px; line-height: 1.5; }
+        .footer-stats { display: flex; gap: 32px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+        .footer-stat { display: flex; flex-direction: column; }
+        .footer-stat-value { font-size: 24px; font-weight: 600; color: #FAF0DD; letter-spacing: -0.02em; }
+        .footer-stat-label { font-size: 12px; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+        .footer-column h4 { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.4); margin-bottom: 20px; }
+        .footer-column ul { list-style: none; }
+        .footer-column li { margin-bottom: 12px; }
+        .footer-column a { color: var(--color-white); text-decoration: none; font-size: 14px; font-weight: 400; transition: all 0.2s ease; display: inline-block; }
+        .footer-column a:hover { color: #FAF0DD; transform: translateX(4px); }
+        .footer-newsletter { background: rgba(255, 255, 255, 0.03); padding: 24px; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .footer-newsletter h4 { font-size: 14px; font-weight: 600; color: var(--color-white); margin-bottom: 8px; }
+        .footer-newsletter p { font-size: 13px; color: rgba(255, 255, 255, 0.5); margin-bottom: 16px; line-height: 1.5; }
+        .footer-newsletter-form { display: flex; gap: 8px; }
+        .footer-newsletter-form input { flex: 1; min-width: 0; padding: 12px 14px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 0; background: transparent; color: var(--color-white); outline: none; transition: border-color 0.2s ease; }
+        .footer-newsletter-form input::placeholder { color: rgba(255, 255, 255, 0.4); }
+        .footer-newsletter-form input:focus { border-color: #FAF0DD; }
+        .footer-newsletter-form button { padding: 12px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 500; background: var(--color-white); color: var(--color-black); border: none; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
+        .footer-newsletter-form button:hover { background: #FAF0DD; }
+        .footer-newsletter-message { margin-top: 8px; padding: 8px 12px; font-size: 12px; opacity: 0; transition: opacity 0.3s ease; }
+        .footer-newsletter-message.show { opacity: 1; }
+        .footer-newsletter-message.success { color: #FAF0DD; }
+        .footer-newsletter-message.error { color: rgba(255, 255, 255, 0.7); }
+        .footer-bottom { padding: 32px 60px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+        .footer-bottom-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+        .footer-copyright { font-size: 13px; color: rgba(255, 255, 255, 0.4); font-weight: 300; }
+        .footer-legal { display: flex; gap: 24px; }
+        .footer-legal a { font-size: 13px; color: rgba(255, 255, 255, 0.4); text-decoration: none; transition: color 0.2s ease; }
+        .footer-legal a:hover { color: var(--color-white); }
+        .footer-social { display: flex; gap: 16px; }
+        .footer-social a { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255, 255, 255, 0.15); color: var(--color-white); transition: all 0.2s ease; }
+        .footer-social a:hover { background: #FAF0DD; border-color: #FAF0DD; color: var(--color-black); }
+        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; } .footer-brand { grid-column: 1 / -1; } .footer-stats { justify-content: flex-start; } }
+        @media (max-width: 768px) {
+            .footer-cta { padding: 40px 24px; }
+            .footer-cta-inner { flex-direction: column; text-align: center; }
+            .footer-cta-content h3 { font-size: 24px; }
+            .footer-main { padding: 60px 24px 40px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-stats { gap: 24px; }
+            .footer-newsletter-form { flex-direction: column; }
+            .footer-bottom { padding: 24px; }
+            .footer-bottom-inner { flex-direction: column; text-align: center; }
+            .footer-legal { flex-wrap: wrap; justify-content: center; }
+        }
     </style>
 </head>
 <body>
@@ -1437,6 +1498,23 @@
             </div>
         </section>
     </main>
+
+    <!-- Footer CTA -->
+    <div class="footer-cta">
+        <div class="footer-cta-inner">
+            <div class="footer-cta-content">
+                <h3>Ready to maximise your rental income?</h3>
+                <p>Get a free property estimate.</p>
+            </div>
+            <a href="../index.html#contact" class="footer-cta-btn">
+                Get Started
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </div>
 
     <!-- Footer (loaded via partial) -->
     <div id="footer-container"></div>
